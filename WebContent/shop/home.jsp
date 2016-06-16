@@ -42,7 +42,7 @@
 					<div class="column one left aligned">
 						<s:iterator value="eventInfos" status="status">
 							<span>[<s:date name="eventDate" format="dd/MM/yyyy" />&nbsp;<s:property value="eventTime" />]</span>
-							<span><a href="<s:url value="/shop/"/><s:property value="shopCode" />/event/<s:property value="eventInfoId" />"><s:property value="title" /></a></span><br />
+							<span><a href="<s:url value="/shop/%{shopCode}/event/%{eventInfoId}"/>"><s:property value="title" /></a></span><br />
 						</s:iterator>
 					</div>
 				</div>

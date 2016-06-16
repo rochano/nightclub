@@ -81,7 +81,7 @@
 													<img class="image ui centered" src="<s:property value="pic1" />">
 												</div>
 												<div class="content">
-													<div class="header"><a href="<s:url value="/shop/"/><s:property value="shopCode" />/girls/<s:property value="code" />" class="ui labeled"><s:property value="nickName" /></a></div>
+													<div class="header"><a href="<s:url value="/shop/%{shopCode}/girls/%{code}"/>" class="ui labeled"><s:property value="nickName" /></a></div>
 													<div class="meta"><span class="age"><s:text name="global.shop_girl_age" />: <s:property value="age" /></span></div>
 													<div class="meta">
 														<span class="property">

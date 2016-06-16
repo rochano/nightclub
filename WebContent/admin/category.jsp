@@ -192,7 +192,7 @@
 									<td><s:property value="categoryNameJp" /></td>
 									<td><s:property value="categoryNameEn" /></td>
 									<td class="center aligned">
-										<a href="<s:url value="/admin/category/edit/"/><s:property value="categoryInfoId" />" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
+										<a href="<s:url value="/admin/category/edit/%{categoryInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
 									</td>
 								</tr>
 								</s:iterator>

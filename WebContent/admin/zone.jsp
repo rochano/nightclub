@@ -184,8 +184,8 @@
 									<td><s:property value="zoneNameJp" /></td>
 									<td><s:property value="zoneNameEn" /></td>
 									<td class="center aligned">
-										<a href="<s:url value="/admin/zone/edit/"/><s:property value="zoneInfoId" />" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
-										<a href="<s:url value="/admin/zone/delete/"/><s:property value="zoneInfoId" />" class="ui icon button small red"><i class="ui icon delete"></i></a>
+										<a href="<s:url value="/admin/zone/edit/%{zoneInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
+										<a href="<s:url value="/admin/zone/delete/%{zoneInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
 									</td>
 								</tr>
 								</s:iterator>

@@ -63,7 +63,7 @@
 					<div id="girls" class="ui six column grid centered">
 						<s:iterator value="girlInfos" status="status">
 							<div class="column">
-								<a href="<s:url value="/shop/"/><s:property value="basicInfo.shopCode" />/girls/<s:property value="code" />" target="_blank" >
+								<a href="<s:url value="/shop/%{basicInfo.shopCode}/girls/%{code}"/>" target="_blank" >
 									<img class="image ui small centered" src="<s:property value="pic1" />">
 								</a>
 							</div>
@@ -77,7 +77,7 @@
 				<div class="ui attached segment">
 					<s:iterator value="newsInfos" status="status">
 					<span>[<s:date name="newsDate" format="dd/MM/yyyy" />&nbsp;<s:property value="newsTime" />]</span>
-					<span><a href="<s:url value="/news/" /><s:property value="newsInfoId" />"><s:property value="title" /></a></span><br />
+					<span><a href="<s:url value="/news/%{newsInfoId}" />"><s:property value="title" /></a></span><br />
 					</s:iterator>
 				</div>
 				  

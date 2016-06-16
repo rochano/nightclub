@@ -1,7 +1,6 @@
 package com.nightclub.view;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -16,8 +15,6 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.nightclub.controller.BasicInfoManager;
 import com.nightclub.controller.CategoryInfoManager;
 import com.nightclub.controller.UserInfoManager;
@@ -54,18 +51,6 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
 		basicInfoManager = new BasicInfoManager();
 		userInfoManager = new UserInfoManager();
 		categoryInfoManager = new CategoryInfoManager();
-		
-		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-				  "cloud_name", "diladfres",
-				  "api_key", "486787566588465",
-				  "api_secret", "ltE8fUE2mSc2HCpydAW5kqmriGA"));
-		
-		try {
-			cloudinary.uploader().upload("http://image.shutterstock.com/display_pic_with_logo/85050/282281531/stock-photo-empty-square-and-floor-with-sky-282281531.jpg", ObjectUtils.emptyMap());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public String execute() {

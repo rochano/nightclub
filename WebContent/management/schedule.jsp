@@ -263,8 +263,8 @@
 									<td class="center aligned"><s:property value="endTime" /></td>
 									<td class="center aligned">
 										<div class="ui buttons">
-											<a href="<s:url value="/management/schedule/edit/"/><s:property value="scheduleInfoId" />" class="ui icon button blue" ><i class="ui icon edit"></i></a>
-											<a href="<s:url value="/management/schedule/delete/"/><s:property value="scheduleInfoId" />" class="ui icon button red"><i class="ui icon delete"></i></a>
+											<a href="<s:url value="/management/schedule/edit/%{scheduleInfoId}"/>" class="ui icon button blue" ><i class="ui icon edit"></i></a>
+											<a href="<s:url value="/management/schedule/delete/%{scheduleInfoId}"/>" class="ui icon button red"><i class="ui icon delete"></i></a>
 										</div>
 									</td>
 								</tr>

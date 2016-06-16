@@ -315,8 +315,8 @@
 									<td class="center aligned"><s:property value="ranking" /></td>
 									<td class="center aligned">
 										<div class="ui buttons">
-											<a href="<s:url value="/management/girl/edit/"/><s:property value="girlInfoId" />" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
-											<a href="<s:url value="/management/girl/delete/"/><s:property value="girlInfoId" />" class="ui icon button small red"><i class="ui icon delete"></i></a>
+											<a href="<s:url value="/management/girl/edit/%{girlInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
+											<a href="<s:url value="/management/girl/delete/%{girlInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
 										</div>
 									</td>
 								</tr>

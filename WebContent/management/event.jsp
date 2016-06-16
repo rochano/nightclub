@@ -215,8 +215,8 @@
 									<td class="center aligned"><s:property value="eventTime" /></td>
 									<td class="center aligned">
 										<div class="ui buttons">
-											<a href="<s:url value="/management/event/edit/"/><s:property value="eventInfoId" />" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
-											<a href="<s:url value="/management/event/delete/"/><s:property value="eventInfoId" />" class="ui icon button small red"><i class="ui icon delete"></i></a>
+											<a href="<s:url value="/management/event/edit/%{eventInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
+											<a href="<s:url value="/management/event/delete/%{eventInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
 										</div>
 									</td>
 								</tr>

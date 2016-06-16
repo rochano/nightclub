@@ -1,0 +1,33 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<style type="text/css">
+	#statisticInfo {z-index: 99;}
+</style>
+<script type="text/javascript">
+$(document)
+.ready(function() {
+	$('.ui.sticky')
+	  .sticky({
+	    context: '#container'
+	  })
+	;
+});
+</script>
+<div class="ui right attached rail">
+	<div class="ui segment" style="background-color: transparent;">
+		<div class="ui sticky">
+			<div class="ui compact segment" >
+				<h4 class="ui top attached header inverted soft">
+					<i class="info icon"></i> Block Statistics
+				</h4>
+				<p></p>
+				<p>Visit Today : <s:property value="statisticModel.todayView" /></p>
+				<p>Total Visit : <s:property value="statisticModel.totalView" /></p>
+				<%-- <p>Hits Today : <s:property value="statisticModel.hitsView" /></p>
+				<p>Total Hits : <s:property value="statisticModel.totalHitsView" /></p>
+				<p>Who's Online : <s:property value="statisticModel.onlineView" /></p>
+				<p>Your IP : <s:property value="statisticModel.ipAddress" /></p>
+				<p>Server Time : <s:property value="statisticModel.accessDt" /></p> --%>
+			</div>
+		</div>
+	</div>
+</div>

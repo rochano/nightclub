@@ -87,7 +87,7 @@
 								</div>
 								<div class="content">
 									<div class="header">
-										<a href="<s:url value="/shop/"/><s:property value="shopCode" />/girls/<s:property value="code" />" class="ui labeled"><s:property value="nickName" /></a>
+										<a href="<s:url value="/shop/%{shopCode}/girls/%{code}"/>" class="ui labeled"><s:property value="nickName" /></a>
 									</div>
 									<div class="meta"><span class="age"><s:text name="global.shop_girl_age" />: <s:property value="age" /></span></div>
 									<div class="meta">
@@ -117,7 +117,7 @@
 									<tr>
 										<td class="center aligned collapsing"><span><s:property value="#status.count" /></span></td>
 										<td>
-											<a href="<s:url value="/shop/"/><s:property value="shopCode" />/girls/<s:property value="code" />" class="ui labeled"><s:property value="nickName" /></a>
+											<a href="<s:url value="/shop/%{shopCode}/girls/%{code}"/>" class="ui labeled"><s:property value="nickName" /></a>
 										</td>
 										<td class="center aligned collapsing">
 											<s:text name="format.integer"><s:param name="value" value="bustSize"/></s:text>
@@ -141,7 +141,7 @@
 									<tr>
 										<td class="center aligned collapsing"><span><s:property value="#status.count" /></span> </td>
 										<td>
-											<a href="<s:url value="/shop/"/><s:property value="shopCode" />/girls/<s:property value="code" />" class="ui labeled"><s:property value="nickName" /></a>
+											<a href="<s:url value="/shop/%{shopCode}/girls/%{code}"/>" class="ui labeled"><s:property value="nickName" /></a>
 										</td>
 										<td class="center aligned collapsing"><s:text name="format.integer"><s:param name="value" value="height"/></s:text></td>
 									</tr>
@@ -161,7 +161,7 @@
 									<tr>
 										<td class="center aligned collapsing"><span><s:property value="#status.count" /></span> </td>
 										<td>
-											<a href="<s:url value="/shop/"/><s:property value="shopCode" />/girls/<s:property value="code" />" class="ui labeled"><s:property value="nickName" /></a>
+											<a href="<s:url value="/shop/%{shopCode}/girls/%{code}"/>" class="ui labeled"><s:property value="nickName" /></a>
 										</td>
 										<td class="center aligned collapsing"><s:text name="format.integer"><s:param name="value" value="height"/></s:text></td>
 									</tr>

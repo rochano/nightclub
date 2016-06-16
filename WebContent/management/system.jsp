@@ -205,8 +205,8 @@
 									<td class="right aligned"><s:property value="price" /></td>
 									<td class="center aligned">
 										<div class="ui buttons">
-											<a href="<s:url value="/management/system/edit/"/><s:property value="systemInfoId" />" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
-											<a href="<s:url value="/management/system/delete/"/><s:property value="systemInfoId" />" class="ui icon button small red"><i class="ui icon delete"></i></a>
+											<a href="<s:url value="/management/system/edit/%{systemInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
+											<a href="<s:url value="/management/system/delete/%{systemInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
 										</div>
 									</td>
 								</tr>

@@ -1,0 +1,185 @@
+package com.nightclub.model;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.validator.Length;
+
+@Entity
+@Table(name="basic_info")
+public class BasicInfo implements Serializable{
+	
+	private static final long serialVersionUID = 7406550732066083106L;
+	
+	private String shopInfoId;
+	private String shopCode;
+	private String categoryCode;
+	private String shopNameJp;
+	private String shopNameEn;
+	private String zoneCode;
+	private String logoImg;
+	private String shopImg;
+	private String address;
+	private String state;
+	private String province;
+	private String postcode;
+	private String phone;
+	private String mobile;
+	private String email;
+	private String description;
+	
+	private CategoryInfo categoryInfo;
+	private ZoneInfo zoneInfo;
+	private MapInfo mapInfo;
+	
+	@Id
+	@Column(name="shop_info_id")
+	@Length(max=40)
+	public String getShopInfoId() {
+		return shopInfoId;
+	}
+	@Column(name="shop_code")
+	public String getShopCode() {
+		return shopCode;
+	}
+	@Column(name="category_code")
+	public String getCategoryCode() {
+		return categoryCode;
+	}
+	@Column(name="shop_name_jp")
+	public String getShopNameJp() {
+		return shopNameJp;
+	}
+	@Column(name="shop_name_en")
+	public String getShopNameEn() {
+		return shopNameEn;
+	}
+	@Column(name="zone_code")
+	public String getZoneCode() {
+		return zoneCode;
+	}
+	@Column(name="logo_img")
+	public String getLogoImg() {
+		return logoImg;
+	}
+	@Column(name="shop_img")
+	public String getShopImg() {
+		return shopImg;
+	}
+	@Column(name="address")
+	public String getAddress() {
+		return address;
+	}
+	@Column(name="state")
+	public String getState() {
+		return state;
+	}
+	@Column(name="province")
+	public String getProvince() {
+		return province;
+	}
+	@Column(name="postcode")
+	public String getPostcode() {
+		return postcode;
+	}
+	@Column(name="phone")
+	public String getPhone() {
+		return phone;
+	}
+	@Column(name="mobile")
+	public String getMobile() {
+		return mobile;
+	}
+	@Column(name="email")
+	public String getEmail() {
+		return email;
+	}
+	@Column(name="description")
+	public String getDescription() {
+		return description;
+	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="category_code", referencedColumnName="category_code", insertable=false, updatable=false)
+	public CategoryInfo getCategoryInfo() {
+		return categoryInfo;
+	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="zone_code", referencedColumnName="zone_code", insertable=false, updatable=false)
+	public ZoneInfo getZoneInfo() {
+		return zoneInfo;
+	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="shop_info_id", referencedColumnName="shop_info_id", insertable=false, updatable=false)
+	public MapInfo getMapInfo() {
+		return mapInfo;
+	}
+	public void setShopInfoId(String shopInfoId) {
+		this.shopInfoId = shopInfoId;
+	}
+	public void setShopCode(String shopCode) {
+		this.shopCode = shopCode;
+	}
+	public void setCategoryCode(String categoryCode) {
+		this.categoryCode = categoryCode;
+	}
+	public void setShopNameJp(String shopNameJp) {
+		this.shopNameJp = shopNameJp;
+	}
+	public void setShopNameEn(String shopNameEn) {
+		this.shopNameEn = shopNameEn;
+	}
+	public void setZoneCode(String zoneCode) {
+		this.zoneCode = zoneCode;
+	}
+	public void setLogoImg(String logoImg) {
+		this.logoImg = logoImg;
+	}
+	public void setShopImg(String shopImg) {
+		this.shopImg = shopImg;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public void setProvince(String province) {
+		this.province = province;
+	}
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public void setCategoryInfo(CategoryInfo categoryInfo) {
+		this.categoryInfo = categoryInfo;
+	}
+	public void setZoneInfo(ZoneInfo zoneInfo) {
+		this.zoneInfo = zoneInfo;
+	}
+	public void setMapInfo(MapInfo mapInfo) {
+		this.mapInfo = mapInfo;
+	}
+}
