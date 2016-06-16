@@ -459,11 +459,20 @@
 		</action>
 		
 	    <action name="shop"
-			class="com.nightclub.view.BasicInfoAction" method="list">
+			class="com.nightclub.view.AdminInfoAction" method="shoplist">
 			<param name="menu">shop</param>
 			<interceptor-ref name="adminStack" />
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">shop.jsp</result>
+		</action>
+		
+		<action name="shop/*"
+			class="com.nightclub.view.AdminInfoAction" method="shop{1}">
+			<param name="menu">shop</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/shop.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/shop.jsp</result>
 		</action>
 		
 	    <action name="zone"

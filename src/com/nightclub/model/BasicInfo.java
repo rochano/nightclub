@@ -45,6 +45,7 @@ public class BasicInfo implements Serializable{
 	private String endTime;
 	private String chkCustomUrl;
 	private String customUrl;
+	private String active;
 	
 	private CategoryInfo categoryInfo;
 	private ZoneInfo zoneInfo;
@@ -155,6 +156,10 @@ public class BasicInfo implements Serializable{
 	public String getCustomUrl() {
 		return customUrl;
 	}
+	@Column(name="active")
+	public String getActive() {
+		return active;
+	}
 	@OneToOne
 	@NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="shop_info_id", insertable=false, updatable=false)
@@ -235,5 +240,8 @@ public class BasicInfo implements Serializable{
 	}
 	public void setSystemInfo(SystemInfo systemInfo) {
 		this.systemInfo = systemInfo;
+	}
+	public void setActive(String active) {
+		this.active = active;
 	}
 }

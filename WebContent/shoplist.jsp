@@ -47,7 +47,7 @@
 				<%@include file="/common/common_menu.jsp" %>
   
 				<h4 class="ui top attached header inverted">
-					<i class="file outline icon"></i> 中洲をはじめ九州全エリアのソープランドを完全網羅！
+					<i class="info icon"></i> <s:text name="category.categoryNameJp" />
 				</h4>
 				<div class="ui centered grid attached segment">
 					<div class="column one left aligned">
@@ -79,20 +79,31 @@
 							<tbody>
 								<s:iterator value="basicInfos">
 								<s:url value="/shop/" var="shopUrl" />
-								<s:if test="%{chkCustomUrl == 'true'}">
-									<s:set name="url" value="%{'http://' + customUrl}" />
+								<s:set name="system" value="" />
+								<s:set name="ranking" value="" />
+								<s:set name="girl" value="" />
+								<s:set name="target" value="" />
+								<s:if test="active == 'false'">
+									<s:set name="url" value="%{'javascript:void()'}" />
 								</s:if>
+								<s:elseif test="chkCustomUrl == 'true'">
+									<s:set name="url" value="%{'http://' + customUrl}" />
+								</s:elseif>
 								<s:else>
 									<s:set name="url" value="%{#shopUrl + shopCode}" />
+									<s:set name="system" value="%{'/system'}" />
+									<s:set name="ranking" value="%{'/ranking'}" />
+									<s:set name="girls" value="%{'/girls'}" />
+									<s:set name="target" value="%{'target=\"_blank\"'}" />
 								</s:else>
 								<tr>
 									<td class="image" rowspan="2" style="width: 7%;">
-										<img class="ui fluid image centered" src="<s:property value="shopImg" />">
+										<img class="ui tiny image centered" src="<s:property value="shopImg" />">
 									</td>
-									<td><p style="font-size: 12px;"><a href="<s:property value="url"/>" target="_blank" class="ui"><b><s:property value="shopNameEn" /><br>（<s:property value="shopNameJp" />）</b></a></p></td>
+									<td><a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui header medium"><s:property value="shopNameJp" /></a></td>
 									<td>
 										<s:if test="systemInfo != null" >
-											<a href="<s:property value="url"/>/system" target="_blank" class="ui"><b>
+											<a href="<s:property value="%{#url + #system}"/>" <s:property value="%{target}"/> class="ui"><b>
 												<font color="red" size="2">
 													<s:text name="format.integer">
 													<s:param name="value" value="systemInfo.price"/></s:text>
@@ -100,12 +111,12 @@
 												</font></b></a>
 										</s:if>
 									</td>
-									<td colspan="2"><a href="tel:<s:property value="phone" />"><s:property value="phone" /></a></td>
+									<td colspan="2"><a href="tel:<s:property value="phone" />" class="ui header tiny"><s:property value="phone" /></a></td>
 									<td colspan="2"><a target="_blank" href="http://maps.google.com/maps?q=&layer=c&cbll=<s:property value="mapInfo.latitude" />,<s:property value="mapInfo.longitude" />">ストリートビュー </a></td>
-									<td rowspan="2"><a href="<s:property value="url"/>" target="_blank" class="ui blue button icon"><i class="external share icon"></i></a></td>
+									<td rowspan="2"><a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui orange button icon"><i class="feed icon"></i></a></td>
 								</tr>
 								<tr>
-									<td><a href="<s:property value="url"/>" target="_blank" class="ui"><s:property value="address" /></a></td>
+									<td><a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui header tiny"><s:property value="address" /></a></td>
 									<td>
 										<s:if test="systemInfo != null" >
 											<s:property value="systemInfo.duration" />分
@@ -119,12 +130,12 @@
 									<td><s:property value="startTime" />-<s:property value="endTime" /></td>
 									<td>
 										<s:if test="%{chkCustomUrl != 'true'}">
-										<a href="<s:property value="url"/>/ranking" target="_blank" class="ui">Ranking</a>
+										<a href="<s:property value="%{#url + #ranking}"/>" <s:property value="%{target}"/> class="ui">Ranking</a>
 										</s:if>
 									</td>
 									<td>
 										<s:if test="%{chkCustomUrl != 'true'}">
-										<a href="<s:property value="url"/>/girls" target="_blank" class="ui">All Stuff</a>
+										<a href="<s:property value="%{#url + #girls}"/>" <s:property value="%{target}"/> class="ui">All Stuff</a>
 										</s:if>
 									</td>
 								</tr>

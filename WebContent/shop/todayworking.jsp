@@ -65,7 +65,7 @@
 				</div>
 				
 				<h4 class="ui top attached header">
-					Today's attendance table
+					<s:text name="global.today_working_attendance" />
 				</h4>
 				<div class="ui centered grid attached segment">
 					<div class="column one center aligned">

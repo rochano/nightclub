@@ -88,6 +88,19 @@
 									});
 								</script>
 							</div>
+							<div class="inline field">
+								<s:textarea name="homeInfo.description2" label="Home page content 2"/>
+								<script type="text/javascript">
+									CKEDITOR.replace("homeInfo.description2", {
+										filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
+										filebrowserImageBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Images',
+										filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',
+										filebrowserUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
+										filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
+										filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
+									});
+								</script>
+							</div>
 							<div class="ui right aligned one column grid">
 								<div class="column">
 									<div class="ui small button submit blue">Submit</div>

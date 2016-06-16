@@ -16,6 +16,7 @@ public class HomeInfo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String homeInfoId;
 	private String description;
+	private String description2;
 	
 	@Id
 	@Column(name="home_info_id")
@@ -24,14 +25,23 @@ public class HomeInfo implements Serializable {
 		return homeInfoId;
 	}
 	@Column(name="description")
+	@Length(max=1000)
 	public String getDescription() {
 		return description;
+	}
+	@Column(name="description2")
+	@Length(max=1000)
+	public String getDescription2() {
+		return description2;
 	}
 	public void setHomeInfoId(String homeInfoId) {
 		this.homeInfoId = homeInfoId;
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public void setDescription2(String description2) {
+		this.description2 = description2;
 	}
 	
 }

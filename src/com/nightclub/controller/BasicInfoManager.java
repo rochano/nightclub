@@ -147,4 +147,27 @@ public class BasicInfoManager extends HibernateUtil {
 		session.getTransaction().commit();
 		return basicInfo;
 	}
+	
+	public void activeByShopInfoId(List<String> shopInfoIdList) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			
+			session.createQuery("update BasicInfo set active = :active ")
+					.setParameter("active", Boolean.FALSE.toString().toLowerCase())
+					.executeUpdate();
+			
+			if(shopInfoIdList.size()> 0) {
+				session.createQuery("update BasicInfo set active = :active where shopInfoId in (:shopInfoIdList) ")
+						.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+						.setParameterList("shopInfoIdList", shopInfoIdList.toArray())
+						.executeUpdate();
+			}
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+	}
 }

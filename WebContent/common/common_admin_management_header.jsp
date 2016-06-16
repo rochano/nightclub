@@ -55,7 +55,7 @@
       $('.ui.accordion')
       .accordion()
     ;
-      $("#searchList").dataTable({
+      dataTable = $("#searchList").dataTable({
   		"ordering":  false,
   		"dom": '<"ui grid"<"column right floated right aligned"l>>t<"ui grid"<"eight wide column"i><"right floated eight wide column"p>>',
   		"language":{

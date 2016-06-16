@@ -62,9 +62,16 @@
         ;
       })
     ;
-      $('#infoForm.ui.form')
+      $('.ui.form')
       .form({
-          fields: {},
+          onSuccess: function() { 
+              var form = $(this);
+              form.find("[name=activeList]").remove()
+              $( "input[name=active]:checked", dataTable.fnGetNodes()).each(function(i, item) {
+            	  form.append("<input name='activelist' value='" + item.value + "' type='hidden' />")
+              })
+              return true; 
+          }
        })
       ;
 	  $("table").tablesort();
@@ -115,6 +122,7 @@
 									<th>English name</th>
 									<th>Category</th>
 									<th>Zone</th>
+									<th>Active</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -126,10 +134,30 @@
 									<td><s:property value="shopNameEn" /></td>
 									<td><s:property value="categoryInfo.categoryNameEn" /></td>
 									<td><s:property value="zoneInfo.zoneNameEn" /></td>
+									<td class="center aligned">
+										<div class="ui toggle fitted checkbox">
+											<input type="checkbox" name="active" 
+											<s:if test="active == 'true'">checked="checked"</s:if>
+											 value="<s:property value="shopInfoId" />">
+											<label></label>
+										</div>
+									</td>
 								</tr>
 								</s:iterator>
 							</tbody>
+							<tfoot class="full-width">
+								<tr>
+									<th colspan="7">
+										<form class="ui form " method="post" action="<s:url value="/admin/shop/update"/>" >
+											<div class="ui right floated small primary submit button">
+												Submit
+											</div>
+										</form>
+									</th>
+								</tr>
+							</tfoot>
 						</table>
+						
 					</div>
 				</div>
 			</div>

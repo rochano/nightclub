@@ -70,6 +70,15 @@
 						</s:iterator>
 					</div>
 				</div>
+				
+				<h4 class="ui top attached header inverted">
+					<i class="warning sign icon"></i> 東京ソープとは
+				</h4>
+				<div class="ui centered grid attached segment">
+					<div class="column one left aligned">
+						<s:text name="homeInfo.description2"></s:text>
+			 		</div>
+				</div>
 				  
 				<h4 class="ui top attached header inverted">
 					<i class="info circle icon"></i>サイト最新情報
