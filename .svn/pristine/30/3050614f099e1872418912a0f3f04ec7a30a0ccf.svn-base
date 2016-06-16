@@ -1,0 +1,281 @@
+package com.nightclub.view;
+
+import java.io.File;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.interceptor.ServletRequestAware;
+
+import com.nightclub.controller.BasicInfoManager;
+import com.nightclub.controller.EventInfoManager;
+import com.nightclub.controller.GirlInfoManager;
+import com.nightclub.controller.MapInfoManager;
+import com.nightclub.controller.ScheduleInfoManager;
+import com.nightclub.controller.SystemInfoManager;
+import com.nightclub.model.BasicInfo;
+import com.nightclub.model.EventInfo;
+import com.nightclub.model.GirlInfo;
+import com.nightclub.model.MapInfo;
+import com.nightclub.model.ScheduleInfo;
+import com.nightclub.model.SystemInfo;
+import com.nightclub.util.ResourceBundleUtil;
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+public class ShopInfoAction extends ActionSupport implements ServletRequestAware{
+	
+	private static final long serialVersionUID = 1L;
+	Logger log_ = Logger.getLogger(this.getClass().getName());
+	
+	private String menu;
+	private String shopCode;
+	private String girlCode;
+	private BasicInfo shop;
+	private List<EventInfo> eventInfos;
+	private List<GirlInfo> girlInfos;
+	private GirlInfo girlInfo;
+	private ScheduleInfo scheduleInfo;
+	private List<ScheduleInfo> scheduleToday;
+	private List<ScheduleInfo> scheduleInfos;
+	private Date currentDate;
+	private HashMap<String, List<GirlInfo>> hmRanking;
+	private List<SystemInfo> systemInfos;
+	private MapInfo mapInfo;
+	
+	private BasicInfoManager basicInfoManager;
+	private EventInfoManager eventInfoManager;
+	private GirlInfoManager girlInfoManager;
+	private ScheduleInfoManager scheduleInfoManager;
+	private SystemInfoManager systemInfoManager;
+	private MapInfoManager mapInfoManager;
+	
+	private HttpServletRequest servletRequest;
+	
+	public ShopInfoAction() {
+		basicInfoManager = new BasicInfoManager();
+		eventInfoManager = new EventInfoManager();
+		girlInfoManager = new GirlInfoManager();
+		scheduleInfoManager = new ScheduleInfoManager();
+		systemInfoManager = new SystemInfoManager();
+		mapInfoManager = new MapInfoManager();
+	}
+	
+	public String execute() {
+		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
+		this.eventInfos = eventInfoManager.list(shop.getShopInfoId());
+		
+		return SUCCESS;
+	}
+	
+	public String girls() {
+		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
+		this.girlInfos = girlInfoManager.list(shop.getShopInfoId());
+		
+		return SUCCESS;
+	}
+	
+	public String girlInfo() {
+		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
+		this.girlInfo = girlInfoManager.getGirlInfoByCode(shop.getShopInfoId(), getGirlCode());
+		this.scheduleInfo = scheduleInfoManager.getSchduleInfoByGirlInfoId(girlInfo.getGirlInfoId());
+		
+		String filePath = ResourceBundleUtil.getUploadPath();
+        
+        if(!new File(filePath, this.girlInfo.getPic1()).exists()) {
+        	this.girlInfo.setPic1("");
+        }
+        if(!new File(filePath, this.girlInfo.getPic2()).exists()) {
+        	this.girlInfo.setPic2("");
+        }
+        if(!new File(filePath, this.girlInfo.getPic3()).exists()) {
+        	this.girlInfo.setPic3("");
+        }
+        if(!new File(filePath, this.girlInfo.getPic4()).exists()) {
+        	this.girlInfo.setPic4("");
+        }
+        if(!new File(filePath, this.girlInfo.getPic5()).exists()) {
+        	this.girlInfo.setPic5("");
+        }
+		
+		return SUCCESS;
+	}
+	
+	public String newface() {
+		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
+		
+		// previous month
+		Date today = new Date();
+		Calendar calendar = Calendar.getInstance(); 
+		calendar.setTime(today); 
+		calendar.add(Calendar.MONTH, -1);
+		
+		this.girlInfos = girlInfoManager.newFaceList(shop.getShopInfoId(), calendar.getTime());
+		
+		return SUCCESS;
+	}
+	
+	public String ranking() {
+		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
+		this.hmRanking = new HashMap<String, List<GirlInfo>>();
+		this.hmRanking.put("ranking", girlInfoManager.rankingList(shop.getShopInfoId()));
+		this.hmRanking.put("bodySize", girlInfoManager.rankingBodySizeList(shop.getShopInfoId()));
+		this.hmRanking.put("miniSize", girlInfoManager.rankingMiniSize(shop.getShopInfoId()));
+		this.hmRanking.put("heightSize", girlInfoManager.rankingHeightSize(shop.getShopInfoId()));
+		
+		return SUCCESS;
+	}
+	
+	public String todayworking() {
+		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
+		
+		// day of week
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+		
+		this.currentDate = new Date();
+		this.scheduleToday = scheduleInfoManager.scheduleGirlList(shop.getShopInfoId(), dayOfWeek);
+		this.scheduleInfos = scheduleInfoManager.list(shop.getShopInfoId());
+		log_.info("this.scheduleInfos >> " + this.scheduleInfos.size());
+		return SUCCESS;
+	}
+	
+	public String system() {
+		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
+		this.systemInfos = systemInfoManager.list(shop.getShopInfoId());
+		
+		return SUCCESS;
+	}
+	
+	public String map() {
+		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
+		this.mapInfo = mapInfoManager.getMapInfo(shop.getShopInfoId());
+		
+		return SUCCESS;
+	}
+	
+	public String getMenu() {
+		return menu;
+	}
+
+	public void setMenu(String menu) {
+		this.menu = menu;
+	}
+
+	public String getShopCode() {
+		return shopCode;
+	}
+
+	public void setShopCode(String shopCode) {
+		this.shopCode = shopCode;
+	}
+
+	public List<EventInfo> getEventInfos() {
+		return eventInfos;
+	}
+
+	public void setEventInfos(List<EventInfo> eventInfos) {
+		this.eventInfos = eventInfos;
+	}
+
+	public List<GirlInfo> getGirlInfos() {
+		return girlInfos;
+	}
+
+	public void setGirlInfos(List<GirlInfo> girlInfos) {
+		this.girlInfos = girlInfos;
+	}
+
+	public String getGirlCode() {
+		return girlCode;
+	}
+
+	public void setGirlCode(String girlCode) {
+		this.girlCode = girlCode;
+	}
+
+	public GirlInfo getGirlInfo() {
+		return girlInfo;
+	}
+
+	public void setGirlInfo(GirlInfo girlInfo) {
+		this.girlInfo = girlInfo;
+	}
+
+	public ScheduleInfo getScheduleInfo() {
+		return scheduleInfo;
+	}
+
+	public void setScheduleInfo(ScheduleInfo scheduleInfo) {
+		this.scheduleInfo = scheduleInfo;
+	}
+
+	public HashMap<String, List<GirlInfo>> getHmRanking() {
+		return hmRanking;
+	}
+
+	public void setHmRanking(HashMap<String, List<GirlInfo>> hmRanking) {
+		this.hmRanking = hmRanking;
+	}
+
+	public List<SystemInfo> getSystemInfos() {
+		return systemInfos;
+	}
+
+	public void setSystemInfos(List<SystemInfo> systemInfos) {
+		this.systemInfos = systemInfos;
+	}
+
+	public List<ScheduleInfo> getScheduleInfos() {
+		return scheduleInfos;
+	}
+
+	public void setScheduleInfos(List<ScheduleInfo> scheduleInfos) {
+		this.scheduleInfos = scheduleInfos;
+	}
+
+	public Date getCurrentDate() {
+		return currentDate;
+	}
+
+	public void setCurrentDate(Date currentDate) {
+		this.currentDate = currentDate;
+	}
+
+	public MapInfo getMapInfo() {
+		return mapInfo;
+	}
+
+	public void setMapInfo(MapInfo mapInfo) {
+		this.mapInfo = mapInfo;
+	}
+
+	public BasicInfo getShop() {
+		return shop;
+	}
+
+	public void setShop(BasicInfo shop) {
+		this.shop = shop;
+	}
+
+	@Override
+	public void setServletRequest(HttpServletRequest servletRequest) {
+		this.servletRequest = servletRequest;
+	}
+
+	public List<ScheduleInfo> getScheduleToday() {
+		return scheduleToday;
+	}
+
+	public void setScheduleToday(List<ScheduleInfo> scheduleToday) {
+		this.scheduleToday = scheduleToday;
+	}
+
+	
+}

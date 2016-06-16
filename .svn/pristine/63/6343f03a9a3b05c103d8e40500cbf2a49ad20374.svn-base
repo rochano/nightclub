@@ -1,0 +1,6 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<h4 class="ui huge header">
+	<s:property value="shop.shopNameEn" />
+</h4>
+<div class="ui slider">
+</div>

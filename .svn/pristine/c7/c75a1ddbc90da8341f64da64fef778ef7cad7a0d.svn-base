@@ -1,0 +1,187 @@
+package com.nightclub.view;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.logging.Logger;
+
+import org.apache.log4j.Category;
+
+import com.nightclub.controller.BasicInfoManager;
+import com.nightclub.controller.CategoryInfoManager;
+import com.nightclub.controller.GirlInfoManager;
+import com.nightclub.controller.HomeInfoManager;
+import com.nightclub.controller.NewsInfoManager;
+import com.nightclub.controller.ZoneInfoManager;
+import com.nightclub.model.BasicInfo;
+import com.nightclub.model.CategoryInfo;
+import com.nightclub.model.GirlInfo;
+import com.nightclub.model.HomeInfo;
+import com.nightclub.model.NewsInfo;
+import com.nightclub.model.ZoneInfo;
+import com.opensymphony.xwork2.ActionSupport;
+
+public class FrontEndAction extends ActionSupport {
+	
+	private static final long serialVersionUID = 1L;
+	private Logger log_ = Logger.getLogger(this.getClass().getName());
+	
+	private List<CategoryInfo> categoryInfos;
+	private CategoryInfo category;
+	private List<BasicInfo> basicInfos;
+	private String action;
+	private CategoryInfo[] categoryInfoArray = new CategoryInfo[9];
+	private String categoryCode;
+	private String zoneCode;
+	private List<NewsInfo> newsInfos;
+	private List<GirlInfo> girlInfos;
+	private HomeInfo homeInfo;
+	private String[] dayOfWeek = new String[7];
+	
+	private CategoryInfoManager categoryInfoManager;
+	private BasicInfoManager basicInfoManager;
+	private NewsInfoManager newsInfoManager;
+	private GirlInfoManager girlInfoManager;
+	private HomeInfoManager homeInfoManager;
+
+	public FrontEndAction() {
+		categoryInfoManager = new CategoryInfoManager();
+		basicInfoManager = new BasicInfoManager();
+		newsInfoManager= new NewsInfoManager();
+		girlInfoManager = new GirlInfoManager();
+		homeInfoManager = new HomeInfoManager();
+		dayOfWeek[0] = getText("global.mon");
+		dayOfWeek[1] = getText("global.tue");
+		dayOfWeek[2] = getText("global.wed");
+		dayOfWeek[3] = getText("global.thu");
+		dayOfWeek[4] = getText("global.fri");
+		dayOfWeek[5] = getText("global.sat");
+		dayOfWeek[6] = getText("global.sun");
+	}
+	
+	public String execute() {
+		if(getAction() != null) {
+		}
+		
+		this.categoryInfos = categoryInfoManager.list();
+		int count = 0;
+		for(CategoryInfo categoryInfo : this.categoryInfos) {
+			if(count > categoryInfoArray.length) {
+				break;
+			}
+			categoryInfoArray[count] = categoryInfoManager.getCategoryInfo(categoryInfo.getCategoryInfoId());
+			count++;
+		}
+		log_.info(categoryInfoArray[0].getCategoryNameEn());
+		this.newsInfos = newsInfoManager.list();
+		this.girlInfos = girlInfoManager.random();
+		this.homeInfo = homeInfoManager.getHomeInfo("0");
+		
+		return SUCCESS;
+	}
+	
+	public String shoplistfilter() {
+		
+		this.categoryInfos = categoryInfoManager.list();
+		int count = 0;
+		for(CategoryInfo categoryInfo : this.categoryInfos) {
+			if(count > categoryInfoArray.length) {
+				break;
+			}
+			categoryInfoArray[count] = categoryInfoManager.getCategoryInfo(categoryInfo.getCategoryInfoId());
+			count++;
+		}
+		this.basicInfos = basicInfoManager.filter(getCategoryCode(), getZoneCode());
+		this.category = categoryInfoManager.getCategoryInfoByCode(getCategoryCode());
+		
+		return SUCCESS;
+	}
+
+	public List<CategoryInfo> getCategoryInfos() {
+		return categoryInfos;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setCategoryInfos(List<CategoryInfo> categoryInfos) {
+		this.categoryInfos = categoryInfos;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+	public CategoryInfo[] getCategoryInfoArray() {
+		return categoryInfoArray;
+	}
+
+	public void setCategoryInfoArray(CategoryInfo[] categoryInfoArray) {
+		this.categoryInfoArray = categoryInfoArray;
+	}
+
+	public String getCategoryCode() {
+		return categoryCode;
+	}
+
+	public void setCategoryCode(String categoryCode) {
+		this.categoryCode = categoryCode;
+	}
+
+	public String getZoneCode() {
+		return zoneCode;
+	}
+
+	public void setZoneCode(String zoneCode) {
+		this.zoneCode = zoneCode;
+	}
+
+	public List<BasicInfo> getBasicInfos() {
+		return basicInfos;
+	}
+
+	public void setBasicInfos(List<BasicInfo> basicInfos) {
+		this.basicInfos = basicInfos;
+	}
+
+	public List<NewsInfo> getNewsInfos() {
+		return newsInfos;
+	}
+
+	public void setNewsInfos(List<NewsInfo> newsInfos) {
+		this.newsInfos = newsInfos;
+	}
+
+	public List<GirlInfo> getGirlInfos() {
+		return girlInfos;
+	}
+
+	public void setGirlInfos(List<GirlInfo> girlInfos) {
+		this.girlInfos = girlInfos;
+	}
+
+	public CategoryInfo getCategory() {
+		return category;
+	}
+
+	public void setCategory(CategoryInfo category) {
+		this.category = category;
+	}
+	
+	public HomeInfo getHomeInfo() {
+		return homeInfo;
+	}
+
+	public void setHomeInfo(HomeInfo homeInfo) {
+		this.homeInfo = homeInfo;
+	}
+
+	public String[] getDayOfWeek() {
+		return dayOfWeek;
+	}
+
+	public void setDayOfWeek(String[] dayOfWeek) {
+		this.dayOfWeek = dayOfWeek;
+	}
+	
+}

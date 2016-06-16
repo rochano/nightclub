@@ -1,0 +1,366 @@
+package com.nightclub.view;
+
+import java.io.File;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.UUID;
+import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.nightclub.controller.GirlInfoManager;
+import com.nightclub.model.FileModel;
+import com.nightclub.model.GirlInfo;
+import com.nightclub.model.UserInfo;
+import com.nightclub.util.ResourceBundleUtil;
+import com.nightclub.util.UploadFileUtils;
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
+
+public class GirlInfoAction extends ActionSupport implements SessionAware {
+	
+	private static final long serialVersionUID = 1L;
+	Logger log_ = Logger.getLogger(this.getClass().getName());
+	
+	private Map<String, Object> sessionMap;
+	private List<GirlInfo> girlInfos;
+	private GirlInfo girlInfo;
+	private GirlInfo girlSearch;
+	private String girlInfoId;
+	private String menu;
+	private String action;
+	private boolean showInfo = false;
+	
+	private GirlInfoManager girlInfoManager;
+	
+    private String pic1FileName;
+    private String pic2FileName;
+    private String pic3FileName;
+    private String pic4FileName;
+    private String pic5FileName;
+
+	public GirlInfoAction() {
+		girlInfoManager = new GirlInfoManager();
+	}
+	
+	public String execute() {
+		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
+		
+		if(getAction() != null) {
+			if(getAction().equals("add")) {
+				add();
+			} else if(getAction().equals("update")) {
+				update();
+			}
+		}
+		
+		this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
+		
+		return SUCCESS;
+	}
+
+	public String add() {
+		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
+		
+		try {
+			girlInfo.setGirlInfoId(UUID.randomUUID().toString().toUpperCase());
+			girlInfo.setShopInfoId(userInfo.getShopInfoId());
+			girlInfo.setStatus("");
+			
+			try {
+	            if(!getPic1FileName().isEmpty()) {
+//	            	this.pic1FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic1FileName);
+		            this.girlInfo.setPic1(this.pic1FileName);
+	            }
+	            
+	            if(!getPic2FileName().isEmpty()) {
+//	            	this.pic2FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic2FileName);
+		            this.girlInfo.setPic2(this.pic2FileName);
+	            }
+	            
+	            if(!getPic3FileName().isEmpty()) {
+//	            	this.pic3FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic3FileName);
+		            this.girlInfo.setPic3(this.pic3FileName);
+	            }
+	            
+	            if(!getPic4FileName().isEmpty()) {
+//	            	this.pic4FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic4FileName);
+		            this.girlInfo.setPic4(this.pic4FileName);
+	            }
+	            
+	            if(!getPic5FileName().isEmpty()) {
+//	            	this.pic5FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic5FileName);
+		            this.girlInfo.setPic5(this.pic5FileName);
+	            }
+	            
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            addActionError(e.getMessage());
+	        }
+			
+			this.girlInfo.setCreatedDate(new Date());
+			this.girlInfo.setCreatedBy(userInfo.getUsername());
+			girlInfoManager.add(this.girlInfo);
+			
+			addActionMessage("You have been successfully inserted");
+			
+			this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
+			
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
+		
+		return INPUT;
+	}
+	
+	public String update() {
+		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
+		
+		try {
+			GirlInfo currentGirlInfo = girlInfoManager.getGirlInfo(this.girlInfo.getGirlInfoId());
+			
+			girlInfo.setShopInfoId(userInfo.getShopInfoId());
+			girlInfo.setStatus("");
+			
+			try {
+				if(!getPic1FileName().isEmpty()) {
+					
+//					if(currentGirlInfo.getPic1() != null && !currentGirlInfo.getPic1().isEmpty()) {
+//						this.pic1FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic1FileName, currentGirlInfo.getPic1());
+//            		} else {					
+//            			this.pic1FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic1FileName);
+//            		}
+					this.girlInfo.setPic1(this.pic1FileName);
+	            } 
+				else if(currentGirlInfo.getPic1() != null && !currentGirlInfo.getPic1().isEmpty()) {
+	            	this.girlInfo.setPic1(currentGirlInfo.getPic1());
+	            }
+	            
+	            if(!getPic2FileName().isEmpty()) {
+//	            	if(currentGirlInfo.getPic2() != null && !currentGirlInfo.getPic2().isEmpty()) {
+//	            		this.pic2FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic2FileName, currentGirlInfo.getPic2());
+//            		} else {					
+//            			this.pic2FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic2FileName);
+//            		}
+		            this.girlInfo.setPic2(this.pic2FileName);
+	            }
+	            else if(currentGirlInfo.getPic2() != null && !currentGirlInfo.getPic2().isEmpty()) {
+	            	this.girlInfo.setPic2(currentGirlInfo.getPic2());
+	            }
+	            
+	            if(!getPic3FileName().isEmpty()) {
+//	            	if(currentGirlInfo.getPic3() != null && !currentGirlInfo.getPic3().isEmpty()) {
+//	            		this.pic3FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic3FileName, currentGirlInfo.getPic3());
+//            		} else {					
+//            			this.pic3FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic3FileName);
+//            		}
+		            this.girlInfo.setPic3(this.pic3FileName);
+	            }
+	            else if(currentGirlInfo.getPic3() != null && !currentGirlInfo.getPic3().isEmpty()) {
+	            	this.girlInfo.setPic3(currentGirlInfo.getPic3());
+	            }
+	            
+	            if(!getPic4FileName().isEmpty()) {
+//	            	if(currentGirlInfo.getPic4() != null && !currentGirlInfo.getPic4().isEmpty()) {
+//	            		this.pic4FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic4FileName, currentGirlInfo.getPic4());
+//            		} else {					
+//            			this.pic4FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic4FileName);
+//            		}
+		            this.girlInfo.setPic4(this.pic4FileName);
+	            }
+	            else if(currentGirlInfo.getPic4() != null && !currentGirlInfo.getPic4().isEmpty()) {
+	            	this.girlInfo.setPic4(currentGirlInfo.getPic4());
+	            }
+	            
+	            if(!getPic5FileName().isEmpty()) {
+//	            	if(currentGirlInfo.getPic5() != null && !currentGirlInfo.getPic5().isEmpty()) {
+//	            		this.pic5FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic5FileName, currentGirlInfo.getPic5());
+//            		} else {					
+//            			this.pic5FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic5FileName);
+//            		}
+		            this.girlInfo.setPic5(this.pic5FileName);
+	            }
+	            else if(currentGirlInfo.getPic5() != null && !currentGirlInfo.getPic5().isEmpty()) {
+	            	this.girlInfo.setPic5(currentGirlInfo.getPic5());
+	            }
+	            
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            addActionError(e.getMessage());
+	        }
+			
+			this.girlInfo.setUpdatedDate(new Date());
+			this.girlInfo.setUpdatedBy(userInfo.getUsername());
+			girlInfoManager.update(this.girlInfo);
+			
+			addActionMessage("You have been successfully updated");
+			
+			this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
+			
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
+		
+		return INPUT;
+	}
+	
+	public String edit() {
+		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
+		this.girlInfo = girlInfoManager.getGirlInfo(this.girlInfoId);
+		
+		String filePath = ResourceBundleUtil.getUploadPath();
+        
+		if(this.girlInfo.getPic1() == null){// || !new File(filePath, this.girlInfo.getPic1()).exists()) {
+        	this.girlInfo.setPic1("");
+        }
+		if(this.girlInfo.getPic2() == null){// || !new File(filePath, this.girlInfo.getPic2()).exists()) {
+        	this.girlInfo.setPic2("");
+        }
+		if(this.girlInfo.getPic3() == null){// || !new File(filePath, this.girlInfo.getPic3()).exists()) {
+        	this.girlInfo.setPic3("");
+        }
+		if(this.girlInfo.getPic4() == null){// || !new File(filePath, this.girlInfo.getPic4()).exists()) {
+        	this.girlInfo.setPic4("");
+        }
+		if(this.girlInfo.getPic5() == null){// || !new File(filePath, this.girlInfo.getPic5()).exists()) {
+        	this.girlInfo.setPic5("");
+        }
+        if(this.girlInfo.getPic5() == null){// || !new File(filePath, this.girlInfo.getPic5()).exists()) {
+        	this.girlInfo.setPic5("");
+        }
+		this.showInfo = true;
+		this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
+		return SUCCESS;
+	}
+
+	public String delete() {
+		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
+		girlInfoManager.delete(getGirlInfoId());
+		addActionMessage("You have been successfully deleted");
+		this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
+		return SUCCESS;
+	}
+	
+	public String search() {
+		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
+		this.girlSearch.setShopInfoId(userInfo.getShopInfoId());
+		this.girlInfos = girlInfoManager.search(this.girlSearch);
+		return SUCCESS;
+	}
+
+	public String getMenu() {
+		return menu;
+	}
+
+	public void setMenu(String menu) {
+		this.menu = menu;
+	}
+
+	@Override
+	public void setSession(Map<String, Object> sessionMap) {
+		this.sessionMap = sessionMap;
+	}
+
+	public String getGirlInfoId() {
+		return girlInfoId;
+	}
+
+	public void setGirlInfoId(String girlInfoId) {
+		this.girlInfoId = girlInfoId;
+	}
+
+	public List<GirlInfo> getGirlInfos() {
+		return girlInfos;
+	}
+
+	public void setGirlInfos(List<GirlInfo> girlInfos) {
+		this.girlInfos = girlInfos;
+	}
+
+	public GirlInfo getGirlInfo() {
+		return girlInfo;
+	}
+
+	public void setGirlInfo(GirlInfo girlInfo) {
+		this.girlInfo = girlInfo;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+	public boolean isShowInfo() {
+		return showInfo;
+	}
+
+	public void setShowInfo(boolean showInfo) {
+		this.showInfo = showInfo;
+	}
+
+	public String getPic1FileName() {
+		return pic1FileName;
+	}
+
+	public String getPic2FileName() {
+		return pic2FileName;
+	}
+
+	public String getPic3FileName() {
+		return pic3FileName;
+	}
+
+	public String getPic4FileName() {
+		return pic4FileName;
+	}
+
+	public String getPic5FileName() {
+		return pic5FileName;
+	}
+
+	public void setPic1FileName(String pic1FileName) {
+		this.pic1FileName = pic1FileName;
+	}
+
+	public void setPic2FileName(String pic2FileName) {
+		this.pic2FileName = pic2FileName;
+	}
+
+	public void setPic3FileName(String pic3FileName) {
+		this.pic3FileName = pic3FileName;
+	}
+
+	public void setPic4FileName(String pic4FileName) {
+		this.pic4FileName = pic4FileName;
+	}
+
+	public void setPic5FileName(String pic5FileName) {
+		this.pic5FileName = pic5FileName;
+	}
+
+	public GirlInfo getGirlSearch() {
+		return girlSearch;
+	}
+
+	public void setGirlSearch(GirlInfo girlSearch) {
+		this.girlSearch = girlSearch;
+	}
+
+}

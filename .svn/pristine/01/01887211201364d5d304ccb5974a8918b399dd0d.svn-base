@@ -1,0 +1,336 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Management - Schedule</title>
+
+  <%@include file="/common/common_shop_management_header.jsp" %>
+
+  <style>
+  body {
+    padding: 1em;
+  }
+  .ui.menu:last-child {
+    margin-bottom: 110px;
+  }
+  .ui.items > .item {
+	display: inline-block;
+	width: auto;
+  }
+  .ui.items > .item > .image {
+	margin: auto;
+  }
+  .ui.items > .item > .image + .content {
+	display: block;
+    padding: 1.5em 0em 0em;
+  }
+  .ui.form .inline.field>:first-child, .ui.form .inline.fields>label:first-child {
+  	width: 150px;
+  	margin: 0;
+  }
+  .ui.form .field> .ui.grid {
+  	width: 70%;
+  	margin-left: 150px;
+  }
+  .ui.form .field> .ui.grid > .row {
+  	padding: 0 0 1rem 0;
+  }
+  </style>
+
+  <!--- Example Javascript -->
+  <script>
+  $(document)
+    .ready(function() {
+      $('.ui.menu .ui.dropdown').dropdown({
+        on: 'hover'
+      });
+      $('.ui.dropdown')
+      .dropdown()
+    ;
+      $('.ui.menu a.item')
+        .on('click', function() {
+          $(this)
+            .addClass('active')
+            .siblings()
+            .removeClass('active')
+          ;
+        })
+      ;
+      $('.ui.modal').modal({
+          onApprove : function() {
+            //Submits the semantic ui form
+            //And pass the handling responsibilities to the form handlers,
+            // e.g. on form validation success
+            $('#infoForm').submit();
+            //Return false as to not close modal dialog
+            return false;
+          }
+      });
+      $('.message .close')
+      .on('click', function() {
+        $(this)
+          .closest('.message')
+          .transition('fade')
+        ;
+      })
+    ;
+      $("#addbtn")
+		.on('click', function() {
+		  $('#infoForm').find("input[type=text], input[type=hidden], textarea").val("");
+		  $('#infoForm').find(".selection .text").html("");
+		  $('#infoForm').find(".menu .item.active").removeClass("active").removeClass("selected");
+		  $('#infoForm').find("input[type=checkbox]").prop("checked", false);
+		  $('#infoForm')[0].action.value = "add";
+		  $('#infoForm')[0].action = "<s:url value="/management/schedule/add"/>";
+        $('.ui.modal')
+		    .modal('show')
+		  ;
+      });
+      $('#infoForm.ui.form')
+      .form({
+          fields: {
+        	  scheduleInfo_girlInfoId: {
+                  identifier  : 'scheduleInfo_girlInfoId',
+                  rules: [
+                    {
+                      type   : 'empty',
+                      prompt : 'Please select girl'
+                    },
+                  ]
+                },
+          },
+       })
+      ;
+      $('#searchForm.ui.form')
+      .form({
+          fields: {}
+      })
+      ;
+	  $("table").tablesort();
+      <s:if test="showInfo">
+	  $('.ui.modal')
+	    .modal('show')
+	  ;
+	  </s:if>
+    })
+  ;
+  </script>
+</head>
+<body>
+
+<!-- Sidebar Menu -->
+<div class="ui vertical inverted sidebar menu">
+	<%@include file="/common/common_shop_management_menu.jsp" %>
+</div>
+<div class="pusher">
+	<div class="ui segment very basic">
+		<div class="ui centered grid">
+			<div class="eleven wide column container">
+			<%@include file="/common/common_shop_management_header_info.jsp" %>
+			<div class="ui menu inverted brown stackable">
+				<a class="toc item"><i class="sidebar icon"></i></a>
+			<%@include file="/common/common_shop_management_menu.jsp" %>
+			</div>
+			<s:if test="hasActionMessages()">
+				<div class="ui success message green inverted">
+					<i class="close icon"></i>
+					<div class="header">
+						<s:actionmessage cssClass="list" />
+					</div>
+				</div>
+			</s:if>
+			<div class="ui accordion">
+				<h4 class="ui top attached header inverted active title">
+					<i class="dropdown icon"></i>
+					Search Conditions
+				</h4>
+				<div class="ui left aligned attached segment active content">
+					<form class="ui form" id="searchForm" method="post" action="<s:url value="/management/schedule/search"/>">
+						<div class="inline field">
+							<s:textfield name="scheduleSearch.girlCode" label="Girl Code"/>
+						</div>
+						<div class="inline field">
+							<label>Working day</label>
+							<div class="ui grid">
+								<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workMon" label="Monday" /></div></div>
+								<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workTue" label="Tuesday" /></div></div>
+								<div class="three column row"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workWed" label="Wednesday" /></div></div>
+								<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workThu" label="Thursday" /></div></div>
+								<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workFri" label="Friday" /></div></div>
+								<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workSat" label="Saturday" /></div></div>
+								<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workSun" label="Sunday" /></div></div>
+							</div>
+						</div>
+						<div class="inline fields">
+							<label>Time</label>
+							<div class="field">
+								<s:textfield name="scheduleSearch.startTime" placeholder="HH:mm" />
+							</div>
+							<label>-</label>
+							<div class="field">
+								<s:textfield name="scheduleSearch.endTime" placeholder="HH:mm" />
+							</div>
+						</div>
+						<div class="ui error message"></div>
+						<div class="ui right aligned one column grid">
+							<div class="column">
+								<div class="ui small button submit blue">Search</div>
+								<div class="ui small button clear">Clear</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<h4 class="ui top attached header inverted active title">
+					<i class="dropdown icon"></i>
+					Schedule List
+				</h4>
+				<div class="ui centered grid attached segment active content">
+					<div class="column one left aligned">
+						<div class="ui right aligned one column grid">
+							<div class="column">
+								<div id="addbtn" class="ui small button blue">Add</div>
+							</div>
+						</div>
+						<table id="searchList" class="ui table celled compact striped unstackable sortable">
+							<thead class="center aligned">
+								<tr>
+									<th>#</th>
+									<th>Photo</th>
+									<th>Name</th>
+									<th style="width: 5px;">Mon</th>
+									<th style="width: 5px;">Tue</th>
+									<th style="width: 5px;">Wed</th>
+									<th style="width: 5px;">Thu</th>
+									<th style="width: 5px;">Fri</th>
+									<th style="width: 5px;">Sat</th>
+									<th style="width: 5px;">Sun</th>
+									<th>Start Time</th>
+									<th>End Time</th>
+									<th>Operation</th>
+								</tr>
+							</thead>
+							<tbody>
+								<s:iterator value="schduleInfos" status="status">
+								<tr>
+									<td class="center aligned"><s:property value="#status.count" /></td>
+									<td>
+										<img class="image ui tiny centered" src="<s:property value="girlInfo.pic1" />">
+									</td>
+									<td><s:property value="girlInfo.firstName" /> <s:property value="girlInfo.lastName" /></td>
+									<td class="center aligned">
+										<div class="ui <s:if test="workMon == 'true'">checked</s:if> fitted checkbox disabled">
+										  <input type="checkbox" <s:if test="workMon == 'true'">checked=""</s:if> disabled="disabled"><label></label>
+										</div>
+									</td>
+									<td class="center aligned">
+										<div class="ui <s:if test="workTue == 'true'">checked</s:if> fitted checkbox disabled">
+										  <input type="checkbox" <s:if test="workTue == 'true'">checked=""</s:if> disabled="disabled"><label></label>
+										</div>
+									</td>
+									<td class="center aligned">
+										<div class="ui <s:if test="workWed == 'true'">checked</s:if> fitted checkbox disabled">
+										  <input type="checkbox" <s:if test="workWed == 'true'">checked=""</s:if> disabled="disabled"><label></label>
+										</div>
+									</td>
+									<td class="center aligned">
+										<div class="ui <s:if test="workThu == 'true'">checked</s:if> fitted checkbox disabled">
+										  <input type="checkbox" <s:if test="workThu == 'true'">checked=""</s:if> disabled="disabled"><label></label>
+										</div>
+									</td>
+									<td class="center aligned">
+										<div class="ui <s:if test="workFri == 'true'">checked</s:if> fitted checkbox disabled">
+										  <input type="checkbox" <s:if test="workFri == 'true'">checked=""</s:if> disabled="disabled"><label></label>
+										</div>
+									</td>
+									<td class="center aligned">
+										<div class="ui <s:if test="workSat == 'true'">checked</s:if> fitted checkbox disabled">
+										  <input type="checkbox" <s:if test="workSat == 'true'">checked=""</s:if> disabled="disabled"><label></label>
+										</div>
+									</td>
+									<td class="center aligned">
+										<div class="ui <s:if test="workSun == 'true'">checked</s:if> fitted checkbox disabled">
+										  <input type="checkbox" <s:if test="workSun == 'true'">checked=""</s:if> disabled="disabled"><label></label>
+										</div>
+									</td>
+									<td class="center aligned"><s:property value="startTime" /></td>
+									<td class="center aligned"><s:property value="endTime" /></td>
+									<td class="center aligned">
+										<a href="<s:url value="/management/schedule/edit/"/><s:property value="scheduleInfoId" />" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
+										<a href="<s:url value="/management/schedule/delete/"/><s:property value="scheduleInfoId" />" class="ui icon button small red"><i class="ui icon delete"></i></a>
+									</td>
+								</tr>
+								</s:iterator>
+							</tbody>
+						</table>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<%@include file="/common/common_shop_management_footer.jsp" %>  
+</div>
+
+<div class="ui modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Schedule Information
+  </div>
+  <div class="content">
+    <form class="ui form" id="infoForm" method="post" action="<s:url value="/management/schedule/update"/>">
+		<div class="inline fields">
+			<label>Girl:</label>
+			<div class="ui search selection dropdown">
+				<div class="default text"></div>
+				<s:hidden name="scheduleInfo.girlInfoId" />
+				<i class="dropdown icon"></i>
+				<div class="menu">
+					<s:iterator value="girlInfos" >
+					<div class="item" data-value='<s:property value="girlInfoId" />'>
+						<img class="ui mini avatar image" src="<s:property value="pic1" />">
+						<s:property value="code" />
+					</div>
+					</s:iterator>
+				</div>
+			</div>
+		</div>
+		<div class="inline field">
+			<label>Working day</label>
+			<div class="ui grid">
+				<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workMon" label="Monday" /></div></div>
+				<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workTue" label="Tuesday" /></div></div>
+				<div class="three column row"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workWed" label="Wednesday" /></div></div>
+				<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workThu" label="Thursday" /></div></div>
+				<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workFri" label="Friday" /></div></div>
+				<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workSat" label="Saturday" /></div></div>
+				<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workSun" label="Sunday" /></div></div>
+			</div>
+		</div>
+		<div class="inline fields">
+			<label>Time</label>
+			<div class="field">
+				<s:textfield name="scheduleInfo.startTime" placeholder="HH:mm" size="6" />
+			</div>
+			<label>-</label>
+			<div class="field">
+				<s:textfield name="scheduleInfo.endTime" placeholder="HH:mm" size="6" />
+			</div>
+		</div>
+		<s:hidden name="action" value="update"></s:hidden>
+		<s:hidden name="scheduleInfo.scheduleInfoId"></s:hidden>
+		<div class="ui error message"></div>
+	</form>
+  </div>
+  <div class="actions">
+    <div class="ui approve blue button">Save</div>
+    <div class="ui cancel button">Cancel</div>
+  </div>
+</div>
+  
+</body>
+</html>

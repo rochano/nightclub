@@ -1,0 +1,34 @@
+package com.nightclub.model;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+
+public class StatisticInfoPK  implements Serializable {
+	
+	private static final long serialVersionUID = 7032713885449936736L;
+	private String ipaddress;
+	private String accessDt;
+	
+	public StatisticInfoPK() {};
+	public StatisticInfoPK(String ipaddress, String accessDt) {
+		this.ipaddress = ipaddress;
+		this.accessDt = accessDt;
+	}
+	
+	@Column(name="ip_addr")
+	public String getIpaddress() {
+		return ipaddress;
+	}
+	@Column(name="access_dt")
+	public String getAccessDt() {
+		return accessDt;
+	}
+	public void setIpaddress(String ipaddress) {
+		this.ipaddress = ipaddress;
+	}
+	public void setAccessDt(String accessDt) {
+		this.accessDt = accessDt;
+	}
+}

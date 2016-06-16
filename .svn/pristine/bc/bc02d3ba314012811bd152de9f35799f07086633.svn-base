@@ -1,0 +1,157 @@
+package com.nightclub.view;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.logging.Logger;
+
+import org.apache.log4j.Category;
+
+import com.nightclub.controller.BasicInfoManager;
+import com.nightclub.controller.CategoryInfoManager;
+import com.nightclub.controller.GirlInfoManager;
+import com.nightclub.controller.NewsInfoManager;
+import com.nightclub.controller.ZoneInfoManager;
+import com.nightclub.model.BasicInfo;
+import com.nightclub.model.CategoryInfo;
+import com.nightclub.model.GirlInfo;
+import com.nightclub.model.NewsInfo;
+import com.nightclub.model.ZoneInfo;
+import com.opensymphony.xwork2.ActionSupport;
+
+public class FrontEndAction extends ActionSupport {
+	
+	private static final long serialVersionUID = 1L;
+	private Logger log_ = Logger.getLogger(this.getClass().getName());
+	
+	private List<CategoryInfo> categoryInfos;
+	private CategoryInfo category;
+	private List<BasicInfo> basicInfos;
+	private String action;
+	private CategoryInfo[] categoryInfoArray = new CategoryInfo[9];
+	private String categoryCode;
+	private String zoneCode;
+	private List<NewsInfo> newsInfos;
+	private List<GirlInfo> girlInfos;
+	
+	private CategoryInfoManager categoryInfoManager;
+	private BasicInfoManager basicInfoManager;
+	private NewsInfoManager newsInfoManager;
+	private GirlInfoManager girlInfoManager;
+
+	public FrontEndAction() {
+		categoryInfoManager = new CategoryInfoManager();
+		basicInfoManager = new BasicInfoManager();
+		newsInfoManager= new NewsInfoManager();
+		girlInfoManager = new GirlInfoManager();
+	}
+	
+	public String execute() {
+		if(getAction() != null) {
+		}
+		
+		this.categoryInfos = categoryInfoManager.list();
+		int count = 0;
+		for(CategoryInfo categoryInfo : this.categoryInfos) {
+			if(count > categoryInfoArray.length) {
+				break;
+			}
+			categoryInfoArray[count] = categoryInfoManager.getCategoryInfo(categoryInfo.getCategoryInfoId());
+			count++;
+		}
+		log_.info(categoryInfoArray[0].getCategoryNameEn());
+		this.newsInfos = newsInfoManager.list();
+		this.girlInfos = girlInfoManager.random();
+		
+		return SUCCESS;
+	}
+	
+	public String shoplistfilter() {
+		
+		this.categoryInfos = categoryInfoManager.list();
+		int count = 0;
+		for(CategoryInfo categoryInfo : this.categoryInfos) {
+			if(count > categoryInfoArray.length) {
+				break;
+			}
+			categoryInfoArray[count] = categoryInfoManager.getCategoryInfo(categoryInfo.getCategoryInfoId());
+			count++;
+		}
+		this.basicInfos = basicInfoManager.filter(getCategoryCode(), getZoneCode());
+		this.category = categoryInfoManager.getCategoryInfoByCode(getCategoryCode());
+		
+		return SUCCESS;
+	}
+
+	public List<CategoryInfo> getCategoryInfos() {
+		return categoryInfos;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setCategoryInfos(List<CategoryInfo> categoryInfos) {
+		this.categoryInfos = categoryInfos;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+	public CategoryInfo[] getCategoryInfoArray() {
+		return categoryInfoArray;
+	}
+
+	public void setCategoryInfoArray(CategoryInfo[] categoryInfoArray) {
+		this.categoryInfoArray = categoryInfoArray;
+	}
+
+	public String getCategoryCode() {
+		return categoryCode;
+	}
+
+	public void setCategoryCode(String categoryCode) {
+		this.categoryCode = categoryCode;
+	}
+
+	public String getZoneCode() {
+		return zoneCode;
+	}
+
+	public void setZoneCode(String zoneCode) {
+		this.zoneCode = zoneCode;
+	}
+
+	public List<BasicInfo> getBasicInfos() {
+		return basicInfos;
+	}
+
+	public void setBasicInfos(List<BasicInfo> basicInfos) {
+		this.basicInfos = basicInfos;
+	}
+
+	public List<NewsInfo> getNewsInfos() {
+		return newsInfos;
+	}
+
+	public void setNewsInfos(List<NewsInfo> newsInfos) {
+		this.newsInfos = newsInfos;
+	}
+
+	public List<GirlInfo> getGirlInfos() {
+		return girlInfos;
+	}
+
+	public void setGirlInfos(List<GirlInfo> girlInfos) {
+		this.girlInfos = girlInfos;
+	}
+
+	public CategoryInfo getCategory() {
+		return category;
+	}
+
+	public void setCategory(CategoryInfo category) {
+		this.category = category;
+	}
+	
+}

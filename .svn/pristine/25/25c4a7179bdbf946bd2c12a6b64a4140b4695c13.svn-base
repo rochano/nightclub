@@ -1,0 +1,73 @@
+  <%@taglib uri="/struts-tags" prefix="s" %>
+  
+  <%@include file="/common/common_include_header.jsp" %>
+  <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/semantic.min.css"/>">
+  
+  <style>
+   body {
+   	padding: 1em;
+    /*background-color: #1B1C1D;*/
+  }
+  body.pushable>.pusher {
+  	/*background-color: #1B1C1D;*/
+  	background-color: #f1f1f1;
+  }
+  .ui.menu {
+    margin: 3em 0 0 0;
+  }
+  .ui.menu:not(.vertical):not(.dataTables_paginate) > .item {
+  	/*width: 120px;*/
+  	width: 14%;
+	justify-content: center;
+  }
+  .ui.menu:not(.vertical):not(.dataTables_paginate) > .item:last-child::before {
+  	width: 0;
+  }
+  span {
+    word-wrap: break-word;
+  }
+  .ui.items>.item .meta {
+    color: rgba(255,255,255,.9)
+  }
+   @media only screen and (max-width: 767px) {
+	.ui.table:not(.unstackable) thead {
+	    display: none;
+	}
+	.ui.table:not(.unstackable) tr {
+		box-shadow: 0 -1px 0 0 rgba(0,0,0,1) inset!important;
+	}
+  }
+  .ui.menu:not(.vertical):not(.dataTables_paginate) > .item.toc {
+	display: none;
+  }
+  @media only screen and (max-width: 767px) {
+  	.ui.menu:not(.vertical):not(.dataTables_paginate) > .item {
+  		display: none;
+  	}
+  	.ui.menu:not(.vertical):not(.dataTables_paginate) > .item.toc {
+  		display: block;
+  	}
+  }
+  .ui.items>.item {
+  	margin: 0;
+  }
+  .ui.sortable.table thead th {
+  	/*color: rgba(255,255,255,.9);*/
+  }
+  .ui.inverted.menu {
+  	background: linear-gradient(#6E6E6E 50%, #2e2e2e 50%);
+  }
+  </style>
+  <script>
+  $(document)
+    .ready(function() {
+      $('.ui.menu .ui.dropdown').dropdown({
+        on: 'hover'
+      });
+      
+      $('.ui.sidebar')
+      .sidebar('attach events', '.toc.item')
+    	;
+    })
+  ;
+  </script>

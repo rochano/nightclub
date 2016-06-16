@@ -1,0 +1,2 @@
+java.util.Date = com.nightclub.util.DateConverter
+#java.lang.Integer = com.nightclub.util.IntegerConverter

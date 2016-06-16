@@ -1,0 +1,106 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Administrator - Home</title>
+
+  <%@include file="/common/common_admin_management_header.jsp" %>
+<script type="text/javascript">
+  $(document)
+    .ready(function() {
+    	$('.ui.form')
+        .form({
+        	fields: {}
+        })
+        ;
+    })
+  ;
+</script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/ckfinder/ckfinder.js"></script>
+<script type="text/javascript">
+	function BrowseServer(startupPath,functionData){
+		var finder = new CKFinder();
+		finder.basePath = 'ckfinder/'; //Đường path nơi đặt ckfinder
+		finder.startupPath = startupPath; //Đường path hiện sẵn cho user chọn file
+		finder.selectActionFunction = SetFileField; // hàm sẽ được gọi khi 1 file được chọn
+		finder.selectActionData = functionData; //id của text field cần hiện địa chỉ hình
+		//finder.selectThumbnailActionFunction = ShowThumbnails; //hàm sẽ được gọi khi 1 file thumnail được chọn	
+		finder.popup(); // Bật cửa sổ CKFinder
+	}
+	
+	function SetFileField(fileUrl,data){
+		document.getElementById( data["selectActionData"] ).value = fileUrl;
+	}
+	
+	function ShowThumbnails(fileUrl,data){	
+		var sFileName = this.getSelectedFile().name; // this = CKFinderAPI
+		document.getElementById( 'thumbnails' ).innerHTML +=
+		'<div class="thumb">' +
+		'<img src="' + fileUrl + '" />' +
+		'<div class="caption">' +
+		'<a href="' + data["fileUrl"] + '" target="_blank">' + sFileName + '</a> (' + data["fileSize"] + 'KB)' +
+		'</div>' +
+		'</div>';
+		document.getElementById( 'preview' ).style.display = "";
+		return false; // nếu là true thì ckfinder sẽ tự đóng lại khi 1 file thumnail được chọn
+	}
+</script>
+</head>
+<body>
+<!-- Sidebar Menu -->
+<div class="ui vertical inverted sidebar menu">
+	<%@include file="/common/common_admin_management_menu.jsp" %>
+</div>
+<div class="pusher">
+<div class="ui segment very basic">
+		<div class="ui centered grid">
+			<div class="eleven wide column container">
+			<%@include file="/common/common_admin_management_header_info.jsp" %>
+			<div class="ui menu inverted brown stackable">
+				<a class="toc item"><i class="sidebar icon"></i></a>
+			<%@include file="/common/common_admin_management_menu.jsp" %>
+			</div>
+			<div class="ui accordion">
+				<h4 class="ui top attached header inverted active title">
+					<i class="dropdown icon"></i>
+					Home
+				</h4>
+				<div class="ui centered grid attached segment active content">
+					<div class="column one left aligned">
+						<h2 class="ui header">Welcome to administrator management<h2>
+						<form class="ui form " method="post" action="<s:url value="/admin/home/update"/>" >
+							<div class="inline field">
+								<s:textarea name="homeInfo.description" label="Home page content"/>
+								<script type="text/javascript">
+									CKEDITOR.replace("homeInfo.description", {
+										filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
+										filebrowserImageBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Images',
+										filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',
+										filebrowserUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
+										filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
+										filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
+									});
+								</script>
+							</div>
+							<div class="ui right aligned one column grid">
+								<div class="column">
+									<div class="ui small button submit blue">Submit</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+  	</div>
+  	<%@include file="/common/common_admin_management_footer.jsp" %>  
+</div> 
+</body>
+</html>

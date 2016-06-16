@@ -1,0 +1,9 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
+
+<a class="item <s:if test="%{menu.equalsIgnoreCase('index')}">active</s:if>" href="<s:url value="/shop/"/><s:property value="shopCode" />">Home</a>
+<a class="item <s:if test="%{menu.equalsIgnoreCase('girls')}">active</s:if>" href="<s:url value="/shop/"/><s:property value="shopCode" />/girls">Girls</a>
+<a class="item <s:if test="%{menu.equalsIgnoreCase('newface')}">active</s:if>" href="<s:url value="/shop/"/><s:property value="shopCode" />/newface">New Face</a>
+<a class="item <s:if test="%{menu.equalsIgnoreCase('ranking')}">active</s:if>" href="<s:url value="/shop/"/><s:property value="shopCode" />/ranking">Ranking</a>
+<a class="item <s:if test="%{menu.equalsIgnoreCase('todayworking')}">active</s:if>" href="<s:url value="/shop/"/><s:property value="shopCode" />/todayworking">Schedule</a>
+<a class="item <s:if test="%{menu.equalsIgnoreCase('system')}">active</s:if>" href="<s:url value="/shop/"/><s:property value="shopCode" />/system">System</a>
+<a class="item <s:if test="%{menu.equalsIgnoreCase('map')}">active</s:if>" href="<s:url value="/shop/"/><s:property value="shopCode" />/map">Map</a>

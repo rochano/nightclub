@@ -1,0 +1,231 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Management - Map</title>
+
+  <%@include file="/common/common_shop_management_header.jsp" %>
+
+  <style>
+  body {
+    padding: 1em;
+  }
+  .ui.menu:last-child {
+    margin-bottom: 110px;
+  }
+  .ui.form .inline.field>:first-child {
+  	width: 150px;
+  }
+  .ui.items>.item>.content>.header {
+    margin: 0;
+  }
+  </style>
+
+  <!--- Example Javascript -->
+  <script>
+  $(document)
+    .ready(function() {
+      $('.ui.menu .ui.dropdown').dropdown({
+        on: 'hover'
+      });
+      $('.ui.menu a.item')
+        .on('click', function() {
+          $(this)
+            .addClass('active')
+            .siblings()
+            .removeClass('active')
+          ;
+        })
+      ;
+      $('.ui.form')
+      .form({
+          fields: {},
+      })
+      ;
+      $('.message .close')
+      .on('click', function() {
+        $(this)
+          .closest('.message')
+          .transition('fade')
+        ;
+      })
+    ;
+      <s:if test="hasActionMessages()">
+      $('.ui.form').addClass("success");
+      </s:if>
+    })
+  ;
+  </script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/ckfinder/ckfinder.js"></script>
+<script type="text/javascript">
+	function BrowseServer(startupPath,functionData){
+		var finder = new CKFinder();
+		finder.basePath = 'ckfinder/'; //Đường path nơi đặt ckfinder
+		finder.startupPath = startupPath; //Đường path hiện sẵn cho user chọn file
+		finder.selectActionFunction = SetFileField; // hàm sẽ được gọi khi 1 file được chọn
+		finder.selectActionData = functionData; //id của text field cần hiện địa chỉ hình
+		//finder.selectThumbnailActionFunction = ShowThumbnails; //hàm sẽ được gọi khi 1 file thumnail được chọn	
+		finder.popup(); // Bật cửa sổ CKFinder
+	}
+	
+	function SetFileField(fileUrl,data){
+		document.getElementById( data["selectActionData"] ).value = fileUrl;
+	}
+	
+	function ShowThumbnails(fileUrl,data){	
+		var sFileName = this.getSelectedFile().name; // this = CKFinderAPI
+		document.getElementById( 'thumbnails' ).innerHTML +=
+		'<div class="thumb">' +
+		'<img src="' + fileUrl + '" />' +
+		'<div class="caption">' +
+		'<a href="' + data["fileUrl"] + '" target="_blank">' + sFileName + '</a> (' + data["fileSize"] + 'KB)' +
+		'</div>' +
+		'</div>';
+		document.getElementById( 'preview' ).style.display = "";
+		return false; // nếu là true thì ckfinder sẽ tự đóng lại khi 1 file thumnail được chọn
+	}
+</script>
+</head>
+<body>
+<!-- Sidebar Menu -->
+<div class="ui vertical inverted sidebar menu">
+	<%@include file="/common/common_shop_management_menu.jsp" %>
+</div>
+<div class="pusher">
+	<div class="ui segment very basic">
+		<div class="ui centered grid">
+			<div class="eleven wide column container">
+			<%@include file="/common/common_shop_management_header_info.jsp" %>
+			<div class="ui menu inverted brown stackable">
+				<a class="toc item"><i class="sidebar icon"></i></a>
+			<%@include file="/common/common_shop_management_menu.jsp" %>
+			</div>
+			<s:if test="hasActionMessages()">
+				<div class="ui success message green inverted">
+					<i class="close icon"></i>
+					<div class="header">
+						<s:actionmessage cssClass="list" />
+					</div>
+				</div>
+			</s:if>
+			<div class="ui accordion">
+				<h4 class="ui top attached header inverted active title">
+					<i class="dropdown icon"></i>
+					Map Information
+				</h4>
+				<div class="ui left aligned attached segment active content">
+					<form class="ui form " method="post" action="<s:url value="/management/map/update"/>">
+						<div class="ui error message"><s:actionerror cssClass="list" /></div>
+						<div class="inline field">
+							<s:textfield name="mapInfo.latitude" label="Latitude"/>
+						</div>
+						<div class="inline field">
+							<s:textfield name="mapInfo.longitude" label="Longitude"/>
+						</div>
+						<div class="inline field">
+							<s:textarea name="mapInfo.description" label="Description"/>
+							<script type="text/javascript">
+								CKEDITOR.replace("mapInfo.description", {
+									filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
+									filebrowserImageBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Images',
+									filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',
+									filebrowserUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
+									filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
+									filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
+								});
+							</script>
+						</div>
+						<div class="ui two column grid">
+							<div class="column">
+								<div class="ui small button orange" onclick="initialize()">Preview</div>
+							</div>
+							<div class="right aligned column">
+								<div class="ui small button submit blue">Submit</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<h4 class="ui top attached header inverted active title">
+					<i class="dropdown icon"></i>
+					Map preview
+				</h4>
+				<div class="ui centered grid attached segment active content">
+					<div class="column one left aligned">
+						<div id="map_canvas" style="width: 100%; height: 350px; margin:auto;">
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+  	<s:hidden name="basicInfo.shopNameEn" ></s:hidden>
+<%@include file="/common/common_shop_management_footer.jsp" %>  
+</div>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAKaJQ6galA0QmFhNdQzYuwRQnaT__a1y-hZdnJBN4Ggj_4W3wVRTkKlGxp0EJvRTbiAqcn-FCYSTDog"
+        type="text/javascript"></script>
+<script type="text/javascript">
+    function initialize() {
+        if (GBrowserIsCompatible()) {
+        	var lat = 18.490714;
+        	var lng = 98.924859;
+        	var shopName = $("#basicInfo_shopNameEn").val();
+        	var description = '' ;
+        	var logoImg = '';
+        	<s:if test="%{basicInfo.logoImg != ''}">
+        	logoImg = '<div class="image ui tiny">' + 
+        				'<img src="<s:property value="basicInfo.logoImg" />">' + 
+        				'</div>';
+			</s:if>
+			if($("#mapInfo_latitude").val()) {
+				lat = $("#mapInfo_latitude").val();
+			} else {
+				$("#mapInfo_latitude").val(lat)
+			}
+			if($("#mapInfo_longitude").val()) {
+				lng = $("#mapInfo_longitude").val();
+			} else {
+				$("#mapInfo_longitude").val(lng)
+			}
+			if($("#mapInfo_description").val()) {
+        		var descriptionNewLine = $("#mapInfo_description").val().split(/\r?\n/g);
+        		$.map(descriptionNewLine, function(val, i) {
+        			description += "<p>" + val + "</p>"
+        		});
+			};
+            var center = new GLatLng(lat, lng);
+            var map = new GMap2(document.getElementById("map_canvas"));
+            map.setCenter(center, 13);
+            var marker = new GMarker(center);
+
+            var html = '<div class="ui items">' +
+							'<div class="item">' + 
+								logoImg +
+								'<div class="content">' +
+									'<div class="header">' + shopName + '</div>' +
+									'<div class="description">' + description + '</div>' +
+								'</div>' + 
+							'</div>' +
+						'</div>';
+            GEvent.addListener(marker, "click", function() {
+                marker.openInfoWindowHtml(html);
+            });
+			
+            map.addOverlay(marker);
+            map.setUIToDefault();
+			marker.openInfoWindowHtml(html);
+		}
+    
+    }
+    initialize();
+    window.onunload = GUnload;
+</script>
+</body>
+</html>

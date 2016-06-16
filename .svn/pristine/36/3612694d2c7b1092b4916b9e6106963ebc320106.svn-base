@@ -1,0 +1,97 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ page pageEncoding="UTF-8"%>
+  <div class="ui centered grid">
+	  <div class="center aligned column">
+	  	<div class="ui menu inverted stackable toc left aligned">
+	  		<a class="toc item"><i class="sidebar icon"></i></a>
+	  	</div>
+		<div class="ui menu inverted stackable">
+		  <div class="ui dropdown item">
+			<s:property value="categoryInfoArray[0].categoryNameJp" />
+			<i class="dropdown icon"></i>
+			<div class="menu">
+				<s:iterator value="categoryInfoArray[0].zonelist">
+				<a class="item" href="<s:url value="/shoplist/" /><s:property value="categoryInfoArray[0].categoryCode" />/<s:property value="zoneCode" />"><s:property value="zoneNameJp" /></a>
+				</s:iterator>
+			</div>
+		  </div>
+		  <div class="ui dropdown item">
+			<s:property value="categoryInfoArray[1].categoryNameJp" />
+			<i class="dropdown icon"></i>
+			<div class="menu">
+			  <s:iterator value="categoryInfoArray[1].zonelist">
+				<a class="item" href="<s:url value="/shoplist/" /><s:property value="categoryInfoArray[1].categoryCode" />/<s:property value="zoneCode" />"><s:property value="zoneNameJp" /></a>
+			  </s:iterator>
+			</div>
+		  </div>
+		  <div class="ui dropdown item">
+			<s:property value="categoryInfoArray[2].categoryNameJp" />
+			<i class="dropdown icon"></i>
+			<div class="menu">
+			  <s:iterator value="categoryInfoArray[2].zonelist">
+				<a class="item" href="<s:url value="/shoplist/" /><s:property value="categoryInfoArray[2].categoryCode" />/<s:property value="zoneCode" />"><s:property value="zoneNameJp" /></a>
+			  </s:iterator>
+			</div>
+		  </div>
+		  <div class="ui dropdown item">
+			<s:property value="categoryInfoArray[3].categoryNameJp" />
+			<i class="dropdown icon"></i>
+			<div class="menu">
+			  <s:iterator value="categoryInfoArray[3].zonelist">
+				<a class="item" href="<s:url value="/shoplist/" /><s:property value="categoryInfoArray[3].categoryCode" />/<s:property value="zoneCode" />"><s:property value="zoneNameJp" /></a>
+			  </s:iterator>
+			</div>
+		  </div>
+		  <div class="ui dropdown item">
+			<s:property value="categoryInfoArray[4].categoryNameJp" />
+			<i class="dropdown icon"></i>
+			<div class="menu">
+			  <s:iterator value="categoryInfoArray[4].zonelist">
+				<a class="item" href="<s:url value="/shoplist/" /><s:property value="categoryInfoArray[4].categoryCode" />/<s:property value="zoneCode" />"><s:property value="zoneNameJp" /></a>
+			  </s:iterator>
+			</div>
+		  </div>
+		</div>
+		<div class="ui centered grid">
+	  		<div class="center aligned column">
+			  	<div class="single-item">
+				    <div><img class="ui image fluid centered" src="<s:url value="/assets/images/nemo.jpg" />" /></div>
+				    <div><img class="ui image fluid centered" src="<s:url value="/assets/images/toystory.jpg" />" /></div>
+				    <div><img class="ui image fluid centered" src="<s:url value="/assets/images/up.jpg" />" /></div>
+				    <div><img class="ui image fluid centered" src="<s:url value="/assets/images/walle.jpg" />" /></div>
+			  	</div>
+			</div>
+	  	</div>
+	  	<div class="ui menu inverted stackable">
+		  <div class="ui dropdown item">
+			<s:property value="categoryInfoArray[5].categoryNameJp" />
+			<i class="dropdown icon"></i>
+			<div class="menu">
+			  <s:iterator value="categoryInfoArray[5].zonelist">
+				<a class="item" href="<s:url value="/shoplist/" /><s:property value="categoryInfoArray[5].categoryCode" />/<s:property value="zoneCode" />"><s:property value="zoneNameJp" /></a>
+			  </s:iterator>
+			</div>
+		  </div>
+		  <div class="ui dropdown item">
+			<s:property value="categoryInfoArray[6].categoryNameJp" />
+			<i class="dropdown icon"></i>
+			<div class="menu">
+			  <s:iterator value="categoryInfoArray[6].zonelist">
+				<a class="item" href="<s:url value="/shoplist/" /><s:property value="categoryInfoArray[6].categoryCode" />/<s:property value="zoneCode" />"><s:property value="zoneNameJp" /></a>
+			  </s:iterator>
+			</div>
+		  </div>
+		  <div class="ui dropdown item">
+			<s:property value="categoryInfoArray[7].categoryNameJp" />
+			<i class="dropdown icon"></i>
+			<div class="menu">
+			  <s:iterator value="categoryInfoArray[7].zonelist">
+				<a class="item" href="<s:url value="/shoplist/" /><s:property value="categoryInfoArray[7].categoryCode" />/<s:property value="zoneCode" />"><s:property value="zoneNameJp" /></a>
+			  </s:iterator>
+			</div>
+		  </div>
+		  <div class="ui item"></div>
+		  <a href="<s:url value="/shop/login"/>" class="ui item">店管理</a>
+		</div>
+	  </div>
+  </div>

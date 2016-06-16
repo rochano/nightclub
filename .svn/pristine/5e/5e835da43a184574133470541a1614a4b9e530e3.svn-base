@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+	<session-factory>
+
+		<!-- Database connection settings -->
+		<property name="connection.driver_class">
+			com.mysql.jdbc.Driver
+		</property>
+		<!-- <property name="connection.url">
+			jdbc:mysql://localhost:3306/nightclub
+		</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">1234</property> -->
+		<property name="hibernate.connection.datasource">java:comp/env/jboss/datasources/MySQLDS</property>
+
+		<!-- JDBC connection pool (use the built-in) -->
+		<property name="connection.pool_size">1</property>
+
+		<!-- SQL dialect -->
+		<property name="dialect">
+			org.hibernate.dialect.MySQLDialect
+		</property>
+
+		<!-- Enable Hibernate's automatic session context management -->
+		<property name="current_session_context_class">thread</property>
+
+		<!-- Disable the second-level cache  -->
+		<property name="cache.provider_class">
+			org.hibernate.cache.NoCacheProvider
+		</property>
+
+		<!-- Echo all executed SQL to stdout -->
+		<property name="show_sql">true</property>
+
+		<!-- Drop and re-create the database schema on startup -->
+		<property name="hbm2ddl.auto">update</property>
+
+		<mapping class="net.viralpatel.contact.model.Contact" />
+		<mapping class="com.nightclub.model.BasicInfo" />
+		<mapping class="com.nightclub.model.UserInfo" />
+		<mapping class="com.nightclub.model.GirlInfo" />
+		<mapping class="com.nightclub.model.ScheduleInfo" />
+		<mapping class="com.nightclub.model.SystemInfo" />
+		<mapping class="com.nightclub.model.MapInfo" />
+		<mapping class="com.nightclub.model.EventInfo" />
+		<mapping class="com.nightclub.model.StatisticInfo" />
+		
+		<mapping class="com.nightclub.model.ZoneInfo" />
+		<mapping class="com.nightclub.model.CategoryInfo" />
+		<mapping class="com.nightclub.model.NewsInfo" />
+		<mapping class="com.nightclub.model.HomeInfo" />
+		<mapping  class="com.nightclub.model.CategoryZone" />
+		<mapping  class="com.nightclub.model.CategoryZoneId" />
+		<mapping  class="com.nightclub.model.BaseModel" />
+
+	</session-factory>
+
+</hibernate-configuration>

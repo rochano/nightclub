@@ -1,0 +1,41 @@
+package com.nightclub.view;
+
+import java.util.List;
+
+import com.nightclub.controller.CategoryInfoManager;
+import com.nightclub.model.CategoryInfo;
+import com.nightclub.model.ZoneInfo;
+import com.opensymphony.xwork2.Action;
+
+public class CategoryZoneJSonAction {
+
+	private List<ZoneInfo> zonelist;
+	private String categoryCode;
+	
+	public CategoryZoneJSonAction() {
+	}
+	
+	public String execute() {
+		CategoryInfoManager categoryInfoManager = new CategoryInfoManager();
+		CategoryInfo categoryInfo = categoryInfoManager.getCategoryInfoByCode(getCategoryCode());
+		setZonelist(categoryInfo.getZonelist());
+		
+        return Action.SUCCESS;
+	}
+	
+	public String getCategoryCode() {
+		return categoryCode;
+	}
+
+	public void setCategoryCode(String categoryCode) {
+		this.categoryCode = categoryCode;
+	}
+
+	public List<ZoneInfo> getZonelist() {
+		return zonelist;
+	}
+
+	public void setZonelist(List<ZoneInfo> zonelist) {
+		this.zonelist = zonelist;
+	}
+}
