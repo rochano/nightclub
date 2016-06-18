@@ -8,10 +8,11 @@
 		value="false" />
 	<constant name="struts.devMode" value="false" />
 	<constant name="struts.custom.i18n.resources" value="global_jp" />
-	<constant value="/UploadFileServlet*,/ckfinder.*" name="struts.action.excludePattern"/>
+	<constant value="/UploadFileServlet*,/ckfinder.*,/assets.*,/Semantic-UI-master.*" name="struts.action.excludePattern"/>
 	<constant name="struts.enable.SlashesInActionNames" value="true"/>
 	<constant name="struts.mapper.alwaysSelectFullNamespace" value="false"/>
 	<constant name="struts.multipart.maxSize" value="30000000" />
+	<constant name="struts.action.extension" value="action,bmp,gif,jpeg,jpg,png," />
 	
 	<package name="default" extends="struts-default" namespace="/">
 	    
@@ -38,6 +39,13 @@
 			<param name="categoryCode">{1}</param>
 			<param name="zoneCode">{2}</param>
 			<result name="success">/shoplist.jsp</result>
+		</action>
+		
+		<action name="upload/*/images/*"
+		    class="com.nightclub.view.FileSystemAction" method="uploadpath">
+		    <param name="user">{1}</param>
+		    <param name="fileName">{2}</param>
+		    <result name="success" type="bytesResult"> </result>
 		</action>
 		
 		<action name="images" 

@@ -17,4 +17,17 @@ public class CustomConfigurationPathBuilder extends ConfigurationPathBuilder {
 		}
 		return super.getBaseUrl(request) + userName;
 	}
+	
+	@Override
+	public String getBaseDir(HttpServletRequest request) {
+		String userName = "";
+		if(request.getSession().getAttribute("userInfo") != null) {
+			UserInfo userInfo = (UserInfo)request.getSession().getAttribute("userInfo");
+			userName = "/" + userInfo.getUsername() + "/";
+		} else if(request.getSession().getAttribute("adminInfo") != null) {
+			UserInfo userInfo = (UserInfo)request.getSession().getAttribute("adminInfo");
+			userName = "/" + userInfo.getUsername() + "/";
+		}
+		return super.getBaseDir(request) + userName;
+	}
 }

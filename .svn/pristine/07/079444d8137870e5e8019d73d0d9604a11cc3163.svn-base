@@ -1,0 +1,478 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Management - Girls</title>
+
+  <%@include file="/common/common_shop_management_header.jsp" %>
+  <script src="<s:url value="/assets/library/jquery.form.js"/>"></script>
+  <script src="<s:url value="/assets/library/fileUploadScript.js"/>"></script>
+ <script type="text/javascript" src="${pageContext.request.contextPath }/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/ckfinder/ckfinder.js"></script>
+<script type="text/javascript">
+	function BrowseServer(startupPath,functionData){
+		var finder = new CKFinder();
+		finder.basePath = 'ckfinder/'; //Đường path nơi đặt ckfinder
+		finder.startupPath = startupPath; //Đường path hiện sẵn cho user chọn file
+		finder.selectActionFunction = SetFileField; // hàm sẽ được gọi khi 1 file được chọn
+		finder.selectActionData = functionData; //id của text field cần hiện địa chỉ hình
+		//finder.selectThumbnailActionFunction = ShowThumbnails; //hàm sẽ được gọi khi 1 file thumnail được chọn	
+		finder.popup(); // Bật cửa sổ CKFinder
+	}
+	
+	function SetFileField(fileUrl,data){
+		var relatedId = data["selectActionData"];
+		document.getElementById( relateUploadField[relatedId] ).value = fileUrl;
+		var image = "<img src='" + (fileUrl) + "' />";
+		$("#" + relatedId).html(image);
+	}
+	
+	function ShowThumbnails(fileUrl,data){	
+		var sFileName = this.getSelectedFile().name; // this = CKFinderAPI
+		document.getElementById( 'thumbnails' ).innerHTML +=
+		'<div class="thumb">' +
+		'<img src="' + fileUrl + '" />' +
+		'<div class="caption">' +
+		'<a href="' + data["fileUrl"] + '" target="_blank">' + sFileName + '</a> (' + data["fileSize"] + 'KB)' +
+		'</div>' +
+		'</div>';
+		document.getElementById( 'preview' ).style.display = "";
+		return false; // nếu là true thì ckfinder sẽ tự đóng lại khi 1 file thumnail được chọn
+	}
+</script>
+  <style>
+  body {
+    padding: 1em;
+  }
+  .ui.menu:last-child {
+    margin-bottom: 110px;
+  }
+  .ui.items > .item {
+	display: inline-block;
+	width: auto;
+  }
+  .ui.items > .item > .image {
+	margin: auto;
+  }
+  .ui.items > .item > .image + .content {
+	display: block;
+    padding: 1.5em 0em 0em;
+  }
+  .ui.form .inline.field>:first-child, .ui.form .inline.fields>label {
+  	width: 150px;
+  }
+  </style>
+
+  <!--- Example Javascript -->
+  <script>
+  $(document)
+    .ready(function() {
+      $('.ui.menu .ui.dropdown').dropdown({
+        on: 'hover'
+      });
+      $('.ui.menu a.item')
+        .on('click', function() {
+          $(this)
+            .addClass('active')
+            .siblings()
+            .removeClass('active')
+          ;
+        })
+      ;
+      $('.ui.modal').modal({
+          onApprove : function() {
+            //Submits the semantic ui form
+            //And pass the handling responsibilities to the form handlers,
+            // e.g. on form validation success
+            $('#infoForm').submit();
+            //Return false as to not close modal dialog
+            return false;
+          }
+      });
+
+	  $("#addbtn")
+		.on('click', function() {
+		  $('#infoForm').find("input[type=text], textarea").val("");
+		  $('#infoForm')[0].action.value = "add";
+		  $('#infoForm')[0].action = "<s:url value="/management/girl/add"/>";
+		  $('#infoForm').find(".ui.grid .ui.image .ui.image").remove();
+		  for(var i in relateUploadField) {
+			  $("#" + relateUploadField[i]).val("");
+		  }
+          $('.ui.modal')
+		    .modal('show')
+		  ;
+        })
+	  $("table").tablesort();
+        $('.message .close')
+        .on('click', function() {
+          $(this)
+            .closest('.message')
+            .transition('fade')
+          ;
+        })
+      ;
+	  $('#infoForm.ui.form')
+      .form({
+          fields: {
+        	  girlInfo_code: {
+                  identifier  : 'girlInfo_code',
+                  rules: [
+                    {
+                      type   : 'empty',
+                      prompt : 'Please enter code'
+                    },
+                  ]
+                },
+              girlInfo_firstName: {
+                  identifier  : 'girlInfo_firstName',
+                  rules: [
+                    {
+                      type   : 'empty',
+                      prompt : 'Please enter your first name'
+                    },
+                  ]
+                },
+              girlInfo_lastName: {
+                  identifier  : 'girlInfo_lastName',
+                  rules: [
+                    {
+                      type   : 'empty',
+                      prompt : 'Please enter your last name'
+                    },
+                  ]
+                },
+                girlInfo_age: {
+                    identifier  : 'girlInfo_age',
+                    rules: [
+                      {
+                        type   : 'integer',
+                        prompt : 'Please enter a valid age'
+                      },
+                    ]
+                  },
+                girlInfo_height: {
+                    identifier  : 'girlInfo_height',
+                    rules: [
+                      {
+                        type   : 'integer',
+                        prompt : 'Please enter a valid height'
+                      },
+                    ]
+                  },
+                girlInfo_bustSize: {
+                    identifier  : 'girlInfo_bustSize',
+                    rules: [
+                      {
+                        type   : 'integer',
+                        prompt : 'Please enter a valid bust size'
+                      },
+                    ]
+                  },
+                girlInfo_waistSize: {
+                    identifier  : 'girlInfo_waistSize',
+                    rules: [
+                      {
+                        type   : 'integer',
+                        prompt : 'Please enter a valid waist size'
+                      },
+                    ]
+                  },
+                  girlInfo_hipSize: {
+                   identifier  : 'girlInfo_hipSize',
+                   rules: [
+                     {
+                       type   : 'integer',
+                       prompt : 'Please enter a valid hip size'
+                     },
+                   ]
+                 },
+          },
+       })
+      ;
+	  $('#searchForm.ui.form')
+      .form({
+          fields: {}
+      })
+      ;
+	  <s:if test="showInfo">
+	  $('.ui.modal')
+	    .modal('show')
+	  ;
+	  $("body").addClass("scrolling")
+	  $("body > .ui.dimmer.modals").addClass("scrolling");
+	  $("body > .ui.dimmer.modals > .ui.modal").addClass("scrolling");
+	  </s:if>
+    })
+  ;
+  var relateUploadField = {
+	  pic1 : "pic1FileName",
+	  pic2 : "pic2FileName",
+	  pic3 : "pic3FileName",
+	  pic4 : "pic4FileName",
+	  pic5 : "pic5FileName",
+  }
+  </script>
+</head>
+<body>
+<!-- Sidebar Menu -->
+<div class="ui vertical inverted sidebar menu">
+	<%@include file="/common/common_shop_management_menu.jsp" %>
+</div>
+<div class="pusher">
+	<div class="ui segment very basic">
+		<div class="ui centered grid">
+			<div class="eleven wide column container">
+			<%@include file="/common/common_shop_management_header_info.jsp" %>
+			<div class="ui menu inverted brown stackable">
+				<a class="toc item"><i class="sidebar icon"></i></a>
+			<%@include file="/common/common_shop_management_menu.jsp" %>
+			</div>
+			<s:if test="hasActionMessages()">
+				<div class="ui success message green inverted">
+					<i class="close icon"></i>
+					<div class="header">
+						<s:actionmessage cssClass="list" />
+					</div>
+				</div>
+			</s:if>
+			<div class="ui accordion">
+				<h4 class="ui top attached header inverted active title">
+					<i class="dropdown icon"></i>
+					Search Conditions
+				</h4>
+				<div class="ui left aligned attached segment active content">
+					<form class="ui form" id="searchForm" method="post" action="<s:url value="/management/girl/search"/>">
+						<div class="inline field">
+							<s:textfield name="girlSearch.code" label="Code"/>
+						</div>
+						<div class="inline field">
+							<s:textfield name="girlSearch.firstName" label="First Name"/>
+						</div>
+						<div class="inline field">
+							<s:textfield name="girlSearch.lastName" label="Last Name"/>
+						</div>
+						<div class="inline field">
+							<s:textfield name="girlSearch.age" label="Age"/>
+						</div>
+						<div class="ui error message"></div>
+						<div class="ui right aligned one column grid">
+							<div class="column">
+								<div class="ui small button submit blue">Search</div>
+								<div class="ui small button clear">Clear</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<h4 class="ui top attached header inverted active title">
+					<i class="dropdown icon"></i>
+					Girls List
+				</h4>
+				<div class="ui centered grid attached segment active content">
+					<div class="column one left aligned">
+						<div class="ui right aligned one column grid">
+							<div class="column">
+								<div id="addbtn" class="ui small button blue">Add</div>
+							</div>
+						</div>
+						<table id="searchList" class="ui table celled compact striped unstackable sortable sortable">
+							<thead class="center aligned">
+								<tr>
+									<th>#</th>
+									<th>Photo</th>
+									<th>Name</th>
+									<th>Age</th>
+									<th>Hometown</th>
+									<th>T</th>
+									<th>B</th>
+									<th>W</th>
+									<th>H</th>
+									<th>Status</th>
+									<th>Ranking</th>
+									<th>Operation</th>
+								</tr>
+							</thead>
+							<tbody>
+								<s:iterator value="girlInfos" status="status">
+								<tr>
+									<td class="center aligned"><s:property value="#status.count" /></td>
+									<td>
+										<img class="image ui tiny centered" src="<s:property value="pic1" />">
+									</td>
+									<td><s:property value="firstName" /> <s:property value="lastName" /></td>
+									<td class="center aligned"><s:property value="age" /></td>
+									<td><s:property value="hometown" /></td>
+									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="height"/></s:text></td>
+									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="bustSize"/></s:text></td>
+									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="waistSize"/></s:text></td>
+									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="hipSize"/></s:text></td>
+									<td class="center aligned"><s:property value="status" /></td>
+									<td class="center aligned"><s:property value="ranking" /></td>
+									<td class="center aligned">
+										<div class="ui buttons">
+											<a href="<s:url value="/management/girl/edit/%{girlInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
+											<a href="<s:url value="/management/girl/delete/%{girlInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
+										</div>
+									</td>
+								</tr>
+								</s:iterator>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<%@include file="/common/common_shop_management_footer.jsp" %>  
+</div>
+
+<div class="ui modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Girl Information
+  </div>
+  <div class="content">
+  	<form class="ui form" id="infoForm" method="post" action="<s:url value="/management/girl/update"/>" enctype="multipart/form-data">
+    	<div class="inline field">
+			<s:textfield name="girlInfo.code" label="Code"/>
+		</div>
+		<div class="inline field">
+			<s:textfield name="girlInfo.firstName" label="First Name"/>
+		</div>
+		<div class="inline field">
+			<s:textfield name="girlInfo.lastName" label="Last Name"/>
+		</div>
+		<div class="inline field">
+			<s:textfield name="girlInfo.nickName" label="Nick Name"/>
+		</div>
+		<div class="inline field">
+			<s:textfield name="girlInfo.age" label="Age"/>
+		</div>
+		<div class="inline field">
+			<s:textfield name="girlInfo.hometown" label="Hometown"/>
+		</div>
+		<div class="inline fields">
+			<label>Body size</label>
+			<div class="field">
+				<s:textfield name="girlInfo.height" label="T" size="5" value= "%{getText('format.integer',{girlInfo.height})}" />
+			</div>
+			<div class="field">
+				<s:textfield name="girlInfo.bustSize" label="B" size="5" value= "%{getText('format.integer',{girlInfo.bustSize})}" />
+			</div>
+			<div class="field">
+				<s:textfield name="girlInfo.waistSize" label="W" size="5" value= "%{getText('format.integer',{girlInfo.waistSize})}" />
+			</div>
+			<div class="field">
+				<s:textfield name="girlInfo.hipSize" label="H" size="5" value= "%{getText('format.integer',{girlInfo.hipSize})}" />
+			</div>
+		</div>
+		<div class="inline field">
+			<s:textfield name="girlInfo.ranking" label="Rangking"/>
+		</div>
+		<div class="inline field">
+			<s:textarea name="girlInfo.description" label="Description"/>
+		</div>
+		<div class="inline field">
+			<label>Image Tumbnails</label>
+		</div>
+		<div class="ui grid five column">
+			<div class="image ui small column">
+				<div id="pic1">
+					<s:if test="%{girlInfo.pic1 != ''}">
+						<img class="image ui small centered" src="<s:property value="girlInfo.pic1" />">
+					</s:if>
+				</div>
+				<div class="ui horizontal divider very basic">
+					<button type="button" class="ui basic button" onclick="BrowseServer('Images:/','pic1')">
+						  <i class="icon upload"></i>
+						  Upload
+					</button>
+					<s:hidden name="pic1FileName"></s:hidden>
+				</div>
+			</div>
+			<div class="image ui small column">
+				<div id="pic2">
+					<s:if test="%{girlInfo.pic2 != ''}">
+						<img class="image ui small centered" src="<s:property value="girlInfo.pic2" />">
+					</s:if>
+				</div>
+				<div class="ui horizontal divider very basic">
+					<button type="button" class="ui basic button" onclick="BrowseServer('Images:/','pic2')">
+						  <i class="icon upload"></i>
+						  Upload
+					</button>
+					<s:hidden name="pic2FileName"></s:hidden>
+				</div>
+			</div>
+			<div class="image ui small column">
+				<div id="pic3">
+					<s:if test="%{girlInfo.pic3 != ''}">
+						<img class="image ui small centered" src="<s:property value="girlInfo.pic3" />">
+					</s:if>
+				</div>
+				<div class="ui horizontal divider very basic">
+					<button type="button" class="ui basic button" onclick="BrowseServer('Images:/','pic3')">
+						  <i class="icon upload"></i>
+						  Upload
+					</button>
+					<s:hidden name="pic3FileName"></s:hidden>
+				</div>
+			</div>
+			<div class="image ui small column">
+				<div id="pic4">
+					<s:if test="%{girlInfo.pic4 != ''}">
+						<img class="image ui small centered" src="<s:property value="girlInfo.pic4" />">
+					</s:if>
+				</div>
+				<div class="ui horizontal divider very basic">
+					<button type="button" class="ui basic button" onclick="BrowseServer('Images:/','pic4')">
+						  <i class="icon upload"></i>
+						  Upload
+					</button>
+					<s:hidden name="pic4FileName"></s:hidden>
+				</div>
+			</div>
+			<div class="image ui small column">
+				<div id="pic5">
+					<s:if test="%{girlInfo.pic5 != ''}">
+						<img class="image ui small centered" src="<s:property value="girlInfo.pic5" />">
+					</s:if>
+				</div>
+				<div class="ui horizontal divider very basic">
+					<button type="button" class="ui basic button" onclick="BrowseServer('Images:/','pic5')">
+						  <i class="icon upload"></i>
+						  Upload
+					</button>
+					<s:hidden name="pic5FileName"></s:hidden>
+				</div>
+			</div>
+		</div>
+		<s:hidden name="action" value="update"></s:hidden>
+		<s:hidden name="girlInfo.girlInfoId"></s:hidden>
+		<div class="ui error message"></div>
+	</form>
+	<%@include file="/common/common_upload_file.jsp" %>
+  </div>
+  <div class="actions">
+    <div class="ui approve blue button">Save</div>
+    <div class="ui cancel button">Cancel</div>
+  </div>
+</div>
+<script type="text/javascript">
+	CKEDITOR.replace("girlInfo.description", {
+		filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
+		filebrowserImageBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Images',
+		filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',
+		filebrowserUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
+		filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
+		filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
+	});
+</script>
+</body>
+</html>

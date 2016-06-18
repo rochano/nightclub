@@ -17,8 +17,9 @@
 	Configure the location of uploaded files. See the following article for more details:
 	http://docs.cksource.com/CKFinder_2.x/Developers_Guide/Java/Configuration/baseURL_and_baseDir
 	-->
-	<!-- <baseDir>/var/lib/openshift/56cd240989f5cfa740000068/app-root/data/</baseDir> -->
-	<baseDir></baseDir>
+	<!-- <baseDir>/var/lib/openshift/56cd240989f5cfa740000068/app-root/data/</baseDir>
+	<baseURL>/upload/</baseURL> -->
+	<baseDir>C:\NightClub\upload</baseDir>
 	<baseURL>/NightClub/upload/</baseURL>
 	<!-- <baseURL>https://api.cloudinary.com/v1_1/diladfres/image/upload/</baseURL> -->
 	<licenseKey></licenseKey>
