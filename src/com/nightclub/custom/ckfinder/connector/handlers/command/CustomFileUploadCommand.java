@@ -75,10 +75,17 @@ public class CustomFileUploadCommand extends Command implements IPostCommand {
 				this.newFileName = "";
 				this.currentFolder = "";
 			} else {
-				path = ((ResourceType) this.configuration.getTypes().get(
-						this.type)).getUrl()
+				path = this.configuration.getBaseURL()
 						+ this.currentFolder;
 			}
+			Logger.getLogger(CustomConnectorServlet.class.getName())
+					.log(Level.INFO,
+							"path >> "
+									+ path
+									+ ", this.currentFolder >> "
+									+ this.currentFolder
+									+ ", this.configuration.getBaseURL() >> "
+									+ this.configuration.getBaseURL());
 			if ((this.responseType != null)
 					&& (this.responseType.equals("txt"))) {
 				out.write((this.newFileName + "|" + errorMsg).getBytes("UTF-8"));
@@ -240,13 +247,15 @@ public class CustomFileUploadCommand extends Command implements IPostCommand {
 			throws Exception {
 		File file = new File(path, this.newFileName);
 		Logger.getLogger(CustomConnectorServlet.class.getName()).log(
-				Level.INFO, "saveTemporaryFile path this.newFileName >> " + path + ", " + this.newFileName);
+				Level.INFO,
+				"saveTemporaryFile path this.newFileName >> " + path + ", "
+						+ this.newFileName);
 		AfterFileUploadEventArgs args = new AfterFileUploadEventArgs();
 		args.setCurrentFolder(this.currentFolder);
 		args.setFile(file);
 		args.setFileContent(item.get());
 		if (!ImageUtils.isImage(file)) {
-			item.write(file);
+			// item.write(file);
 			if (this.configuration.getEvents() != null) {
 				this.configuration.getEvents().run(
 						Events.EventTypes.AfterFileUpload, args,
@@ -258,19 +267,23 @@ public class CustomFileUploadCommand extends Command implements IPostCommand {
 				this.configuration))
 				|| (this.configuration.checkSizeAfterScaling())) {
 			Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-					  "cloud_name", "diladfres",
-					  "api_key", "486787566588465",
-					  "api_secret", "ltE8fUE2mSc2HCpydAW5kqmriGA"));
-			
+					"cloud_name", "diladfres", "api_key", "486787566588465",
+					"api_secret", "ltE8fUE2mSc2HCpydAW5kqmriGA"));
+
 			ImageUtils.createTmpThumb(item.getInputStream(), file,
 					getFileItemName(item), this.configuration);
-			
-			Map uploadResult = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+
+			Map uploadResult = cloudinary.uploader().upload(file,
+					ObjectUtils.emptyMap());
 			Logger.getLogger(CustomConnectorServlet.class.getName()).log(
 					Level.INFO, "uploadResult >> " + uploadResult.toString());
-			
-			File thumbFile = new File(path, this.newFileName);
-			
+
+			this.currentFolder = "";
+			this.newFileName = "v" + uploadResult.get("version") + "/"
+					+ uploadResult.get("public_id") + "."
+					+ uploadResult.get("format");
+			// File thumbFile = new File(path, this.newFileName);
+
 			if ((!this.configuration.checkSizeAfterScaling())
 					|| (FileUtils.checkFileSize(
 							(ResourceType) this.configuration.getTypes().get(

@@ -87,9 +87,10 @@ public class FileSystemAction extends ActionSupport implements SessionAware, Ser
 	    
 		this.log_.info("getFileName() >> " + getFileName() + "." + getExtension());
 	    IConfiguration conf = ConfigurationFactory.getInstace().getConfiguration();
-	    String filePath = conf.getBasePathBuilder().getBaseDir(httpRequest) + "images/";
+	    String filePath = conf.getBaseDir() + uri.replace(conf.getBaseURL(), "");
+	    
 	    this.log_.info("filePath >> " + filePath);
-	    File file = new File(filePath + getFileName() + "." + getExtension());
+	    File file = new File(filePath);
 	    this.log_.info("file.isFile() >> " + file.isFile());
 	    
 	    BufferedImage originalImage = ImageIO.read(file);

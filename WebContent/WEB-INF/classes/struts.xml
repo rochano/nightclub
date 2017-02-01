@@ -7,8 +7,8 @@
 	<constant name="struts.enable.DynamicMethodInvocation"
 		value="false" />
 	<constant name="struts.devMode" value="false" />
-	<constant name="struts.custom.i18n.resources" value="global_jp" />
-	<constant value="/UploadFileServlet*,/ckfinder.*,/assets.*,/Semantic-UI-master.*" name="struts.action.excludePattern"/>
+	<constant name="struts.custom.i18n.resources" value="global_jp,package" />
+	<constant value="/UploadFileServlet*,/ckeditor.*,/ckfinder.*,/assets.*,/Semantic-UI-master.*" name="struts.action.excludePattern"/>
 	<constant name="struts.enable.SlashesInActionNames" value="true"/>
 	<constant name="struts.mapper.alwaysSelectFullNamespace" value="false"/>
 	<constant name="struts.multipart.maxSize" value="30000000" />

@@ -34,8 +34,8 @@
 	</servlet-mapping>
 		<servlet>
 		<servlet-name>ConnectorServlet</servlet-name>
-		<servlet-class>com.ckfinder.connector.ConnectorServlet</servlet-class>
-		<!-- <servlet-class>com.nightclub.custom.ckfinder.connector.CustomConnectorServlet</servlet-class> -->
+		<!-- <servlet-class>com.ckfinder.connector.ConnectorServlet</servlet-class> -->
+		<servlet-class>com.nightclub.custom.ckfinder.connector.CustomConnectorServlet</servlet-class>
 		<init-param>
 			<description>
 				Path to configuration file can be relative path inside application,

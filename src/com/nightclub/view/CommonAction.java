@@ -38,6 +38,9 @@ public class CommonAction extends ActionSupport implements ServletRequestAware {
 			ipaddress = getServletRequest().getRemoteAddr();
 		}
 		log_.info("ipaddress 2>> " + ipaddress);
+		String[] tokens = ipaddress.split(",");
+		ipaddress = tokens[tokens.length - 1].trim();
+		log_.info("ipaddress>> " + ipaddress);
 		Date systemDate = new Date();
 		String accessDt = new SimpleDateFormat("yyyyMMdd").format(systemDate);
 		String accessDtYmd = new SimpleDateFormat("yyyy-MM-dd").format(systemDate);

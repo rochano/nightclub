@@ -44,10 +44,10 @@
 
 
 /* Allow divider between each column row */
-.ui.grid > .column + .divider,
+/* .ui.grid > .column + .divider,
 .ui.grid > .row > .column + .divider {
   left: auto;
-}
+} */
 
 /*--------------
    Horizontal

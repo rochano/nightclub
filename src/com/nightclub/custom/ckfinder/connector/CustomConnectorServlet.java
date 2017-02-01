@@ -23,19 +23,18 @@ import com.ckfinder.connector.handlers.command.DeleteFilesCommand;
 import com.ckfinder.connector.handlers.command.DeleteFolderCommand;
 import com.ckfinder.connector.handlers.command.DownloadFileCommand;
 import com.ckfinder.connector.handlers.command.ErrorCommand;
-import com.ckfinder.connector.handlers.command.FileUploadCommand;
-import com.ckfinder.connector.handlers.command.GetFilesCommand;
 import com.ckfinder.connector.handlers.command.GetFoldersCommand;
 import com.ckfinder.connector.handlers.command.IPostCommand;
 import com.ckfinder.connector.handlers.command.InitCommand;
 import com.ckfinder.connector.handlers.command.MoveFilesCommand;
-import com.ckfinder.connector.handlers.command.QuickUploadCommand;
 import com.ckfinder.connector.handlers.command.RenameFileCommand;
 import com.ckfinder.connector.handlers.command.RenameFolderCommand;
-import com.ckfinder.connector.handlers.command.ThumbnailCommand;
 import com.ckfinder.connector.handlers.command.XMLCommand;
 import com.ckfinder.connector.handlers.command.XMLErrorCommand;
 import com.nightclub.custom.ckfinder.connector.handlers.command.CustomFileUploadCommand;
+import com.nightclub.custom.ckfinder.connector.handlers.command.CustomGetFilesCommand;
+import com.nightclub.custom.ckfinder.connector.handlers.command.CustomQuickUploadCommand;
+import com.nightclub.custom.ckfinder.connector.handlers.command.CustomThumbnailCommand;
 
 public class CustomConnectorServlet extends ConnectorServlet {
 	private Exception startException;
@@ -153,7 +152,8 @@ public class CustomConnectorServlet extends ConnectorServlet {
 			CommandHandlerEnum cmd = CommandHandlerEnum.valueOf(command
 					.toUpperCase());
 			Logger.getLogger(CustomConnectorServlet.class.getName()).log(
-					Level.INFO, "command.toUpperCase() >> " + command.toUpperCase());
+					Level.INFO,
+					"command.toUpperCase() >> " + command.toUpperCase());
 			cmd.execute(request, response, configuration, getServletContext(),
 					new Object[0]);
 		} else {
@@ -197,14 +197,16 @@ public class CustomConnectorServlet extends ConnectorServlet {
 
 	private static enum CommandHandlerEnum {
 		INIT(new InitCommand()), GETFOLDERS(new GetFoldersCommand()), GETFILES(
-				new GetFilesCommand()), THUMBNAIL(new ThumbnailCommand()), DOWNLOADFILE(
+				new CustomGetFilesCommand()), THUMBNAIL(
+				new CustomThumbnailCommand()), DOWNLOADFILE(
 				new DownloadFileCommand()), CREATEFOLDER(
 				new CreateFolderCommand()), RENAMEFILE(new RenameFileCommand()), RENAMEFOLDER(
 				new RenameFolderCommand()), DELETEFOLDER(
 				new DeleteFolderCommand()), COPYFILES(new CopyFilesCommand()), MOVEFILES(
 				new MoveFilesCommand()), DELETEFILES(new DeleteFilesCommand()), FILEUPLOAD(
-				new CustomFileUploadCommand()), QUICKUPLOAD(new QuickUploadCommand()), XMLERROR(
-				new XMLErrorCommand()), ERROR(new ErrorCommand());
+				new CustomFileUploadCommand()), QUICKUPLOAD(
+				new CustomQuickUploadCommand()), XMLERROR(new XMLErrorCommand()), ERROR(
+				new ErrorCommand());
 
 		private Command command;
 		private static final HashSet<String> enumValues = new HashSet();

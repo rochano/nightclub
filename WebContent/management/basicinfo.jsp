@@ -15,8 +15,12 @@
   <%@include file="/common/common_shop_management_header.jsp" %>
   <script src="<s:url value="/assets/library/jquery.form.js"/>"></script>
   <script src="<s:url value="/assets/library/fileUploadScript.js"/>"></script>
+  <script src="<s:url value="/assets/library/jquery.ui.widget.js"/>"></script>
+  <script src="<s:url value="/assets/library/jquery.fileupload.js"/>"></script>
+  <script src="<s:url value="/assets/library/jquery.fileupload-process.js"/>"></script>
+  <script src="<s:url value="/assets/library/jquery.fileupload-ui.js"/>"></script>
 
-  <style>
+  <style type="text/css">
   body {
     /*padding: 1em;*/
   }
@@ -101,41 +105,50 @@
 			});
       });
       $('#basicInfo_startTime, #basicInfo_endTime').timeEntry({show24Hours: true});
+      $('#filelogoImg').fileupload({
+			url: '<s:url value="/UploadFileServlet"/>',
+			dataType: 'json',
+			add: function (e, data) {
+				data.submit();
+			},
+	        success:function(response,status) {
+		        console.log(arguments)
+				console.log(response.fileName);
+		        var fileName = response.fileName;
+				var filePath = response.path;
+				var image = "<img src='" + filePath + fileName + "' />";
+				$("#logoImg").html(image);
+				$('#shopLogoFileName').val(fileName);
+	        	console.log('success');
+	        },
+	        error:function(error){
+	        	console.log(error);
+	        }
+		});
+      $('#fileshopImg').fileupload({
+			url: '<s:url value="/UploadFileServlet"/>',
+			dataType: 'json',
+			add: function (e, data) {
+				data.submit();
+			},
+	        success:function(response,status) {
+		        console.log(arguments)
+				console.log(response.fileName);
+		        var fileName = response.fileName;
+				var filePath = response.path;
+				var image = "<img src='" + filePath + fileName + "' />";
+				$("#shopImg").html(image);
+				$('#shopImageFileName').val(fileName);
+	        	console.log('success');
+	        },
+	        error:function(error){
+	        	console.log(error);
+	        }
+		});
     })
   ;
-  var relateUploadField = {
-	  logoImg : "shopLogoFileName",
-	  shopImg : "shopImageFileName",
-  }
   </script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath }/ckfinder/ckfinder.js"></script>
-<script type="text/javascript">
-	function BrowseServer(startupPath,functionData){
-		var finder = new CKFinder();
-		finder.basePath = '${pageContext.request.contextPath }/ckfinder/'; //Đường path nơi đặt ckfinder
-		finder.startupPath = startupPath; //Đường path hiện sẵn cho user chọn file
-		finder.selectActionFunction = SetFileField; // hàm sẽ được gọi khi 1 file được chọn
-		finder.selectActionData = functionData; //id của text field cần hiện địa chỉ hình
-		//finder.selectThumbnailActionFunction = ShowThumbnails; //hàm sẽ được gọi khi 1 file thumnail được chọn	
-		finder.popup(); // Bật cửa sổ CKFinder
-	}
-	
-	function SetFileField(fileUrl,data){
-		var relatedId = data["selectActionData"];
-		document.getElementById( relateUploadField[relatedId] ).value = fileUrl;
-		var image = "<img src='" + (fileUrl) + "' />";
-		$("#" + relatedId).html(image);
-	}
-	
-	function ShowThumbnails(fileUrl,data){	console.log(fileUrl, data)
-		var sFileName = this.getSelectedFile().name; // this = CKFinderAPI
-		var image = "<img src='" + ("${pageContext.request.contextPath }" + sFileName) + "' />";
-		var relatedId = data["selectActionData"];
-		$("#" + relatedId).html(image);
-		return false; // nếu là true thì ckfinder sẽ tự đóng lại khi 1 file thumnail được chọn
-	}
-</script>
 </head>
 <body>
 <!-- Sidebar Menu -->
@@ -199,10 +212,15 @@
 										</s:if>
 									</div>
 									<div class="ui horizontal divider very basic">
-										<button type="button" class="ui basic button" onclick="BrowseServer('Images:/','logoImg')">
+										<!-- <button type="button" class="ui basic button" onclick="BrowseServer('Images:/','logoImg')">
 											  <i class="icon upload"></i>
 											  Upload
-										</button>
+										</button> -->
+										<label for="filelogoImg" class="ui basic button">
+											<i class="icon upload"></i>
+											  Upload
+										</label>
+									    <input type="file" id="filelogoImg" style="display:none">
 									</div>
 								</div>
 								<s:hidden name="shopLogoFileName"></s:hidden>
@@ -216,10 +234,15 @@
 										</s:if>
 									</div>
 									<div class="ui horizontal divider very basic">
-										<button type="button" class="ui basic button" onclick="BrowseServer('Images:/','shopImg')">
+										<!-- <button type="button" class="ui basic button" onclick="BrowseServer('Images:/','shopImg')">
 											  <i class="icon upload"></i>
 											  Upload
-										</button>
+										</button> -->
+										<label for="fileshopImg" class="ui basic button">
+											<i class="icon upload"></i>
+											  Upload
+										</label>
+									    <input type="file" id="fileshopImg" style="display:none">
 									</div>
 								</div>
 								<s:hidden name="shopImageFileName"></s:hidden>
@@ -291,12 +314,12 @@
 							<s:textarea name="basicInfo.description" label="Description"/>
 							<script type="text/javascript">
 								CKEDITOR.replace("basicInfo.description", {
-									filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
+									/*filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
 									filebrowserImageBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Images',
-									filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',
-									filebrowserUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
+									filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',*/
+									filebrowserUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files'/*,
 									filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
-									filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
+									filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'*/
 								});
 							</script>
 						</div>
