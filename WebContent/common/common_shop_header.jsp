@@ -1,8 +1,8 @@
   <%@taglib uri="/struts-tags" prefix="s" %>
   
-  <%@include file="/common/common_include_header.jsp" %>
-  <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/semantic.min.css"/>">
-  
+   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/semantic.min.css"/>">
+   <%@include file="/common/common_include_header.jsp" %>
+ 
   <style>
    body {
    	padding: 1em;
@@ -11,9 +11,6 @@
   body, body.pushable>.pusher {
   	/*background-color: #1B1C1D;*/
   	background-color: #373534;
-  }
-  .ui.menu {
-    margin: 3em 0 0 0;
   }
   .ui.menu:not(.vertical):not(.dataTables_paginate) > .item {
   	/*width: 120px;*/
@@ -60,6 +57,14 @@
   .ui.inverted.menu {
   	background: linear-gradient(#6E6E6E 50%, #2e2e2e 50%);
   }
+  .ui.table tr th, .ui.structured.celled.table tr th,
+	.ui.sortable.table thead th {
+		background: #333333;
+	}
+	.ui.segment {
+	background: rgba(27, 26, 26, 0.42);
+	color: #CCCCCC;
+}
   </style>
   <script>
   $(document)

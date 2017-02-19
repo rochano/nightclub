@@ -11,6 +11,7 @@ import com.nightclub.controller.EventInfoManager;
 import com.nightclub.model.EventInfo;
 import com.nightclub.model.EventSearch;
 import com.nightclub.model.UserInfo;
+import com.nightclub.util.UploadFileUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class EventInfoAction extends ActionSupport implements SessionAware {
@@ -55,6 +56,7 @@ public class EventInfoAction extends ActionSupport implements SessionAware {
 		try {
 			eventInfo.setEventInfoId(UUID.randomUUID().toString().toUpperCase());
 			eventInfo.setShopInfoId(userInfo.getShopInfoId());
+			eventInfo.setDescription(UploadFileUtils.uploadImageinDescription(eventInfo.getDescription(), sessionMap, userInfo));
 			
 			eventInfoManager.add(this.eventInfo);
 			
@@ -72,6 +74,7 @@ public class EventInfoAction extends ActionSupport implements SessionAware {
 		
 		try {
 			eventInfo.setShopInfoId(userInfo.getShopInfoId());
+			eventInfo.setDescription(UploadFileUtils.uploadImageinDescription(eventInfo.getDescription(), sessionMap, userInfo));
 			
 			eventInfoManager.update(this.eventInfo);
 			

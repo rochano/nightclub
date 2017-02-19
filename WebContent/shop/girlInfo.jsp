@@ -57,142 +57,153 @@
 <div class="pusher">
 	<div class="ui segment very basic">
 		<div class="ui centered grid"> 
-			<div class="ten wide column container" id="container">
+			<div class="eleven wide column container" id="container">
 				<%@include file="/common/common_shop_header_info.jsp" %>
 				<div class="ui menu inverted stackable">
 					<a class="toc item"><i class="sidebar icon"></i></a>
 					<%@include file="/common/common_shop_menu.jsp" %>
 				</div>
 				
-				<h4 class="ui top attached header">
-					<s:text name="global.shop_girl_info" />
-				</h4>
-				<div class="ui attached segment">
-					<div class="ui grid stackable">
-						<div class="eight wide column">
-							<div class="image ui">
-								<img class="image large ui" src="<s:property value="girlInfo.pic1" />">
-							</div>
-							<div class="images tiny ui">
-								<s:if test="%{girlInfo.pic1 != ''}">
-									<img class="image ui centered" src="<s:property value="girlInfo.pic1" />">
-								</s:if>
-								<s:if test="%{girlInfo.pic2 != ''}">
-									<img class="image ui centered" src="<s:property value="girlInfo.pic2" />">
-								</s:if>
-								<s:if test="%{#girlInfo.pic3 != ''}">
-									<img class="image ui centered" src="<s:property value="girlInfo.pic3" />">
-								</s:if>
-								<s:if test="%{girlInfo.pic4 != ''}">
-									<img class="image ui centered" src="<s:property value="girlInfo.pic4" />">
-								</s:if>
-								<s:if test="%{girlInfo.pic5 != ''}">
-									<img class="image ui centered" src="<s:property value="girlInfo.pic5" />">
-								</s:if>
-							</div>
-						</div>
-						<div class="eight wide column">
-							<h3 class="ui header">
-								<div class="content">
-									<s:property value="girlInfo.firstName" /> 
-									<s:property value="girlInfo.lastName" /> 
-									(<s:property value="girlInfo.nickName" />)
+				<div class="ui breadcrumb segment attached inverted">
+					<a class="section" href="<s:url value="/shop/"/><s:property value="shopCode" />/girls" >
+						<s:text name="global.shop_menu_girls" />
+					</a>
+					<i class="right chevron icon divider"></i>
+					<div class="active section"><s:text name="global.shop_girl_info" /></div>
+				</div>
+				
+				<div class="ui segment attached">
+					<h2 class="ui top header">
+						<i class="heart icon pink"></i>
+						<div class="content"><s:text name="global.shop_girl_info" /></div>
+					</h2>	
+					<div class="ui attached segment">
+						<div class="ui grid stackable">
+							<div class="eight wide column">
+								<div class="image ui">
+									<img class="image large ui" src="<s:property value="girlInfo.pic1" />">
 								</div>
-							</h3>
-							<table class="ui table definition unstackable">
-								<tr>
-									<td class="six wide">><s:text name="global.shop_girl_body_size" /></td>
-									<td>
-										<span class="property">
-											T<s:text name="format.integer"><s:param name="value" value="girlInfo.height"/></s:text>
-											B<s:text name="format.integer"><s:param name="value" value="girlInfo.bustSize"/></s:text>
-											W<s:text name="format.integer"><s:param name="value" value="girlInfo.waistSize"/></s:text>
-											H<s:text name="format.integer"><s:param name="value" value="girlInfo.hipSize"/></s:text>
-										</span>
-									</td>
-								</tr>
-								<tr>
-									<td class="six wide">><s:text name="global.shop_girl_age" /></td>
-									<td><s:property value="girlInfo.age" /></td>
-								</tr>
-								<tr>
-									<td class="six wide">><s:text name="global.shop_girl_home_town" /></td>
-									<td><s:property value="girlInfo.hometown" /></td>
-								</tr>
-							</table>
-							<table class="ui table celled unstackable">
-								<thead>
+								<div class="images tiny ui">
+									<s:if test="%{girlInfo.pic1 != ''}">
+										<img class="image ui centered" src="<s:property value="girlInfo.pic1" />">
+									</s:if>
+									<s:if test="%{girlInfo.pic2 != ''}">
+										<img class="image ui centered" src="<s:property value="girlInfo.pic2" />">
+									</s:if>
+									<s:if test="%{#girlInfo.pic3 != ''}">
+										<img class="image ui centered" src="<s:property value="girlInfo.pic3" />">
+									</s:if>
+									<s:if test="%{girlInfo.pic4 != ''}">
+										<img class="image ui centered" src="<s:property value="girlInfo.pic4" />">
+									</s:if>
+									<s:if test="%{girlInfo.pic5 != ''}">
+										<img class="image ui centered" src="<s:property value="girlInfo.pic5" />">
+									</s:if>
+								</div>
+							</div>
+							<div class="eight wide column">
+								<h3 class="ui header">
+									<div class="content">
+										<s:property value="girlInfo.firstName" /> 
+										<s:property value="girlInfo.lastName" /> 
+										(<s:property value="girlInfo.nickName" />)
+									</div>
+								</h3>
+								<table class="ui table definition unstackable">
 									<tr>
-										<th><s:text name="global.shop_girl_description" /></th>
+										<td class="six wide"><s:text name="global.shop_girl_body_size" /></td>
+										<td>
+											<span class="property">
+												T<s:text name="format.integer"><s:param name="value" value="girlInfo.height"/></s:text>
+												B<s:text name="format.integer"><s:param name="value" value="girlInfo.bustSize"/></s:text>
+												W<s:text name="format.integer"><s:param name="value" value="girlInfo.waistSize"/></s:text>
+												H<s:text name="format.integer"><s:param name="value" value="girlInfo.hipSize"/></s:text>
+											</span>
+										</td>
 									</tr>
-								</thead>
-								<tbody>
 									<tr>
-										<td><s:text name="girlInfo.description" /></td>
+										<td class="six wide"><s:text name="global.shop_girl_age" /></td>
+										<td><s:property value="girlInfo.age" /></td>
 									</tr>
-								</tbody>
-								
-							</table>
-							<table class="ui table definition unstackable">
-								<tr>
-									<td class="six wide"><s:text name="global.shop_girl_work_time" /></td>
-									<td><s:property value="scheduleInfo.startTime" /> - <s:property value="scheduleInfo.endTime" /></td>
-								</tr>
-							</table>
-							<div class="ui centered grid">
-								<div class="column one center aligned overflow">
-									<table class="ui table center aligned celled unstackable">
-										<thead>
-											<tr>
-												<th><s:text name="global.mon" /></th>
-												<th><s:text name="global.tue" /></th>
-												<th><s:text name="global.wed" /></th>
-												<th><s:text name="global.thu" /></th>
-												<th><s:text name="global.fri" /></th>
-												<th><s:text name="global.sat" /></th>
-												<th><s:text name="global.sun" /></th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td class="center aligned">
-													<div class="ui <s:if test="scheduleInfo.workMon == 'true'">checked</s:if> fitted checkbox disabled">
-													  <s:if test="scheduleInfo.workMon == 'true'"><i class="circle thin icon"></i></s:if>
-													</div>
-												</td>
-												<td class="center aligned">
-													<div class="ui <s:if test="scheduleInfo.workTue == 'true'">checked</s:if> fitted checkbox disabled">
-													  <s:if test="scheduleInfo.workTue == 'true'"><i class="circle thin icon"></i></s:if>
-													</div>
-												</td>
-												<td class="center aligned">
-													<div class="ui <s:if test="scheduleInfo.workWed == 'true'">checked</s:if> fitted checkbox disabled">
-													  <s:if test="scheduleInfo.workWed == 'true'"><i class="circle thin icon"></i></s:if>
-													</div>
-												</td>
-												<td class="center aligned">
-													<div class="ui <s:if test="scheduleInfo.workThu == 'true'">checked</s:if> fitted checkbox disabled">
-													  <s:if test="scheduleInfo.workThu == 'true'"><i class="circle thin icon"></i></s:if>
-													</div>
-												</td>
-												<td class="center aligned">
-													<div class="ui <s:if test="scheduleInfo.workFri == 'true'">checked</s:if> fitted checkbox disabled">
-													  <s:if test="scheduleInfo.workFri == 'true'"><i class="circle thin icon"></i></s:if>
-													</div>
-												</td>
-												<td class="center aligned">
-													<div class="ui <s:if test="scheduleInfo.workSat == 'true'">checked</s:if> fitted checkbox disabled">
-													  <s:if test="scheduleInfo.workSat == 'true'"><i class="circle thin icon"></i></s:if>
-													</div>
-												</td>
-												<td class="center aligned">
-													<div class="ui <s:if test="scheduleInfo.workSun == 'true'">checked</s:if> fitted checkbox disabled">
-													  <s:if test="scheduleInfo.workSun == 'true'"><i class="circle thin icon"></i></s:if>
-													</div>
-												</td>
-											</tr>
-										</tbody>
-									</table>
+									<tr>
+										<td class="six wide"><s:text name="global.shop_girl_home_town" /></td>
+										<td><s:property value="girlInfo.hometown" /></td>
+									</tr>
+								</table>
+								<table class="ui table celled unstackable">
+									<thead>
+										<tr>
+											<th><s:text name="global.shop_girl_description" /></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><s:text name="girlInfo.description" /></td>
+										</tr>
+									</tbody>
+									
+								</table>
+								<table class="ui table definition unstackable">
+									<tr>
+										<td class="six wide"><s:text name="global.shop_girl_work_time" /></td>
+										<td><s:property value="scheduleInfo.startTime" /> - <s:property value="scheduleInfo.endTime" /></td>
+									</tr>
+								</table>
+								<div class="ui centered grid">
+									<div class="column one center aligned overflow">
+										<table class="ui table center aligned celled unstackable">
+											<thead>
+												<tr>
+													<th><s:text name="global.mon" /></th>
+													<th><s:text name="global.tue" /></th>
+													<th><s:text name="global.wed" /></th>
+													<th><s:text name="global.thu" /></th>
+													<th><s:text name="global.fri" /></th>
+													<th><s:text name="global.sat" /></th>
+													<th><s:text name="global.sun" /></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="center aligned">
+														<div class="ui <s:if test="scheduleInfo.workMon == 'true'">checked</s:if> fitted checkbox disabled">
+														  <s:if test="scheduleInfo.workMon == 'true'"><i class="circle thin icon"></i></s:if>
+														</div>
+													</td>
+													<td class="center aligned">
+														<div class="ui <s:if test="scheduleInfo.workTue == 'true'">checked</s:if> fitted checkbox disabled">
+														  <s:if test="scheduleInfo.workTue == 'true'"><i class="circle thin icon"></i></s:if>
+														</div>
+													</td>
+													<td class="center aligned">
+														<div class="ui <s:if test="scheduleInfo.workWed == 'true'">checked</s:if> fitted checkbox disabled">
+														  <s:if test="scheduleInfo.workWed == 'true'"><i class="circle thin icon"></i></s:if>
+														</div>
+													</td>
+													<td class="center aligned">
+														<div class="ui <s:if test="scheduleInfo.workThu == 'true'">checked</s:if> fitted checkbox disabled">
+														  <s:if test="scheduleInfo.workThu == 'true'"><i class="circle thin icon"></i></s:if>
+														</div>
+													</td>
+													<td class="center aligned">
+														<div class="ui <s:if test="scheduleInfo.workFri == 'true'">checked</s:if> fitted checkbox disabled">
+														  <s:if test="scheduleInfo.workFri == 'true'"><i class="circle thin icon"></i></s:if>
+														</div>
+													</td>
+													<td class="center aligned">
+														<div class="ui <s:if test="scheduleInfo.workSat == 'true'">checked</s:if> fitted checkbox disabled">
+														  <s:if test="scheduleInfo.workSat == 'true'"><i class="circle thin icon"></i></s:if>
+														</div>
+													</td>
+													<td class="center aligned">
+														<div class="ui <s:if test="scheduleInfo.workSun == 'true'">checked</s:if> fitted checkbox disabled">
+														  <s:if test="scheduleInfo.workSun == 'true'"><i class="circle thin icon"></i></s:if>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
 						</div>

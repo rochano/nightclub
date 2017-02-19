@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -20,6 +22,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FilenameUtils;
 
 import com.ckfinder.connector.configuration.Events;
 import com.ckfinder.connector.configuration.IConfiguration;
@@ -35,6 +38,8 @@ import com.ckfinder.connector.utils.ImageUtils;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.nightclub.custom.ckfinder.connector.CustomConnectorServlet;
+import com.nightclub.model.FileModel;
+import com.nightclub.model.UserInfo;
 
 public class CustomFileUploadCommand extends Command implements IPostCommand {
 	protected String fileName;
@@ -55,6 +60,15 @@ public class CustomFileUploadCommand extends Command implements IPostCommand {
 		this.newFileName = "";
 		this.type = "";
 		this.uploaded = false;
+	}
+	
+	private HttpServletRequest request;
+
+	public void runCommand(HttpServletRequest request,
+			HttpServletResponse response, IConfiguration configuration,
+			Object... params) throws ConnectorException {
+		this.request = request;
+		super.runCommand(request, response, configuration, params);
 	}
 
 	public void execute(OutputStream out) throws ConnectorException {
@@ -133,6 +147,8 @@ public class CustomFileUploadCommand extends Command implements IPostCommand {
 	public void initParams(HttpServletRequest request,
 			IConfiguration configuration, Object... params)
 			throws ConnectorException {
+		Logger.getLogger(CustomFileUploadCommand.class.getName()).log(
+				Level.INFO, "initParams >> ");
 		super.initParams(request, configuration, params);
 		this.ckFinderFuncNum = request.getParameter("CKFinderFuncNum");
 		this.ckEditorFuncNum = request.getParameter("CKEditorFuncNum");
@@ -141,8 +157,12 @@ public class CustomFileUploadCommand extends Command implements IPostCommand {
 				.getParameter("response_type") : request
 				.getParameter("responseType"));
 		this.langCode = request.getParameter("langCode");
+		Logger.getLogger(CustomFileUploadCommand.class.getName()).log(
+				Level.INFO, "errorCode >> " + errorCode);
 		if (this.errorCode == 0) {
 			this.uploaded = uploadFile(request);
+			Logger.getLogger(CustomFileUploadCommand.class.getName()).log(
+					Level.INFO, "uploaded >> " + uploaded);
 		}
 	}
 
@@ -246,10 +266,6 @@ public class CustomFileUploadCommand extends Command implements IPostCommand {
 	private boolean saveTemporaryFile(String path, FileItem item)
 			throws Exception {
 		File file = new File(path, this.newFileName);
-		Logger.getLogger(CustomConnectorServlet.class.getName()).log(
-				Level.INFO,
-				"saveTemporaryFile path this.newFileName >> " + path + ", "
-						+ this.newFileName);
 		AfterFileUploadEventArgs args = new AfterFileUploadEventArgs();
 		args.setCurrentFolder(this.currentFolder);
 		args.setFile(file);
@@ -266,28 +282,17 @@ public class CustomFileUploadCommand extends Command implements IPostCommand {
 		if ((ImageUtils.checkImageSize(item.getInputStream(),
 				this.configuration))
 				|| (this.configuration.checkSizeAfterScaling())) {
-			Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-					"cloud_name", "diladfres", "api_key", "486787566588465",
-					"api_secret", "ltE8fUE2mSc2HCpydAW5kqmriGA"));
 
-			ImageUtils.createTmpThumb(item.getInputStream(), file,
-					getFileItemName(item), this.configuration);
-
-			Map uploadResult = cloudinary.uploader().upload(file,
-					ObjectUtils.emptyMap());
-			Logger.getLogger(CustomConnectorServlet.class.getName()).log(
-					Level.INFO, "uploadResult >> " + uploadResult.toString());
-
-			this.currentFolder = "";
-			this.newFileName = "v" + uploadResult.get("version") + "/"
-					+ uploadResult.get("public_id") + "."
-					+ uploadResult.get("format");
-			// File thumbFile = new File(path, this.newFileName);
+			this.currentFolder = "temp?fileName=";
+			this.newFileName = UUID.randomUUID().toString().toUpperCase();
+			this.newFileName += FilenameUtils.EXTENSION_SEPARATOR + FilenameUtils.getExtension(item.getName());
+			FileModel fileModel = new FileModel(item.getName(), item.get(), item.getContentType());
+			request.getSession().setAttribute(newFileName, fileModel);
 
 			if ((!this.configuration.checkSizeAfterScaling())
 					|| (FileUtils.checkFileSize(
 							(ResourceType) this.configuration.getTypes().get(
-									this.type), file.length()))) {
+									this.type), item.get().length))) {
 				if (this.configuration.getEvents() != null) {
 					this.configuration.getEvents().run(
 							Events.EventTypes.AfterFileUpload, args,
@@ -295,7 +300,6 @@ public class CustomFileUploadCommand extends Command implements IPostCommand {
 				}
 				return true;
 			}
-			file.delete();
 			this.errorCode = 203;
 			return false;
 		}
@@ -457,13 +461,14 @@ public class CustomFileUploadCommand extends Command implements IPostCommand {
 			throws ConnectorException {
 		String tmpType = getParameter(request, "type");
 		if (checkIfTypeExists(tmpType)) {
-			File currDir = new File(((ResourceType) this.configuration
+			/*File currDir = new File(((ResourceType) this.configuration
 					.getTypes().get(tmpType)).getPath() + this.currentFolder);
 			if ((currDir.exists()) && (currDir.isDirectory())) {
 				return true;
 			}
 			this.errorCode = 116;
-			return false;
+			return false;*/
+			return true;
 		}
 		return false;
 	}

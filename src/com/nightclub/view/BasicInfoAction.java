@@ -1,10 +1,13 @@
 package com.nightclub.view;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.interceptor.SessionAware;
@@ -19,6 +22,7 @@ import com.nightclub.model.CategoryInfo;
 import com.nightclub.model.FileModel;
 import com.nightclub.model.UserInfo;
 import com.nightclub.util.ResourceBundleUtil;
+import com.nightclub.util.UploadFileUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class BasicInfoAction extends ActionSupport implements SessionAware {
@@ -81,22 +85,7 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
         	}
             
             if(!getShopLogoFileName().isEmpty()) {
-            	if(this.sessionMap.containsKey(getShopLogoFileName())) {
-            		String fileName = this.shopLogoFileName;
-            		File fileToCreate = new File(fileName);
-            		FileModel fileModel = (FileModel) sessionMap.get(fileName);
-            		FileUtils.writeByteArrayToFile(fileToCreate, fileModel.getImageInBytes());
-            		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-	  					  "cloud_name", "diladfres",
-	  					  "api_key", "486787566588465",
-	  					  "api_secret", "ltE8fUE2mSc2HCpydAW5kqmriGA"));
-	    			Map uploadResult = cloudinary.uploader().upload(fileToCreate, ObjectUtils.emptyMap());
-	    			log_.info("uploadResult >> " + uploadResult.toString());
-	    			fileName = uploadResult.get("url").toString();
-	    			fileToCreate.delete();
-	    			
-	    			this.shopLogoFileName = fileName;
-            	}
+            	this.shopLogoFileName = UploadFileUtils.uploadImageApi(getShopLogoFileName(), sessionMap, userInfo);
 //            	String fileName = this.shopLogoFileName;
 //            	String extension = FilenameUtils.getExtension(this.shopLogoFileName);
 //            	this.shopLogoFileName = UUID.randomUUID().toString().toUpperCase() + "." + extension;
@@ -115,22 +104,7 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
             }
             
             if(!getShopImageFileName().isEmpty()) {
-            	if(this.sessionMap.containsKey(getShopImageFileName())) {
-            		String fileName = this.shopImageFileName;
-            		File fileToCreate = new File(fileName);
-            		FileModel fileModel = (FileModel) sessionMap.get(fileName);
-            		FileUtils.writeByteArrayToFile(fileToCreate, fileModel.getImageInBytes());
-            		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-	  					  "cloud_name", "diladfres",
-	  					  "api_key", "486787566588465",
-	  					  "api_secret", "ltE8fUE2mSc2HCpydAW5kqmriGA"));
-	    			Map uploadResult = cloudinary.uploader().upload(fileToCreate, ObjectUtils.emptyMap());
-	    			log_.info("uploadResult >> " + uploadResult.toString());
-	    			fileName = uploadResult.get("url").toString();
-	    			fileToCreate.delete();
-	    			
-	    			this.shopImageFileName = fileName;
-            	}
+            	this.shopImageFileName = UploadFileUtils.uploadImageApi(getShopImageFileName(), sessionMap, userInfo);
 //            	String fileName = this.shopImageFileName;
 //            	String extension = FilenameUtils.getExtension(this.shopImageFileName);
 //            	this.shopImageFileName = UUID.randomUUID().toString().toUpperCase() + "." + extension;
@@ -148,6 +122,8 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
 	            this.basicInfo.setShopImg(this.shopImageFileName);
             }
             
+            this.basicInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.basicInfo.getDescription(), sessionMap, userInfo));
+                        
         } catch (Exception e) {
             e.printStackTrace();
             addActionError(e.getMessage());

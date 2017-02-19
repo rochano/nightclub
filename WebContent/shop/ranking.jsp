@@ -67,45 +67,48 @@
 <div class="pusher">
 	<div class="ui segment very basic">
 		<div class="ui centered grid"> 
-			<div class="ten wide column container" id="container">
+			<div class="eleven wide column container" id="container">
 				<%@include file="/common/common_shop_header_info.jsp" %>
 				<div class="ui menu inverted stackable">
 					<a class="toc item"><i class="sidebar icon"></i></a>
 					<%@include file="/common/common_shop_menu.jsp" %>
 				</div>
 				
-				<h4 class="ui top attached header">
-					<s:text name="global.shop_menu_ranking" />
-				</h4>
-				<div class="ui centered grid attached segment">
-					<div class="column one center aligned">
-						<div class="ui horizontal items">
-							<s:iterator value="hmRanking.ranking" status="status">
-							<div class="item">
-								<div class="image ui small">
-									<img class="image ui centered" src="<s:property value="pic1" />">
-								</div>
-								<div class="content">
-									<div class="header">
-										<a href="<s:url value="/shop/%{shopCode}/girls/%{code}"/>" class="ui labeled"><s:property value="nickName" /></a>
+				<div class="ui segment">
+					<h2 class="ui top header">
+						<i class="heart icon pink"></i>
+						<div class="content"><s:text name="global.shop_menu_ranking" /></div>
+					</h2>
+					<div class="ui centered grid attached segment">
+						<div class="column one center aligned">
+							<div class="ui horizontal items">
+								<s:iterator value="hmRanking.ranking" status="status">
+								<div class="item">
+									<div class="image ui small">
+										<img class="image ui centered" src="<s:property value="pic1" />">
 									</div>
-									<div class="meta"><span class="age"><s:text name="global.shop_girl_age" />: <s:property value="age" /></span></div>
-									<div class="meta">
-										<span class="property">
-											T<s:text name="format.integer"><s:param name="value" value="height"/></s:text>
-											B<s:text name="format.integer"><s:param name="value" value="bustSize"/></s:text>
-											W<s:text name="format.integer"><s:param name="value" value="waistSize"/></s:text>
-											H<s:text name="format.integer"><s:param name="value" value="hipSize"/></s:text>
-										</span>
+									<div class="content">
+										<div class="header">
+											<a href="<s:url value="/shop/%{shopCode}/girls/%{code}"/>" class="ui labeled"><s:property value="nickName" /></a>
+										</div>
+										<div class="meta"><span class="age"><s:text name="global.shop_girl_age" />: <s:property value="age" /></span></div>
+										<div class="meta">
+											<span class="property">
+												T<s:text name="format.integer"><s:param name="value" value="height"/></s:text>
+												B<s:text name="format.integer"><s:param name="value" value="bustSize"/></s:text>
+												W<s:text name="format.integer"><s:param name="value" value="waistSize"/></s:text>
+												H<s:text name="format.integer"><s:param name="value" value="hipSize"/></s:text>
+											</span>
+										</div>
 									</div>
 								</div>
+								</s:iterator>
 							</div>
-							</s:iterator>
 						</div>
 					</div>
-				</div>
-				<div class="ui centered grid stackable three column">
-					<div class="column center aligned">
+
+					<div class="ui centered grid stackable three column">
+						<div class="column center aligned">
 							<table class="ui striped celled table unstackable">
 								<thead>
 									<tr>
@@ -169,6 +172,7 @@
 								</tbody>
 							</table>
 						</div>
+					</div>
 				</div>
 			</div>
 		</div>

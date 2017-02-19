@@ -19,6 +19,9 @@
   .ui.items>.item>.content>.header {
     margin: 0;
   }
+  .gm-style-iw, .gm-style-iw .ui.header, .gm-style-iw .ui.header .sub.header {
+  	color: rgba(0, 0, 0, 0.87);
+  }
   </style>
 
   <!--- Example Javascript -->
@@ -49,19 +52,22 @@
 <div class="pusher">
 	<div class="ui segment very basic">
 		<div class="ui centered grid"> 
-			<div class="ten wide column container" id="container">
+			<div class="eleven wide column container" id="container">
 				<%@include file="/common/common_shop_header_info.jsp" %>
 				<div class="ui menu inverted stackable">
 					<a class="toc item"><i class="sidebar icon"></i></a>
 					<%@include file="/common/common_shop_menu.jsp" %>
 				</div>
 				
-				<h4 class="ui top attached header">
-					<s:text name="global.shop_menu_map" />
-				</h4>
-				<div class="ui centered grid attached segment">
-					<div class="column one left aligned">
-						<div id="map_canvas" style="width: 100%; height: 350px; margin:auto;">
+				<div class="ui segment">
+					<h2 class="ui top header">
+						<i class="marker icon"></i>
+						<div class="content"><s:text name="global.shop_menu_map" /></div>
+					</h2>
+					<div class="ui centered grid attached segment">
+						<div class="column one left aligned">
+							<div id="map_canvas" style="width: 100%; height: 350px; margin:auto;">
+							</div>
 						</div>
 					</div>
 				</div>
@@ -80,7 +86,10 @@
         if (GBrowserIsCompatible()) {
         	var lat = <s:property value="mapInfo.latitude" />;
         	var lng = <s:property value="mapInfo.longitude" />;
-        	var shopName = $("#shop_shopNameEn").val()
+        	var logoImg = '';
+        	<s:if test="%{shop.logoImg != ''}">
+        	logoImg = '<img class="ui mini image centered" src="<s:property value="shop.logoImg" />">';
+			</s:if>
         	var description = "";
         	if($("#mapInfo_description").val()) {
         		var descriptionNewLine = $("#mapInfo_description").val().split(/\r?\n/g);
@@ -95,15 +104,16 @@
             var marker = new GMarker(center);
             
 			
-            var html = '<div class="ui items">' +
-						'<div class="item">' + 
-							'<div class="image ui tiny"><img src="<s:property value="shop.logoImg" />"></div>' +
+            var html = '<h5 class="ui top header">' +
+							logoImg +
 							'<div class="content">' +
-								'<div class="header">' + shopName + '</div>' +
-								'<div class="description">' + description + '</div>' +
+								'<s:property value="shop.shopNameJp" />' +
+								'<div class="sub header">' +
+								'<s:property value="shop.shopNameEn" />' +
+								'</div>' +
 							'</div>' + 
-						'</div>' +
-					'</div>';
+						'</h5>' +
+						'<div class="description">' + description + '</div>';
             GEvent.addListener(marker, "click", function() {
                 marker.openInfoWindowHtml(html);
             });

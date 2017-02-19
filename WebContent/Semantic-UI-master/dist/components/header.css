@@ -728,3 +728,9 @@ a.ui.inverted.grey.header:hover {
 	color: #FF9306;
 	border: none;
 }
+.ui.header {
+	color: #FFFFFF;
+}
+.ui.header .sub.header {
+	color: #CCCCCC;
+}

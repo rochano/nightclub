@@ -12,20 +12,18 @@
   <%@include file="/common/common_shop_management_header.jsp" %>
 
 </head>
-<body>
-<!-- Sidebar Menu -->
-<div class="ui vertical inverted sidebar menu">
-	<%@include file="/common/common_shop_management_menu.jsp" %>
-</div>
+<body class="menu pushable">
+<%@include file="/common/common_shop_management_header_info.jsp" %>
 <div class="pusher">
-<div class="ui segment very basic">
-		<div class="ui centered grid">
-			<div class="eleven wide column container">
-			<%@include file="/common/common_shop_management_header_info.jsp" %>
-			<div class="ui menu inverted brown stackable">
-				<a class="toc item"><i class="sidebar icon"></i></a>
-			<%@include file="/common/common_shop_management_menu.jsp" %>
-			</div>
+<div class="full height">
+<div class="toc">
+	<!-- Sidebar Menu -->
+	<div class="ui inverted vertical menu">
+		<%@include file="/common/common_shop_management_menu.jsp" %>
+	</div>
+</div>
+<div class="article">
+<div class="ui segment very basic container">
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
@@ -37,11 +35,10 @@
 					</div>
 			</div>
 			</div>
-		</div>
-	</div>
-  
+  	</div>
+  	</div>
+  	<%@include file="/common/common_shop_management_footer.jsp" %>  
 </div>
-<%@include file="/common/common_shop_management_footer.jsp" %>  
 </div>
 </body>
 </html>

@@ -21,7 +21,7 @@
 	<!-- <baseURL>/upload/</baseURL> -->
 	<!-- <baseDir>C:\NightClub\upload</baseDir>
 	<baseURL>/NightClub/upload/</baseURL> -->
-	<baseURL>http://res.cloudinary.com/diladfres/image/upload/</baseURL>
+	<baseURL>/NightClub/images/</baseURL>
 	<licenseKey></licenseKey>
 	<licenseName></licenseName>
 	<!--

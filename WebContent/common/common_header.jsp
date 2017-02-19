@@ -57,6 +57,14 @@
   pre {
   	word-wrap: break-word;
   }
+  .ui.table tr th, .ui.structured.celled.table tr th,
+	.ui.sortable.table thead th {
+		background: #333333;
+	}
+	.ui.segment {
+	background: rgba(27, 26, 26, 0.42);
+	color: #CCCCCC;
+}
   </style>
   <script>
   $(document)

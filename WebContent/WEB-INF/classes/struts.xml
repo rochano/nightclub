@@ -27,6 +27,12 @@
 			<result name="success">/home.jsp</result>
 		</action>
 		
+		<action name="news/*"
+			class="com.nightclub.view.FrontEndAction" method="newsInfo">
+			<param name="newsInfoId">{1}</param>
+			<result name="success">/news.jsp</result>
+		</action>
+		
 		<action name="shoplist"
 			class="com.nightclub.view.FrontEndAction" method="shoplistfilter">
 			<param name="categoryCode">karaoke</param>
@@ -160,6 +166,14 @@
 			<result name="success">/shop/todayworking.jsp</result>
 		</action>
 		
+		<action name="*/event/*"
+			class="com.nightclub.view.ShopInfoAction" method="eventInfo">
+			<param name="menu">index</param>
+			<param name="shopCode">{1}</param>
+			<param name="eventInfoId">{2}</param>
+			<result name="success">/shop/event.jsp</result>
+		</action>
+		
 	</package>
 	<package name="management" extends="struts-default" namespace="/management">
 	    
@@ -284,6 +298,7 @@
 			<param name="menu">map</param>
 			<interceptor-ref name="myStack" />
 			<result name="login" type="redirect">/shop/login</result>
+			<result name="input">map.jsp</result>
 			<result name="success" type="redirect">map</result>
 		</action>
 		

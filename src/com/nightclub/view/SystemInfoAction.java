@@ -14,6 +14,7 @@ import com.nightclub.model.GirlInfo;
 import com.nightclub.model.ScheduleInfo;
 import com.nightclub.model.SystemInfo;
 import com.nightclub.model.UserInfo;
+import com.nightclub.util.UploadFileUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class SystemInfoAction extends ActionSupport implements SessionAware {
@@ -58,6 +59,7 @@ public class SystemInfoAction extends ActionSupport implements SessionAware {
 		try {
 			systemInfo.setSystemInfoId(UUID.randomUUID().toString().toUpperCase());
 			systemInfo.setShopInfoId(userInfo.getShopInfoId());
+			systemInfo.setDescription(UploadFileUtils.uploadImageinDescription(systemInfo.getDescription(), sessionMap, userInfo));
 			systemInfoManager.add(this.systemInfo);
 			
 			addActionMessage("You have been successfully inserted");
@@ -74,6 +76,7 @@ public class SystemInfoAction extends ActionSupport implements SessionAware {
 		
 		try {
 			systemInfo.setShopInfoId(userInfo.getShopInfoId());
+			systemInfo.setDescription(UploadFileUtils.uploadImageinDescription(systemInfo.getDescription(), sessionMap, userInfo));systemInfo.setDescription(UploadFileUtils.uploadImageinDescription(systemInfo.getDescription(), sessionMap, userInfo));
 			systemInfoManager.update(this.systemInfo);
 			
 			addActionMessage("You have been successfully updated");

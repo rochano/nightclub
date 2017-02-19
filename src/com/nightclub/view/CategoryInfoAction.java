@@ -4,20 +4,26 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
+
+import org.apache.struts2.interceptor.SessionAware;
 
 import com.nightclub.controller.CategoryInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.CategoryInfo;
 import com.nightclub.model.CategoryZone;
+import com.nightclub.model.UserInfo;
 import com.nightclub.model.ZoneInfo;
+import com.nightclub.util.UploadFileUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class CategoryInfoAction extends ActionSupport {
+public class CategoryInfoAction extends ActionSupport implements SessionAware {
 	
 	private static final long serialVersionUID = 1L;
 	private Logger log_ = Logger.getLogger(this.getClass().getName());
 	
+	private Map<String, Object> sessionMap;
 	private List<CategoryInfo> categoryInfos;
 	private List<ZoneInfo> zoneInfos;
 	private CategoryInfo categoryInfo;
@@ -50,6 +56,7 @@ public class CategoryInfoAction extends ActionSupport {
 
 	public String update() {
 		try {
+			UserInfo userInfo = (UserInfo)sessionMap.get("adminInfo");
 			ZoneInfo zoneInfo;
 			CategoryZone categoryZone;
 			Integer orderNo = 1;
@@ -64,6 +71,7 @@ public class CategoryInfoAction extends ActionSupport {
 				orderNo++;
 				this.categoryInfo.getCategoryZones().add(categoryZone);
 			}
+			this.categoryInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.categoryInfo.getDescription(), sessionMap, userInfo));
 			categoryInfoManager.update(this.categoryInfo);
 			
 			
@@ -154,4 +162,8 @@ public class CategoryInfoAction extends ActionSupport {
 		this.zoneInfos = zoneInfos;
 	}
 
+	@Override
+	public void setSession(Map<String, Object> sessionMap) {
+		this.sessionMap = sessionMap;
+	}
 }

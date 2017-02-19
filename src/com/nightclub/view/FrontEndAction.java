@@ -32,9 +32,11 @@ public class FrontEndAction extends CommonAction {
 	private CategoryInfo[] categoryInfoArray = new CategoryInfo[9];
 	private String categoryCode;
 	private String zoneCode;
+	private String newsInfoId;
 	private List<NewsInfo> newsInfos;
 	private List<GirlInfo> girlInfos;
 	private HomeInfo homeInfo;
+	private NewsInfo newsInfo;
 	private String[] dayOfWeek = new String[7];
 	
 	private CategoryInfoManager categoryInfoManager;
@@ -75,6 +77,23 @@ public class FrontEndAction extends CommonAction {
 		this.newsInfos = newsInfoManager.list();
 		this.girlInfos = girlInfoManager.random();
 		this.homeInfo = homeInfoManager.getHomeInfo("0");
+		
+		return SUCCESS;
+	}
+	
+	public String newsInfo() {
+		getStatisticInfo();
+		
+		this.categoryInfos = categoryInfoManager.list();
+		int count = 0;
+		for(CategoryInfo categoryInfo : this.categoryInfos) {
+			if(count > categoryInfoArray.length) {
+				break;
+			}
+			categoryInfoArray[count] = categoryInfoManager.getCategoryInfo(categoryInfo.getCategoryInfoId());
+			count++;
+		}
+		this.newsInfo = newsInfoManager.getNewsInfo(this.newsInfoId);
 		
 		return SUCCESS;
 	}
@@ -132,6 +151,14 @@ public class FrontEndAction extends CommonAction {
 	public String getZoneCode() {
 		return zoneCode;
 	}
+	
+	public NewsInfo getNewsInfo() {
+		return newsInfo;
+	}
+
+	public String getNewsInfoId() {
+		return newsInfoId;
+	}
 
 	public void setZoneCode(String zoneCode) {
 		this.zoneCode = zoneCode;
@@ -183,6 +210,14 @@ public class FrontEndAction extends CommonAction {
 
 	public void setDayOfWeek(String[] dayOfWeek) {
 		this.dayOfWeek = dayOfWeek;
+	}
+	
+	public void setNewsInfo(NewsInfo newsInfo) {
+		this.newsInfo = newsInfo;
+	}
+
+	public void setNewsInfoId(String newsInfoId) {
+		this.newsInfoId = newsInfoId;
 	}
 	
 }

@@ -150,20 +150,18 @@
   </script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/ckeditor/ckeditor.js"></script>
 </head>
-<body>
-<!-- Sidebar Menu -->
-<div class="ui vertical inverted sidebar menu">
-	<%@include file="/common/common_shop_management_menu.jsp" %>
-</div>
+<body class="menu pushable">
+<%@include file="/common/common_shop_management_header_info.jsp" %>
 <div class="pusher">
-	<div class="ui segment very basic">
-		<div class="ui centered grid">
-			<div class="eleven wide column container">
-			<%@include file="/common/common_shop_management_header_info.jsp" %>
-			<div class="ui menu inverted brown stackable">
-				<a class="toc item"><i class="sidebar icon"></i></a>
-			<%@include file="/common/common_shop_management_menu.jsp" %>
-			</div>
+<div class="full height">
+<div class="toc">
+	<!-- Sidebar Menu -->
+	<div class="ui inverted vertical menu">
+		<%@include file="/common/common_shop_management_menu.jsp" %>
+	</div>
+</div>
+<div class="article">
+<div class="ui segment very basic container">
 			<s:if test="hasActionMessages()">
 				<div class="ui success message green inverted">
 					<i class="close icon"></i>
@@ -218,7 +216,7 @@
 										</button> -->
 										<label for="filelogoImg" class="ui basic button">
 											<i class="icon upload"></i>
-											  Upload
+										  	Upload
 										</label>
 									    <input type="file" id="filelogoImg" style="display:none">
 									</div>
@@ -240,7 +238,7 @@
 										</button> -->
 										<label for="fileshopImg" class="ui basic button">
 											<i class="icon upload"></i>
-											  Upload
+										  	Upload
 										</label>
 									    <input type="file" id="fileshopImg" style="display:none">
 									</div>
@@ -248,6 +246,15 @@
 								<s:hidden name="shopImageFileName"></s:hidden>
 							</div>
 						</div>
+						<div class="inline field">
+							<label>Cusom URL</label>
+							<div class="ui checkbox"><s:checkbox name="basicInfo.chkCustomUrl" label="" /></div>
+							<s:textfield name="basicInfo.customUrl" size="50" />
+						</div>
+						<h4 class="ui horizontal divider header">
+							<i class="home icon"></i>
+							Address information
+						</h4>
 						<div class="two fields">
 							<div class="inline field">
 								<s:textfield name="basicInfo.address" label="Address"/>
@@ -264,8 +271,7 @@
 						</div>
 						<div class="two fields">
 							<div class="inline field">
-								<s:select list="#{'taniya':'Bangkok'}"
-									headerKey="" headerValue="-"
+								<s:select list="#{'bkk':'Bangkok'}"
 									label="Province" 
 									cssClass="ui search dropdown" 
 									name="basicInfo.province">
@@ -286,32 +292,45 @@
 						<div class="inline field">
 							<s:textfield name="basicInfo.email" label="Email address"/>
 						</div>
-						<div class="inline field">
-							<s:select list="#{0:'Mon',1:'Tue',2:'Wed',3:'Thu',4:'Fri',5:'Sat',6:'Sun'}"
-								headerKey="" headerValue="-" cssStyle="width: 100px;" size="10"
-								cssClass="ui search dropdown" 
-								label="Work day"
-								name="basicInfo.startDayOfWeek">
-							</s:select>
-							<label>-</label>
-							<s:select list="#{0:'Mon',1:'Tue',2:'Wed',3:'Thu',4:'Fri',5:'Sat',6:'Sun'}"
-								headerKey="" headerValue="-" cssStyle="width: 100px;" size="10"
-								cssClass="ui search dropdown" 
-								name="basicInfo.endDayOfWeek">
-							</s:select>
+						<h4 class="ui horizontal divider header">
+							<i class="calendar icon"></i>
+							Work information
+						</h4>
+						<div class="inline fields">
+							<div class="ui grid stackable">
+								<div class="three wide column"><label>Working day</label></div>
+								<div class="thirteen wide column">
+									<div class="ui grid stackable equal width ">
+										<div class="equal width row">
+											<div class="column"><div class="ui checkbox"><s:checkbox name="basicInfo.workMon" label="Monday" /></div></div>
+											<div class="column"><div class="ui checkbox"><s:checkbox name="basicInfo.workTue" label="Tuesday" /></div></div>
+										</div>
+										<div class="equal width row">
+											<div class="column"><div class="ui checkbox"><s:checkbox name="basicInfo.workWed" label="Wednesday" /></div></div>
+											<div class="column"><div class="ui checkbox"><s:checkbox name="basicInfo.workThu" label="Thursday" /></div></div>
+										</div>
+										<div class="equal width row">	
+											<div class="column"><div class="ui checkbox"><s:checkbox name="basicInfo.workFri" label="Friday" /></div></div>
+											<div class="column"><div class="ui checkbox"><s:checkbox name="basicInfo.workSat" label="Saturday" /></div></div>
+										</div>
+										<div class="equal width row">
+											<div class="column"><div class="ui checkbox"><s:checkbox name="basicInfo.workSun" label="Sunday" /></div></div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="inline field">
 							<s:textfield name="basicInfo.startTime" placeholder="HH:mm" label="Work time" size="6" />
 							<label>-</label>
 							<s:textfield name="basicInfo.endTime" placeholder="HH:mm" size="6" />
 						</div>
+						<h4 class="ui horizontal divider header">
+							<i class="comment icon"></i>
+							Description
+						</h4>
 						<div class="inline field">
-							<label>Cusom URL</label>
-							<div class="ui checkbox"><s:checkbox name="basicInfo.chkCustomUrl" label="" /></div>
-							<s:textfield name="basicInfo.customUrl" size="50" />
-						</div>
-						<div class="inline field">
-							<s:textarea name="basicInfo.description" label="Description"/>
+							<s:textarea name="basicInfo.description" />
 							<script type="text/javascript">
 								CKEDITOR.replace("basicInfo.description", {
 									/*filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
@@ -332,12 +351,10 @@
 					</form>
 				</div>
 			</div>
-			
-		</div>
-	</div>
-  
+  	</div>
+  	</div>
+  	<%@include file="/common/common_shop_management_footer.jsp" %>  
 </div>
-<%@include file="/common/common_shop_management_footer.jsp" %>  
 </div>
 </body>
 </html>

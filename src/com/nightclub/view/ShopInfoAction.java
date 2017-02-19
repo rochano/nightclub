@@ -39,6 +39,8 @@ public class ShopInfoAction extends CommonAction {
 	private HashMap<String, List<GirlInfo>> hmRanking;
 	private List<SystemInfo> systemInfos;
 	private MapInfo mapInfo;
+	private String eventInfoId;
+	private EventInfo eventInfo;
 	
 	private BasicInfoManager basicInfoManager;
 	private EventInfoManager eventInfoManager;
@@ -159,6 +161,14 @@ public class ShopInfoAction extends CommonAction {
 		return SUCCESS;
 	}
 	
+	public String eventInfo() {
+		getStatisticInfo();
+		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
+		this.eventInfo = eventInfoManager.getEventInfo(getEventInfoId());
+		
+		return SUCCESS;
+	}
+	
 	public String getMenu() {
 		return menu;
 	}
@@ -269,6 +279,22 @@ public class ShopInfoAction extends CommonAction {
 
 	public void setScheduleToday(List<ScheduleInfo> scheduleToday) {
 		this.scheduleToday = scheduleToday;
+	}
+
+	public String getEventInfoId() {
+		return eventInfoId;
+	}
+
+	public EventInfo getEventInfo() {
+		return eventInfo;
+	}
+
+	public void setEventInfoId(String eventInfoId) {
+		this.eventInfoId = eventInfoId;
+	}
+
+	public void setEventInfo(EventInfo eventInfo) {
+		this.eventInfo = eventInfo;
 	}
 
 	

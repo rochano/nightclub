@@ -52,20 +52,18 @@
 	}
 </script>
 </head>
-<body>
-<!-- Sidebar Menu -->
-<div class="ui vertical inverted sidebar menu">
-	<%@include file="/common/common_admin_management_menu.jsp" %>
-</div>
+<body class="menu pushable">
+<%@include file="/common/common_admin_management_header_info.jsp" %>
 <div class="pusher">
-<div class="ui segment very basic">
-		<div class="ui centered grid">
-			<div class="eleven wide column container">
-			<%@include file="/common/common_admin_management_header_info.jsp" %>
-			<div class="ui menu inverted brown stackable">
-				<a class="toc item"><i class="sidebar icon"></i></a>
-			<%@include file="/common/common_admin_management_menu.jsp" %>
-			</div>
+<div class="full height">
+<div class="toc">
+	<!-- Sidebar Menu -->
+	<div class="ui inverted vertical menu">
+		<%@include file="/common/common_admin_management_menu.jsp" %>
+	</div>
+</div>
+<div class="article">
+<div class="ui segment very basic container">
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
@@ -75,8 +73,12 @@
 					<div class="column one left aligned">
 						<h2 class="ui header">Welcome to administrator management<h2>
 						<form class="ui form " method="post" action="<s:url value="/admin/home/update"/>" >
+							<h4 class="ui horizontal divider header">
+								<i class="comment icon"></i>
+								Home page content
+							</h4>
 							<div class="inline field">
-								<s:textarea name="homeInfo.description" label="Home page content"/>
+								<s:textarea name="homeInfo.description" />
 								<script type="text/javascript">
 									CKEDITOR.replace("homeInfo.description", {
 										/*filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
@@ -88,8 +90,12 @@
 									});
 								</script>
 							</div>
+							<h4 class="ui horizontal divider header">
+								<i class="comment icon"></i>
+								Home page content 2
+							</h4>
 							<div class="inline field">
-								<s:textarea name="homeInfo.description2" label="Home page content 2"/>
+								<s:textarea name="homeInfo.description2" />
 								<script type="text/javascript">
 									CKEDITOR.replace("homeInfo.description2", {
 										/* filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
@@ -110,10 +116,10 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
+  	</div>
   	</div>
   	<%@include file="/common/common_admin_management_footer.jsp" %>  
-</div> 
+</div>
+</div>
 </body>
 </html>

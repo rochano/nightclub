@@ -1,19 +1,25 @@
 package com.nightclub.view;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
+
+import org.apache.struts2.interceptor.SessionAware;
 
 import com.nightclub.controller.NewsInfoManager;
 import com.nightclub.model.NewsInfo;
 import com.nightclub.model.NewsSearch;
+import com.nightclub.model.UserInfo;
+import com.nightclub.util.UploadFileUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class NewsInfoAction extends ActionSupport {
+public class NewsInfoAction extends ActionSupport implements SessionAware {
 	
 	private static final long serialVersionUID = 1L;
 	Logger log_ = Logger.getLogger(this.getClass().getName());
 	
+	private Map<String, Object> sessionMap;
 	private List<NewsInfo> newsInfos;
 	private NewsInfo newsInfo;
 	private NewsSearch newsSearch;
@@ -45,8 +51,9 @@ public class NewsInfoAction extends ActionSupport {
 
 	public String add() {
 		try {
+			UserInfo userInfo = (UserInfo)sessionMap.get("adminInfo");
 			newsInfo.setNewsInfoId(UUID.randomUUID().toString().toUpperCase());
-			
+			newsInfo.setDescription(UploadFileUtils.uploadImageinDescription(newsInfo.getDescription(), sessionMap, userInfo));
 			newsInfoManager.add(this.newsInfo);
 			
 			addActionMessage("You have been successfully inserted");
@@ -60,6 +67,8 @@ public class NewsInfoAction extends ActionSupport {
 	
 	public String update() {
 		try {
+			UserInfo userInfo = (UserInfo)sessionMap.get("adminInfo");
+			newsInfo.setDescription(UploadFileUtils.uploadImageinDescription(newsInfo.getDescription(), sessionMap, userInfo));
 			newsInfoManager.update(this.newsInfo);
 			
 			addActionMessage("You have been successfully updated");
@@ -144,5 +153,10 @@ public class NewsInfoAction extends ActionSupport {
 
 	public void setNewsSearch(NewsSearch newsSearch) {
 		this.newsSearch = newsSearch;
+	}
+	
+	@Override
+	public void setSession(Map<String, Object> sessionMap) {
+		this.sessionMap = sessionMap;
 	}
 }

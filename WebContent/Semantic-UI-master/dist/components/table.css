@@ -1093,4 +1093,18 @@
 /*******************************
          Site Overrides
 *******************************/
+.ui.table, .ui.table tr th,
+.ui.structured.celled.table tr th, 
+.ui.structured.celled.table tr td,
+.ui.sortable.table thead th,
+.ui.definition.table tr td:first-child {
+	background: inherit;
+	color: #FFFFFF;
+}
 
+.ui.table, .ui.table thead th, 
+.ui.structured.celled.table tr:nth-child(odd) th, 
+.ui.structured.celled.table tr:nth-child(odd) td {
+	border-top-color: #CCCCCC;
+	border-bottom-color: #CCCCCC;
+}

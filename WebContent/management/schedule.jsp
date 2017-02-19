@@ -123,21 +123,18 @@
   ;
   </script>
 </head>
-<body>
-
-<!-- Sidebar Menu -->
-<div class="ui vertical inverted sidebar menu">
-	<%@include file="/common/common_shop_management_menu.jsp" %>
-</div>
+<body class="menu pushable">
+<%@include file="/common/common_shop_management_header_info.jsp" %>
 <div class="pusher">
-	<div class="ui segment very basic">
-		<div class="ui centered grid">
-			<div class="eleven wide column container">
-			<%@include file="/common/common_shop_management_header_info.jsp" %>
-			<div class="ui menu inverted brown stackable">
-				<a class="toc item"><i class="sidebar icon"></i></a>
-			<%@include file="/common/common_shop_management_menu.jsp" %>
-			</div>
+<div class="full height">
+<div class="toc">
+	<!-- Sidebar Menu -->
+	<div class="ui inverted vertical menu">
+		<%@include file="/common/common_shop_management_menu.jsp" %>
+	</div>
+</div>
+<div class="article">
+<div class="ui segment very basic container">
 			<s:if test="hasActionMessages()">
 				<div class="ui success message green inverted">
 					<i class="close icon"></i>
@@ -156,27 +153,35 @@
 						<div class="inline field">
 							<s:textfield name="scheduleSearch.girlCode" label="Girl Code"/>
 						</div>
-						<div class="inline field">
-							<label>Working day</label>
-							<div class="ui grid">
-								<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workMon" label="Monday" /></div></div>
-								<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workTue" label="Tuesday" /></div></div>
-								<div class="three column row"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workWed" label="Wednesday" /></div></div>
-								<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workThu" label="Thursday" /></div></div>
-								<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workFri" label="Friday" /></div></div>
-								<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workSat" label="Saturday" /></div></div>
-								<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workSun" label="Sunday" /></div></div>
+						<div class="inline fields">
+							<div class="ui grid stackable">
+								<div class="three wide column"><label>Working day</label></div>
+								<div class="thirteen wide column">
+									<div class="ui grid stackable equal width ">
+										<div class="equal width row">
+											<div class="column"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workMon" label="Monday" /></div></div>
+											<div class="column"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workTue" label="Tuesday" /></div></div>
+										</div>
+										<div class="equal width row">
+											<div class="column"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workWed" label="Wednesday" /></div></div>
+											<div class="column"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workThu" label="Thursday" /></div></div>
+										</div>
+										<div class="equal width row">	
+											<div class="column"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workFri" label="Friday" /></div></div>
+											<div class="column"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workSat" label="Saturday" /></div></div>
+										</div>
+										<div class="equal width row">
+											<div class="column"><div class="ui checkbox"><s:checkbox name="scheduleSearch.workSun" label="Sunday" /></div></div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
-						<div class="inline fields">
+						<div class="inline field">
 							<label>Time</label>
-							<div class="field">
-								<s:textfield name="scheduleSearch.startTime" placeholder="HH:mm" />
-							</div>
+							<s:textfield name="scheduleSearch.startTime" placeholder="HH:mm" size="6" />
 							<label>-</label>
-							<div class="field">
-								<s:textfield name="scheduleSearch.endTime" placeholder="HH:mm" />
-							</div>
+							<s:textfield name="scheduleSearch.endTime" placeholder="HH:mm" size="6" />
 						</div>
 						<div class="ui error message"></div>
 						<div class="ui right aligned one column grid">
@@ -274,10 +279,10 @@
 					</div>
 					</div>
 				</div>
-			</div>
-		</div>
-	</div>
-<%@include file="/common/common_shop_management_footer.jsp" %>  
+  	</div>
+  	</div>
+  	<%@include file="/common/common_shop_management_footer.jsp" %>  
+</div>
 </div>
 
 <div class="ui modal">
@@ -303,27 +308,35 @@
 				</div>
 			</div>
 		</div>
-		<div class="inline field">
-			<label>Working day</label>
-			<div class="ui grid">
-				<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workMon" label="Monday" /></div></div>
-				<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workTue" label="Tuesday" /></div></div>
-				<div class="three column row"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workWed" label="Wednesday" /></div></div>
-				<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workThu" label="Thursday" /></div></div>
-				<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workFri" label="Friday" /></div></div>
-				<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workSat" label="Saturday" /></div></div>
-				<div class="two column row"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workSun" label="Sunday" /></div></div>
+		<div class="inline fields">
+			<div class="ui grid stackable">
+				<div class="three wide column"><label>Working day</label></div>
+				<div class="thirteen wide column">
+					<div class="ui grid stackable equal width ">
+						<div class="equal width row">
+							<div class="column"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workMon" label="Monday" /></div></div>
+							<div class="column"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workTue" label="Tuesday" /></div></div>
+						</div>
+						<div class="equal width row">
+							<div class="column"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workWed" label="Wednesday" /></div></div>
+							<div class="column"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workThu" label="Thursday" /></div></div>
+						</div>
+						<div class="equal width row">	
+							<div class="column"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workFri" label="Friday" /></div></div>
+							<div class="column"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workSat" label="Saturday" /></div></div>
+						</div>
+						<div class="equal width row">
+							<div class="column"><div class="ui checkbox"><s:checkbox name="scheduleInfo.workSun" label="Sunday" /></div></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="inline fields">
+		<div class="inline field">
 			<label>Time</label>
-			<div class="field">
-				<s:textfield name="scheduleInfo.startTime" placeholder="HH:mm" size="6" />
-			</div>
+			<s:textfield name="scheduleInfo.startTime" placeholder="HH:mm" size="6" />
 			<label>-</label>
-			<div class="field">
-				<s:textfield name="scheduleInfo.endTime" placeholder="HH:mm" size="6" />
-			</div>
+			<s:textfield name="scheduleInfo.endTime" placeholder="HH:mm" size="6" />
 		</div>
 		<s:hidden name="action" value="update"></s:hidden>
 		<s:hidden name="scheduleInfo.scheduleInfoId"></s:hidden>

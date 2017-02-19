@@ -761,6 +761,13 @@
 /* .ui.segment:not(.soft) {
 	background: #e7e7e7;
 } */
-.pusher > .ui.segment {
-	background: #373534;
+.pusher > .ui.segment, .ui.segment > .ui.segment {
+	background: inherit;
+}
+.ui.attached.segment {
+	border-bottom: 1px solid #000;
+}
+
+.ui.breadcrumb .divider {
+	color: #FFFFFF;
 }

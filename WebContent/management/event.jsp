@@ -134,20 +134,18 @@
 	}
 </script>
 </head>
-<body>
-<!-- Sidebar Menu -->
-<div class="ui vertical inverted sidebar menu">
-	<%@include file="/common/common_shop_management_menu.jsp" %>
-</div>
+<body class="menu pushable">
+<%@include file="/common/common_shop_management_header_info.jsp" %>
 <div class="pusher">
-	<div class="ui segment very basic">
-		<div class="ui centered grid">
-			<div class="eleven wide column container">
-			<%@include file="/common/common_shop_management_header_info.jsp" %>
-			<div class="ui menu inverted brown stackable">
-				<a class="toc item"><i class="sidebar icon"></i></a>
-			<%@include file="/common/common_shop_management_menu.jsp" %>
-			</div>
+<div class="full height">
+<div class="toc">
+	<!-- Sidebar Menu -->
+	<div class="ui inverted vertical menu">
+		<%@include file="/common/common_shop_management_menu.jsp" %>
+	</div>
+</div>
+<div class="article">
+<div class="ui segment very basic container">
 			<s:if test="hasActionMessages()">
 				<div class="ui success message green inverted">
 					<i class="close icon"></i>
@@ -226,10 +224,10 @@
 					</div>
 				</div>
 				</div>
-			</div>
-		</div>
-	</div>
-<%@include file="/common/common_shop_management_footer.jsp" %>  
+  	</div>
+  	</div>
+  	<%@include file="/common/common_shop_management_footer.jsp" %>  
+</div>
 </div>
 
 <div class="ui modal">
@@ -248,8 +246,12 @@
 		<div class="inline field">
 			<s:textfield name="eventInfo.eventTime" placeholder="HH:mm" label="Time"/>
 		</div>
+		<h4 class="ui horizontal divider header">
+			<i class="comment icon"></i>
+			Description
+		</h4>		
 		<div class="inline field">
-			<s:textarea name="eventInfo.description" label="Description"/>
+			<s:textarea name="eventInfo.description" />
 		</div>
 		<s:hidden name="action" value="update"></s:hidden>
 		<s:hidden name="eventInfo.eventInfoId"></s:hidden>
@@ -263,12 +265,12 @@
 </div>
 <script type="text/javascript">
 	CKEDITOR.replace("eventInfo.description", {
-		filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
+		/*filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
 		filebrowserImageBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Images',
-		filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',
+		filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',*/
 		filebrowserUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
-		filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
-		filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
+		/*filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
+		filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'*/
 	});
 </script>
 </body>

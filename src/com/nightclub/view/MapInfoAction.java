@@ -1,5 +1,6 @@
 package com.nightclub.view;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -12,6 +13,7 @@ import com.nightclub.controller.UserInfoManager;
 import com.nightclub.model.BasicInfo;
 import com.nightclub.model.MapInfo;
 import com.nightclub.model.UserInfo;
+import com.nightclub.util.UploadFileUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class MapInfoAction extends ActionSupport implements SessionAware {
@@ -43,28 +45,35 @@ public class MapInfoAction extends ActionSupport implements SessionAware {
 	}
 	
 	public String update() {
-		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
-		this.basicInfo = basicInfoManager.getBasicInfo(userInfo.getShopInfoId());
-		this.mapInfo.setShopInfoId(userInfo.getShopInfoId());
-		
-		if(mapInfoManager.getMapInfo(userInfo.getShopInfoId()) != null) {
+		try {
+			UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
+			this.basicInfo = basicInfoManager.getBasicInfo(userInfo.getShopInfoId());
 			this.mapInfo.setShopInfoId(userInfo.getShopInfoId());
-			this.mapInfo = mapInfoManager.update(this.mapInfo);
-		} else {
-			if(userInfo.getShopInfoId() != null) {
+			this.mapInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.mapInfo.getDescription(), sessionMap, userInfo));
+			
+			if(mapInfoManager.getMapInfo(userInfo.getShopInfoId()) != null) {
 				this.mapInfo.setShopInfoId(userInfo.getShopInfoId());
+				this.mapInfo = mapInfoManager.update(this.mapInfo);
 			} else {
-				this.mapInfo.setShopInfoId(UUID.randomUUID().toString().toUpperCase());
-				userInfo.setShopInfoId(this.mapInfo.getShopInfoId());
-				userInfo = userInfoManager.update(userInfo);
+				if(userInfo.getShopInfoId() != null) {
+					this.mapInfo.setShopInfoId(userInfo.getShopInfoId());
+				} else {
+					this.mapInfo.setShopInfoId(UUID.randomUUID().toString().toUpperCase());
+					userInfo.setShopInfoId(this.mapInfo.getShopInfoId());
+					userInfo = userInfoManager.update(userInfo);
+				}
+				
+				this.mapInfo = mapInfoManager.add(this.mapInfo);
 			}
 			
-			this.mapInfo = mapInfoManager.add(this.mapInfo);
+			addActionMessage("You have been successfully updated");
+			
+			return SUCCESS;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return INPUT;
 		}
-		
-		addActionMessage("You have been successfully updated");
-		
-		return SUCCESS;
 	}
 	
 	public String getMenu() {

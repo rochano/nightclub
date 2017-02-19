@@ -145,20 +145,18 @@
 	}
 </script>
 </head>
-<body>
-<!-- Sidebar Menu -->
-<div class="ui vertical inverted sidebar menu">
-	<%@include file="/common/common_admin_management_menu.jsp" %>
-</div>
+<body class="menu pushable">
+<%@include file="/common/common_admin_management_header_info.jsp" %>
 <div class="pusher">
-<div class="ui segment very basic">
-		<div class="ui centered grid">
-			<div class="eleven wide column container">
-			<%@include file="/common/common_admin_management_header_info.jsp" %>
-			<div class="ui menu inverted brown stackable">
-				<a class="toc item"><i class="sidebar icon"></i></a>
-			<%@include file="/common/common_admin_management_menu.jsp" %>
-			</div>
+<div class="full height">
+<div class="toc">
+	<!-- Sidebar Menu -->
+	<div class="ui inverted vertical menu">
+		<%@include file="/common/common_admin_management_menu.jsp" %>
+	</div>
+</div>
+<div class="article">
+<div class="ui segment very basic container">
 			<s:if test="hasActionMessages()">
 				<div class="ui success message green inverted">
 					<i class="close icon"></i>
@@ -201,10 +199,10 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		</div>
-	</div>
-	<%@include file="/common/common_admin_management_footer.jsp" %> 
+  	</div>
+  	</div>
+  	<%@include file="/common/common_admin_management_footer.jsp" %>  
+</div>
 </div>
 
 <div class="ui modal">
@@ -223,34 +221,43 @@
 		<div class="inline field">
 			<s:textfield name="categoryInfo.categoryNameEn" label="English name" />
 		</div>
-		<div class="inline field">
-			<label class="label">Zone:</label>
-			<div class="ui left icon input">
-				<div class="ui feed">
-					<div class="event">
-						<div class="ui left icon action input">
-							<s:if test="zonelist.size() > 0 ">
-								<s:set name="zoneValue" value="zonelist.get(0)" />
-							</s:if>
-							<s:select value="#zoneValue" name="zonelist" list="zoneInfos" cssClass="ui search dropdown" listKey="zoneInfoId" listValue="zoneCode"></s:select>
-							<button class="icon ui button" id="add-zone-btn" type="button"><i class="plus icon"></i></button>
+		<div class="two fields">
+			<div class="inline fields">
+				<label class="label">Zone:</label>
+				<div class="ui left icon input">
+					<div class="ui feed">
+						<div class="event">
+							<div class="ui left icon action input">
+								<s:if test="zonelist.size() > 0 ">
+									<s:set name="zoneValue" value="zonelist.get(0)" />
+								</s:if>
+								<s:select value="#zoneValue" name="zonelist" list="zoneInfos" cssClass="ui search dropdown" listKey="zoneInfoId" listValue="zoneCode"></s:select>
+								<button class="icon ui button" id="add-zone-btn" type="button"><i class="plus icon"></i></button>
+							</div>
 						</div>
-					</div>
-					<s:if test="zonelist.size() > 1 ">
-					<s:iterator value="zonelist" begin="1" var="zone">
-					<div class="event">
-						<div class="ui left icon action input">
-							<s:select value="zone" name="zonelist" list="zoneInfos" cssClass="ui search dropdown" listKey="zoneInfoId" listValue="zoneCode"></s:select>
-							<button class="icon ui button remove-zone-btn" type="button"><i class="minus icon"></i></button>
+						<s:if test="zonelist.size() > 1 ">
+						<s:iterator value="zonelist" begin="1" var="zone">
+						<div class="event">
+							<div class="ui left icon action input">
+								<s:select value="zone" name="zonelist" list="zoneInfos" cssClass="ui search dropdown" listKey="zoneInfoId" listValue="zoneCode"></s:select>
+								<button class="icon ui button remove-zone-btn" type="button"><i class="minus icon"></i></button>
+							</div>
 						</div>
+						</s:iterator>
+						</s:if>
 					</div>
-					</s:iterator>
-					</s:if>
 				</div>
 			</div>
+			<div class="inline field">
+				<div class="ui checkbox"><s:checkbox name="categoryInfo.hideZoneFlag" label="Hide Zone" /></div>
+			</div>
 		</div>
+		<h4 class="ui horizontal divider header">
+			<i class="comment icon"></i>
+			Description
+		</h4>
 		<div class="inline field">
-			<s:textarea name="categoryInfo.description" label="Description"/>
+			<s:textarea name="categoryInfo.description" />
 		</div>
 		<s:hidden name="action" value="update"></s:hidden>
 		<s:hidden name="categoryInfo.categoryInfoId"></s:hidden>
@@ -264,12 +271,12 @@
 </div>
 <script type="text/javascript">
 	CKEDITOR.replace("categoryInfo.description", {
-		filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
+		/*filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
 		filebrowserImageBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Images',
-		filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',
-		filebrowserUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
+		filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',*/
+		filebrowserUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files'/*,
 		filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
-		filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
+		filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash' */
 	});
 </script>
 </body>

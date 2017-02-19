@@ -12,8 +12,12 @@
   <%@include file="/common/common_shop_management_header.jsp" %>
   <script src="<s:url value="/assets/library/jquery.form.js"/>"></script>
   <script src="<s:url value="/assets/library/fileUploadScript.js"/>"></script>
- <script type="text/javascript" src="${pageContext.request.contextPath }/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath }/ckfinder/ckfinder.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath }/ckeditor/ckeditor.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath }/ckfinder/ckfinder.js"></script>
+  <script src="<s:url value="/assets/library/jquery.ui.widget.js"/>"></script>
+  <script src="<s:url value="/assets/library/jquery.fileupload.js"/>"></script>
+  <script src="<s:url value="/assets/library/jquery.fileupload-process.js"/>"></script>
+  <script src="<s:url value="/assets/library/jquery.fileupload-ui.js"/>"></script>
 <script type="text/javascript">
 	function BrowseServer(startupPath,functionData){
 		var finder = new CKFinder();
@@ -100,10 +104,16 @@
 		  $('#infoForm').find("input[type=text], textarea").val("");
 		  $('#infoForm')[0].action.value = "add";
 		  $('#infoForm')[0].action = "<s:url value="/management/girl/add"/>";
-		  $('#infoForm').find(".ui.grid .ui.image .ui.image").remove();
-		  for(var i in relateUploadField) {
-			  $("#" + relateUploadField[i]).val("");
-		  }
+		  $("#pic1").empty();
+		  $("#pic2").empty();
+		  $("#pic3").empty();
+		  $("#pic4").empty();
+		  $("#pic5").empty();
+		  $("#pic1FileName").val("");
+		  $("#pic2FileName").val("");
+		  $("#pic3FileName").val("");
+		  $("#pic4FileName").val("");
+		  $("#pic5FileName").val("");
           $('.ui.modal')
 		    .modal('show')
 		  ;
@@ -208,31 +218,123 @@
 	  $("body > .ui.dimmer.modals").addClass("scrolling");
 	  $("body > .ui.dimmer.modals > .ui.modal").addClass("scrolling");
 	  </s:if>
-    })
+
+	  $('#filePic1').fileupload({
+			url: '<s:url value="/UploadFileServlet"/>',
+			dataType: 'json',
+			add: function (e, data) {
+				data.submit();
+			},
+	        success:function(response,status) {
+		        console.log(arguments)
+				console.log(response.fileName);
+		        var fileName = response.fileName;
+				var filePath = response.path;
+				var image = "<img src='" + filePath + fileName + "' />";
+				$("#pic1").html(image);
+				$('#pic1FileName').val(fileName);
+	        	console.log('success');
+	        },
+	        error:function(error){
+	        	console.log(error);
+	        }
+	  });
+	  $('#filePic2').fileupload({
+			url: '<s:url value="/UploadFileServlet"/>',
+			dataType: 'json',
+			add: function (e, data) {
+				data.submit();
+			},
+	        success:function(response,status) {
+		        console.log(arguments)
+				console.log(response.fileName);
+		        var fileName = response.fileName;
+				var filePath = response.path;
+				var image = "<img src='" + filePath + fileName + "' />";
+				$("#pic2").html(image);
+				$('#pic2FileName').val(fileName);
+	        	console.log('success');
+	        },
+	        error:function(error){
+	        	console.log(error);
+	        }
+	  });
+	  $('#filePic3').fileupload({
+			url: '<s:url value="/UploadFileServlet"/>',
+			dataType: 'json',
+			add: function (e, data) {
+				data.submit();
+			},
+	        success:function(response,status) {
+		        console.log(arguments)
+				console.log(response.fileName);
+		        var fileName = response.fileName;
+				var filePath = response.path;
+				var image = "<img src='" + filePath + fileName + "' />";
+				$("#pic3").html(image);
+				$('#pic3FileName').val(fileName);
+	        	console.log('success');
+	        },
+	        error:function(error){
+	        	console.log(error);
+	        }
+	  });
+	  $('#filePic4').fileupload({
+			url: '<s:url value="/UploadFileServlet"/>',
+			dataType: 'json',
+			add: function (e, data) {
+				data.submit();
+			},
+	        success:function(response,status) {
+		        console.log(arguments)
+				console.log(response.fileName);
+		        var fileName = response.fileName;
+				var filePath = response.path;
+				var image = "<img src='" + filePath + fileName + "' />";
+				$("#pic4").html(image);
+				$('#pic4FileName').val(fileName);
+	        	console.log('success');
+	        },
+	        error:function(error){
+	        	console.log(error);
+	        }
+	  });
+	  $('#filePic5').fileupload({
+			url: '<s:url value="/UploadFileServlet"/>',
+			dataType: 'json',
+			add: function (e, data) {
+				data.submit();
+			},
+	        success:function(response,status) {
+		        console.log(arguments)
+				console.log(response.fileName);
+		        var fileName = response.fileName;
+				var filePath = response.path;
+				var image = "<img src='" + filePath + fileName + "' />";
+				$("#pic5").html(image);
+				$('#pic5FileName').val(fileName);
+	        	console.log('success');
+	        },
+	        error:function(error){
+	        	console.log(error);
+	        }
+	  });
+  })
   ;
-  var relateUploadField = {
-	  pic1 : "pic1FileName",
-	  pic2 : "pic2FileName",
-	  pic3 : "pic3FileName",
-	  pic4 : "pic4FileName",
-	  pic5 : "pic5FileName",
-  }
   </script>
 </head>
-<body>
-<!-- Sidebar Menu -->
-<div class="ui vertical inverted sidebar menu">
-	<%@include file="/common/common_shop_management_menu.jsp" %>
-</div>
+<body class="menu pushable">
+<%@include file="/common/common_shop_management_header_info.jsp" %>
 <div class="pusher">
-	<div class="ui segment very basic">
-		<div class="ui centered grid">
-			<div class="eleven wide column container">
-			<%@include file="/common/common_shop_management_header_info.jsp" %>
-			<div class="ui menu inverted brown stackable">
-				<a class="toc item"><i class="sidebar icon"></i></a>
-			<%@include file="/common/common_shop_management_menu.jsp" %>
-			</div>
+<div class="full height">
+<div class="toc">
+	<!-- Sidebar Menu -->
+	<div class="ui inverted vertical menu">
+		<%@include file="/common/common_shop_management_menu.jsp" %>
+	</div>
+</div>
+<div class="article">
+<div class="ui segment very basic container">
 			<s:if test="hasActionMessages()">
 				<div class="ui success message green inverted">
 					<i class="close icon"></i>
@@ -326,10 +428,10 @@
 					</div>
 				</div>
 				</div>
-			</div>
-		</div>
-	</div>
-<%@include file="/common/common_shop_management_footer.jsp" %>  
+  	</div>
+  	</div>
+  	<%@include file="/common/common_shop_management_footer.jsp" %>  
+</div>
 </div>
 
 <div class="ui modal">
@@ -375,12 +477,6 @@
 		<div class="inline field">
 			<s:textfield name="girlInfo.ranking" label="Rangking"/>
 		</div>
-		<div class="inline field">
-			<s:textarea name="girlInfo.description" label="Description"/>
-		</div>
-		<div class="inline field">
-			<label>Image Tumbnails</label>
-		</div>
 		<div class="ui grid five column">
 			<div class="image ui small column">
 				<div id="pic1">
@@ -389,10 +485,15 @@
 					</s:if>
 				</div>
 				<div class="ui horizontal divider very basic">
-					<button type="button" class="ui basic button" onclick="BrowseServer('Images:/','pic1')">
+					<!-- <button type="button" class="ui basic button" onclick="BrowseServer('Images:/','pic1')">
 						  <i class="icon upload"></i>
 						  Upload
-					</button>
+					</button> -->
+					<label for="filePic1" class="ui basic button">
+						<i class="icon upload"></i>
+					  	Upload
+					</label>
+					<input type="file" id="filePic1" style="display:none">
 					<s:hidden name="pic1FileName"></s:hidden>
 				</div>
 			</div>
@@ -403,10 +504,15 @@
 					</s:if>
 				</div>
 				<div class="ui horizontal divider very basic">
-					<button type="button" class="ui basic button" onclick="BrowseServer('Images:/','pic2')">
+					<!-- <button type="button" class="ui basic button" onclick="BrowseServer('Images:/','pic2')">
 						  <i class="icon upload"></i>
 						  Upload
-					</button>
+					</button> -->
+					<label for="filePic2" class="ui basic button">
+						<i class="icon upload"></i>
+					  	Upload
+					</label>
+					<input type="file" id="filePic2" style="display:none">
 					<s:hidden name="pic2FileName"></s:hidden>
 				</div>
 			</div>
@@ -417,10 +523,15 @@
 					</s:if>
 				</div>
 				<div class="ui horizontal divider very basic">
-					<button type="button" class="ui basic button" onclick="BrowseServer('Images:/','pic3')">
+					<!-- <button type="button" class="ui basic button" onclick="BrowseServer('Images:/','pic3')">
 						  <i class="icon upload"></i>
 						  Upload
-					</button>
+					</button> -->
+					<label for="filePic3" class="ui basic button">
+						<i class="icon upload"></i>
+					  	Upload
+					</label>
+					<input type="file" id="filePic3" style="display:none">
 					<s:hidden name="pic3FileName"></s:hidden>
 				</div>
 			</div>
@@ -431,10 +542,15 @@
 					</s:if>
 				</div>
 				<div class="ui horizontal divider very basic">
-					<button type="button" class="ui basic button" onclick="BrowseServer('Images:/','pic4')">
+					<!-- <button type="button" class="ui basic button" onclick="BrowseServer('Images:/','pic4')">
 						  <i class="icon upload"></i>
 						  Upload
-					</button>
+					</button> -->
+					<label for="filePic4" class="ui basic button">
+						<i class="icon upload"></i>
+					  	Upload
+					</label>
+					<input type="file" id="filePic4" style="display:none">
 					<s:hidden name="pic4FileName"></s:hidden>
 				</div>
 			</div>
@@ -445,13 +561,25 @@
 					</s:if>
 				</div>
 				<div class="ui horizontal divider very basic">
-					<button type="button" class="ui basic button" onclick="BrowseServer('Images:/','pic5')">
+					<!-- <button type="button" class="ui basic button" onclick="BrowseServer('Images:/','pic5')">
 						  <i class="icon upload"></i>
 						  Upload
-					</button>
+					</button> -->
+					<label for="filePic5" class="ui basic button">
+						<i class="icon upload"></i>
+					  	Upload
+					</label>
+					<input type="file" id="filePic5" style="display:none">
 					<s:hidden name="pic5FileName"></s:hidden>
 				</div>
 			</div>
+		</div>
+		<h4 class="ui horizontal divider header">
+			<i class="comment icon"></i>
+			Description
+		</h4>
+		<div class="inline field">
+			<s:textarea name="girlInfo.description" />
 		</div>
 		<s:hidden name="action" value="update"></s:hidden>
 		<s:hidden name="girlInfo.girlInfoId"></s:hidden>
@@ -466,12 +594,12 @@
 </div>
 <script type="text/javascript">
 	CKEDITOR.replace("girlInfo.description", {
-		filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
+		/*filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
 		filebrowserImageBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Images',
-		filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',
+		filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',*/
 		filebrowserUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
-		filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
-		filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
+		/*filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
+		filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'*/
 	});
 </script>
 </body>

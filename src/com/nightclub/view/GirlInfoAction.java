@@ -1,29 +1,19 @@
 package com.nightclub.view;
 
-import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.nightclub.controller.GirlInfoManager;
-import com.nightclub.model.FileModel;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.UserInfo;
 import com.nightclub.util.ResourceBundleUtil;
 import com.nightclub.util.UploadFileUtils;
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
 
 public class GirlInfoAction extends ActionSupport implements SessionAware {
 	
@@ -78,28 +68,35 @@ public class GirlInfoAction extends ActionSupport implements SessionAware {
 			try {
 	            if(!getPic1FileName().isEmpty()) {
 //	            	this.pic1FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic1FileName);
-		            this.girlInfo.setPic1(this.pic1FileName);
+	            	this.pic1FileName = UploadFileUtils.uploadImageApi(getPic1FileName(), sessionMap, userInfo);
+	            	this.girlInfo.setPic1(this.pic1FileName);
 	            }
 	            
 	            if(!getPic2FileName().isEmpty()) {
 //	            	this.pic2FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic2FileName);
+	            	this.pic2FileName = UploadFileUtils.uploadImageApi(getPic2FileName(), sessionMap, userInfo);
 		            this.girlInfo.setPic2(this.pic2FileName);
 	            }
 	            
 	            if(!getPic3FileName().isEmpty()) {
 //	            	this.pic3FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic3FileName);
+	            	this.pic3FileName = UploadFileUtils.uploadImageApi(getPic3FileName(), sessionMap, userInfo);
 		            this.girlInfo.setPic3(this.pic3FileName);
 	            }
 	            
 	            if(!getPic4FileName().isEmpty()) {
 //	            	this.pic4FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic4FileName);
+	            	this.pic4FileName = UploadFileUtils.uploadImageApi(getPic4FileName(), sessionMap, userInfo);
 		            this.girlInfo.setPic4(this.pic4FileName);
 	            }
 	            
 	            if(!getPic5FileName().isEmpty()) {
 //	            	this.pic5FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic5FileName);
+	            	this.pic5FileName = UploadFileUtils.uploadImageApi(getPic5FileName(), sessionMap, userInfo);
 		            this.girlInfo.setPic5(this.pic5FileName);
 	            }
+	            
+	            this.girlInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.girlInfo.getDescription(), sessionMap, userInfo));
 	            
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -141,6 +138,7 @@ public class GirlInfoAction extends ActionSupport implements SessionAware {
 //            		} else {					
 //            			this.pic1FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic1FileName);
 //            		}
+					this.pic1FileName = UploadFileUtils.uploadImageApi(getPic1FileName(), sessionMap, userInfo);
 					this.girlInfo.setPic1(this.pic1FileName);
 	            } 
 				else if(currentGirlInfo.getPic1() != null && !currentGirlInfo.getPic1().isEmpty()) {
@@ -153,6 +151,7 @@ public class GirlInfoAction extends ActionSupport implements SessionAware {
 //            		} else {					
 //            			this.pic2FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic2FileName);
 //            		}
+	            	this.pic2FileName = UploadFileUtils.uploadImageApi(getPic2FileName(), sessionMap, userInfo);
 		            this.girlInfo.setPic2(this.pic2FileName);
 	            }
 	            else if(currentGirlInfo.getPic2() != null && !currentGirlInfo.getPic2().isEmpty()) {
@@ -165,6 +164,7 @@ public class GirlInfoAction extends ActionSupport implements SessionAware {
 //            		} else {					
 //            			this.pic3FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic3FileName);
 //            		}
+	            	this.pic3FileName = UploadFileUtils.uploadImageApi(getPic3FileName(), sessionMap, userInfo);
 		            this.girlInfo.setPic3(this.pic3FileName);
 	            }
 	            else if(currentGirlInfo.getPic3() != null && !currentGirlInfo.getPic3().isEmpty()) {
@@ -177,6 +177,7 @@ public class GirlInfoAction extends ActionSupport implements SessionAware {
 //            		} else {					
 //            			this.pic4FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic4FileName);
 //            		}
+	            	this.pic4FileName = UploadFileUtils.uploadImageApi(getPic4FileName(), sessionMap, userInfo);
 		            this.girlInfo.setPic4(this.pic4FileName);
 	            }
 	            else if(currentGirlInfo.getPic4() != null && !currentGirlInfo.getPic4().isEmpty()) {
@@ -189,11 +190,14 @@ public class GirlInfoAction extends ActionSupport implements SessionAware {
 //            		} else {					
 //            			this.pic5FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic5FileName);
 //            		}
+	            	this.pic5FileName = UploadFileUtils.uploadImageApi(getPic5FileName(), sessionMap, userInfo);
 		            this.girlInfo.setPic5(this.pic5FileName);
 	            }
 	            else if(currentGirlInfo.getPic5() != null && !currentGirlInfo.getPic5().isEmpty()) {
 	            	this.girlInfo.setPic5(currentGirlInfo.getPic5());
 	            }
+	            
+	            this.girlInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.girlInfo.getDescription(), sessionMap, userInfo));
 	            
 	        } catch (Exception e) {
 	            e.printStackTrace();

@@ -42,107 +42,118 @@
 	<div class="ui segment very basic">
 		
 		<div class="ui centered grid">
-			<div class="ten wide column container" id="container">
+			<div class="eleven wide column container" id="container">
 				<%@include file="/common/common_statistic_info.jsp" %>
 				<%@include file="/common/common_menu.jsp" %>
-  
-				<h4 class="ui top attached header inverted">
-					<i class="info icon"></i> <s:text name="category.categoryNameJp" />
-				</h4>
-				<div class="ui centered grid attached segment">
-					<div class="column one left aligned">
-						<s:text name="category.description" />
+  				<br/>
+  				<div class="ui breadcrumb segment attached inverted">
+					<a class="section" href="<s:url value="/" />" >
+						<s:text name="global.shop_menu_home" />
+					</a>
+					<i class="right chevron icon divider"></i>
+					<div class="active section">カテゴリー</div>
+				</div>
+  				<div class="ui segment attached">
+					<h2 class="ui top header">
+						<i class="bookmark icon yellow"></i>
+						<div class="content"><s:text name="category.categoryNameJp" /></div>
+					</h2>
+					<div class="ui centered grid attached segment">
+						<div class="column one left aligned">
+							<s:text name="category.description" />
+						</div>
 					</div>
 				</div>
 			    
-				<div class="ui centered grid">
-					<div class="column one left aligned overflow">
-						<table id="shoplist" class="ui celled center aligned table structured unstackable orange" style="min-width: 733px;">
-							<thead>
-								<tr>
-									<th rowspan="2"><s:text name="global.shop_list_header_pic" /></th>
-									<th><s:text name="global.shop_list_header_name" /></th>
-									<th><s:text name="global.shop_list_header_price" /></th>
-									<th colspan="2"><s:text name="global.shop_list_header_tel_no" /></th>
-									<th colspan="2"><s:text name="global.shop_list_header_street_view" /></th>
-									<th rowspan="2"><s:text name="global.shop_list_header_news" /></th>
-								</tr>
-								<tr>
-									<th><s:text name="global.shop_list_header_address" /></th>
-									<th><s:text name="global.shop_list_header_service_time" /></th>
-									<th><s:text name="global.shop_list_header_day" /></th>
-									<th><s:text name="global.shop_list_header_time" /></th>
-									<th><s:text name="global.shop_list_header_ranking" /></th>
-									<th><s:text name="global.shop_list_header_all_stuff" /></th>
-								</tr>
-							</thead>
-							<tbody>
-								<s:iterator value="basicInfos">
-								<s:url value="/shop/" var="shopUrl" />
-								<s:set name="system" value="" />
-								<s:set name="ranking" value="" />
-								<s:set name="girl" value="" />
-								<s:set name="target" value="" />
-								<s:if test="active == 'false'">
-									<s:set name="url" value="%{'javascript:void()'}" />
-								</s:if>
-								<s:elseif test="chkCustomUrl == 'true'">
-									<s:set name="url" value="%{'http://' + customUrl}" />
-								</s:elseif>
-								<s:else>
-									<s:set name="url" value="%{#shopUrl + shopCode}" />
-									<s:set name="system" value="%{'/system'}" />
-									<s:set name="ranking" value="%{'/ranking'}" />
-									<s:set name="girls" value="%{'/girls'}" />
-									<s:set name="target" value="%{'target=\"_blank\"'}" />
-								</s:else>
-								<tr>
-									<td class="image" rowspan="2" style="width: 7%;">
-										<img class="ui tiny image centered" src="<s:property value="shopImg" />">
-									</td>
-									<td><a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui header medium"><s:property value="shopNameJp" /></a></td>
-									<td>
-										<s:if test="systemInfo != null" >
-											<a href="<s:property value="%{#url + #system}"/>" <s:property value="%{target}"/> class="ui"><b>
-												<font color="red" size="2">
-													<s:text name="format.integer">
-													<s:param name="value" value="systemInfo.price"/></s:text>
-													&#3647
-												</font></b></a>
-										</s:if>
-									</td>
-									<td colspan="2"><a href="tel:<s:property value="phone" />" class="ui header tiny"><s:property value="phone" /></a></td>
-									<td colspan="2"><a target="_blank" href="http://maps.google.com/maps?q=&layer=c&cbll=<s:property value="mapInfo.latitude" />,<s:property value="mapInfo.longitude" />">ストリートビュー </a></td>
-									<td rowspan="2"><a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui orange button icon"><i class="feed icon"></i></a></td>
-								</tr>
-								<tr>
-									<td><a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui header tiny"><s:property value="address" /></a></td>
-									<td>
-										<s:if test="systemInfo != null" >
-											<s:property value="systemInfo.duration" />分
-										</s:if>
-									</td>
-									<td>
-										<s:if test="startTime != null"><s:property value="dayOfWeek[startDayOfWeek]" /></s:if>
-										-
-										<s:if test="endTime != null"><s:property value="dayOfWeek[endDayOfWeek]" /></s:if>
-									</td>
-									<td><s:property value="startTime" />-<s:property value="endTime" /></td>
-									<td>
-										<s:if test="%{chkCustomUrl != 'true'}">
-										<a href="<s:property value="%{#url + #ranking}"/>" <s:property value="%{target}"/> class="ui">Ranking</a>
-										</s:if>
-									</td>
-									<td>
-										<s:if test="%{chkCustomUrl != 'true'}">
-										<a href="<s:property value="%{#url + #girls}"/>" <s:property value="%{target}"/> class="ui">All Stuff</a>
-										</s:if>
-									</td>
-								</tr>
-								</s:iterator>
-							</tbody>
-						</table>
-					</div>
+				<div class="ui segment attached">
+					<table id="shoplist" class="ui celled center aligned table structured unstackable orange" style="min-width: 733px;">
+						<thead>
+							<tr>
+								<th rowspan="2"><s:text name="global.shop_list_header_pic" /></th>
+								<th><s:text name="global.shop_list_header_name" /></th>
+								<th><s:text name="global.shop_list_header_price" /></th>
+								<th colspan="2"><s:text name="global.shop_list_header_tel_no" /></th>
+								<th colspan="2"><s:text name="global.shop_list_header_street_view" /></th>
+								<th rowspan="2"><s:text name="global.shop_list_header_news" /></th>
+							</tr>
+							<tr>
+								<th><s:text name="global.shop_list_header_address" /></th>
+								<th><s:text name="global.shop_list_header_service_time" /></th>
+								<th><s:text name="global.shop_list_header_day" /></th>
+								<th><s:text name="global.shop_list_header_time" /></th>
+								<th><s:text name="global.shop_list_header_ranking" /></th>
+								<th><s:text name="global.shop_list_header_all_stuff" /></th>
+							</tr>
+						</thead>
+						<tbody>
+							<s:iterator value="basicInfos">
+							<s:url value="/shop/" var="shopUrl" />
+							<s:set name="system" value="" />
+							<s:set name="ranking" value="" />
+							<s:set name="girl" value="" />
+							<s:set name="target" value="" />
+							<s:if test="active == 'false'">
+								<s:set name="url" value="%{'javascript:void()'}" />
+							</s:if>
+							<s:elseif test="chkCustomUrl == 'true'">
+								<s:set name="url" value="%{'http://' + customUrl}" />
+							</s:elseif>
+							<s:else>
+								<s:set name="url" value="%{#shopUrl + shopCode}" />
+								<s:set name="system" value="%{'/system'}" />
+								<s:set name="ranking" value="%{'/ranking'}" />
+								<s:set name="girls" value="%{'/girls'}" />
+								<s:set name="target" value="%{'target=\"_blank\"'}" />
+							</s:else>
+							<tr>
+								<td class="image" rowspan="2" style="width: 7%;">
+									<img class="ui tiny image centered" src="<s:property value="shopImg" />">
+								</td>
+								<td><a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui header medium"><s:property value="shopNameJp" /></a></td>
+								<td>
+									<s:if test="systemInfo != null" >
+										<a href="<s:property value="%{#url + #system}"/>" <s:property value="%{target}"/> class="ui"><b>
+											<font color="red" size="2">
+												<s:text name="format.integer">
+												<s:param name="value" value="systemInfo.price"/></s:text>
+												&#3647
+											</font></b></a>
+									</s:if>
+								</td>
+								<td colspan="2"><a href="tel:<s:property value="phone" />" class="ui header tiny"><s:property value="phone" /></a></td>
+								<td colspan="2"><a target="_blank" href="http://maps.google.com/maps?q=&layer=c&cbll=<s:property value="mapInfo.latitude" />,<s:property value="mapInfo.longitude" />">ストリートビュー </a></td>
+								<td rowspan="2"><a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui orange button icon"><i class="feed icon"></i></a></td>
+							</tr>
+							<tr>
+								<td><a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui header tiny"><s:property value="address" /></a></td>
+								<td>
+									<s:if test="systemInfo != null" >
+										<s:property value="systemInfo.duration" />分
+									</s:if>
+								</td>
+								<td>
+									<s:if test="startTime != null"><s:property value="dayOfWeek[startDayOfWeek]" /></s:if>
+									-
+									<s:if test="endTime != null"><s:property value="dayOfWeek[endDayOfWeek]" /></s:if>
+								</td>
+								<td><s:property value="startTime" />-<s:property value="endTime" /></td>
+								<td>
+									<s:if test="%{chkCustomUrl != 'true'}">
+									<a href="<s:property value="%{#url + #ranking}"/>" <s:property value="%{target}"/> class="ui">Ranking</a>
+									</s:if>
+								</td>
+								<td>
+									<s:if test="%{chkCustomUrl != 'true'}">
+									<a href="<s:property value="%{#url + #girls}"/>" <s:property value="%{target}"/> class="ui">All Stuff</a>
+									</s:if>
+								</td>
+							</tr>
+							</s:iterator>
+							<s:if test="basicInfos.size() == 0" >
+								<tr><td colspan="8">データかありません</td></tr>
+							</s:if>
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>

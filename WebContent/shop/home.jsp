@@ -20,30 +20,37 @@
 <div class="pusher">
 	<div class="ui segment very basic">
 		<div class="ui centered grid">
-			<div class="ten wide column container" id="container">
+			<div class="eleven wide column container" id="container">
 				<%@include file="/common/common_shop_header_info.jsp" %>
 				<div class="ui menu inverted stackable">
 					<a class="toc item"><i class="sidebar icon"></i></a>
 					<%@include file="/common/common_shop_menu.jsp" %>
 				</div>
 				
-				<h4 class="ui top attached header">
-					<s:text name="global.shop_menu_home" />
-				</h4>
-				<div class="ui grid attached segment ">
-					<div class="column one left aligned">
-						<s:text name="shop.description" />
+	  			<div class="ui segment">
+					<h2 class="ui top header">
+						<i class="bookmark icon yellow"></i>
+						<div class="content"><s:text name="global.shop_menu_home" /></div>
+					</h2>
+					<div class="ui grid attached segment ">
+						<div class="column one left aligned">
+							<s:text name="shop.description" />
+						</div>
 					</div>
 				</div>
-				<h4 class="ui top attached header">
-					<s:text name="global.shop_event" />
-				</h4>
-				<div class="ui centered grid attached segment">
-					<div class="column one left aligned">
-						<s:iterator value="eventInfos" status="status">
-							<span>[<s:date name="eventDate" format="dd/MM/yyyy" />&nbsp;<s:property value="eventTime" />]</span>
-							<span><a href="<s:url value="/shop/%{shopCode}/event/%{eventInfoId}"/>"><s:property value="title" /></a></span><br />
-						</s:iterator>
+				
+				<div class="ui segment">
+					<h2 class="ui top header">
+						<i class="newspaper icon"></i>
+						<div class="content"><s:text name="global.shop_event" /></div>
+					</h2>
+					<div class="ui centered grid attached segment">
+						<div class="column one left aligned">
+							<s:iterator value="eventInfos" status="status">
+								<span>[<s:date name="eventDate" format="dd/MM/yyyy" />&nbsp;<s:property value="eventTime" />]</span>
+								<span><a href="<s:url value="/shop/%{shopCode}/event/%{eventInfoId}"/>"><s:property value="title" /></a></span><br />
+							</s:iterator>
+						</div>
 					</div>
 				</div>
 			</div>

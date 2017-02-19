@@ -2,25 +2,15 @@ package com.nightclub.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.Length;
 
 @Entity
@@ -33,6 +23,7 @@ public class CategoryInfo implements Serializable {
 	private String categoryNameEn;
 	private String categoryNameJp;
 	private String description;
+	private String hideZoneFlag;
 	
 	private List<CategoryZone> categoryZones = new ArrayList<CategoryZone>();
 	
@@ -63,6 +54,10 @@ public class CategoryInfo implements Serializable {
 	public List<CategoryZone> getCategoryZones() {
 		return categoryZones;
 	}
+	@Column(name="hide_zone_flag")
+	public String getHideZoneFlag() {
+		return hideZoneFlag;
+	}
 	public void setCategoryInfoId(String categoryInfoId) {
 		this.categoryInfoId = categoryInfoId;
 	}
@@ -80,6 +75,9 @@ public class CategoryInfo implements Serializable {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public void setHideZoneFlag(String hideZoneFlag) {
+		this.hideZoneFlag = hideZoneFlag;
 	}
 	
 }

@@ -39,8 +39,13 @@ public class BasicInfo implements Serializable{
 	private String mobile;
 	private String email;
 	private String description;
-	private BigInteger startDayOfWeek;
-	private BigInteger endDayOfWeek;
+	private String workMon;
+	private String workTue;
+	private String workWed;
+	private String workThu;
+	private String workFri;
+	private String workSat;
+	private String workSun;
 	private String startTime;
 	private String endTime;
 	private String chkCustomUrl;
@@ -132,13 +137,33 @@ public class BasicInfo implements Serializable{
 	public MapInfo getMapInfo() {
 		return mapInfo;
 	}
-	@Column(name="start_day_of_week")
-	public BigInteger getStartDayOfWeek() {
-		return startDayOfWeek;
+	@Column(name="work_mon")
+	public String getWorkMon() {
+		return workMon;
 	}
-	@Column(name="end_day_of_week")
-	public BigInteger getEndDayOfWeek() {
-		return endDayOfWeek;
+	@Column(name="work_tue")
+	public String getWorkTue() {
+		return workTue;
+	}
+	@Column(name="work_wed")
+	public String getWorkWed() {
+		return workWed;
+	}
+	@Column(name="work_thu")
+	public String getWorkThu() {
+		return workThu;
+	}
+	@Column(name="work_fri")
+	public String getWorkFri() {
+		return workFri;
+	}
+	@Column(name="work_sat")
+	public String getWorkSat() {
+		return workSat;
+	}
+	@Column(name="work_sun")
+	public String getWorkSun() {
+		return workSun;
 	}
 	@Column(name="start_time")
 	public String getStartTime() {
@@ -220,11 +245,26 @@ public class BasicInfo implements Serializable{
 	public void setMapInfo(MapInfo mapInfo) {
 		this.mapInfo = mapInfo;
 	}
-	public void setStartDayOfWeek(BigInteger startDayOfWeek) {
-		this.startDayOfWeek = startDayOfWeek;
+	public void setWorkMon(String workMon) {
+		this.workMon = workMon;
 	}
-	public void setEndDayOfWeek(BigInteger endDayOfWeek) {
-		this.endDayOfWeek = endDayOfWeek;
+	public void setWorkTue(String workTue) {
+		this.workTue = workTue;
+	}
+	public void setWorkWed(String workWed) {
+		this.workWed = workWed;
+	}
+	public void setWorkThu(String workThu) {
+		this.workThu = workThu;
+	}
+	public void setWorkFri(String workFri) {
+		this.workFri = workFri;
+	}
+	public void setWorkSat(String workSat) {
+		this.workSat = workSat;
+	}
+	public void setWorkSun(String workSun) {
+		this.workSun = workSun;
 	}
 	public void setStartTime(String startTime) {
 		this.startTime = startTime;

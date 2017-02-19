@@ -1,7 +1,8 @@
   <%@taglib uri="/struts-tags" prefix="s" %>
   
   <%@include file="/common/common_include_header.jsp" %>
-  <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/semantic.min.css"/>">
+  <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI/dist/semantic.min.css"/>">
+  
   
   <style>
    body {
@@ -38,6 +39,34 @@
   .ui.items>.item {
   	margin: 0;
   }
+    .full.height > .toc {
+    position: relative;
+    z-index: 1;
+    background-color: #1b1c1d;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+  }
+  .article {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-width: 0px;
+}
+.pusher > .full.height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+.ui.menu {
+	margin: 0;
+}
   </style>
   <script>
   $(document)

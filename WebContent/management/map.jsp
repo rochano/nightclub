@@ -25,6 +25,9 @@
   .ui.items>.item>.content>.header {
     margin: 0;
   }
+    .gm-style-iw, .gm-style-iw .ui.header, .gm-style-iw .ui.header .sub.header {
+  	color: rgba(0, 0, 0, 0.87);
+  }
   </style>
 
   <!--- Example Javascript -->
@@ -93,20 +96,18 @@
 	}
 </script>
 </head>
-<body>
-<!-- Sidebar Menu -->
-<div class="ui vertical inverted sidebar menu">
-	<%@include file="/common/common_shop_management_menu.jsp" %>
-</div>
+<body class="menu pushable">
+<%@include file="/common/common_shop_management_header_info.jsp" %>
 <div class="pusher">
-	<div class="ui segment very basic">
-		<div class="ui centered grid">
-			<div class="eleven wide column container">
-			<%@include file="/common/common_shop_management_header_info.jsp" %>
-			<div class="ui menu inverted brown stackable">
-				<a class="toc item"><i class="sidebar icon"></i></a>
-			<%@include file="/common/common_shop_management_menu.jsp" %>
-			</div>
+<div class="full height">
+<div class="toc">
+	<!-- Sidebar Menu -->
+	<div class="ui inverted vertical menu">
+		<%@include file="/common/common_shop_management_menu.jsp" %>
+	</div>
+</div>
+<div class="article">
+<div class="ui segment very basic container">
 			<s:if test="hasActionMessages()">
 				<div class="ui success message green inverted">
 					<i class="close icon"></i>
@@ -129,22 +130,26 @@
 						<div class="inline field">
 							<s:textfield name="mapInfo.longitude" label="Longitude"/>
 						</div>
+						<h4 class="ui horizontal divider header">
+							<i class="comment icon"></i>
+							Description
+						</h4>	
 						<div class="inline field">
-							<s:textarea name="mapInfo.description" label="Description"/>
+							<s:textarea name="mapInfo.description" />
 							<script type="text/javascript">
 								CKEDITOR.replace("mapInfo.description", {
-									filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
+									/*filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
 									filebrowserImageBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Images',
-									filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',
+									filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',*/
 									filebrowserUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
-									filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
-									filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'
+									/*filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
+									filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'*/
 								});
 							</script>
 						</div>
 						<div class="ui two column grid">
 							<div class="column">
-								<div class="ui small button orange" onclick="initialize()">Preview</div>
+								<div class="ui small button orange" onclick="initialize(CKEDITOR.instances.mapInfo_description.getData())">Preview</div>
 							</div>
 							<div class="right aligned column">
 								<div class="ui small button submit blue">Submit</div>
@@ -163,26 +168,22 @@
 					</div>
 				</div>
 			</div>
-			</div>
-		</div>
-	</div>
-  	<s:hidden name="basicInfo.shopNameEn" ></s:hidden>
-<%@include file="/common/common_shop_management_footer.jsp" %>  
+  	</div>
+  	</div>
+  	<%@include file="/common/common_shop_management_footer.jsp" %>  
 </div>
+</div>
+
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAKaJQ6galA0QmFhNdQzYuwRQnaT__a1y-hZdnJBN4Ggj_4W3wVRTkKlGxp0EJvRTbiAqcn-FCYSTDog"
         type="text/javascript"></script>
 <script type="text/javascript">
-    function initialize() {
+    function initialize(description) {
         if (GBrowserIsCompatible()) {
         	var lat = 18.490714;
         	var lng = 98.924859;
-        	var shopName = $("#basicInfo_shopNameEn").val();
-        	var description = '' ;
         	var logoImg = '';
         	<s:if test="%{basicInfo.logoImg != ''}">
-        	logoImg = '<div class="image ui tiny">' + 
-        				'<img src="<s:property value="basicInfo.logoImg" />">' + 
-        				'</div>';
+        	logoImg = '<img class="ui mini image centered" src="<s:property value="basicInfo.logoImg" />">';
 			</s:if>
 			if($("#mapInfo_latitude").val()) {
 				lat = $("#mapInfo_latitude").val();
@@ -194,26 +195,21 @@
 			} else {
 				$("#mapInfo_longitude").val(lng)
 			}
-			if($("#mapInfo_description").val()) {
-        		var descriptionNewLine = $("#mapInfo_description").val().split(/\r?\n/g);
-        		$.map(descriptionNewLine, function(val, i) {
-        			description += "<p>" + val + "</p>"
-        		});
-			};
             var center = new GLatLng(lat, lng);
             var map = new GMap2(document.getElementById("map_canvas"));
             map.setCenter(center, 13);
             var marker = new GMarker(center);
 
-            var html = '<div class="ui items">' +
-							'<div class="item">' + 
-								logoImg +
-								'<div class="content">' +
-									'<div class="header">' + shopName + '</div>' +
-									'<div class="description">' + description + '</div>' +
-								'</div>' + 
-							'</div>' +
-						'</div>';
+            var html = '<h5 class="ui top header">' +
+							logoImg +
+							'<div class="content">' +
+								'<s:property value="basicInfo.shopNameJp" />' +
+								'<div class="sub header">' +
+								'<s:property value="basicInfo.shopNameEn" />' +
+								'</div>' +
+							'</div>' + 
+						'</h5>' +
+						'<div class="description">' + description + '</div>';
             GEvent.addListener(marker, "click", function() {
                 marker.openInfoWindowHtml(html);
             });
@@ -224,7 +220,7 @@
 		}
     
     }
-    initialize();
+    initialize($("#mapInfo_description").val());
     window.onunload = GUnload;
 </script>
 </body>

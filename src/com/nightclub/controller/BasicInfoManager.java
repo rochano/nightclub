@@ -66,9 +66,12 @@ public class BasicInfoManager extends HibernateUtil {
 		try {
 			
 			basicInfos = (List<BasicInfo>)session
-					.createQuery("from BasicInfo where categoryCode = :categoryCode and zoneCode = :zoneCode")
+					.createQuery("from BasicInfo where categoryCode = :categoryCode"
+							+ " and zoneCode = :zoneCode"
+							+ " and active = :active ")
 					.setParameter("categoryCode", categoryCode)
 					.setParameter("zoneCode", zoneCode)
+					.setParameter("active", Boolean.TRUE.toString())
 					.list();
 			
 			if(basicInfos != null) {
