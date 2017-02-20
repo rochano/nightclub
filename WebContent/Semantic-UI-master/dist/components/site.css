@@ -27,7 +27,7 @@ body {
   padding: 0px;
   overflow-x: hidden;
   min-width: 320px;
-  background: #f1f1f1;
+  background: #373534 url(../../../assets/images/subtle_carbon.png) repeat fixed;
   font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-size: 12px;
   line-height: 1.4285em;
@@ -120,15 +120,15 @@ a:hover {
 
 /* Site */
 ::-webkit-selection {
-  background-color: #CCE2FF;
+  background-color: #545454;
   color: rgba(0, 0, 0, 0.87);
 }
 ::-moz-selection {
-  background-color: #CCE2FF;
+  background-color: #545454;
   color: rgba(0, 0, 0, 0.87);
 }
 ::selection {
-  background-color: #CCE2FF;
+  background-color: #545454;
   color: rgba(0, 0, 0, 0.87);
 }
 
