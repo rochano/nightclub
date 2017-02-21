@@ -2,6 +2,12 @@
 <style type="text/css">
 	.ui.rail .ui.sticky .ui.segment {background-color: #1b1c1d; color: #FFFFFF;}
 	.ui.rail .ui.segment {background-color: transparent;}
+	@media only screen and (max-width: 767px) {
+		#statistic {display:none;}
+		#container {width: 100% !important;}
+		.ui.grid .ui.stackable.grid {
+			margin-left: auto !important; margin-right: auto !important;}
+	}
 </style>
 <script type="text/javascript">
 $(document)
@@ -13,7 +19,7 @@ $(document)
 	;
 });
 </script>
-<div class="ui attached right rail">
+<div id="statistic" class="ui attached right rail">
 	<div class="ui segment" >
 		<div class="ui sticky">
 			<div class="ui compact segment">

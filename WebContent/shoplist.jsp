@@ -33,6 +33,9 @@
   .ui.table tbody tr:nth-child(4n), .ui.table tbody tr:nth-child(4n-1) {
 	background-color: rgba(0,0,50,.02);
   }
+  @media only screen and (max-width: 767px) {
+  	#shoplist-wrapper {overflow: scroll;}
+  }
   </style>
 </head>
 <body>
@@ -65,7 +68,7 @@
 					</div>
 				</div>
 			    
-				<div class="ui segment attached">
+				<div id="shoplist-wrapper" class="ui segment attached">
 					<table id="shoplist" class="ui celled center aligned table structured unstackable orange" style="min-width: 733px;">
 						<thead>
 							<tr>

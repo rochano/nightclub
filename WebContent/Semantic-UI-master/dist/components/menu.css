@@ -309,6 +309,9 @@
   float: right;
   content: "\f0da";
   margin-left: 1em;
+  position: absolute;
+  top: 25%;
+  right: 6px;
 }
 .ui.vertical.menu .dropdown.item .menu {
   top: 0% !important;
@@ -1980,4 +1983,6 @@ Floated Menu / Item
 /*******************************
          Site Overrides
 *******************************/
-
+.ui.sidebar.menu .item {
+	line-height: 2;
+}

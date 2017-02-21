@@ -44,6 +44,8 @@
   	.ui.menu.toc:not(.vertical) {
   		display: block;
   	}
+  	.ui.inverted.menu .active.item {overflow: auto ;}
+	.ui.inverted.menu .active.item:hover {width: 100%;}
   }
   .ui.menu .dropdown.item .menu {
     background: rgba(27,27,27,1);
@@ -62,9 +64,13 @@
 		background: #333333;
 	}
 	.ui.segment {
-	background: rgba(27, 26, 26, 0.42);
-	color: #CCCCCC;
-}
+		background: rgba(27, 26, 26, 0.42);
+		color: #CCCCCC;
+	}
+	.ui.leaderboard.ad {
+	    max-width: 728px;
+	    width: auto;
+	}
   </style>
   <script>
   $(document)

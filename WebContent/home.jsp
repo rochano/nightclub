@@ -19,10 +19,14 @@
   	padding: 0;
   }
   @media only screen and (max-width: 767px) {
-  .ui.huge.button {
-  	font-size: 1rem;
+	  .ui.huge.button {
+	  	font-size: 1rem;
+	  }
   }
-  }
+  .ui.items > .item {
+	    display: inline-block;
+	    width: auto;
+	}
   </style>
 
   <!--- Example Javascript -->
@@ -67,15 +71,17 @@
 						<i class="heart icon pink"></i>
 						<div class="content">在籍一覧</div>
 					</h2>
-					<div class="ui center grid attached segment soft">
-						<div id="girls" class="ui six column grid centered">
+					<div class="ui centered grid attached segment soft">
+						<div class="column one center aligned">
+							<div class="ui horizontal items">
 							<s:iterator value="girlInfos" status="status">
-								<div class="column">
+								<div class="item">
 									<a href="<s:url value="/shop/%{basicInfo.shopCode}/girls/%{code}"/>" target="_blank" >
 										<img class="image ui small centered" src="<s:property value="pic1" />">
 									</a>
 								</div>
 							</s:iterator>
+							</div>
 						</div>
 					</div>
 				</div>

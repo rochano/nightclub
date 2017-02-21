@@ -57,6 +57,9 @@
   .ui.inverted.menu {
   	background: linear-gradient(#6E6E6E 50%, #2e2e2e 50%);
   }
+  .ui.vertical.inverted.sidebar.menu {
+  	background: #1B1C1D;
+  }
   .ui.table tr th, .ui.structured.celled.table tr th,
 	.ui.sortable.table thead th {
 		background: #333333;
