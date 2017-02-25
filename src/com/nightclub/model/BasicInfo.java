@@ -20,7 +20,7 @@ import org.hibernate.validator.Length;
 
 @Entity
 @Table(name="basic_info")
-public class BasicInfo implements Serializable{
+public class BasicInfo implements Serializable {
 	
 	private static final long serialVersionUID = 7406550732066083106L;
 	
@@ -57,13 +57,45 @@ public class BasicInfo implements Serializable{
 	private MapInfo mapInfo;
 	private SystemInfo systemInfo;
 	
+	public BasicInfo() {}
+	
+	protected BasicInfo(BasicInfo basicInfo) {
+		this.shopInfoId = basicInfo.shopInfoId;
+		this.shopCode = basicInfo.shopCode;
+		this.categoryCode = basicInfo.categoryCode;
+		this.shopNameJp = basicInfo.shopNameJp;
+		this.shopNameEn = basicInfo.shopNameEn;
+		this.zoneCode = basicInfo.zoneCode;
+		this.logoImg = basicInfo.logoImg;
+		this.shopImg = basicInfo.shopImg;
+		this.address = basicInfo.address;
+		this.province = basicInfo.province;
+		this.postcode = basicInfo.postcode;
+		this.phone = basicInfo.phone;
+		this.mobile = basicInfo.mobile;
+		this.email = basicInfo.email;
+		this.description = basicInfo.description;
+		this.workMon = basicInfo.workMon;
+		this.workTue = basicInfo.workTue;
+		this.workWed = basicInfo.workWed;
+		this.workThu = basicInfo.workThu;
+		this.workFri = basicInfo.workFri;
+		this.workSat = basicInfo.workSat;
+		this.workSun = basicInfo.workSun;
+		this.startTime = basicInfo.startTime;
+		this.endTime = basicInfo.endTime;
+		this.chkCustomUrl = basicInfo.chkCustomUrl;
+		this.customUrl = basicInfo.customUrl;
+		this.active = basicInfo.active;
+	}
+	
 	@Id
 	@Column(name="shop_info_id")
 	@Length(max=40)
 	public String getShopInfoId() {
 		return shopInfoId;
 	}
-	@Column(name="shop_code")
+	@Column(name="shop_code", unique=true)
 	public String getShopCode() {
 		return shopCode;
 	}
@@ -283,5 +315,9 @@ public class BasicInfo implements Serializable{
 	}
 	public void setActive(String active) {
 		this.active = active;
+	}
+	
+	public BasicInfo clone() {
+		return new BasicInfo(this);
 	}
 }

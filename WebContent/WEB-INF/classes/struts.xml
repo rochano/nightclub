@@ -8,11 +8,30 @@
 		value="false" />
 	<constant name="struts.devMode" value="false" />
 	<constant name="struts.custom.i18n.resources" value="global_jp,package" />
-	<constant value="/UploadFileServlet*,/ckeditor.*,/ckfinder.*,/assets.*,/Semantic-UI-master.*" name="struts.action.excludePattern"/>
+	<constant value="/UploadFileServlet*,/ckeditor.*,/ckfinder.*,/assets.*,/Semantic-UI-master.*,/slick.*" name="struts.action.excludePattern"/>
 	<constant name="struts.enable.SlashesInActionNames" value="true"/>
 	<constant name="struts.mapper.alwaysSelectFullNamespace" value="false"/>
 	<constant name="struts.multipart.maxSize" value="30000000" />
-	<constant name="struts.action.extension" value="action,bmp,gif,jpeg,jpg,png," />
+	<constant name="struts.action.extension" value="action,bmp,gif,jpeg,jpg,png,json," />
+
+	<!-- Its not a mandatory to set 'Controller' at the end of REST actions -->
+	<constant name="struts.convention.action.suffix" value="Action, Controller" />
+	<constant name="struts.convention.action.mapAllMatches" value="true" />
+	<constant name="struts.convention.default.parent.package" value="rest-default" />
+
+	<!-- package name of REST controllers (only last part of package) -->
+	<constant name="struts.convention.package.locators" value="rest" />
+	
+	<constant name="struts.mapper.class" value="org.apache.struts2.dispatcher.mapper.PrefixBasedActionMapper" />
+	
+	<!-- /api is the namespace of REST calls, second part "nightclub" for Non-REST calls -->
+	<constant name="struts.mapper.prefixMapping" value="/api:rest,:struts"/>
+	
+	<!-- set name space for REST, it should match with "struts.mapper.prefixMapping"-->
+	<constant name="struts.rest.namespace" value="/api" />
+	
+	<!-- Default extension for REST calls -->
+	<constant name="struts.rest.defaultExtension" value="json" />
 	
 	<package name="default" extends="struts-default" namespace="/">
 	    
@@ -608,4 +627,11 @@
 			<result name="success">/admin/news.jsp</result>
 		</action>
 	</package>
+	
+	<package name="api" extends="rest-default" namespace="/api" >
+		<action name="shop/*"
+			class="com.nightclub.rest.ShopController">
+			<param name="id">{1}</param>
+		</action>
+    </package>
 </struts>
