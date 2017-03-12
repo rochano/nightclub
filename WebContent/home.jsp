@@ -19,8 +19,8 @@
   	padding: 0;
   }
   @media only screen and (max-width: 767px) {
-	  .ui.huge.button {
-	  	font-size: 1rem;
+	  .ui.massive.button {
+	  	font-size: 1.2rem;
 	  }
   }
   .ui.items > .item {
@@ -60,8 +60,8 @@
 					</h2>
 					<div class="ui centered grid attached segment">
 						<div class="column center aligned">
-							<a href="<s:url value="/shoplist"/>" class="ui massive button green"><i class="thumbs up icon"></i>YES</a>
-							<a href="#" class="ui massive button red"><i class="thumbs down icon"></i>NO</a>
+							<a href="<s:url value="/shoplist"/>" class="ui massive button green"><i class="checkmark icon"></i>YES</a>
+							<a href="#" class="ui massive button red"><i class="remove icon"></i>NO</a>
 						</div>
 					</div>
 				</div>

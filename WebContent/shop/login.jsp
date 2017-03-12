@@ -15,9 +15,9 @@
     body {
       background-color: #333;
     }
-    /*body > .grid {
-      height: 70%;
-    }*/
+    body > .grid {
+      height: 100%;
+    }
     .image {
       margin-top: -100px;
     }
@@ -83,22 +83,24 @@
   </script>
 </head>
 <body>
-	<div class="ui very basic segment right aligned grid">
-		<div class="right floated column">
-			<a class="ui labeled icon button" href="<s:url value="/admin/login"/>">
-				<i class="sign in icon"></i>
-				Log-in as Administrator
-			</a>
-		</div>
-	</div>
-	<s:if test="hasActionMessages()">
-		<div class="ui small success message">
-			<i class="close icon"></i>
-			<div class="header">
-				<s:actionmessage cssClass="list" />
+	<div class="ui secondary pointing menu stackable fixed">
+		<div class="left menu">
+			<div class="header item">
+				<a class="ui labeled icon button" href="<s:url value="/"/>">
+					<i class="home icon"></i>
+					Home page
+				</a>
 			</div>
 		</div>
-	</s:if>
+		<div class="right menu">
+			<div class="header item">
+				<a class="ui labeled icon button" href="<s:url value="/admin/login"/>">
+					<i class="sign in icon"></i>
+					Log-in as Administrator
+				</a>
+			</div>
+		</div>
+	</div>
 	<div class="ui middle aligned center aligned grid">
 		<div class="column">
 			<div class="ui two column middle aligned very relaxed stackable grid">

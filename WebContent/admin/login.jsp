@@ -74,6 +74,16 @@
   </script>
 </head>
 <body>
+	<div class="ui secondary pointing menu stackable fixed">
+		<div class="left menu">
+			<div class="header item">
+				<a class="ui labeled icon button" href="<s:url value="/shop/login"/>">
+					<i class="long arrow left icon"></i>
+					Shop login
+				</a>
+			</div>
+		</div>
+	</div>
 	<div class="ui middle aligned center aligned grid">
 		<div class="column">
 			<h2 class="ui teal image header">
