@@ -21,6 +21,9 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	private String userType;
 	private String menu;
 	
+	private String oldPassword;
+	private String confirmPassword;
+	
 	private UserInfoManager linkController;
 
 	public UserInfoAction() {
@@ -86,6 +89,30 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
     	
     	return INPUT;
     }
+    
+    public String changePassword() {
+    	if (oldPassword != null && password != null && confirmPassword != null) {
+    		
+    		if(userType.equals("1")) { 
+    			this.userInfo = (UserInfo) sessionMap.get("userInfo");
+    		} else if(userType.equals("2")) { 
+    			this.userInfo = (UserInfo) sessionMap.get("adminInfo");
+    		}
+    		
+    		if(this.userInfo.getPassword().equals(oldPassword)) {
+    			if(password.equals(confirmPassword)) {
+    				linkController.update(this.userInfo);
+    				addActionMessage("Your password have been successfully updated");
+    	    		return SUCCESS;
+    			} else {
+    				addActionError("New password is mismatch."); 
+    			}
+    		} else {
+    			addActionError("Your old password is incorrect."); 
+    		}
+    	}
+    	return INPUT;
+    }
 
 	public UserInfo getUserInfo() {
 		return userInfo;
@@ -130,6 +157,22 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 
 }

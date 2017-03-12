@@ -248,11 +248,21 @@
 		</action>
 		
 		<action name="changepassword"
-			class="net.viralpatel.contact.view.CommonAction" method="execute">
+			class="com.nightclub.view.UserInfoAction" method="execute">
 			<param name="menu">changepassword</param>
 			<interceptor-ref name="myStack" />
 			<result name="login" type="redirect">/shop/login</result>
-			<result name="success">changepassword.jsp</result>
+			<result name="success">/management/changepassword.jsp</result>
+		</action>
+		
+		<action name="changepassword/update"
+			class="com.nightclub.view.UserInfoAction" method="changePassword">
+			<param name="menu">changepassword</param>
+			<param name="userType">1</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/shop/login</result>
+			<result name="input">/management/changepassword.jsp</result>
+			<result name="success">/management/changepassword.jsp</result>
 		</action>
 		
 		<action name="girls"

@@ -49,9 +49,6 @@
       $('.ui.menu .ui.dropdown').dropdown({
         on: 'hover'
       });
-      $('.ui.dropdown')
-      .dropdown()
-    ;
       $('.ui.menu a.item')
         .on('click', function() {
           $(this)

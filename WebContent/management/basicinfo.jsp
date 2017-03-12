@@ -59,9 +59,6 @@
           ;
         })
       ;
-	  $('.ui.dropdown')
-	    .dropdown()
-	  ;
 	  $('.ui.form')
       .form({
           fields: {

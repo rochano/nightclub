@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,7 +16,7 @@
 
   <style>
   body {
-    padding: 1em;
+    /*padding: 1em;*/
   }
   .ui.menu:last-child {
     margin-bottom: 110px;
@@ -29,72 +32,132 @@
 	display: block;
     padding: 1.5em 0em 0em;
   }
+  .ui.form .inline.field>:first-child {
+  	width: 150px;
+  }
   </style>
 
   <!--- Example Javascript -->
   <script>
   $(document)
     .ready(function() {
-      $('.ui.menu .ui.dropdown').dropdown({
-        on: 'hover'
-      });
-      $('.ui.menu a.item')
-        .on('click', function() {
-          $(this)
-            .addClass('active')
-            .siblings()
-            .removeClass('active')
-          ;
+    	$('.ui.form')
+        .form({
+          fields: {
+            oldPassword: {
+              identifier  : 'oldPassword',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your old password.'
+                },
+                {
+                  type   : 'length[6]',
+                  prompt : 'Your password must be at least 6 characters.'
+                }
+              ]
+            },
+            password: {
+              identifier  : 'password',
+              rules: [
+                {
+                  type   : 'empty',
+                  prompt : 'Please enter your new password.'
+                },
+                {
+                  type   : 'length[6]',
+                  prompt : 'Your password must be at least 6 characters.'
+                }
+              ]
+            },
+            confirmPassword: {
+                identifier  : 'confirmPassword',
+                rules: [
+                  {
+                    type   : 'empty',
+                    prompt : 'Please enter your confirm password.'
+                  },
+                  {
+                    type   : 'length[6]',
+                    prompt : 'Your password must be at least 6 characters.'
+                  }
+                ]
+             }
+          }
         })
       ;
-	  $('.ui.dropdown')
-	    .dropdown()
-	  ;
+  	  $('.message .close')
+      .on('click', function() {
+        $(this)
+          .closest('.message')
+          .transition('fade')
+        ;
+      })
+    ;
+	<s:if test="hasActionErrors()">
+  	  $('.ui.form').addClass("error");
+  	</s:if>
     })
   ;
+	
   </script>
 </head>
-<body>
-
-<div class="ui container">
-	<div class="ui grid"> 
-		<div class="one wide column"></div>
-		<div class="fourteen wide column">
-			<%@include file="/common/common_shop_management_header_info.jsp" %>
-			<%@include file="/common/common_shop_management_menu.jsp" %>
-			<h4 class="ui top attached header inverted">
-				Change password
-			</h4>
-			<div class="ui centered grid attached segment">
-				<div class="column one">
-					<form class="ui form" action="management/index.html">
-						<div class="required inline field">
-							<label>Username</label>
-							<input type="text">
+<body class="menu pushable">
+<%@include file="/common/common_shop_management_header_info.jsp" %>
+<div class="pusher">
+<div class="full height">
+<div class="toc">
+	<!-- Sidebar Menu -->
+	<div class="ui inverted vertical menu">
+		<%@include file="/common/common_shop_management_menu.jsp" %>
+	</div>
+</div>
+<div class="article">
+		<div class="ui segment very basic container">
+			<s:if test="hasActionMessages()">
+				<div class="ui success message green inverted">
+					<i class="close icon"></i>
+					<div class="header">
+						<s:actionmessage cssClass="list" />
+					</div>
+				</div>
+			</s:if>
+			<div class="ui accordion">
+				<h4 class="ui top attached header inverted active title">
+					<i class="dropdown icon"></i>
+					Change password
+				</h4>
+				<div class="ui centered attached segment active content">
+					<form class="ui form" method="post" action="<s:url value="/management/changepassword/update"/>">
+						<div class="ui error message">
+							<s:if test="hasActionErrors()">
+								<i class="close icon"></i>
+								<div class="header">
+									<s:actionerror cssClass="list" />
+								</div>
+							</s:if>
 						</div>
 						<div class="required inline field">
-							<label>Password</label>
-							<input type="password">
+							<s:password name="oldPassword" label="Old password"/>
 						</div>
 						<div class="required inline field">
-							<label>Confirm Password</label>
-							<input type="password">
+							<s:password name="password" label="New Password"/>
 						</div>
-						<div class="ui error message"></div>
+						<div class="required inline field">
+							<s:password name="confirmPassword" label="Confirm Password"/>
+						</div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div class="ui small button blue">Submit</div>
-								<div class="ui small button">Clear</div>
+								<div class="ui small button submit blue">Submit</div>
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
-		<div class="one wide column"></div>
 	</div>
-  
+  	<%@include file="/common/common_shop_management_footer.jsp" %>  
 </div>
-  
+</div>
 </body>
 </html>
