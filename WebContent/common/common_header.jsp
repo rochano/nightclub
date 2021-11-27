@@ -16,6 +16,7 @@
 	border-color: #555555;
 	border-width: 1px 1px 1px 0;
 	background: linear-gradient(#6E6E6E 50%, #2e2e2e 50%);
+  	font-size: calc(1px + 1vw);
   }
   .ui.menu:not(.vertical) > .item:first-child {
   	border-left-width: 1px;
@@ -26,6 +27,12 @@
 	}
 	.ui.table:not(.unstackable) tr {
 		box-shadow: 0 -1px 0 0 rgba(0,0,0,0.5) inset!important;
+	}
+	.ui.menu:not(.vertical) > .item {
+		font-size: 1rem;
+	}
+	.ui.fixed.menu + .ui.grid {
+		padding-top: 0;
 	}
   }
   .ui.inverted.menu .item:before {
@@ -38,14 +45,15 @@
 	justify-content: flex-start;
   }
   @media only screen and (max-width: 767px) {
-  	.ui.menu:not(.vertical) {
+  	.ui.menu:not(.vertical):not(.fixed) {
   		display: none;
   	}
-  	.ui.menu.toc:not(.vertical) {
+  	.ui.menu.toc:not(.vertical):not(.fixed) {
   		display: block;
+  		margin-top: 50px;
   	}
-  	.ui.inverted.menu .active.item {overflow: auto ;}
-	.ui.inverted.menu .active.item:hover {width: 100%;}
+  	/* .ui.inverted.menu .active.item {overflow: auto ;}
+	.ui.inverted.menu .active.item:hover {width: 100%;} */
   }
   .ui.menu .dropdown.item .menu {
     background: rgba(27,27,27,1);
@@ -84,6 +92,11 @@
     	  arrows: true
       });
       $('.ui.sidebar')
+      .sidebar('setting', {
+         dimPage          : true,
+         transition       : "overlay",
+         mobileTransition : "overlay"
+       })
       .sidebar('attach events', '.toc.item')
     	;
       $('.ui.accordion')

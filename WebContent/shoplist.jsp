@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Night Club - Shop List</title>
@@ -43,10 +42,10 @@
 <%@include file="/common/common_menu_sidebar.jsp" %>
 <div class="pusher">
 	<div class="ui segment very basic">
-		
 		<div class="ui centered grid">
 			<div class="eleven wide column container" id="container">
 				<%@include file="/common/common_statistic_info.jsp" %>
+				<s:set name="base_url" value="%{'/shoplist/'}" />
 				<%@include file="/common/common_menu.jsp" %>
   				<br/>
   				<div class="ui breadcrumb segment attached inverted">
@@ -94,19 +93,19 @@
 							<s:set name="system" value="" />
 							<s:set name="ranking" value="" />
 							<s:set name="girl" value="" />
-							<s:set name="target" value="" />
+							<s:set name="target" value="%{'target=\"_blank\"'}" />
 							<s:if test="active == 'false'">
 								<s:set name="url" value="%{'javascript:void()'}" />
 							</s:if>
 							<s:elseif test="chkCustomUrl == 'true'">
 								<s:set name="url" value="%{'http://' + customUrl}" />
+								<s:set name="system" value="%{''}" />
 							</s:elseif>
 							<s:else>
 								<s:set name="url" value="%{#shopUrl + shopCode}" />
 								<s:set name="system" value="%{'/system'}" />
 								<s:set name="ranking" value="%{'/ranking'}" />
 								<s:set name="girls" value="%{'/girls'}" />
-								<s:set name="target" value="%{'target=\"_blank\"'}" />
 							</s:else>
 							<tr>
 								<td class="image" rowspan="2" style="width: 7%;">
@@ -117,8 +116,7 @@
 									<s:if test="systemInfo != null" >
 										<a href="<s:property value="%{#url + #system}"/>" <s:property value="%{target}"/> class="ui"><b>
 											<font color="red" size="2">
-												<s:text name="format.integer">
-												<s:param name="value" value="systemInfo.price"/></s:text>
+												<s:text name="format.integer"><s:param name="value" value="systemInfo.price"/></s:text>
 												&#3647
 											</font></b></a>
 									</s:if>

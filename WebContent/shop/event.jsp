@@ -14,13 +14,12 @@
 </head>
 <body>
 <!-- Sidebar Menu -->
-<div class="ui vertical inverted sidebar menu">
-	<%@include file="/common/common_shop_menu.jsp" %>
-</div>
+<%@include file="/common/common_shop_menu_sidebar.jsp" %>
 <div class="pusher">
 	<div class="ui segment very basic">
 		<div class="ui centered grid">
 			<div class="eleven wide column container" id="container">
+				<%@include file="/common/common_statistic_info.jsp" %>
 				<%@include file="/common/common_shop_header_info.jsp" %>
 				<div class="ui menu inverted stackable">
 					<a class="toc item"><i class="sidebar icon"></i></a>

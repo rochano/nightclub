@@ -12,10 +12,14 @@
   	/*background-color: #1B1C1D;*/
   	background-color: #373534;
   }
+  .ui.inverted.menu .item:before {
+  	background: none;
+  }
   .ui.menu:not(.vertical):not(.dataTables_paginate) > .item {
   	/*width: 120px;*/
   	width: 14%;
 	justify-content: center;
+	background: linear-gradient(#6E6E6E 50%, #2e2e2e 50%);
   }
   .ui.menu:not(.vertical):not(.dataTables_paginate) > .item:nth-child(6) {
   	width: 15%;
@@ -48,26 +52,32 @@
   		display: block;
   	}
   }
+  .ui.menu .dropdown.item .menu {
+    background: rgba(27,27,27,1);
+  }
   .ui.items>.item {
   	margin: 0;
   }
   .ui.sortable.table thead th {
   	/*color: rgba(255,255,255,.9);*/
   }
-  .ui.inverted.menu {
+  /* .ui.inverted.menu {
   	background: linear-gradient(#6E6E6E 50%, #2e2e2e 50%);
-  }
+  } */
   .ui.vertical.inverted.sidebar.menu {
   	background: #1B1C1D;
   }
   .ui.table tr th, .ui.structured.celled.table tr th,
-	.ui.sortable.table thead th {
-		background: #333333;
-	}
-	.ui.segment {
-	background: rgba(27, 26, 26, 0.42);
+  .ui.sortable.table thead th {
+    background: #333333;
+  }
+  .ui.segment {
+    background: rgba(27, 26, 26, 0.42);
 	color: #CCCCCC;
-}
+  }
+  .ui.header:first-child {
+    margin-top: calc(2rem -  0.14285em );
+  }
   </style>
   <script>
   $(document)

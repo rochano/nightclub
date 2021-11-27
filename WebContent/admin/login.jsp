@@ -27,6 +27,9 @@
     .ui.form .field > label {
     	text-align: left;
     }
+    .ui.stackable.grid .ui.vertical.divider {
+    	margin: auto;
+    }
   </style>
   <script>
   $(document)

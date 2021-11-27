@@ -345,6 +345,7 @@
 							</div>
 						</div>
 						<s:hidden name="basicInfo.shopInfoId"></s:hidden>
+						<s:hidden name="basicInfo.active"></s:hidden>
 					</form>
 				</div>
 			</div>

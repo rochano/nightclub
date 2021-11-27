@@ -72,7 +72,7 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		
 		try {
-			String filePath = ResourceBundleUtil.getUploadPath();
+//			String filePath = ResourceBundleUtil.getUploadPath();
             
             BasicInfo currentBasicInfo = basicInfoManager.getBasicInfo(userInfo.getShopInfoId());
             if(currentBasicInfo != null) {

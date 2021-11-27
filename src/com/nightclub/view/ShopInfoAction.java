@@ -81,7 +81,7 @@ public class ShopInfoAction extends CommonAction {
 		this.girlInfo = girlInfoManager.getGirlInfoByCode(shop.getShopInfoId(), getGirlCode());
 		this.scheduleInfo = scheduleInfoManager.getSchduleInfoByGirlInfoId(girlInfo.getGirlInfoId());
 		
-		String filePath = ResourceBundleUtil.getUploadPath();
+//		String filePath = ResourceBundleUtil.getUploadPath();
         
         if(this.girlInfo.getPic1() == null){// || !new File(filePath, this.girlInfo.getPic1()).exists()) {
         	this.girlInfo.setPic1("");

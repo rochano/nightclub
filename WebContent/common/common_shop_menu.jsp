@@ -1,5 +1,4 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
-
 <a class="ui item <s:if test="%{menu.equalsIgnoreCase('index')}">active</s:if>" href="<s:url value="/shop/"/>
 	<s:property value="shopCode" />"><s:text name="global.shop_menu_home" /></a>
 <a class="ui item <s:if test="%{menu.equalsIgnoreCase('girls')}">active</s:if>" href="<s:url value="/shop/"/>

@@ -1,3 +1,4 @@
+<%@page import="com.nightclub.common.IConstants"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib uri="/struts-tags" prefix="s" %>
@@ -46,13 +47,12 @@
 </head>
 <body>
 <!-- Sidebar Menu -->
-<div class="ui vertical inverted sidebar menu">
-	<%@include file="/common/common_shop_menu.jsp" %>
-</div>
+<%@include file="/common/common_shop_menu_sidebar.jsp" %>
 <div class="pusher">
 	<div class="ui segment very basic">
-		<div class="ui centered grid"> 
+		<div class="ui centered grid">
 			<div class="eleven wide column container" id="container">
+				<%@include file="/common/common_statistic_info.jsp" %>
 				<%@include file="/common/common_shop_header_info.jsp" %>
 				<div class="ui menu inverted stackable">
 					<a class="toc item"><i class="sidebar icon"></i></a>
@@ -79,53 +79,55 @@
 	<s:hidden name="mapInfo.description" ></s:hidden>
 	<%@include file="/common/common_shop_footer.jsp" %>
 </div>
-<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAKaJQ6galA0QmFhNdQzYuwRQnaT__a1y-hZdnJBN4Ggj_4W3wVRTkKlGxp0EJvRTbiAqcn-FCYSTDog"
+<script src="https://maps.googleapis.com/maps/api/js?key=<%=IConstants.GOOGLE_MAP_API_KEY %>"
         type="text/javascript"></script>
 <script type="text/javascript">
     function initialize() {
-        if (GBrowserIsCompatible()) {
-        	var lat = <s:property value="mapInfo.latitude" />;
-        	var lng = <s:property value="mapInfo.longitude" />;
-        	var logoImg = '';
-        	<s:if test="%{shop.logoImg != ''}">
-        	logoImg = '<img class="ui mini image centered" src="<s:property value="shop.logoImg" />">';
-			</s:if>
-        	var description = "";
-        	if($("#mapInfo_description").val()) {
-        		var descriptionNewLine = $("#mapInfo_description").val().split(/\r?\n/g);
-        		$.map(descriptionNewLine, function(val, i) {
-        			description += "<p>" + val + "</p>"
-        		});
-			};
-        	
-            var center = new GLatLng(lat, lng);
-            var map = new GMap2(document.getElementById("map_canvas"));
-            map.setCenter(center, 13);
-            var marker = new GMarker(center);
-            
-			
-            var html = '<h5 class="ui top header">' +
-							logoImg +
-							'<div class="content">' +
-								'<s:property value="shop.shopNameJp" />' +
-								'<div class="sub header">' +
-								'<s:property value="shop.shopNameEn" />' +
-								'</div>' +
-							'</div>' + 
-						'</h5>' +
-						'<div class="description">' + description + '</div>';
-            GEvent.addListener(marker, "click", function() {
-                marker.openInfoWindowHtml(html);
-            });
-			
-            map.addOverlay(marker);
-            map.setUIToDefault();
-			marker.openInfoWindowHtml(html);
+       	var lat = <s:property value="mapInfo.latitude" />;
+       	var lng = <s:property value="mapInfo.longitude" />;
+       	var logoImg = '';
+       	<s:if test="%{shop.logoImg != ''}">
+       	logoImg = '<img class="ui mini image centered" src="<s:property value="shop.logoImg" />">';
+		</s:if>
+       	var description = "";
+       	if($("#mapInfo_description").val()) {
+       		var descriptionNewLine = $("#mapInfo_description").val().split(/\r?\n/g);
+       		$.map(descriptionNewLine, function(val, i) {
+       			description += "<p>" + val + "</p>"
+       		});
+		};
+
+		var center = new google.maps.LatLng(lat, lng);
+		var map = new google.maps.Map(
+			document.getElementById('map_canvas'), {
+			center: center,
+			zoom: 13,
+		});
+		var marker = new google.maps.Marker({
+			position: center,
+			map: map
+		});
+
+		var html = '<h5 class="ui top header">' +
+			logoImg +
+			'<div class="content">' +
+				'<s:property value="shop.shopNameJp" />' +
+				'<div class="sub header">' +
+				'<s:property value="shop.shopNameEn" />' +
+				'</div>' +
+			'</div>' + 
+		'</h5>' +
+		'<div class="description">' + description + '</div>';
+		var infoWindow = new google.maps.InfoWindow({
+			content: html
+		});
+		var openInfoWindowHtml = function() {
+			infoWindow.open(map, marker);
 		}
-    
+		google.maps.event.addListener(marker, 'click', openInfoWindowHtml);
+		openInfoWindowHtml();
     }
-    initialize();
-    window.onunload = GUnload;
+	google.maps.event.addDomListener(window, 'load', initialize);
 </script>
   
 </body>

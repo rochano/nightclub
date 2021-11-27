@@ -23,7 +23,7 @@
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/button.css"/>">
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/transition.css"/>">
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/accordion.css"/>">
-
+  <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/statistic.css"/>">
 <sj:head />
 
   <!--- Example Libs -->

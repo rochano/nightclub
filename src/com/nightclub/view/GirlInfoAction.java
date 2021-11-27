@@ -226,7 +226,7 @@ public class GirlInfoAction extends ActionSupport implements SessionAware {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.girlInfo = girlInfoManager.getGirlInfo(this.girlInfoId);
 		
-		String filePath = ResourceBundleUtil.getUploadPath();
+//		String filePath = ResourceBundleUtil.getUploadPath();
         
 		if(this.girlInfo.getPic1() == null){// || !new File(filePath, this.girlInfo.getPic1()).exists()) {
         	this.girlInfo.setPic1("");

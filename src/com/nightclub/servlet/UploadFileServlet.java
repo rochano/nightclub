@@ -58,7 +58,7 @@ public class UploadFileServlet extends HttpServlet {
 		HttpServletRequest servletRequest = request;
 	    boolean isMultipart = ServletFileUpload.isMultipartContent(servletRequest);
 	    String fileName = UUID.randomUUID().toString().toUpperCase();
-	    String filePath = ResourceBundleUtil.getUploadPath();
+//	    String filePath = ResourceBundleUtil.getUploadPath();
 	    if (isMultipart) {
 	    	FileItemFactory factory = new DiskFileItemFactory();
 	    	ServletFileUpload upload = new ServletFileUpload(factory);

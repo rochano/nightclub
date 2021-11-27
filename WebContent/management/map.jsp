@@ -1,3 +1,4 @@
+<%@page import="com.nightclub.common.IConstants"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
@@ -174,54 +175,68 @@
 </div>
 </div>
 
-<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAKaJQ6galA0QmFhNdQzYuwRQnaT__a1y-hZdnJBN4Ggj_4W3wVRTkKlGxp0EJvRTbiAqcn-FCYSTDog"
+<script src="https://maps.googleapis.com/maps/api/js?key=<%=IConstants.GOOGLE_MAP_API_KEY %>"
         type="text/javascript"></script>
 <script type="text/javascript">
     function initialize(description) {
-        if (GBrowserIsCompatible()) {
-        	var lat = 18.490714;
-        	var lng = 98.924859;
-        	var logoImg = '';
-        	<s:if test="%{basicInfo.logoImg != ''}">
-        	logoImg = '<img class="ui mini image centered" src="<s:property value="basicInfo.logoImg" />">';
-			</s:if>
-			if($("#mapInfo_latitude").val()) {
-				lat = $("#mapInfo_latitude").val();
-			} else {
-				$("#mapInfo_latitude").val(lat)
-			}
-			if($("#mapInfo_longitude").val()) {
-				lng = $("#mapInfo_longitude").val();
-			} else {
-				$("#mapInfo_longitude").val(lng)
-			}
-            var center = new GLatLng(lat, lng);
-            var map = new GMap2(document.getElementById("map_canvas"));
-            map.setCenter(center, 13);
-            var marker = new GMarker(center);
-
-            var html = '<h5 class="ui top header">' +
-							logoImg +
-							'<div class="content">' +
-								'<s:property value="basicInfo.shopNameJp" />' +
-								'<div class="sub header">' +
-								'<s:property value="basicInfo.shopNameEn" />' +
-								'</div>' +
-							'</div>' + 
-						'</h5>' +
-						'<div class="description">' + description + '</div>';
-            GEvent.addListener(marker, "click", function() {
-                marker.openInfoWindowHtml(html);
-            });
-			
-            map.addOverlay(marker);
-            map.setUIToDefault();
-			marker.openInfoWindowHtml(html);
+       	var lat = 18.490714;
+       	var lng = 98.924859;
+       	var logoImg = '';
+       	<s:if test="%{basicInfo.logoImg != ''}">
+       	logoImg = '<img class="ui mini image centered" src="<s:property value="basicInfo.logoImg" />">';
+		</s:if>
+		if($("#mapInfo_latitude").val()) {
+			lat = $("#mapInfo_latitude").val();
+		} else {
+			$("#mapInfo_latitude").val(lat)
 		}
-    
-    }
-    initialize($("#mapInfo_description").val());
-    window.onunload = GUnload;
+		if($("#mapInfo_longitude").val()) {
+			lng = $("#mapInfo_longitude").val();
+		} else {
+			$("#mapInfo_longitude").val(lng)
+		}
+		var center = new google.maps.LatLng(lat, lng);
+		var map = new google.maps.Map(
+			document.getElementById('map_canvas'), {
+			center: center,
+			zoom: 13,
+		});
+		var marker = new google.maps.Marker({
+			position: center,
+			map: map
+		});
+
+		var center = new google.maps.LatLng(lat, lng);
+		var map = new google.maps.Map(
+			document.getElementById('map_canvas'), {
+			center: center,
+			zoom: 13,
+		});
+		var marker = new google.maps.Marker({
+			position: center,
+			map: map
+		});
+
+		var html = '<h5 class="ui top header">' +
+			logoImg +
+			'<div class="content">' +
+				'<s:property value="basicInfo.shopNameJp" />' +
+				'<div class="sub header">' +
+				'<s:property value="basicInfo.shopNameEn" />' +
+				'</div>' +
+			'</div>' + 
+		'</h5>' +
+		'<div class="description">' + description + '</div>';
+		var infoWindow = new google.maps.InfoWindow({
+			content: html
+		});
+		var openInfoWindowHtml = function() {
+			infoWindow.open(map, marker);
+		}
+		google.maps.event.addListener(marker, 'click', openInfoWindowHtml);
+		openInfoWindowHtml();
+	}
+	google.maps.event.addDomListener(window, 'load', function() {initialize($("#mapInfo_description").val());});
 </script>
 </body>
 </html>
