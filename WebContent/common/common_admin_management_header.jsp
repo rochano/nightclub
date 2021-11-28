@@ -28,14 +28,14 @@
   .ui.inverted.form .inline.field>label {
   	 color: rgba(255,255,255,.9);
   }
-  .ui.menu:not(.vertical):not(.dataTables_paginate) > .item.toc {
+  .ui.menu.toc {
 	display: none;
   }
   @media only screen and (max-width: 767px) {
-  	.ui.menu:not(.vertical):not(.dataTables_paginate) > .item {
+  	.toc .ui.menu:not(.dataTables_paginate) {
   		display: none;
   	}
-  	.ui.menu:not(.vertical):not(.dataTables_paginate) > .item.toc {
+  	.ui.menu.toc:not(.dataTables_paginate) { 
   		display: block;
   	}
   }
@@ -70,6 +70,18 @@
 .ui.menu {
 	margin: 0;
 }
+@media only screen and (max-width: 767px) {
+  	.ui.form .inline.field>input, .ui.form .inline.field>select, .ui.form .inline.fields .field>input, .ui.form .inline.fields .field>select,
+  	.ui.small.image, .ui.small.images .image, .ui.small.images img, .ui.small.images svg,
+  	.ui[class*="five column"].grid>.column:not(.row), .ui[class*="five column"].grid>.row>.column,
+  	.ui.form .inline.fields .field {
+  		width: 100%;
+  	}
+  	.ui.container {
+  		margin-left: 0!important;
+  		margin-right: 0!important;
+  	}
+ }
   </style>
   <script>
   $(document)
@@ -85,7 +97,7 @@
     ;
       dataTable = $("#searchList").dataTable({
   		"ordering":  false,
-  		"dom": '<"ui grid"<"column right floated right aligned"l>>t<"ui grid"<"eight wide column"i><"right floated eight wide column"p>>',
+  		"dom": '<"ui grid"<"column right floated right aligned"l>><"ui grid"<" one column overflow"t>><"ui grid"<"left aligned eight wide column"i><"right floated eight wide column"p>>',
   		"language":{
   		    "lengthMenu": "Number of items to show _MENU_",
   		    "zeroRecords": "No matching items found",

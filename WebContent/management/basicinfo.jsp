@@ -149,6 +149,14 @@
 </head>
 <body class="menu pushable">
 <%@include file="/common/common_shop_management_header_info.jsp" %>
+<!-- Sidebar Menu -->
+<div class="ui toc vertical top large inverted sidebar menu">
+  	<a class="ui toc item title">
+		<i class="cancel icon"></i>
+		&nbsp;
+	</a>
+	<%@include file="/common/common_shop_management_menu.jsp" %>
+</div>
 <div class="pusher">
 <div class="full height">
 <div class="toc">
@@ -159,6 +167,9 @@
 </div>
 <div class="article">
 <div class="ui segment very basic container">
+			<div class="ui menu inverted stackable toc left aligned">
+		  		<a class="toc item"><i class="sidebar icon"></i></a>
+		  	</div>
 			<s:if test="hasActionMessages()">
 				<div class="ui success message green inverted">
 					<i class="close icon"></i>

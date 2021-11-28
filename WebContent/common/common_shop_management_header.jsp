@@ -25,14 +25,14 @@
   .ui.inverted.form .inline.field>label {
   	 color: rgba(255,255,255,.9);
   }
-  .ui.menu:not(.vertical):not(.dataTables_paginate) > .item.toc {
+  .ui.menu.toc {
 	display: none;
   }
   @media only screen and (max-width: 767px) {
-  	.ui.menu:not(.vertical):not(.dataTables_paginate) > .item {
+  	.toc .ui.menu:not(.dataTables_paginate) {
   		display: none;
   	}
-  	.ui.menu:not(.vertical):not(.dataTables_paginate) > .item.toc {
+  	.ui.menu.toc:not(.dataTables_paginate) { 
   		display: block;
   	}
   }
@@ -67,6 +67,18 @@
 .ui.menu {
 	margin: 0;
 }
+@media only screen and (max-width: 767px) {
+  	.ui.form .inline.field>input, .ui.form .inline.field>select, .ui.form .inline.fields .field>input, .ui.form .inline.fields .field>select,
+  	.ui.small.image, .ui.small.images .image, .ui.small.images img, .ui.small.images svg,
+  	.ui[class*="five column"].grid>.column:not(.row), .ui[class*="five column"].grid>.row>.column,
+  	.ui.form .inline.fields .field {
+  		width: 100%;
+  	}
+  	.ui.container {
+  		margin-left: 0!important;
+  		margin-right: 0!important;
+  	}
+ }
   </style>
   <script>
   $(document)

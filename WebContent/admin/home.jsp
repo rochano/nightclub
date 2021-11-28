@@ -54,6 +54,14 @@
 </head>
 <body class="menu pushable">
 <%@include file="/common/common_admin_management_header_info.jsp" %>
+<!-- Sidebar Menu -->
+<div class="ui toc vertical top large inverted sidebar menu">
+  	<a class="ui toc item title">
+		<i class="cancel icon"></i>
+		&nbsp;
+	</a>
+	<%@include file="/common/common_admin_management_menu.jsp" %>
+</div>
 <div class="pusher">
 <div class="full height">
 <div class="toc">
@@ -64,6 +72,9 @@
 </div>
 <div class="article">
 <div class="ui segment very basic container">
+			<div class="ui menu inverted stackable toc left aligned">
+		  		<a class="toc item"><i class="sidebar icon"></i></a>
+		  	</div>
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
