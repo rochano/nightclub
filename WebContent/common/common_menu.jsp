@@ -171,7 +171,7 @@
 				</s:if>
 			</s:if>
 		  </div>
-		  <a href="<s:url value="/shop/login"/>" class="ui item">店管理</a>
+		  <a href="<s:url value="/shop/login"/>" class="ui item">営業中</a>
 		</div>
 	  </div>
   </div>

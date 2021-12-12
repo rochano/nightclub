@@ -55,9 +55,10 @@
 		<mapping class="com.nightclub.model.CategoryInfo" />
 		<mapping class="com.nightclub.model.NewsInfo" />
 		<mapping class="com.nightclub.model.HomeInfo" />
-		<mapping  class="com.nightclub.model.CategoryZone" />
-		<mapping  class="com.nightclub.model.CategoryZoneId" />
-		<mapping  class="com.nightclub.model.BaseModel" />
+		<mapping class="com.nightclub.model.CategoryZone" />
+		<mapping class="com.nightclub.model.CategoryZoneId" />
+		<mapping class="com.nightclub.model.BaseModel" />
+		<mapping class="com.nightclub.model.AdsInfo" />
 
 	</session-factory>
 

@@ -8,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Night Club - Home</title>
+  <title>THAINIGHTNAVI.COM - Home</title>
 
  <%@include file="/common/common_header.jsp" %>
   <!--- Example CSS -->
@@ -75,13 +75,18 @@
 					</h2>
 					<div class="ui centered grid attached segment soft">
 						<div class="ui horizontal items">
-						<s:iterator value="girlInfos" status="status">
-							<div class="item">
-								<a href="<s:url value="/shop/%{basicInfo.shopCode}/girls/%{code}"/>" target="_blank" >
-									<img class="image ui small centered" src="<s:property value="pic1" />">
-								</a>
-							</div>
-						</s:iterator>
+						<s:if test="%{girlInfos.size gte 0}">
+							<s:iterator value="girlInfos" status="status">
+								<div class="item">
+									<a href="<s:url value="/shop/%{basicInfo.shopCode}/girls/%{code}"/>" target="_blank" >
+										<img class="image ui small centered" src="<s:property value="pic1" />">
+									</a>
+								</div>
+							</s:iterator>
+						</s:if>
+						<s:if test="%{girlInfos.size eq 0}">
+							データかありません
+						</s:if>
 						</div>
 					</div>
 				</div>
@@ -116,8 +121,19 @@
 						<i class="announcement icon"></i>
 						<div class="content">リンク情報</div>
 					</h2>
-					<div class="ui attached segment">
-						<div class="ui leaderboard test ad centered" data-text="Advertisment"></div>
+					<div class="ui centered grid attached segment soft">
+						<s:if test="%{adsInfos.size gte 0}">
+							<s:iterator value="adsInfos" status="status">
+								<div class="ui leaderboard ad" data-text="Advertisment">
+									<a href="<s:property value="%{'http://' + customUrl}"/>" target="_blank" >
+										<img  class="image ui centered" src="<s:property value="adsImg" />">
+									</a>
+								</div>
+							</s:iterator>
+						</s:if>
+						<s:if test="%{adsInfos.size() eq 0}">
+							データかありません
+						</s:if>
 					</div>
 				</div>
 			</div>

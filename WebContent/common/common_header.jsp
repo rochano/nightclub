@@ -76,7 +76,6 @@
 		color: #CCCCCC;
 	}
 	.ui.leaderboard.ad {
-	    max-width: 728px;
 	    width: auto;
 	}
   </style>

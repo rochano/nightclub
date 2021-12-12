@@ -17,6 +17,7 @@ public class CategoryInfoManager extends HibernateUtil {
 	public CategoryInfo update(CategoryInfo categoryInfo) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
+		log_.info("getCategoryNameJp >> " + categoryInfo.getCategoryNameJp());
 		session.saveOrUpdate(categoryInfo);
 		session.getTransaction().commit();
 		return categoryInfo;

@@ -188,7 +188,11 @@ public class GirlInfoManager extends HibernateUtil {
 		List<GirlInfo> girlInfos = null;
 		try {
 			
-			girlInfos = (List<GirlInfo>)session.createQuery("from GirlInfo order by rand()")
+			StringBuffer sql = new StringBuffer();
+			sql.append("from GirlInfo ");
+			sql.append("where basicInfo.categoryInfo.hideZoneFlag = 'false' ");
+			sql.append("order by rand() ");
+			girlInfos = (List<GirlInfo>)session.createQuery(sql.toString())
 					.setMaxResults(18)
 					.list();
 			

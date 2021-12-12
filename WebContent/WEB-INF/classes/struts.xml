@@ -636,8 +636,50 @@
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/news.jsp</result>
 		</action>
+
+		<action name="ads"
+			class="com.nightclub.view.AdsInfoAction" method="execute">
+			<param name="menu">ads</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">ads.jsp</result>
+		</action>
+
+		<action name="ads/*"
+			class="com.nightclub.view.AdsInfoAction" method="{1}">
+			<param name="menu">ads</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" type="redirect">ads</result>
+		</action>
+
+		<action name="ads/edit/*"
+			class="com.nightclub.view.AdsInfoAction" method="edit">
+			<param name="menu">ads</param>
+			<param name="adsInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" >/admin/ads.jsp</result>
+		</action>
+
+		<action name="ads/delete/*"
+			class="com.nightclub.view.AdsInfoAction" method="delete">
+			<param name="menu">ads</param>
+			<param name="adsInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" type="redirect">ads</result>
+		</action>
+
+		<action name="ads/search"
+			class="com.nightclub.view.AdsInfoAction" method="search">
+			<param name="menu">ads</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/ads.jsp</result>
+		</action>
 	</package>
-	
+
 	<package name="api" extends="rest-default" namespace="/api" >
 		<action name="shop/*"
 			class="com.nightclub.rest.ShopController">

@@ -55,7 +55,7 @@ public class NewsInfoManager extends HibernateUtil {
 		List<NewsInfo> newsInfos = null;
 		try {
 			
-			newsInfos = (List<NewsInfo>)session.createQuery("from NewsInfo").list();
+			newsInfos = (List<NewsInfo>)session.createQuery("from NewsInfo order by news_date desc, news_time desc").list();
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();

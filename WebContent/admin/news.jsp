@@ -127,7 +127,19 @@
 	  $("body > .ui.dimmer.modals > .ui.modal").addClass("scrolling");
 	  </s:if>
 	  $("#newsSearch_newsDateFrom, #newsSearch_newsDateTo").dateEntry({dateFormat: 'dmy/', spinnerImage: ''});
+	  <s:if test="newsSearch.newsDateFrom != null">
+	  $("#newsSearch_newsDateFrom").val("<s:date name="newsSearch.newsDateFrom" format="dd/MM/yyyy" />");
+	  </s:if>
+	  <s:if test="newsSearch.newsDateTo != null">
+	  $("#newsSearch_newsDateTo").val("<s:date name="newsSearch.newsDateTo" format="dd/MM/yyyy" />");
+	  </s:if>
+	  <s:if test="newsInfo.newsDate != null">
+	  $("#newsInfo_newsDate").val("<s:date name="newsInfo.newsDate" format="dd/MM/yyyy" />")
+	  </s:if>
 	  $("#newsInfo_newsDate").dateEntry({dateFormat: 'dmy/', spinnerImage: ''});
+	  <s:if test="newsInfo.newsDate != null">
+	  $("#newsInfo_newsDate").val("<s:date name="newsInfo.newsDate" format="dd/MM/yyyy" />")
+	  </s:if>
 	  $('#newsInfo_newsTime').timeEntry({show24Hours: true, spinnerImage: ''});
     })
   ;

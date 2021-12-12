@@ -1,24 +1,20 @@
 package com.nightclub.view;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Logger;
 
-import org.apache.log4j.Category;
-
+import com.nightclub.controller.AdsInfoManager;
 import com.nightclub.controller.BasicInfoManager;
 import com.nightclub.controller.CategoryInfoManager;
 import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.HomeInfoManager;
 import com.nightclub.controller.NewsInfoManager;
-import com.nightclub.controller.ZoneInfoManager;
+import com.nightclub.model.AdsInfo;
 import com.nightclub.model.BasicInfo;
 import com.nightclub.model.CategoryInfo;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.HomeInfo;
 import com.nightclub.model.NewsInfo;
-import com.nightclub.model.ZoneInfo;
-import com.opensymphony.xwork2.ActionSupport;
 
 public class FrontEndAction extends CommonAction {
 	
@@ -35,6 +31,7 @@ public class FrontEndAction extends CommonAction {
 	private String newsInfoId;
 	private List<NewsInfo> newsInfos;
 	private List<GirlInfo> girlInfos;
+	private List<AdsInfo> adsInfos;
 	private HomeInfo homeInfo;
 	private NewsInfo newsInfo;
 	private String[] dayOfWeek = new String[7];
@@ -44,6 +41,7 @@ public class FrontEndAction extends CommonAction {
 	private NewsInfoManager newsInfoManager;
 	private GirlInfoManager girlInfoManager;
 	private HomeInfoManager homeInfoManager;
+	private AdsInfoManager adsInfoManager;
 
 	public FrontEndAction() {
 		super();
@@ -52,6 +50,7 @@ public class FrontEndAction extends CommonAction {
 		newsInfoManager= new NewsInfoManager();
 		girlInfoManager = new GirlInfoManager();
 		homeInfoManager = new HomeInfoManager();
+		adsInfoManager = new AdsInfoManager();
 		dayOfWeek[0] = getText("global.mon");
 		dayOfWeek[1] = getText("global.tue");
 		dayOfWeek[2] = getText("global.wed");
@@ -77,6 +76,7 @@ public class FrontEndAction extends CommonAction {
 		this.newsInfos = newsInfoManager.list();
 		this.girlInfos = girlInfoManager.random();
 		this.homeInfo = homeInfoManager.getHomeInfo("0");
+		this.adsInfos = adsInfoManager.active();
 		
 		return SUCCESS;
 	}
@@ -219,5 +219,12 @@ public class FrontEndAction extends CommonAction {
 	public void setNewsInfoId(String newsInfoId) {
 		this.newsInfoId = newsInfoId;
 	}
-	
+
+	public List<AdsInfo> getAdsInfos() {
+		return adsInfos;
+	}
+
+	public void setAdsInfos(List<AdsInfo> adsInfos) {
+		this.adsInfos = adsInfos;
+	}	
 }
