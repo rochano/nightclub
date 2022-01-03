@@ -13,10 +13,15 @@
 					<i class="dropdown icon"></i>
 					<div class="menu">
 						<s:iterator value="categoryInfoArray[0].categoryZones">
+							<s:set name="categoryInfo" value="primaryKey.categoryInfo" />
 							<s:set name="zoneInfo" value="primaryKey.zoneInfo" />
-							<a class="item" href="<s:url value="%{base_url}" />
-								<s:property value="categoryInfoArray[0].categoryCode" />/
-								<s:property value="zoneInfo.zoneCode" />">
+							<s:if test="zoneInfo.chkCustomUrl == 'true'">
+								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
+							</s:if>
+							<s:else>
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+							</s:else>
+							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
 						</s:iterator>
 					</div>
@@ -30,10 +35,15 @@
 					<i class="dropdown icon"></i>
 					<div class="menu">
 						<s:iterator value="categoryInfoArray[1].categoryZones">
+							<s:set name="categoryInfo" value="primaryKey.categoryInfo" />
 							<s:set name="zoneInfo" value="primaryKey.zoneInfo" />
-							<a class="item" href="<s:url value="%{base_url}" />
-								<s:property value="categoryInfoArray[1].categoryCode" />/
-								<s:property value="zoneInfo.zoneCode" />">
+							<s:if test="zoneInfo.chkCustomUrl == 'true'">
+								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
+							</s:if>
+							<s:else>
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+							</s:else>
+							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
 						</s:iterator>
 					</div>
@@ -47,10 +57,15 @@
 					<i class="dropdown icon"></i>
 					<div class="menu">
 					  	<s:iterator value="categoryInfoArray[2].categoryZones">
+					  		<s:set name="categoryInfo" value="primaryKey.categoryInfo" />
 							<s:set name="zoneInfo" value="primaryKey.zoneInfo" />
-							<a class="item" href="<s:url value="%{base_url}" />
-								<s:property value="categoryInfoArray[2].categoryCode" />/
-								<s:property value="zoneInfo.zoneCode" />">
+							<s:if test="zoneInfo.chkCustomUrl == 'true'">
+								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
+							</s:if>
+							<s:else>
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+							</s:else>
+							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
 						</s:iterator>
 					</div>
@@ -64,10 +79,15 @@
 					<i class="dropdown icon"></i>
 					<div class="menu">
 					  	<s:iterator value="categoryInfoArray[3].categoryZones">
+					  		<s:set name="categoryInfo" value="primaryKey.categoryInfo" />
 							<s:set name="zoneInfo" value="primaryKey.zoneInfo" />
-							<a class="item" href="<s:url value="%{base_url}" />
-								<s:property value="categoryInfoArray[3].categoryCode" />/
-								<s:property value="zoneInfo.zoneCode" />">
+							<s:if test="zoneInfo.chkCustomUrl == 'true'">
+								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
+							</s:if>
+							<s:else>
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+							</s:else>
+							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
 						</s:iterator>
 					</div>
@@ -81,10 +101,15 @@
 					<i class="dropdown icon"></i>
 					<div class="menu">
 					  	<s:iterator value="categoryInfoArray[4].categoryZones">
+					  		<s:set name="categoryInfo" value="primaryKey.categoryInfo" />
 							<s:set name="zoneInfo" value="primaryKey.zoneInfo" />
-							<a class="item" href="<s:url value="%{base_url}" />
-								<s:property value="categoryInfoArray[4].categoryCode" />/
-								<s:property value="zoneInfo.zoneCode" />">
+							<s:if test="zoneInfo.chkCustomUrl == 'true'">
+								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
+							</s:if>
+							<s:else>
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+							</s:else>
+							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
 						</s:iterator>
 					</div>
@@ -110,10 +135,15 @@
 					<i class="dropdown icon"></i>
 					<div class="menu">
 					  	<s:iterator value="categoryInfoArray[5].categoryZones">
+					  		<s:set name="categoryInfo" value="primaryKey.categoryInfo" />
 							<s:set name="zoneInfo" value="primaryKey.zoneInfo" />
-							<a class="item" href="<s:url value="%{base_url}" />
-								<s:property value="categoryInfoArray[5].categoryCode" />/
-								<s:property value="zoneInfo.zoneCode" />">
+							<s:if test="zoneInfo.chkCustomUrl == 'true'">
+								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
+							</s:if>
+							<s:else>
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+							</s:else>
+							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
 						</s:iterator>
 					</div>
@@ -127,10 +157,15 @@
 					<i class="dropdown icon"></i>
 					<div class="menu">
 					  	<s:iterator value="categoryInfoArray[6].categoryZones">
+					  		<s:set name="categoryInfo" value="primaryKey.categoryInfo" />
 							<s:set name="zoneInfo" value="primaryKey.zoneInfo" />
-							<a class="item" href="<s:url value="%{base_url}" />
-								<s:property value="categoryInfoArray[6].categoryCode" />/
-								<s:property value="zoneInfo.zoneCode" />">
+							<s:if test="zoneInfo.chkCustomUrl == 'true'">
+								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
+							</s:if>
+							<s:else>
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+							</s:else>
+							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
 						</s:iterator>
 					</div>
@@ -143,11 +178,16 @@
 				<s:if test="categoryInfoArray[7].categoryZones.size() > 0">
 					<i class="dropdown icon"></i>
 					<div class="menu">
-					  	<s:iterator value="categoryInfoArray[7].categoryZones">
+						<s:iterator value="categoryInfoArray[7].categoryZones">
+							<s:set name="categoryInfo" value="primaryKey.categoryInfo" />
 							<s:set name="zoneInfo" value="primaryKey.zoneInfo" />
-							<a class="item" href="<s:url value="%{base_url}" />
-								<s:property value="categoryInfoArray[7].categoryCode" />/
-								<s:property value="zoneInfo.zoneCode" />">
+							<s:if test="zoneInfo.chkCustomUrl == 'true'">
+								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
+							</s:if>
+							<s:else>
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+							</s:else>
+							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
 						</s:iterator>
 					</div>
@@ -161,10 +201,15 @@
 					<i class="dropdown icon"></i>
 					<div class="menu">
 					  	<s:iterator value="categoryInfoArray[8].categoryZones">
+					  		<s:set name="categoryInfo" value="primaryKey.categoryInfo" />
 							<s:set name="zoneInfo" value="primaryKey.zoneInfo" />
-							<a class="item" href="<s:url value="%{base_url}" />
-								<s:property value="categoryInfoArray[8].categoryCode" />/
-								<s:property value="zoneInfo.zoneCode" />">
+							<s:if test="zoneInfo.chkCustomUrl == 'true'">
+								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
+							</s:if>
+							<s:else>
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+							</s:else>
+							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
 						</s:iterator>
 					</div>

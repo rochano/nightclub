@@ -3,9 +3,11 @@ package com.nightclub.model;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Embeddable
 public class CategoryZoneId implements Serializable { 
@@ -19,6 +21,7 @@ public class CategoryZoneId implements Serializable {
 		return categoryInfo;
 	}
 	@ManyToOne(cascade = CascadeType.ALL)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	public ZoneInfo getZoneInfo() {
 		return zoneInfo;
 	}

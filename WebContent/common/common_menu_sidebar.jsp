@@ -13,12 +13,16 @@
 				<s:property value="categoryInfoArray[top].categoryNameJp" />
 			</div>
 			<div class="content ui item">
-				<s:iterator value="categoryInfoArray[top].categoryZones" >
+				<s:iterator value="categoryInfoArray[top].categoryZones">
 					<s:set name="categoryInfo" value="primaryKey.categoryInfo" />
 					<s:set name="zoneInfo" value="primaryKey.zoneInfo" />
-					<a class="ui item" href="<s:url value="/shoplist/" />
-						<s:property value="categoryInfo.categoryCode" />/
-						<s:property value="zoneInfo.zoneCode" />">
+					<s:if test="zoneInfo.chkCustomUrl == 'true'">
+						<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
+					</s:if>
+					<s:else>
+						<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+					</s:else>
+					<a class="item" href="<s:property value="%{url}" />">
 						<s:property value="zoneInfo.zoneNameJp" /></a>
 				</s:iterator>
 			</div>	
@@ -30,6 +34,6 @@
 		</s:else>	 --%>
 		
 	</s:iterator>
-		<a href="<s:url value="/shop/login"/>" class="ui item">店管理</a>
+		<a href="<s:url value="/shop/login"/>" class="ui item">営業中</a>
 	</div>
 </div>

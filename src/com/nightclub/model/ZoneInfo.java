@@ -7,11 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -27,6 +23,8 @@ public class ZoneInfo implements Serializable {
 	private String zoneCode;
 	private String zoneNameEn;
 	private String zoneNameJp;
+	private String chkCustomUrl;
+	private String customUrl;
 	
 	private List<CategoryZone> catgoryZones = new ArrayList<CategoryZone>();
 
@@ -55,6 +53,14 @@ public class ZoneInfo implements Serializable {
 	public List<CategoryZone> getCategoryZones() {
 		return catgoryZones;
 	}
+	@Column(name="chk_custom_url")
+	public String getChkCustomUrl() {
+		return chkCustomUrl;
+	}
+	@Column(name="custom_url")
+	public String getCustomUrl() {
+		return customUrl;
+	}
 	public void setZoneInfoId(String zoneInfoId) {
 		this.zoneInfoId = zoneInfoId;
 	}
@@ -69,5 +75,11 @@ public class ZoneInfo implements Serializable {
 	}
 	public void setCategoryZones(List<CategoryZone> catgoryZones) {
 		this.catgoryZones = catgoryZones;
+	}
+	public void setChkCustomUrl(String chkCustomUrl) {
+		this.chkCustomUrl = chkCustomUrl;
+	}
+	public void setCustomUrl(String customUrl) {
+		this.customUrl = customUrl;
 	}
 }

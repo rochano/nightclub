@@ -239,10 +239,7 @@
 					<div class="ui feed">
 						<div class="event">
 							<div class="ui left icon action input">
-								<s:if test="zonelist.size() > 0 ">
-									<s:set name="zoneValue" value="zonelist.get(0)" />
-								</s:if>
-								<s:select value="#zoneValue" name="zonelist" list="zoneInfos" cssClass="ui search dropdown" listKey="zoneInfoId" listValue="zoneCode"></s:select>
+								<s:select name="zonelist" list="zoneInfos" cssClass="ui search dropdown" listKey="zoneInfoId" listValue="zoneCode"></s:select>
 								<button class="icon ui button" id="add-zone-btn" type="button"><i class="plus icon"></i></button>
 							</div>
 						</div>

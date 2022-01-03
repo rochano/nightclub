@@ -18,9 +18,21 @@ public class CategoryInfoManager extends HibernateUtil {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		log_.info("getCategoryNameJp >> " + categoryInfo.getCategoryNameJp());
+		deleteCategodyZone(categoryInfo.getCategoryInfoId());
 		session.saveOrUpdate(categoryInfo);
 		session.getTransaction().commit();
 		return categoryInfo;
+	}
+
+	public void deleteCategodyZone(String categoryInfoId) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			session.createQuery("delete from CategoryZone cz where cz.primaryKey.categoryInfo.categoryInfoId = :categoryInfoId")
+			.setParameter("categoryInfoId", categoryInfoId).executeUpdate();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
 	}
 
 	@SuppressWarnings("unchecked")

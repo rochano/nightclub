@@ -60,6 +60,7 @@ public class CategoryInfoAction extends ActionSupport implements SessionAware {
 			ZoneInfo zoneInfo;
 			CategoryZone categoryZone;
 			Integer orderNo = 1;
+			this.categoryInfo.getCategoryZones().clear();
 			for(String zoneInfoId : this.zonelist) {
 				zoneInfo = new ZoneInfo();
 				zoneInfo.setZoneInfoId(zoneInfoId);

@@ -39,13 +39,13 @@
 </head>
 <body>
 <!-- Sidebar Menu -->
+<s:set name="base_url" value="%{'shoplist/'}" />
 <%@include file="/common/common_menu_sidebar.jsp" %>
 <div class="pusher">
 	<div class="ui segment very basic">
 		<div class="ui centered grid">
 			<div class="eleven wide column container" id="container">
 				<%@include file="/common/common_statistic_info.jsp" %>
-				<s:set name="base_url" value="%{'/shoplist/'}" />
 				<%@include file="/common/common_menu.jsp" %>
   				<br/>
   				<div class="ui breadcrumb segment attached inverted">

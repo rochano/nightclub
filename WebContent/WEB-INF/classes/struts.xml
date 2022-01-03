@@ -12,7 +12,7 @@
 	<constant name="struts.enable.SlashesInActionNames" value="true"/>
 	<constant name="struts.mapper.alwaysSelectFullNamespace" value="false"/>
 	<constant name="struts.multipart.maxSize" value="30000000" />
-	<constant name="struts.action.extension" value="action,bmp,gif,jpeg,jpg,png,json," />
+	<constant name="struts.action.extension" value=",bmp,gif,jpeg,jpg,png,json" />
 
 	<!-- Its not a mandatory to set 'Controller' at the end of REST actions -->
 	<constant name="struts.convention.action.suffix" value="Action, Controller" />
