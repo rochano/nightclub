@@ -37,6 +37,12 @@
   .ui.form .inline.field>:first-child, .ui.form .inline.fields>label {
   	width: 150px;
   }
+  .ui.leaderboard.ad {
+  	height: 100%;
+  }
+  .ui.leaderboard.ad image {
+  	height: 100px;
+  }
   </style>
 
   <!--- Example Javascript -->
@@ -130,6 +136,26 @@
 				var image = "<img src='" + filePath + fileName + "' />";
 				$("#adsImg").html(image);
 				$('#adsImageFileName').val(fileName);
+	        	console.log('success');
+	        },
+	        error:function(error){
+	        	console.log(error);
+	        }
+		});
+      $('#fileAdsImgMobile').fileupload({
+			url: '<s:url value="/UploadFileServlet"/>',
+			dataType: 'json',
+			add: function (e, data) {
+				data.submit();
+			},
+	        success:function(response,status) {
+		        console.log(arguments)
+				console.log(response.fileName);
+		        var fileName = response.fileName;
+				var filePath = response.path;
+				var image = "<img src='" + filePath + fileName + "' />";
+				$("#adsImgMobile").html(image);
+				$('#adsImageMobileFileName').val(fileName);
 	        	console.log('success');
 	        },
 	        error:function(error){
@@ -359,7 +385,7 @@
 			<s:textfield name="adsInfo.customUrl" size="50" />
 		</div>
 		<div class="inline field">
-			<label>Ads image</label>
+			<label>Ads image<br/>(800px x 100px)</label>
 			<div class="image ui small">
 				<div id="adsImg" class="ui leaderboard ad">
 					<s:if test="%{adsInfo.AdsImg != ''}">
@@ -375,6 +401,24 @@
 				</div>
 			</div>
 			<s:hidden name="adsImageFileName"></s:hidden>
+		</div>
+		<div class="inline field">
+			<label>Ads image mobile<br/>(350px x 100px)</label>
+			<div class="image ui small">
+				<div id="adsImgMobile" class="ui leaderboard ad">
+					<s:if test="%{adsInfo.AdsImgMobile != ''}">
+						<img src="<s:property value="adsInfo.AdsImgMobile" />">
+					</s:if>
+				</div>
+				<div class="ui horizontal divider very basic">
+					<label for="fileAdsImgMobile" class="ui basic button">
+						<i class="icon upload"></i>
+					  	Upload
+					</label>
+				    <input type="file" id="fileAdsImgMobile" style="display:none">
+				</div>
+			</div>
+			<s:hidden name="adsImageMobileFileName"></s:hidden>
 		</div>
 		<s:hidden name="action" value="update"></s:hidden>
 		<s:hidden name="adsInfo.adsInfoId"></s:hidden>

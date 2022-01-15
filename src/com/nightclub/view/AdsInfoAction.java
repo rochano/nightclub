@@ -34,6 +34,7 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
 	private AdsInfoManager adsInfoManager;
 	
     private String adsImageFileName;
+    private String adsImageMobileFileName;
     private String autoSubscribe;;
     private String active;
     private String currentRangeFrom = "";
@@ -69,6 +70,11 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
 			if(!getAdsImageFileName().isEmpty()) {
 				this.adsImageFileName = UploadFileUtils.uploadImageApi(getAdsImageFileName(), sessionMap, userInfo);
 				this.adsInfo.setAdsImg(this.adsImageFileName);
+			}
+			
+			if(!getAdsImageMobileFileName().isEmpty()) {
+				this.adsImageMobileFileName = UploadFileUtils.uploadImageApi(getAdsImageMobileFileName(), sessionMap, userInfo);
+				this.adsInfo.setAdsImgMobile(this.adsImageMobileFileName);
 			}
 			
 			if(getAutoSubscribe() != null) {
@@ -107,6 +113,14 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
             	this.adsInfo.setAdsImg(currentAdsInfo.getAdsImg());
             }
 			
+			if(!getAdsImageMobileFileName().isEmpty()) {
+				this.adsImageMobileFileName = UploadFileUtils.uploadImageApi(getAdsImageMobileFileName(), sessionMap, userInfo);
+				this.adsInfo.setAdsImgMobile(this.adsImageMobileFileName);
+			}
+			else if(currentAdsInfo.getAdsImgMobile() != null && !currentAdsInfo.getAdsImgMobile().isEmpty()) {
+            	this.adsInfo.setAdsImgMobile(currentAdsInfo.getAdsImgMobile());
+            }
+			
 			if(getAutoSubscribe() != null) {
 				this.adsInfo.setAutoSubscribe(Boolean.TRUE.toString().toLowerCase());
 			} else {
@@ -135,6 +149,9 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
 		
 		if(this.adsInfo.getAdsImg() == null){// || !new File(filePath, this.girlInfo.getPic1()).exists()) {
         	this.adsInfo.setAdsImg("");
+        }
+		if(this.adsInfo.getAdsImgMobile() == null){// || !new File(filePath, this.girlInfo.getPic1()).exists()) {
+        	this.adsInfo.setAdsImgMobile("");
         }
 
 		if(this.adsInfo.getAdsDateFrom() != null) {
@@ -247,8 +264,16 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
 		return adsImageFileName;
 	}
 	
+	public String getAdsImageMobileFileName() {
+		return adsImageMobileFileName;
+	}
+	
 	public void setAdsImageFileName(String adsImageFileName) {
 		this.adsImageFileName = adsImageFileName;
+	}
+	
+	public void setAdsImageMobileFileName(String adsImageMobileFileName) {
+		this.adsImageMobileFileName = adsImageMobileFileName;
 	}
 
 	public String getAutoSubscribe() {

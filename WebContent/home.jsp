@@ -30,6 +30,12 @@
 	}
   .ui.green.button {width: 50%;}
   .ui.red.button {width: 45%;}
+  .ui.leaderboard.ad {
+  	height: 100%;
+  }
+  .ui.leaderboard.ad image {
+  	height: 100px;
+  }
   </style>
 
   <!--- Example Javascript -->
@@ -121,12 +127,30 @@
 						<i class="announcement icon"></i>
 						<div class="content">リンク情報</div>
 					</h2>
+					<%
+						String RESULT_CODE_SUFFIX_MOBILE = "mobile";
+						String REQUEST_HEADER_ACCEPT = "Accept";
+						String[] MOBILE_BROWSER_UAS = {"iPhone OS","Android","BlackBerry","Windows Phone"};
+						//Get User Agent String
+						String userAgent = request.getHeader("User-Agent");
+						boolean showMobileVersion = false;
+						//Run through each entry in the list of browsers
+			            for(String ua : MOBILE_BROWSER_UAS){
+			                if(userAgent.toLowerCase().matches(".*"+ua.toLowerCase()+".*")){
+			                    showMobileVersion = true;
+			                }
+			            }
+					%>
 					<div class="ui centered grid attached segment soft">
 						<s:if test="%{adsInfos.size gte 0}">
 							<s:iterator value="adsInfos" status="status">
 								<div class="ui leaderboard ad" data-text="Advertisment">
 									<a href="<s:property value="%{'http://' + customUrl}"/>" target="_blank" >
-										<img  class="image ui centered" src="<s:property value="adsImg" />">
+										<% if(showMobileVersion){%>
+											<img  class="image ui centered" src="<s:property value="adsImgMobile" />">
+										<% } else { %>
+											<img  class="image ui centered" src="<s:property value="adsImg" />">
+										<% } %>
 									</a>
 								</div>
 							</s:iterator>
