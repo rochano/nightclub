@@ -17,6 +17,8 @@ public class HomeInfo implements Serializable {
 	private String homeInfoId;
 	private String description;
 	private String description2;
+	private String howToUse;
+	private String lineContactUrl;
 	
 	@Id
 	@Column(name="home_info_id")
@@ -34,6 +36,16 @@ public class HomeInfo implements Serializable {
 	public String getDescription2() {
 		return description2;
 	}
+	@Column(name="how_to_use")
+	@Length(max=1000)
+	public String getHowToUse() {
+		return howToUse;
+	}
+	@Column(name="line_contact_url")
+	@Length(max=40)
+	public String getLineContactUrl() {
+		return lineContactUrl;
+	}
 	public void setHomeInfoId(String homeInfoId) {
 		this.homeInfoId = homeInfoId;
 	}
@@ -42,6 +54,12 @@ public class HomeInfo implements Serializable {
 	}
 	public void setDescription2(String description2) {
 		this.description2 = description2;
+	}
+	public void setHowToUse(String howToUse) {
+		this.howToUse = howToUse;
+	}
+	public void setLineContactUrl(String lineContactUrl) {
+		this.lineContactUrl = lineContactUrl;
 	}
 	
 }

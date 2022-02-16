@@ -17,13 +17,13 @@
   }
   .ui.menu:not(.vertical):not(.dataTables_paginate) > .item {
   	/*width: 120px;*/
-  	width: 14%;
+  	width: 33.33%;
 	justify-content: center;
 	background: linear-gradient(#6E6E6E 50%, #2e2e2e 50%);
   }
-  .ui.menu:not(.vertical):not(.dataTables_paginate) > .item:nth-child(6) {
+/*   .ui.menu:not(.vertical):not(.dataTables_paginate) > .item:nth-child(6) {
   	width: 15%;
-  }
+  } */
   .ui.menu:not(.vertical):not(.dataTables_paginate) > .item:last-child::before {
   	width: 0;
   }
@@ -75,8 +75,14 @@
     background: rgba(27, 26, 26, 0.42);
 	color: #CCCCCC;
   }
-  .ui.header:first-child {
-    margin-top: calc(2rem -  0.14285em );
+  .ui.header.segment.header {
+  	margin-bottom: 0;
+  }
+  .ui.segment:first-child {
+  	margin-top: 1em;
+  }
+  .centered {
+  	text-align: center;
   }
   </style>
   <script>

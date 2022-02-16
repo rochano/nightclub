@@ -28,15 +28,15 @@ public class SystemInfoManager extends HibernateUtil {
 	public SystemInfo update(SystemInfo systemInfo) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		session.update(systemInfo);
+		session.saveOrUpdate(systemInfo);
 		session.getTransaction().commit();
 		return systemInfo;
 	}
 	
-	public SystemInfo delete(String systemInfoId) {
+	public SystemInfo delete(String shopInfoId) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		SystemInfo systemInfo = (SystemInfo) session.load(SystemInfo.class, systemInfoId);
+		SystemInfo systemInfo = (SystemInfo) session.load(SystemInfo.class, shopInfoId);
 		if(null != systemInfo) {
 			session.delete(systemInfo);
 		}
@@ -44,68 +44,68 @@ public class SystemInfoManager extends HibernateUtil {
 		return systemInfo;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<SystemInfo> list(String shopInfoId) {
-		
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		List<SystemInfo> systemInfos = null;
-		try {
-			
-			systemInfos = (List<SystemInfo>)session.createQuery("from SystemInfo where shopInfoId = :shopInfoId order by infoName ")
-					.setParameter("shopInfoId", shopInfoId).list();
-			
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			session.getTransaction().rollback();
-		}
-		session.getTransaction().commit();
-		
-		return systemInfos;
-	}
+//	@SuppressWarnings("unchecked")
+//	public List<SystemInfo> list(String shopInfoId) {
+//		
+//		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+//		session.beginTransaction();
+//		List<SystemInfo> systemInfos = null;
+//		try {
+//			
+//			systemInfos = (List<SystemInfo>)session.createQuery("from SystemInfo where shopInfoId = :shopInfoId")
+//					.setParameter("shopInfoId", shopInfoId).list();
+//			
+//		} catch (HibernateException e) {
+//			e.printStackTrace();
+//			session.getTransaction().rollback();
+//		}
+//		session.getTransaction().commit();
+//		
+//		return systemInfos;
+//	}
 	
-	@SuppressWarnings("unchecked")
-	public List<SystemInfo> search(SystemInfo systemInfo ) {
-		
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		List<SystemInfo> systemInfos = null;
-		try {
-			
-			log_.info("shopInfoId >> [" + systemInfo.getShopInfoId() + "]");
-			log_.info("name >> [" + systemInfo.getInfoName() + "]");
-			
-			StringBuffer sql = new StringBuffer();
-			sql.append("from SystemInfo ");
-			sql.append("where shopInfoId = :shopInfoId ");
-			if(!systemInfo.getInfoName().isEmpty()) {
-				sql.append("and infoName like :infoName ");
-			}
-			
-			Query query = session.createQuery(sql.toString());
-			query.setParameter("shopInfoId", systemInfo.getShopInfoId());
-			if(!systemInfo.getInfoName().isEmpty()) {
-				query.setParameter("infoName", '%'+systemInfo.getInfoName()+'%');
-			}
-			
-			systemInfos = (List<SystemInfo>)query.list();
-			
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			session.getTransaction().rollback();
-		}
-		session.getTransaction().commit();
-		return systemInfos;
-	}
-	
-	public SystemInfo getSystemInfo(String systemInfoId) {
+//	@SuppressWarnings("unchecked")
+//	public List<SystemInfo> search(SystemInfo systemInfo ) {
+//		
+//		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+//		session.beginTransaction();
+//		List<SystemInfo> systemInfos = null;
+//		try {
+//			
+//			log_.info("shopInfoId >> [" + systemInfo.getShopInfoId() + "]");
+//			log_.info("className >> [" + systemInfo.getClassName() + "]");
+//			
+//			StringBuffer sql = new StringBuffer();
+//			sql.append("from SystemInfo ");
+//			sql.append("where shopInfoId = :shopInfoId ");
+//			if(!systemInfo.getClassName().isEmpty()) {
+//				sql.append("and className like :className ");
+//			}
+//			
+//			Query query = session.createQuery(sql.toString());
+//			query.setParameter("shopInfoId", systemInfo.getShopInfoId());
+//			if(!systemInfo.getClassName().isEmpty()) {
+//				query.setParameter("className", '%'+systemInfo.getClassName()+'%');
+//			}
+//			
+//			systemInfos = (List<SystemInfo>)query.list();
+//			
+//		} catch (HibernateException e) {
+//			e.printStackTrace();
+//			session.getTransaction().rollback();
+//		}
+//		session.getTransaction().commit();
+//		return systemInfos;
+//	}
+//	
+	public SystemInfo getSystemInfo(String shopInfoId) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		SystemInfo systemInfo = null;
 		try {
 			
-			systemInfo = (SystemInfo)session.createQuery("from SystemInfo where systemInfoId = :systemInfoId ")
-					.setParameter("systemInfoId", systemInfoId).uniqueResult();
+			systemInfo = (SystemInfo)session.createQuery("from SystemInfo where shopInfoId = :shopInfoId ")
+					.setParameter("shopInfoId", shopInfoId).uniqueResult();
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -113,5 +113,26 @@ public class SystemInfoManager extends HibernateUtil {
 		}
 		session.getTransaction().commit();
 		return systemInfo;
+	}
+
+	public void activeByClassType(String shopInfoId, String classType) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			log_.info("shopInfoId >> [" + shopInfoId + "]");
+			log_.info("classType >> [" + classType + "]");
+
+			if(!classType.isEmpty()) {
+				session.createQuery("update SystemInfo set classType = :classType where shopInfoId = :shopInfoId ")
+						.setParameter("classType", classType)
+						.setParameter("shopInfoId", shopInfoId)
+						.executeUpdate();
+			}
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
 	}
 }

@@ -1,5 +1,5 @@
   <%@taglib uri="/struts-tags" prefix="s" %>
-  
+
   <%@include file="/common/common_include_header.jsp" %>
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/semantic.min.css"/>">
   
@@ -92,7 +92,7 @@
       $('.ui.accordion')
       .accordion()
     ;
-      $("#searchList").dataTable({
+      dataTable = $("#searchList").dataTable({
   		"ordering":  false,
   		"dom": '<"ui grid"<"column right floated right aligned"l>><"ui grid"<" one column overflow"t>><"ui grid"<"left aligned eight wide column"i><"right floated eight wide column"p>>',
   		"language":{

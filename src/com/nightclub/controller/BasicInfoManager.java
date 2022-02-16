@@ -47,7 +47,13 @@ public class BasicInfoManager extends HibernateUtil {
 		List<BasicInfo> basicInfos = null;
 		try {
 			
-			basicInfos = (List<BasicInfo>)session.createQuery("from BasicInfo").list();
+			basicInfos = (List<BasicInfo>)session.createQuery(
+						"select basicInfo from BasicInfo basicInfo, UserInfo userInfo " + 
+						"where basicInfo.shopInfoId = userInfo.shopInfoId " +
+						"and userInfo.active = :active " +
+						"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
+					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+					.list();
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -56,9 +62,9 @@ public class BasicInfoManager extends HibernateUtil {
 		session.getTransaction().commit();
 		return basicInfos;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public List<BasicInfo> filter(String categoryCode, String zoneCode) {
+	public List<BasicInfo> filter(String categoryInfoId) {
 		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -66,11 +72,53 @@ public class BasicInfoManager extends HibernateUtil {
 		try {
 			
 			basicInfos = (List<BasicInfo>)session
-					.createQuery("from BasicInfo where categoryCode = :categoryCode"
-							+ " and zoneCode = :zoneCode"
-							+ " and active = :active ")
-					.setParameter("categoryCode", categoryCode)
-					.setParameter("zoneCode", zoneCode)
+					.createQuery("select basicInfo from BasicInfo basicInfo, UserInfo userInfo " +
+							"where basicInfo.categoryInfoId = :categoryInfoId " +
+							"and basicInfo.shopInfoId = userInfo.shopInfoId " +
+							"and userInfo.active = :active " +
+							"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
+					.setParameter("categoryInfoId", categoryInfoId)
+					.setParameter("active", Boolean.TRUE.toString())
+					.list();
+			
+			if(basicInfos != null) {
+				for(BasicInfo basicInfo : basicInfos) {
+					SystemInfo systemInfo = (SystemInfo)session
+						.createQuery("from SystemInfo s " + 
+						"where s.shopInfoId = :shopInfoId ")
+						.setParameter("shopInfoId", basicInfo.getShopInfoId())
+						.setMaxResults(1)
+						.uniqueResult();
+					if(systemInfo != null) {
+						basicInfo.setSystemInfo(systemInfo);
+					}
+				}
+			}
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return basicInfos;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<BasicInfo> filter(String categoryInfoId, String zoneInfoId) {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<BasicInfo> basicInfos = null;
+		try {
+			
+			basicInfos = (List<BasicInfo>)session
+					.createQuery("select basicInfo from BasicInfo basicInfo, UserInfo userInfo " +
+							"where basicInfo.categoryInfoId = :categoryInfoId " +
+							"and basicInfo.zoneInfoId = :zoneInfoId " +
+							"and userInfo.active = :active " +
+							"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
+					.setParameter("categoryInfoId", categoryInfoId)
+					.setParameter("zoneInfoId", zoneInfoId)
 					.setParameter("active", Boolean.TRUE.toString())
 					.list();
 			
@@ -114,17 +162,34 @@ public class BasicInfoManager extends HibernateUtil {
 		return basicInfo;
 	}
 	
-	public BasicInfo validateShopCode(String shopInfoId, String shopCode) {
+//	public BasicInfo validateshopInfoId(String shopInfoId, String shopCd) {
+//		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+//		session.beginTransaction();
+//		BasicInfo basicInfo = null;
+//		try {
+//			
+//			basicInfo = (BasicInfo)session
+//					.createQuery("from BasicInfo where shopInfoId != :shopInfoId and shopCd = :shopCd ")
+//					.setParameter("shopInfoId", shopInfoId)
+//					.setParameter("shopCd", shopCd)
+//					.uniqueResult();
+//			
+//		} catch (HibernateException e) {
+//			e.printStackTrace();
+//			session.getTransaction().rollback();
+//		}
+//		session.getTransaction().commit();
+//		return basicInfo;
+//	}
+	
+	public BasicInfo getBasicInfoById(String shopInfoId) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		BasicInfo basicInfo = null;
 		try {
 			
-			basicInfo = (BasicInfo)session
-					.createQuery("from BasicInfo where shopInfoId != :shopInfoId and shopCode = :shopCode ")
-					.setParameter("shopInfoId", shopInfoId)
-					.setParameter("shopCode", shopCode)
-					.uniqueResult();
+			basicInfo = (BasicInfo)session.createQuery("from BasicInfo where shopInfoId = :shopInfoId ")
+					.setParameter("shopInfoId", shopInfoId).uniqueResult();
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -132,45 +197,5 @@ public class BasicInfoManager extends HibernateUtil {
 		}
 		session.getTransaction().commit();
 		return basicInfo;
-	}
-	
-	public BasicInfo getBasicInfoByCode(String shopCode) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		BasicInfo basicInfo = null;
-		try {
-			
-			basicInfo = (BasicInfo)session.createQuery("from BasicInfo where shopCode = :shopCode ")
-					.setParameter("shopCode", shopCode).uniqueResult();
-			
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			session.getTransaction().rollback();
-		}
-		session.getTransaction().commit();
-		return basicInfo;
-	}
-	
-	public void activeByShopInfoId(List<String> shopInfoIdList) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		try {
-			
-			session.createQuery("update BasicInfo set active = :active ")
-					.setParameter("active", Boolean.FALSE.toString().toLowerCase())
-					.executeUpdate();
-			
-			if(shopInfoIdList.size()> 0) {
-				session.createQuery("update BasicInfo set active = :active where shopInfoId in (:shopInfoIdList) ")
-						.setParameter("active", Boolean.TRUE.toString().toLowerCase())
-						.setParameterList("shopInfoIdList", shopInfoIdList.toArray())
-						.executeUpdate();
-			}
-			
-		} catch (HibernateException e) {
-			e.printStackTrace();
-			session.getTransaction().rollback();
-		}
-		session.getTransaction().commit();
 	}
 }

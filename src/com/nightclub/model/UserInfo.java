@@ -1,13 +1,17 @@
 package com.nightclub.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.Length;
 
 @Entity
@@ -16,13 +20,29 @@ public class UserInfo implements Serializable{
 
 	private static final long serialVersionUID = -1441957305820464269L;
 	
+	private String userInfoId;
 	private String username;
 	private String password;
 	private String userType;
 	private String shopInfoId;
+	private String agentInfoId;
+	private String girlInfoId;
+	private String clientInfoId;
+	private String active;
+	private Date validDateFrom;
+	private Date validDateTo;
 	
+	private BasicInfo shopInfo;
+	private AgentInfo agentInfo;
+	private FreeAgentGirlInfo freeAgentGirlInfo;
+	private ClientInfo clientInfo;
+
 	@Id
-	@Column(name="username")
+	@Column(name="user_info_id")
+	public String getUserInfoId() {
+		return userInfoId;
+	}
+	@Column(name="username", unique=true)
 	@Length(max=20)
 	public String getUsername() {
 		return username;
@@ -38,9 +58,66 @@ public class UserInfo implements Serializable{
 		return userType;
 	}
 	@Column(name="shop_info_id")
+	@JoinColumn(name="shop_info_id", insertable=false, updatable=false)
 	@Length(max=40)
 	public String getShopInfoId() {
 		return shopInfoId;
+	}
+	@Column(name="agent_info_id")
+	@JoinColumn(name="agent_info_id", insertable=false, updatable=false)
+	@Length(max=40)
+	public String getAgentInfoId() {
+		return agentInfoId;
+	}
+	@Column(name="girl_info_id")
+	@JoinColumn(name="girl_info_id", insertable=false, updatable=false)
+	@Length(max=40)
+	public String getGirlInfoId() {
+		return girlInfoId;
+	}
+	@Column(name="client_info_id")
+	@Length(max=40)
+	public String getClientInfoId() {
+		return clientInfoId;
+	}
+	@Column(name="active")
+	public String getActive() {
+		return active;
+	}
+	@Column(name="valid_date_from")
+	public Date getValidDateTo() {
+		return validDateTo;
+	}
+	@Column(name="valid_date_to")
+	public Date getValidDateFrom() {
+		return validDateFrom;
+	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="shop_info_id", insertable=false, updatable=false)
+	public BasicInfo getShopInfo() {
+		return shopInfo;
+	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="agent_info_id", insertable=false, updatable=false)
+	public AgentInfo getAgentInfo() {
+		return agentInfo;
+	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="girl_info_id", insertable=false, updatable=false)
+	public FreeAgentGirlInfo getFreeAgentGirlInfo() {
+		return freeAgentGirlInfo;
+	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="client_info_id", insertable=false, updatable=false)
+	public ClientInfo getClientInfo() {
+		return clientInfo;
+	}
+	public void setUserInfoId(String userInfoId) {
+		this.userInfoId = userInfoId;
 	}
 	public void setUsername(String username) {
 		this.username = username;
@@ -54,4 +131,35 @@ public class UserInfo implements Serializable{
 	public void setShopInfoId(String shopInfoId) {
 		this.shopInfoId = shopInfoId;
 	}
+	public void setAgentInfoId(String agentInfoId) {
+		this.agentInfoId = agentInfoId;
+	}
+	public void setGirlInfoId(String girlInfoId) {
+		this.girlInfoId = girlInfoId;
+	}
+	public void setClientInfoId(String clientInfoId) {
+		this.clientInfoId = clientInfoId;
+	}
+	public void setActive(String active) {
+		this.active = active;
+	}
+	public void setValidDateFrom(Date validDateFrom) {
+		this.validDateFrom = validDateFrom;
+	}
+	public void setValidDateTo(Date validDateTo) {
+		this.validDateTo = validDateTo;
+	}
+	public void setShopInfo(BasicInfo shopInfo) {
+		this.shopInfo = shopInfo;
+	}
+	public void setAgentInfo(AgentInfo agentInfo) {
+		this.agentInfo = agentInfo;
+	}
+	public void setFreeAgentGirlInfo(FreeAgentGirlInfo freeAgentGirlInfo) {
+		this.freeAgentGirlInfo = freeAgentGirlInfo;
+	}
+	public void setClientInfo(ClientInfo clientInfo) {
+		this.clientInfo = clientInfo;
+	}
+
 }

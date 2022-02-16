@@ -58,11 +58,11 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
 		this.categoryInfos = categoryInfoManager.list();
 		
 		if(this.basicInfo != null) {
-			this.categoryInfo = categoryInfoManager.getCategoryInfoByCode(basicInfo.getCategoryCode());
+			this.categoryInfo = categoryInfoManager.getCategoryInfo(basicInfo.getCategoryInfoId());
 		} 
 		
 		if(this.categoryInfo == null) {
-			this.categoryInfo = categoryInfoManager.getCategoryInfoByCode(this.categoryInfos.get(0).getCategoryCode());
+			this.categoryInfo = categoryInfoManager.getCategoryInfo(this.categoryInfos.get(0).getCategoryInfoId());
 		}
 		
 		return SUCCESS;
@@ -129,17 +129,17 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
             addActionError(e.getMessage());
         }
 		
-		if(basicInfoManager.validateShopCode(userInfo.getShopInfoId(), this.basicInfo.getShopCode()) != null) {
-			addActionError("Shop code is duplicated.");
-			this.categoryInfos = categoryInfoManager.list();
-			
-			if(this.basicInfo != null) {
-				this.categoryInfo = categoryInfoManager.getCategoryInfoByCode(basicInfo.getCategoryCode());
-			} else {
-				this.categoryInfo = categoryInfoManager.getCategoryInfoByCode(this.categoryInfos.get(0).getCategoryCode());
-			}
-			return INPUT;
-		}
+//		if(basicInfoManager.validateShopCode(userInfo.getShopInfoId(), this.basicInfo.getShopCode()) != null) {
+//			addActionError("Shop code is duplicated.");
+//			this.categoryInfos = categoryInfoManager.list();
+//			
+//			if(this.basicInfo != null) {
+//				this.categoryInfo = categoryInfoManager.getCategoryInfoByCode(basicInfo.getCategoryCode());
+//			} else {
+//				this.categoryInfo = categoryInfoManager.getCategoryInfoByCode(this.categoryInfos.get(0).getCategoryCode());
+//			}
+//			return INPUT;
+//		}
 		
 		if(basicInfoManager.getBasicInfo(userInfo.getShopInfoId()) != null) {
 			this.basicInfo.setShopInfoId(userInfo.getShopInfoId());

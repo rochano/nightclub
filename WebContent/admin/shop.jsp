@@ -62,11 +62,11 @@
         ;
       })
     ;
-      $('.ui.form')
+      $('#activeForm')
       .form({
           onSuccess: function() { 
               var form = $(this);
-              form.find("[name=activeList]").remove()
+              form.find("[name=activelist]").remove()
               $( "input[name=active]:checked", dataTable.fnGetNodes()).each(function(i, item) {
             	  form.append("<input name='activelist' value='" + item.value + "' type='hidden' />")
               })
@@ -79,7 +79,51 @@
 	  $('.ui.modal')
 	    .modal('show')
 	  ;
+	  $("body").addClass("scrolling");
+	  $("body > .ui.dimmer.modals").addClass("scrolling");
+	  $("body > .ui.dimmer.modals > .ui.modal").addClass("scrolling");
 	  </s:if>
+	  $("#userInfo_validDateFrom, #userInfo_validDateTo").dateEntry({dateFormat: 'dmy/', spinnerImage: ''});
+	  <s:if test="userInfo.validDateFrom != null">
+	  $("#userInfo_validDateFrom").val("<s:date name="userInfo.validDateFrom" format="dd/MM/yyyy" />");
+	  </s:if>
+	  <s:if test="userInfo.validDateTo != null">
+	  $("#userInfo_validDateTo").val("<s:date name="userInfo.validDateTo" format="dd/MM/yyyy" />");
+	  </s:if>
+	  $('.ui.modal').modal({
+          onApprove : function() {
+            //Submits the semantic ui form
+            //And pass the handling responsibilities to the form handlers,
+            // e.g. on form validation success
+            $('#infoForm').submit();
+            //Return false as to not close modal dialog
+            return false;
+          }
+      });
+	  $('#infoForm.ui.form')
+      .form({
+          fields: {
+        	  userInfo_validDateFrom: {
+	              identifier  : 'userInfo_validDateFrom',
+	              rules: [
+	                {
+	                  type   : 'empty',
+	                  prompt : 'Please enter valid date from'
+	                },
+	              ]
+	            },
+	            userInfo_validDateTo: {
+	              identifier  : 'userInfo_validDateTo',
+	              rules: [
+	                {
+	                  type   : 'empty',
+	                  prompt : 'Please enter valid date to'
+	                },
+	              ]
+	            }
+          ,},
+       })
+      ;
     })
   ;
   </script>
@@ -126,38 +170,48 @@
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th>Shop code</th>
+									<th>Photo</th>
 									<th>Japanese name</th>
 									<th>English name</th>
 									<th>Category</th>
 									<th>Zone</th>
+									<th>Valid date from</th>
+									<th>Valid date to</th>
 									<th>Active</th>
+									<th>Operation</th>
 								</tr>
 							</thead>
 							<tbody>
-								<s:iterator value="basicInfos" status="status">
+								<s:iterator value="userInfos" status="status">
 								<tr>
 									<td class="center aligned"><s:property value="#status.count" /></td>
-									<td><s:property value="shopCode" /></td>
-									<td><s:property value="shopNameJp" /></td>
-									<td><s:property value="shopNameEn" /></td>
-									<td><s:property value="categoryInfo.categoryNameEn" /></td>
-									<td><s:property value="zoneInfo.zoneNameEn" /></td>
+									<td>
+										<img class="image ui tiny centered" src="<s:property value="shopInfo.logoImg" />">
+									</td>
+									<td><s:property value="shopInfo.shopNameJp" /></td>
+									<td><s:property value="shopInfo.shopNameEn" /></td>
+									<td><s:property value="shopInfo.categoryInfo.categoryNameEn" /></td>
+									<td><s:property value="shopInfo.zoneInfo.zoneNameEn" /></td>
+									<td class="center aligned"><s:date name="validDateFrom" format="dd/MM/yyyy" /></td>
+									<td class="center aligned"><s:date name="validDateTo" format="dd/MM/yyyy" /></td>
 									<td class="center aligned">
 										<div class="ui toggle fitted checkbox">
 											<input type="checkbox" name="active" 
 											<s:if test="active == 'true'">checked="checked"</s:if>
-											 value="<s:property value="shopInfoId" />">
+											 value="<s:property value="userInfoId" />">
 											<label></label>
 										</div>
+									</td>
+									<td class="center aligned">
+										<a href="<s:url value="/admin/shop/edit/%{userInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
 									</td>
 								</tr>
 								</s:iterator>
 							</tbody>
 							<tfoot class="full-width">
 								<tr>
-									<th colspan="7">
-										<form class="ui form " method="post" action="<s:url value="/admin/shop/update"/>" >
+									<th colspan="10">
+										<form class="ui form" id="activeForm" method="post" action="<s:url value="/admin/shop/active"/>" >
 											<div class="ui right floated small primary submit button">
 												Submit
 											</div>
@@ -174,6 +228,39 @@
   	</div>
   	<%@include file="/common/common_admin_management_footer.jsp" %>  
 </div>
+</div>
+
+<div class="ui modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Shop Information
+  </div>
+  <div class="content">
+    <form class="ui form" id="infoForm" method="post" action="<s:url value="/admin/shop/update"/>" >
+		<div class="inline fields">
+			<label>Japanese name</label>
+			<div class="field disabled">
+				<s:textfield name="userInfo.shopInfo.shopNameJp" disabled="true" />
+			</div>
+		</div>
+		<div class="inline fields">
+			<label>Valid Date</label>
+			<div class="field">
+				<s:textfield name="userInfo.validDateFrom" placeholder="DD/MM/YYYY" />
+			</div>
+			<label>-</label>
+			<div class="field">
+				<s:textfield name="userInfo.validDateTo" placeholder="DD/MM/YYYY" />
+			</div>
+		</div>
+		<s:hidden name="userInfoId"></s:hidden>
+		<div class="ui error message"></div>
+	</form>
+  </div>
+  <div class="actions">
+    <div class="ui approve blue button">Save</div>
+    <div class="ui cancel button">Cancel</div>
+  </div>
 </div>
 </body>
 </html>

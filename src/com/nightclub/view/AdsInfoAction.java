@@ -2,7 +2,6 @@ package com.nightclub.view;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -72,11 +71,6 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
 				this.adsInfo.setAdsImg(this.adsImageFileName);
 			}
 			
-			if(!getAdsImageMobileFileName().isEmpty()) {
-				this.adsImageMobileFileName = UploadFileUtils.uploadImageApi(getAdsImageMobileFileName(), sessionMap, userInfo);
-				this.adsInfo.setAdsImgMobile(this.adsImageMobileFileName);
-			}
-			
 			if(getAutoSubscribe() != null) {
 				this.adsInfo.setAutoSubscribe(Boolean.TRUE.toString().toLowerCase());
 			} else {
@@ -113,14 +107,6 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
             	this.adsInfo.setAdsImg(currentAdsInfo.getAdsImg());
             }
 			
-			if(!getAdsImageMobileFileName().isEmpty()) {
-				this.adsImageMobileFileName = UploadFileUtils.uploadImageApi(getAdsImageMobileFileName(), sessionMap, userInfo);
-				this.adsInfo.setAdsImgMobile(this.adsImageMobileFileName);
-			}
-			else if(currentAdsInfo.getAdsImgMobile() != null && !currentAdsInfo.getAdsImgMobile().isEmpty()) {
-            	this.adsInfo.setAdsImgMobile(currentAdsInfo.getAdsImgMobile());
-            }
-			
 			if(getAutoSubscribe() != null) {
 				this.adsInfo.setAutoSubscribe(Boolean.TRUE.toString().toLowerCase());
 			} else {
@@ -149,9 +135,6 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
 		
 		if(this.adsInfo.getAdsImg() == null){// || !new File(filePath, this.girlInfo.getPic1()).exists()) {
         	this.adsInfo.setAdsImg("");
-        }
-		if(this.adsInfo.getAdsImgMobile() == null){// || !new File(filePath, this.girlInfo.getPic1()).exists()) {
-        	this.adsInfo.setAdsImgMobile("");
         }
 
 		if(this.adsInfo.getAdsDateFrom() != null) {

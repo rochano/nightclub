@@ -63,31 +63,55 @@
 					<%@include file="/common/common_shop_menu.jsp" %>
 				</div>
 				
-				<div class="ui segment">
-					<h2 class="ui top header">
-						<i class="wait icon"></i>
-						<div class="content"><s:text name="global.shop_menu_system" /></div>
-					</h2>
-					<div class="ui centered grid attached segment">
+				<div class="center aligned column">
+					<div class="ui segment header">
+						<h2 class="ui top header">
+							<i class="wait icon"></i>
+							<div class="content"><s:text name="global.shop_menu_system" /></div>
+						</h2>
+					</div>
+					<div class="ui attached segment">
 						<div class="column one center aligned">
 							<table class="ui table celled">
 								<thead>
 									<tr class="center aligned">
 										<th><s:text name="global.shop_system_course_name" /></th>
+										<th><s:text name="global.shop_system_service" /></th>
 										<th><s:text name="global.shop_system_time" /></th>
 										<th><s:text name="global.shop_system_price" /></th>
-										<th><s:text name="global.shop_system_detail" /></th>
 									</tr>
 								</thead>
 								<tbody class="top aligned">
-									<s:iterator value="systemInfos" status="status">
+									<s:if test="systemInfo.classType == 'Normal'">
+										<s:set name="price1" value="%{systemInfo.priceNormal1}" />
+										<s:set name="price2" value="%{systemInfo.priceNormal2}" />
+										<s:set name="price3" value="%{systemInfo.priceNormal3}" />
+									</s:if>
+									<s:else>
+										<s:set name="price1" value="%{systemInfo.priceVIP1}" />
+										<s:set name="price2" value="%{systemInfo.priceVIP2}" />
+										<s:set name="price3" value="%{systemInfo.priceVIP3}" />
+									</s:else>
 									<tr>
-										<td><s:property value="infoName" /></td>
-										<td><s:property value="duration" /></td>
-										<td><s:text name="format.integer"><s:param name="value" value="price"/></s:text> baht</td>
-										<td><s:text name="description" /></td>
+										<td class="center aligned" rowspan="3"><s:property value="systemInfo.classType" /></td>
+										<td class="center aligned">1</td>
+										<td class="center aligned">60</td>
+										<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="%{price1}"/></s:text> baht</td>
 									</tr>
-									</s:iterator>
+									<tr>
+										<td style="display: none"></td>
+										<td style="display: none"></td>
+										<td class="center aligned border-left">2</td>
+										<td class="center aligned">90</td>
+										<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="%{price2}"/></s:text> baht</td>
+									</tr>
+									<tr>
+										<td style="display: none"></td>
+										<td style="display: none"></td>
+										<td class="center aligned border-left">3</td>
+										<td class="center aligned">120</td>
+										<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="%{price3}"/></s:text> baht</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>

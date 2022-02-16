@@ -2,9 +2,9 @@ package com.nightclub.view;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -53,6 +53,38 @@ public class CategoryInfoAction extends ActionSupport implements SessionAware {
 		
 		return SUCCESS;
 	}
+	
+	public String add() {
+		try {
+			UserInfo userInfo = (UserInfo)sessionMap.get("adminInfo");
+			ZoneInfo zoneInfo;
+			CategoryZone categoryZone;
+			Integer orderNo = 1;
+			this.categoryInfo.getCategoryZones().clear();
+			for(String zoneInfoId : this.zonelist) {
+				zoneInfo = new ZoneInfo();
+				zoneInfo.setZoneInfoId(zoneInfoId);
+				
+				categoryZone = new CategoryZone();
+				categoryZone.setZoneInfo(zoneInfo);
+				categoryZone.setCategoryInfo(this.categoryInfo);
+				categoryZone.setOrderNo(new BigInteger("" + orderNo));
+				orderNo++;
+				this.categoryInfo.getCategoryZones().add(categoryZone);
+			}
+			this.categoryInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.categoryInfo.getDescription(), sessionMap, userInfo));
+			this.categoryInfo.setCategoryInfoId(UUID.randomUUID().toString().toUpperCase());
+			categoryInfoManager.add(this.categoryInfo);
+			
+			addActionMessage("You have been successfully inserted");
+			this.categoryInfos = categoryInfoManager.list();
+			
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return INPUT;
+	}
 
 	public String update() {
 		try {
@@ -75,7 +107,6 @@ public class CategoryInfoAction extends ActionSupport implements SessionAware {
 			this.categoryInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.categoryInfo.getDescription(), sessionMap, userInfo));
 			categoryInfoManager.update(this.categoryInfo);
 			
-			
 			addActionMessage("You have been successfully updated");
 			
 			return SUCCESS;
@@ -94,6 +125,14 @@ public class CategoryInfoAction extends ActionSupport implements SessionAware {
 			}
 		}
 		this.showInfo = true;
+		this.categoryInfos = categoryInfoManager.list();
+		this.zoneInfos = zoneInfoManager.list();
+		return SUCCESS;
+	}
+
+	public String delete() {
+		categoryInfoManager.delete(this.categoryInfoId);
+		addActionMessage("You have been successfully deleted");
 		this.categoryInfos = categoryInfoManager.list();
 		this.zoneInfos = zoneInfoManager.list();
 		return SUCCESS;

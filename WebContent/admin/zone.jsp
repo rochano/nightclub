@@ -148,9 +148,6 @@
 				<div class="ui left aligned attached segment active content">
 					<form class="ui form" id="searchForm" method="post" action="<s:url value="/admin/zone/search"/>">
 						<div class="inline field">
-							<s:textfield name="zoneSearch.zoneCode" label="Zone code"/>
-						</div>
-						<div class="inline field">
 							<s:textfield name="zoneSearch.zoneNameJp" label="Japanese zone name"/>
 						</div>
 						<div class="inline field">
@@ -166,7 +163,7 @@
 				</div>
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Zone List
+					Location List
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
@@ -179,9 +176,8 @@
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th>Zone code</th>
-									<th>Japanese zone name</th>
-									<th>English zone name</th>
+									<th>Japanese location name</th>
+									<th>English location name</th>
 									<th>Operation</th>
 								</tr>
 							</thead>
@@ -189,7 +185,6 @@
 								<s:iterator value="zoneInfos" status="status">
 								<tr>
 									<td class="center aligned"><s:property value="#status.count" /></td>
-									<td><s:property value="zoneCode" /></td>
 									<td><s:property value="zoneNameJp" /></td>
 									<td><s:property value="zoneNameEn" /></td>
 									<td class="center aligned">
@@ -212,13 +207,10 @@
 <div class="ui modal">
   <i class="close icon"></i>
   <div class="header">
-    Zone Information
+    Location Information
   </div>
   <div class="content">
     <form class="ui form" id="infoForm" method="post" action="<s:url value="/admin/zone/update"/>">
-		<div class="inline field">
-			<s:textfield name="zoneInfo.zoneCode" label="Zone code" />
-		</div>
 		<div class="inline field">
 			<s:textfield name="zoneInfo.zoneNameJp" label="Japanese zone name" />
 		</div>

@@ -54,15 +54,13 @@
 		
 		<action name="shoplist"
 			class="com.nightclub.view.FrontEndAction" method="shoplistfilter">
-			<param name="categoryCode">karaoke</param>
-			<param name="zoneCode">taniya</param>
+			<param name="categoryInfoId">1</param>
 			<result name="success">/shoplist.jsp</result>
 		</action>
 		
 		<action name="shoplist/*/*"
 			class="com.nightclub.view.FrontEndAction" method="shoplistfilter">
-			<param name="categoryCode">{1}</param>
-			<param name="zoneCode">{2}</param>
+			<param name="categoryInfoId">{1}</param>
 			<result name="success">/shoplist.jsp</result>
 		</action>
 		
@@ -83,12 +81,75 @@
 		    <result name="success" type="bytesResult"> </result>
 		</action>
 		
+		<action name="login"
+			class="com.nightclub.view.UserInfoAction" method="login">
+			<result name="login">/login.jsp</result>
+			<result name="shopService" type="redirect">/management</result>
+			<result name="agent" type="redirect">/management_agent</result>
+			<result name="freeAgent" type="redirect">/management_free_agent</result>
+			<result name="client" type="redirect">/</result>
+		</action>
+
+		<action name="logout"
+			class="com.nightclub.view.UserInfoAction" method="logout">
+			<result name="success" type="redirect">/</result>
+		</action>
+
+		<action name="signup"
+			class="com.nightclub.view.UserInfoAction" method="signup">
+			<result name="input">/signup.jsp</result>
+			<result name="success">/login.jsp</result>
+		</action>
+		
+		<action name="agents"
+			class="com.nightclub.view.FrontEndAction" method="agentInfo">
+			<result name="success">/agents.jsp</result>
+		</action>
+		
+		<action name="agents/*"
+			class="com.nightclub.view.FrontEndAction" method="agentInfo">
+			<param name="agentInfoId">{1}</param>
+			<result name="success">/agents.jsp</result>
+		</action>
+		
+		<action name="freeagents"
+			class="com.nightclub.view.FrontEndAction" method="freeagentInfo">
+			<result name="success">/freeagents.jsp</result>
+		</action>
+		
+		<action name="girl/*"
+			class="com.nightclub.view.FrontEndAction" method="girlInfo">
+			<param name="girlInfoId">{1}</param>
+			<result name="success">/girl.jsp</result>
+		</action>
+		
+		<action name="search"
+			class="com.nightclub.view.FrontEndAction" method="search">
+			<result name="success">/search.jsp</result>
+		</action>
+		
+		<action name="search/*"
+			class="com.nightclub.view.FrontEndAction" method="location">
+			<param name="zoneInfoId">{1}</param>
+			<result name="success">/locations.jsp</result>
+		</action>
+		
+		<action name="howtouse/*"
+			class="com.nightclub.view.FrontEndAction" method="howtouse">
+			<result name="success">/how_to_use.jsp</result>
+		</action>
+		
+		<action name="contact/*"
+			class="com.nightclub.view.FrontEndAction" method="contact">
+			<result name="success">/contact.jsp</result>
+		</action>
+		
 	</package>
 	
 	<package name="ajax" extends="json-default" namespace="/ajax" >
 		<action name="categoryZoneJson/*"
 			class="com.nightclub.view.CategoryZoneJSonAction">
-			<param name="categoryCode">{1}</param>
+			<param name="categoryInfoId">{1}</param>
 			<result type="json" />
 		</action>
     </package>
@@ -109,86 +170,86 @@
 	    <action name="*"
 			class="com.nightclub.view.ShopInfoAction" method="execute">
 			<param name="menu">index</param>
-			<param name="shopCode">{1}</param>
+			<param name="shopInfoId">{1}</param>
 			<result name="success">/shop/home.jsp</result>
 		</action>
 		
 		<action name="*/girls"
 			class="com.nightclub.view.ShopInfoAction" method="girls">
 			<param name="menu">girls</param>
-			<param name="shopCode">{1}</param>
+			<param name="shopInfoId">{1}</param>
 			<result name="success">/shop/girls.jsp</result>
 		</action>
 		
 		<action name="*/girls/*"
 			class="com.nightclub.view.ShopInfoAction" method="girlInfo">
 			<param name="menu">girls</param>
-			<param name="shopCode">{1}</param>
-			<param name="girlCode">{2}</param>
+			<param name="shopInfoId">{1}</param>
+			<param name="girlInfoId">{2}</param>
 			<result name="success">/shop/girlInfo.jsp</result>
 		</action>
 		
-		<action name="login"
+<!-- 		<action name="login"
 			class="com.nightclub.view.UserInfoAction" method="login">
 			<param name="userType">1</param>
-			<result name="login">login.jsp</result>
+			<result name="login">/login.jsp</result>
 			<result name="success" type="redirect">/management</result>
-		</action>
+		</action> -->
 		
-		<action name="logout"
+<!-- 		<action name="logout"
 			class="com.nightclub.view.UserInfoAction" method="logout">
 			<interceptor-ref name="loginStack" />
 			<param name="userType">1</param>
-			<result name="login" type="redirect">/shop/login</result>
-			<result name="success">login.jsp</result>
-		</action>
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/login.jsp</result>
+		</action> -->
 		
-		<action name="signup"
+<!-- 		<action name="signup"
 			class="com.nightclub.view.UserInfoAction" method="signup">
 			<param name="userType">1</param>
-			<result name="input">signup.jsp</result>
-			<result name="success">login.jsp</result>
-		</action>
+			<result name="input">/signup.jsp</result>
+			<result name="success">/login.jsp</result>
+		</action> -->
 		
 		<action name="*/map"
 			class="com.nightclub.view.ShopInfoAction" method="map">
 			<param name="menu">map</param>
-			<param name="shopCode">{1}</param>
+			<param name="shopInfoId">{1}</param>
 			<result name="success">/shop/map.jsp</result>
 		</action>
 		
 		<action name="*/newface"
 			class="com.nightclub.view.ShopInfoAction" method="newface">
 			<param name="menu">newface</param>
-			<param name="shopCode">{1}</param>
+			<param name="shopInfoId">{1}</param>
 			<result name="success">/shop/newface.jsp</result>
 		</action>
 		
 		<action name="*/ranking"
 			class="com.nightclub.view.ShopInfoAction" method="ranking">
 			<param name="menu">ranking</param>
-			<param name="shopCode">{1}</param>
+			<param name="shopInfoId">{1}</param>
 			<result name="success">/shop/ranking.jsp</result>
 		</action>
 		
 		<action name="*/system"
 			class="com.nightclub.view.ShopInfoAction" method="system">
 			<param name="menu">system</param>
-			<param name="shopCode">{1}</param>
+			<param name="shopInfoId">{1}</param>
 			<result name="success">/shop/system.jsp</result>
 		</action>
 		
 		<action name="*/todayworking"
 			class="com.nightclub.view.ShopInfoAction" method="todayworking">
 			<param name="menu">todayworking</param>
-			<param name="shopCode">{1}</param>
+			<param name="shopInfoId">{1}</param>
 			<result name="success">/shop/todayworking.jsp</result>
 		</action>
 		
 		<action name="*/event/*"
 			class="com.nightclub.view.ShopInfoAction" method="eventInfo">
 			<param name="menu">index</param>
-			<param name="shopCode">{1}</param>
+			<param name="shopInfoId">{1}</param>
 			<param name="eventInfoId">{2}</param>
 			<result name="success">/shop/event.jsp</result>
 		</action>
@@ -219,7 +280,7 @@
 			class="net.viralpatel.contact.view.CommonAction" method="execute">
 			<param name="menu">index</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success">home.jsp</result>
 		</action>
 		
@@ -228,7 +289,7 @@
 			<param name="menu">basicinfo</param>
 			<interceptor-ref name="myStack" />
 			<result name="input" type="redirect">basicinfo</result>
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success" >basicinfo.jsp</result>
 		</action>
 		
@@ -243,7 +304,7 @@
 		        </param>
 		    </interceptor-ref> -->
 		    <result name="input">/management/basicinfo.jsp</result>
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success">/management/basicinfo.jsp</result>
 		</action>
 		
@@ -251,7 +312,7 @@
 			class="com.nightclub.view.UserInfoAction" method="execute">
 			<param name="menu">changepassword</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success">/management/changepassword.jsp</result>
 		</action>
 		
@@ -260,21 +321,21 @@
 			<param name="menu">changepassword</param>
 			<param name="userType">1</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="input">/management/changepassword.jsp</result>
 			<result name="success">/management/changepassword.jsp</result>
 		</action>
 		
 		<action name="girls"
-			class="com.nightclub.view.GirlInfoAction" method="execute">
+			class="com.nightclub.view.ShopGirlInfoAction" method="execute">
 			<param name="menu">girls</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success">girls.jsp</result>
 		</action>
 		
 		<action name="girl/*"
-			class="com.nightclub.view.GirlInfoAction" method="{1}">
+			class="com.nightclub.view.ShopGirlInfoAction" method="{1}">
 			<param name="menu">girls</param>
 			<interceptor-ref name="myStack" />
 			<!-- <interceptor-ref name="fileUpload">
@@ -284,33 +345,33 @@
 		        </param>
 		    </interceptor-ref> -->
 		    <result name="input">girls.jsp</result>
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success" >/management/girls.jsp</result>
 		</action>
 		
 		<action name="girl/edit/*"
-			class="com.nightclub.view.GirlInfoAction" method="edit">
+			class="com.nightclub.view.ShopGirlInfoAction" method="edit">
 			<param name="menu">girls</param>
 			<param name="girlInfoId">{1}</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success" >/management/girls.jsp</result>
 		</action>
 		
 		<action name="girl/delete/*"
-			class="com.nightclub.view.GirlInfoAction" method="delete">
+			class="com.nightclub.view.ShopGirlInfoAction" method="delete">
 			<param name="menu">girls</param>
 			<param name="girlInfoId">{1}</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success" type="redirect">girls</result>
 		</action>
 		
 		<action name="girl/search"
-			class="com.nightclub.view.GirlInfoAction" method="search">
+			class="com.nightclub.view.ShopGirlInfoAction" method="search">
 			<param name="menu">girls</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success">/management/girls.jsp</result>
 		</action>
 		
@@ -318,7 +379,7 @@
 			class="com.nightclub.view.MapInfoAction" method="execute">
 			<param name="menu">map</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success">map.jsp</result>
 		</action>
 		
@@ -326,7 +387,7 @@
 			class="com.nightclub.view.MapInfoAction" method="{1}">
 			<param name="menu">map</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="input">map.jsp</result>
 			<result name="success" type="redirect">map</result>
 		</action>
@@ -335,7 +396,7 @@
 			class="com.nightclub.view.EventInfoAction" method="execute">
 			<param name="menu">event</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success">event.jsp</result>
 		</action>
 		
@@ -343,7 +404,7 @@
 			class="com.nightclub.view.EventInfoAction" method="{1}">
 			<param name="menu">event</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success" type="redirect">event</result>
 		</action>
 		
@@ -352,7 +413,7 @@
 			<param name="menu">event</param>
 			<param name="eventInfoId">{1}</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success" >/management/event.jsp</result>
 		</action>
 		
@@ -361,7 +422,7 @@
 			<param name="menu">event</param>
 			<param name="eventInfoId">{1}</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success" type="redirect">event</result>
 		</action>
 		
@@ -369,7 +430,7 @@
 			class="com.nightclub.view.EventInfoAction" method="search">
 			<param name="menu">event</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success">/management/event.jsp</result>
 		</action>
 		
@@ -377,7 +438,7 @@
 			class="com.nightclub.view.SchduleInfoAction" method="execute">
 			<param name="menu">schedule</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success">schedule.jsp</result>
 		</action>
 		
@@ -385,7 +446,7 @@
 			class="com.nightclub.view.SchduleInfoAction" method="{1}">
 			<param name="menu">schedule</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success" type="redirect">schedule</result>
 		</action>
 		
@@ -394,7 +455,7 @@
 			<param name="menu">schedule</param>
 			<param name="scheduleInfoId">{1}</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success" >/management/schedule.jsp</result>
 		</action>
 		
@@ -403,7 +464,7 @@
 			<param name="menu">schedule</param>
 			<param name="scheduleInfoId">{1}</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success" type="redirect">schedule</result>
 		</action>
 		
@@ -411,7 +472,7 @@
 			class="com.nightclub.view.SchduleInfoAction" method="search">
 			<param name="menu">schedule</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success">/management/schedule.jsp</result>
 		</action>
 		
@@ -419,7 +480,7 @@
 			class="com.nightclub.view.SystemInfoAction" method="execute">
 			<param name="menu">system</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success">system.jsp</result>
 		</action>
 		
@@ -427,33 +488,33 @@
 			class="com.nightclub.view.SystemInfoAction" method="{1}">
 			<param name="menu">system</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success" type="redirect">system</result>
 		</action>
 		
 		<action name="system/edit/*"
 			class="com.nightclub.view.SystemInfoAction" method="edit">
 			<param name="menu">system</param>
-			<param name="systemInfoId">{1}</param>
+			<param name="classType">{1}</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success" >/management/system.jsp</result>
 		</action>
 		
-		<action name="system/delete/*"
+<!-- 		<action name="system/delete/*"
 			class="com.nightclub.view.SystemInfoAction" method="delete">
 			<param name="menu">system</param>
 			<param name="systemInfoId">{1}</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success" type="redirect">system</result>
-		</action>
+		</action> -->
 		
 		<action name="system/search"
 			class="com.nightclub.view.SystemInfoAction" method="search">
 			<param name="menu">system</param>
 			<interceptor-ref name="myStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/login</result>
 			<result name="success">/management/system.jsp</result>
 		</action>
 	</package>
@@ -497,7 +558,7 @@
 	    <action name="login"
 			class="com.nightclub.view.UserInfoAction" method="login">
 			<param name="menu">management</param>
-			<param name="userType">2</param>
+			<param name="userType">0</param>
 			<result name="login">login.jsp</result>
 			<result name="success" type="redirect">/admin</result>
 		</action>
@@ -505,26 +566,129 @@
 	    <action name="logout"
 			class="com.nightclub.view.UserInfoAction" method="logout">
 			<interceptor-ref name="adminStack" />
-			<param name="userType">2</param>
+			<param name="userType">0</param>
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">login.jsp</result>
 		</action>
 		
 	    <action name="shop"
-			class="com.nightclub.view.AdminInfoAction" method="shoplist">
+			class="com.nightclub.view.AdminInfoAction" method="userlist">
 			<param name="menu">shop</param>
+			<param name="userType">1</param>
 			<interceptor-ref name="adminStack" />
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">shop.jsp</result>
 		</action>
 		
 		<action name="shop/*"
-			class="com.nightclub.view.AdminInfoAction" method="shop{1}">
+			class="com.nightclub.view.AdminInfoAction" method="user{1}">
 			<param name="menu">shop</param>
+			<param name="userType">1</param>
 			<interceptor-ref name="adminStack" />
 		    <result name="input">/admin/shop.jsp</result>
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/shop.jsp</result>
+		</action>
+		
+		<action name="shop/edit/*"
+			class="com.nightclub.view.AdminInfoAction" method="useredit">
+			<param name="menu">shop</param>
+			<param name="userInfoId">{1}</param>
+			<param name="userType">1</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/shop.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/shop.jsp</result>
+		</action>
+		
+		<action name="agent"
+			class="com.nightclub.view.AdminInfoAction" method="userlist">
+			<param name="menu">agent</param>
+			<param name="userType">2</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">agent.jsp</result>
+		</action>
+		
+		<action name="agent/*"
+			class="com.nightclub.view.AdminInfoAction" method="user{1}">
+			<param name="menu">agent</param>
+			<param name="userType">2</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/agent.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/agent.jsp</result>
+		</action>
+		
+		<action name="agent/edit/*"
+			class="com.nightclub.view.AdminInfoAction" method="useredit">
+			<param name="menu">agent</param>
+			<param name="userInfoId">{1}</param>
+			<param name="userType">2</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/agent.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/agent.jsp</result>
+		</action>
+		
+		<action name="freeagent"
+			class="com.nightclub.view.AdminInfoAction" method="userlist">
+			<param name="menu">freeagent</param>
+			<param name="userType">3</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">freeagent.jsp</result>
+		</action>
+		
+		<action name="freeagent/*"
+			class="com.nightclub.view.AdminInfoAction" method="user{1}">
+			<param name="menu">freeagent</param>
+			<param name="userType">3</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/freeagent.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/freeagent.jsp</result>
+		</action>
+		
+		<action name="freeagent/edit/*"
+			class="com.nightclub.view.AdminInfoAction" method="useredit">
+			<param name="menu">freeagent</param>
+			<param name="userInfoId">{1}</param>
+			<param name="userType">3</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/freeagent.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/freeagent.jsp</result>
+		</action>
+		
+		<action name="client"
+			class="com.nightclub.view.AdminInfoAction" method="userlist">
+			<param name="menu">client</param>
+			<param name="userType">4</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">client.jsp</result>
+		</action>
+		
+		<action name="client/*"
+			class="com.nightclub.view.AdminInfoAction" method="user{1}">
+			<param name="menu">client</param>
+			<param name="userType">4</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/client.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/client.jsp</result>
+		</action>
+		
+		<action name="client/edit/*"
+			class="com.nightclub.view.AdminInfoAction" method="useredit">
+			<param name="menu">client</param>
+			<param name="userInfoId">{1}</param>
+			<param name="userType">4</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/client.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/client.jsp</result>
 		</action>
 		
 	    <action name="zone"
@@ -566,7 +730,7 @@
 			class="com.nightclub.view.ZoneInfoAction" method="search">
 			<param name="menu">zone</param>
 			<interceptor-ref name="adminStack" />
-			<result name="login" type="redirect">/shop/login</result>
+			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/zone.jsp</result>
 		</action>
 		
@@ -588,6 +752,15 @@
 		
 		<action name="category/edit/*"
 			class="com.nightclub.view.CategoryInfoAction" method="edit">
+			<param name="menu">category</param>
+			<param name="categoryInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" >/admin/category.jsp</result>
+		</action>
+
+		<action name="category/delete/*"
+			class="com.nightclub.view.CategoryInfoAction" method="delete">
 			<param name="menu">category</param>
 			<param name="categoryInfoId">{1}</param>
 			<interceptor-ref name="adminStack" />
@@ -678,6 +851,74 @@
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/ads.jsp</result>
 		</action>
+
+		<action name="girlservice"
+			class="com.nightclub.view.AdminInfoAction" method="girlservice">
+			<param name="menu">girlservice</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">girlservice.jsp</result>
+		</action>
+		
+		<action name="girlservice/*"
+			class="com.nightclub.view.AdminInfoAction" method="girlservice{1}">
+			<param name="menu">girlservice</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/girlservice.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/girlservice.jsp</result>
+		</action>
+		
+		<action name="girlsetting"
+			class="com.nightclub.view.AdminInfoAction" method="girlsetting">
+			<param name="menu">girlsetting</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">girlsetting.jsp</result>
+		</action>
+		
+		<action name="girlsetting/*"
+			class="com.nightclub.view.AdminInfoAction" method="girlsetting{1}">
+			<param name="menu">girlsetting</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/girlsetting.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/girlsetting.jsp</result>
+		</action>
+		
+		<action name="howtouse"
+			class="com.nightclub.view.AdminInfoAction" method="howToUse">
+			<param name="menu">howtouse</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">how_to_use.jsp</result>
+		</action>
+		
+		<action name="howtouse/*"
+			class="com.nightclub.view.AdminInfoAction" method="howToUse{1}">
+			<param name="menu">howtouse</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/how_to_use.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/how_to_use.jsp</result>
+		</action>
+		
+		<action name="contact"
+			class="com.nightclub.view.AdminInfoAction" method="contact">
+			<param name="menu">contact</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">contact.jsp</result>
+		</action>
+		
+		<action name="contact/*"
+			class="com.nightclub.view.AdminInfoAction" method="contact{1}">
+			<param name="menu">contact</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/contact.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/contact.jsp</result>
+		</action>
 	</package>
 
 	<package name="api" extends="rest-default" namespace="/api" >
@@ -686,4 +927,271 @@
 			<param name="id">{1}</param>
 		</action>
     </package>
+
+    <package name="management_agent" extends="struts-default" namespace="/management_agent">
+	    
+	    <interceptors>
+			<interceptor class="com.nightclub.interceptor.LoginInterceptor" name="loginInterceptor">
+			</interceptor>
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+			
+			<interceptor name="redirectMessage"
+      			class="com.nightclub.interceptor.RedirectMessageInterceptor" />
+			<interceptor-stack name="myStack">
+			    <interceptor-ref name="redirectMessage" />
+			    <interceptor-ref name="loginStack" />
+			    <interceptor-ref name="paramsPrepareParamsStack" />
+			</interceptor-stack>
+		</interceptors>
+		
+	    <default-action-ref name="home"/>
+		
+	    <action name="home" 
+			class="net.viralpatel.contact.view.CommonAction" method="execute">
+			<param name="menu">index</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">home.jsp</result>
+		</action>
+
+		<action name="agentinfo"
+			class="com.nightclub.view.AgentInfoAction" method="execute">
+			<param name="menu">agentinfo</param>
+			<interceptor-ref name="myStack" />
+			<result name="input" type="redirect">agentinfo</result>
+			<result name="login" type="redirect">/login</result>
+			<result name="success" >agentinfo.jsp</result>
+		</action>
+
+		<action name="agentinfo/*"
+			class="com.nightclub.view.AgentInfoAction" method="{1}">
+			<param name="menu">agentinfo</param>
+			<interceptor-ref name="myStack" />
+			<!-- <interceptor-ref name="fileUpload">
+		        <param name="maximumSize">2097152</param>
+		        <param name="allowedTypes">
+		            image/png,image/gif,image/jpeg,image/pjpeg
+		        </param>
+		    </interceptor-ref> -->
+		    <result name="input">/management_agent/agentinfo.jsp</result>
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_agent/agentinfo.jsp</result>
+		</action>
+		
+		<action name="changepassword"
+			class="com.nightclub.view.UserInfoAction" method="execute">
+			<param name="menu">changepassword</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_agent/changepassword.jsp</result>
+		</action>
+		
+		<action name="changepassword/update"
+			class="com.nightclub.view.UserInfoAction" method="changePassword">
+			<param name="menu">changepassword</param>
+			<param name="userType">2</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="input">/management_agent/changepassword.jsp</result>
+			<result name="success">/management_agent/changepassword.jsp</result>
+		</action>
+		
+		<action name="girls"
+			class="com.nightclub.view.AgentGirlInfoAction" method="execute">
+			<param name="menu">girls</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">girls.jsp</result>
+		</action>
+		
+		<action name="girl/*"
+			class="com.nightclub.view.AgentGirlInfoAction" method="{1}">
+			<param name="menu">girls</param>
+			<interceptor-ref name="myStack" />
+			<!-- <interceptor-ref name="fileUpload">
+		        <param name="maximumSize">2097152</param>
+		        <param name="allowedTypes">
+		            image/png,image/gif,image/jpeg,image/pjpeg
+		        </param>
+		    </interceptor-ref> -->
+		    <result name="input">girls.jsp</result>
+			<result name="login" type="redirect">/login</result>
+			<result name="success" >/management_agent/girls.jsp</result>
+		</action>
+		
+		<action name="girl/edit/*"
+			class="com.nightclub.view.AgentGirlInfoAction" method="edit">
+			<param name="menu">girls</param>
+			<param name="girlInfoId">{1}</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success" >/management_agent/girls.jsp</result>
+		</action>
+		
+		<action name="girl/delete/*"
+			class="com.nightclub.view.AgentGirlInfoAction" method="delete">
+			<param name="menu">girls</param>
+			<param name="girlInfoId">{1}</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success" type="redirect">girls</result>
+		</action>
+		
+		<action name="girl/search"
+			class="com.nightclub.view.AgentGirlInfoAction" method="search">
+			<param name="menu">girls</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_agent/girls.jsp</result>
+		</action>
+	</package>
+	
+	<package name="management_free_agent" extends="struts-default" namespace="/management_free_agent">
+	    
+	    <interceptors>
+			<interceptor class="com.nightclub.interceptor.LoginInterceptor" name="loginInterceptor">
+			</interceptor>
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+			
+			<interceptor name="redirectMessage"
+      			class="com.nightclub.interceptor.RedirectMessageInterceptor" />
+			<interceptor-stack name="myStack">
+			    <interceptor-ref name="redirectMessage" />
+			    <interceptor-ref name="loginStack" />
+			    <interceptor-ref name="paramsPrepareParamsStack" />
+			</interceptor-stack>
+		</interceptors>
+		
+	    <default-action-ref name="home"/>
+		
+	    <action name="home" 
+			class="net.viralpatel.contact.view.CommonAction" method="execute">
+			<param name="menu">index</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">home.jsp</result>
+		</action>
+		
+		<action name="information"
+			class="com.nightclub.view.FreeAgentGirlInfoAction" method="execute">
+			<param name="menu">information</param>
+			<interceptor-ref name="myStack" />
+			<result name="input" type="redirect">information</result>
+			<result name="login" type="redirect">/login</result>
+			<result name="success" >freeagentinfo.jsp</result>
+		</action>
+		
+		<action name="information/*"
+			class="com.nightclub.view.FreeAgentGirlInfoAction" method="{1}">
+			<param name="menu">information</param>
+			<interceptor-ref name="myStack" />
+			<!-- <interceptor-ref name="fileUpload">
+		        <param name="maximumSize">2097152</param>
+		        <param name="allowedTypes">
+		            image/png,image/gif,image/jpeg,image/pjpeg
+		        </param>
+		    </interceptor-ref> -->
+		    <result name="input">/management_free_agent/freeagentinfo.jsp</result>
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_free_agent/freeagentinfo.jsp</result>
+		</action>
+		
+		<action name="changepassword"
+			class="com.nightclub.view.UserInfoAction" method="execute">
+			<param name="menu">changepassword</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_free_agent/changepassword.jsp</result>
+		</action>
+		
+		<action name="changepassword/update"
+			class="com.nightclub.view.UserInfoAction" method="changePassword">
+			<param name="menu">changepassword</param>
+			<param name="userType">3</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="input">/management_free_agent/changepassword.jsp</result>
+			<result name="success">/management_free_agent/changepassword.jsp</result>
+		</action>
+
+	</package>
+	
+	<package name="management_client" extends="struts-default" namespace="/management_client">
+	    
+	    <interceptors>
+			<interceptor class="com.nightclub.interceptor.LoginInterceptor" name="loginInterceptor">
+			</interceptor>
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+			
+			<interceptor name="redirectMessage"
+      			class="com.nightclub.interceptor.RedirectMessageInterceptor" />
+			<interceptor-stack name="myStack">
+			    <interceptor-ref name="redirectMessage" />
+			    <interceptor-ref name="loginStack" />
+			    <interceptor-ref name="paramsPrepareParamsStack" />
+			</interceptor-stack>
+		</interceptors>
+		
+	    <default-action-ref name="home"/>
+		
+	    <action name="home" 
+			class="net.viralpatel.contact.view.CommonAction" method="execute">
+			<param name="menu">index</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">home.jsp</result>
+		</action>
+		
+		<action name="information"
+			class="com.nightclub.view.ClientInfoAction" method="execute">
+			<param name="menu">information</param>
+			<interceptor-ref name="myStack" />
+			<result name="input" type="redirect">information</result>
+			<result name="login" type="redirect">/login</result>
+			<result name="success" >clientinfo.jsp</result>
+		</action>
+		
+		<action name="information/*"
+			class="com.nightclub.view.ClientInfoAction" method="{1}">
+			<param name="menu">information</param>
+			<interceptor-ref name="myStack" />
+			<!-- <interceptor-ref name="fileUpload">
+		        <param name="maximumSize">2097152</param>
+		        <param name="allowedTypes">
+		            image/png,image/gif,image/jpeg,image/pjpeg
+		        </param>
+		    </interceptor-ref> -->
+		    <result name="input">/management_client/clientinfo.jsp</result>
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_client/clientinfo.jsp</result>
+		</action>
+		
+		<action name="changepassword"
+			class="com.nightclub.view.UserInfoAction" method="execute">
+			<param name="menu">changepassword</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_client/changepassword.jsp</result>
+		</action>
+		
+		<action name="changepassword/update"
+			class="com.nightclub.view.UserInfoAction" method="changePassword">
+			<param name="menu">changepassword</param>
+			<param name="userType">4</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="input">/management_client/changepassword.jsp</result>
+			<result name="success">/management_client/changepassword.jsp</result>
+		</action>
+
+	</package>
 </struts>

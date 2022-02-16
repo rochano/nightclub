@@ -20,7 +20,7 @@ public class ZoneInfo implements Serializable {
 	private static final long serialVersionUID = -3880761944268621852L;
 	
 	private String zoneInfoId;
-	private String zoneCode;
+//	private String zoneCode;
 	private String zoneNameEn;
 	private String zoneNameJp;
 	private String chkCustomUrl;
@@ -35,10 +35,10 @@ public class ZoneInfo implements Serializable {
 		return zoneInfoId;
 	}
 	
-	@Column(name="zone_code", unique=true)
-	public String getZoneCode() {
-		return zoneCode;
-	}
+//	@Column(name="zone_code", unique=true)
+//	public String getZoneCode() {
+//		return zoneCode;
+//	}
 	
 	@Column(name="zone_name_en")
 	public String getZoneNameEn() {
@@ -64,9 +64,9 @@ public class ZoneInfo implements Serializable {
 	public void setZoneInfoId(String zoneInfoId) {
 		this.zoneInfoId = zoneInfoId;
 	}
-	public void setZoneCode(String zoneCode) {
-		this.zoneCode = zoneCode;
-	}
+//	public void setZoneCode(String zoneCode) {
+//		this.zoneCode = zoneCode;
+//	}
 	public void setZoneNameEn(String zoneNameEn) {
 		this.zoneNameEn = zoneNameEn;
 	}

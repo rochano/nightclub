@@ -80,7 +80,7 @@
 	<div class="ui secondary pointing menu stackable fixed">
 		<div class="left menu">
 			<div class="header item">
-				<a class="ui labeled icon button" href="<s:url value="/shop/login"/>">
+				<a class="ui labeled icon button" href="<s:url value="/login"/>">
 					<i class="long arrow left icon"></i>
 					Shop login
 				</a>

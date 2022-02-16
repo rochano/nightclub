@@ -6,29 +6,38 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.SessionAware;
 
+import com.nightclub.controller.ClientInfoManager;
 import com.nightclub.controller.StatisticInfoManager;
+import com.nightclub.model.ClientInfo;
 import com.nightclub.model.StatisticInfo;
 import com.nightclub.model.StatisticInfoPK;
 import com.nightclub.model.StatisticModel;
+import com.nightclub.model.UserInfo;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class CommonAction extends ActionSupport implements ServletRequestAware {
+public class CommonAction extends ActionSupport implements ServletRequestAware, SessionAware  {
 	
 	private static final long serialVersionUID = -5029871739458132655L;
 	Logger log_ = Logger.getLogger(this.getClass().getName());
 	private StatisticModel statisticModel;
 	private HttpServletRequest servletRequest;
+	private ClientInfo clientInfo;
+	private Map<String, Object> sessionMap;
 	
 	private StatisticInfoManager statisticInfoManager;
+	private ClientInfoManager clientInfoManager;
 	
 	public CommonAction() {
 		statisticInfoManager = new StatisticInfoManager();
+		clientInfoManager = new ClientInfoManager();
 	}
 
 	protected void getStatisticInfo() {
@@ -109,6 +118,11 @@ public class CommonAction extends ActionSupport implements ServletRequestAware {
 	
 		getStatisticModel().setIpAddress(ipaddress);
 		getStatisticModel().setAccessDt(accessDtYmd);
+
+		if (sessionMap.containsKey("userInfo")) {
+			UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
+			this.clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
+		}
 	}
 
 	public StatisticModel getStatisticModel() {
@@ -126,5 +140,18 @@ public class CommonAction extends ActionSupport implements ServletRequestAware {
 
 	public HttpServletRequest getServletRequest() {
 		return servletRequest;
+	}
+
+	public ClientInfo getClientInfo() {
+		return clientInfo;
+	}
+
+	public void setClientInfo(ClientInfo clientInfo) {
+		this.clientInfo = clientInfo;
+	}
+	
+	@Override
+	public void setSession(Map<String, Object> sessionMap) {
+		this.sessionMap = sessionMap;
 	}
 }

@@ -63,12 +63,14 @@
 					<%@include file="/common/common_shop_menu.jsp" %>
 				</div>
 				
-				<div class="ui segment">
-					<h2 class="ui top header">
-						<i class="heart icon pink"></i>
-						<div class="content"><s:text name="global.today_working_attendance" /></div>
-					</h2>
-					<div class="ui centered grid attached segment">
+				<div class="center aligned column">
+					<div class="ui segment header ">
+						<h2 class="ui top header">
+							<i class="heart icon pink"></i>
+							<div class="content"><s:text name="global.today_working_attendance" /></div>
+						</h2>
+					</div>
+					<div class="ui grid attached segment">
 						<div class="column one center aligned">
 							<h5 class="ui header left aligned">
 								<s:date name="currentDate" format="MMMM dd, yyyy" /> attendance scheduled for (<s:date name="currentDate" format="EEEE" />)
@@ -80,7 +82,7 @@
 										<img class="image ui centered" src="<s:property value="girlInfo.pic1" />">
 									</div>
 									<div class="content">
-										<div class="header"><a href="<s:url value="/shop/%{shopCode}/girls/%{girlInfo.code}"/>" class="ui labeled"><s:property value="girlInfo.nickName" /></a></div>
+										<div class="header"><a href="<s:url value="/shop/%{shopInfoId}/girls/%{girlInfo.girlInfoId}"/>" class="ui labeled"><s:property value="girlInfo.nickName" /></a></div>
 										<div class="meta"><span class="age"><s:text name="global.shop_girl_age" />: <s:property value="girlInfo.age" /></span></div>
 										<div class="meta">
 											<span class="property">
@@ -97,12 +99,14 @@
 					</div>
 				</div>
 				
-				<div class="ui segment">
-					<h2 class="ui top header">
-						<i class="calendar icon"></i>
-						<div class="content"><s:text name="global.shop_girls_schedule_list" /></div>
-					</h2>
-					<div class="ui centered grid attached segment">
+				<div class="center aligned column">
+					<div class="ui segment header">
+						<h2 class="ui top header">
+							<i class="calendar icon"></i>
+							<div class="content"><s:text name="global.shop_girls_schedule_list" /></div>
+						</h2>
+					</div>
+					<div class="ui centered attached segment">
 						<div class="column one center aligned">
 							<table id="searchList" class="ui table celled compact striped unstackable sortable">
 								<thead class="center aligned">

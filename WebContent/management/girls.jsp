@@ -102,6 +102,7 @@
 	  $("#addbtn")
 		.on('click', function() {
 		  $('#infoForm').find("input[type=text], textarea").val("");
+		  CKEDITOR.instances.girlInfo_description.setData('');
 		  $('#infoForm')[0].action.value = "add";
 		  $('#infoForm')[0].action = "<s:url value="/management/girl/add"/>";
 		  $("#pic1").empty();
@@ -139,39 +140,39 @@
                     },
                   ]
                 },
-              girlInfo_firstName: {
-                  identifier  : 'girlInfo_firstName',
+              girlInfo_nickName: {
+                  identifier  : 'girlInfo_nickName',
                   rules: [
                     {
                       type   : 'empty',
-                      prompt : 'Please enter your first name'
+                      prompt : 'Please enter your nick name'
                     },
                   ]
                 },
-              girlInfo_lastName: {
-                  identifier  : 'girlInfo_lastName',
-                  rules: [
-                    {
-                      type   : 'empty',
-                      prompt : 'Please enter your last name'
-                    },
-                  ]
-                },
+              /*   girlInfo_category: {
+                    identifier  : 'girlInfo_category',
+                    rules: [
+                      {
+                        type   : 'empty',
+                        prompt : 'Please enter your category'
+                      },
+                    ]
+                  },
+                girlInfo_location: {
+                    identifier  : 'girlInfo_location',
+                    rules: [
+                      {
+                        type   : 'empty',
+                        prompt : 'Please enter your location'
+                      },
+                    ]
+                  }, */
                 girlInfo_age: {
                     identifier  : 'girlInfo_age',
                     rules: [
                       {
                         type   : 'integer',
                         prompt : 'Please enter a valid age'
-                      },
-                    ]
-                  },
-                girlInfo_height: {
-                    identifier  : 'girlInfo_height',
-                    rules: [
-                      {
-                        type   : 'integer',
-                        prompt : 'Please enter a valid height'
                       },
                     ]
                   },
@@ -202,6 +203,24 @@
                      },
                    ]
                  },
+                 girlInfo_height: {
+                     identifier  : 'girlInfo_height',
+                     rules: [
+                       {
+                         type   : 'integer',
+                         prompt : 'Please enter a valid height'
+                       },
+                     ]
+                   },
+                girlInfo_weight: {
+                    identifier  : 'girlInfo_weight',
+                    rules: [
+                      {
+                        type   : 'integer',
+                        prompt : 'Please enter a valid weight'
+                      },
+                    ]
+                  },
           },
        })
       ;
@@ -319,6 +338,18 @@
 	        	console.log(error);
 	        }
 	  });
+      $('#girlsupdateForm')
+      .form({
+          onSuccess: function() { 
+              var form = $(this);
+              form.find("[name=availablelist]").remove()
+              $( "input[name=available]:checked", dataTable.fnGetNodes()).each(function(i, item) {
+            	  form.append("<input name='availablelist' value='" + item.value + "' type='hidden' />")
+              })
+              return true; 
+          }
+       })
+      ;
   })
   ;
   </script>
@@ -362,16 +393,13 @@
 				<div class="ui left aligned attached segment active content">
 					<form class="ui form" id="searchForm" method="post" action="<s:url value="/management/girl/search"/>">
 						<div class="inline field">
-							<s:textfield name="girlSearch.code" label="Code"/>
+							<s:textfield name="girlSearch.nickName" label="Nick Name "/>
 						</div>
 						<div class="inline field">
-							<s:textfield name="girlSearch.firstName" label="First Name"/>
+							<s:textfield name="girlSearch.category" label="Category "/>
 						</div>
 						<div class="inline field">
-							<s:textfield name="girlSearch.lastName" label="Last Name"/>
-						</div>
-						<div class="inline field">
-							<s:textfield name="girlSearch.age" label="Age"/>
+							<s:textfield name="girlSearch.location" label="Location "/>
 						</div>
 						<div class="ui error message"></div>
 						<div class="ui right aligned one column grid">
@@ -398,15 +426,15 @@
 								<tr>
 									<th>#</th>
 									<th>Photo</th>
-									<th>Name</th>
+									<th>Nick Name</th>
 									<th>Age</th>
-									<th>Hometown</th>
-									<th>T</th>
+									<th>Location</th>
+									<th>H</th>
+									<th>W</th>
 									<th>B</th>
 									<th>W</th>
 									<th>H</th>
-									<th>Status</th>
-									<th>Ranking</th>
+									<th>Available</th>
 									<th>Operation</th>
 								</tr>
 							</thead>
@@ -417,15 +445,22 @@
 									<td>
 										<img class="image ui tiny centered" src="<s:property value="pic1" />">
 									</td>
-									<td><s:property value="firstName" /> <s:property value="lastName" /></td>
+									<td><s:property value="nickName" /></td>
 									<td class="center aligned"><s:property value="age" /></td>
-									<td><s:property value="hometown" /></td>
+									<td><s:property value="location" /></td>
 									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="height"/></s:text></td>
+									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="weight"/></s:text></td>
 									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="bustSize"/></s:text></td>
 									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="waistSize"/></s:text></td>
 									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="hipSize"/></s:text></td>
-									<td class="center aligned"><s:property value="status" /></td>
-									<td class="center aligned"><s:property value="ranking" /></td>
+									<td class="center aligned">
+										<div class="ui toggle fitted checkbox">
+											<input type="checkbox" name="available" 
+											<s:if test="available == 'true'">checked="checked"</s:if>
+											 value="<s:property value="girlInfoId" />">
+											<label></label>
+										</div>
+									</td>
 									<td class="center aligned">
 										<a href="<s:url value="/management/girl/edit/%{girlInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
 										<a href="<s:url value="/management/girl/delete/%{girlInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
@@ -433,6 +468,17 @@
 								</tr>
 								</s:iterator>
 							</tbody>
+							<tfoot class="full-width">
+								<tr>
+									<th colspan="12">
+										<form id="girlsupdateForm" class="ui form " method="post" action="<s:url value="/management/girl/girlsupdate"/>" >
+											<div class="ui right floated small primary submit button">
+												Submit
+											</div>
+										</form>
+									</th>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 				</div>
@@ -451,40 +497,37 @@
   <div class="content">
   	<form class="ui form" id="infoForm" method="post" action="<s:url value="/management/girl/update"/>" enctype="multipart/form-data">
     	<div class="inline field">
-			<s:textfield name="girlInfo.code" label="Code"/>
+			<s:textfield name="girlInfo.nickName" label="Nick Name "/>
 		</div>
 		<div class="inline field">
-			<s:textfield name="girlInfo.firstName" label="First Name"/>
+			<s:textfield name="girlInfo.category" label="Category "/>
 		</div>
 		<div class="inline field">
-			<s:textfield name="girlInfo.lastName" label="Last Name"/>
+			<s:textfield name="girlInfo.location" label="Location "/>
 		</div>
 		<div class="inline field">
-			<s:textfield name="girlInfo.nickName" label="Nick Name"/>
-		</div>
-		<div class="inline field">
-			<s:textfield name="girlInfo.age" label="Age"/>
-		</div>
-		<div class="inline field">
-			<s:textfield name="girlInfo.hometown" label="Hometown"/>
+			<s:select list="ageList" name="girlInfo.age" label="Age "></s:select>
 		</div>
 		<div class="inline fields">
-			<label>Body size</label>
+			<label>Body size :</label>
 			<div class="field">
-				<s:textfield name="girlInfo.height" label="T" size="5" value= "%{getText('format.integer',{girlInfo.height})}" />
+				<s:select list="bustSizeList" name="girlInfo.bustSize" label="B "></s:select>
 			</div>
 			<div class="field">
-				<s:textfield name="girlInfo.bustSize" label="B" size="5" value= "%{getText('format.integer',{girlInfo.bustSize})}" />
+				<s:select list="waistSizeList" name="girlInfo.waistSize" label="W "></s:select>
 			</div>
 			<div class="field">
-				<s:textfield name="girlInfo.waistSize" label="W" size="5" value= "%{getText('format.integer',{girlInfo.waistSize})}" />
-			</div>
-			<div class="field">
-				<s:textfield name="girlInfo.hipSize" label="H" size="5" value= "%{getText('format.integer',{girlInfo.hipSize})}" />
+				<s:select list="hipSizeList" name="girlInfo.hipSize" label="H "></s:select>
 			</div>
 		</div>
-		<div class="inline field">
-			<s:textfield name="girlInfo.ranking" label="Rangking"/>
+		<div class="inline fields">
+			<label>H/W :</label>
+			<div class="field">
+				<s:select list="heightList" name="girlInfo.height" label="H "></s:select>
+			</div>
+			<div class="field">
+				<s:select list="weightList" name="girlInfo.weight" label="W "></s:select>
+			</div>
 		</div>
 		<div class="ui grid five column">
 			<div class="image ui small column">
@@ -592,6 +635,7 @@
 		</div>
 		<s:hidden name="action" value="update"></s:hidden>
 		<s:hidden name="girlInfo.girlInfoId"></s:hidden>
+		<s:hidden name="girlInfo.available"></s:hidden>
 		<div class="ui error message"></div>
 	</form>
 	<%@include file="/common/common_upload_file.jsp" %>

@@ -24,7 +24,6 @@ public class AdsInfo implements Serializable {
 	private String active;
 	private String customUrl;
 	private String adsImg;
-	private String adsImgMobile;
 	private Date currentRangeFrom;
 	private Date currentRangeTo;
 
@@ -62,10 +61,6 @@ public class AdsInfo implements Serializable {
 	public String getAdsImg() {
 		return adsImg;
 	}
-	@Column(name="ads_img_mobile")
-	public String getAdsImgMobile() {
-		return adsImgMobile;
-	}
 	@javax.persistence.Transient
 	public Date getCurrentRangeFrom() {
 		return currentRangeFrom;
@@ -97,9 +92,6 @@ public class AdsInfo implements Serializable {
 	}
 	public void setAdsImg(String adsImg) {
 		this.adsImg = adsImg;
-	}
-	public void setAdsImgMobile(String adsImgMobile) {
-		this.adsImgMobile = adsImgMobile;
 	}
 	public void setCurrentRangeFrom(Date currentRangeFrom) {
 		this.currentRangeFrom = currentRangeFrom;

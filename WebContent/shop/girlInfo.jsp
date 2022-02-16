@@ -64,18 +64,20 @@
 				</div>
 				
 				<div class="ui breadcrumb segment attached inverted">
-					<a class="section" href="<s:url value="/shop/"/><s:property value="shopCode" />/girls" >
+					<a class="section" href="<s:url value="/shop/"/><s:property value="shopInfoId" />/girls" >
 						<s:text name="global.shop_menu_girls" />
 					</a>
 					<i class="right chevron icon divider"></i>
 					<div class="active section"><s:text name="global.shop_girl_info" /></div>
 				</div>
 				
-				<div class="ui segment attached">
-					<h2 class="ui top header">
-						<i class="heart icon pink"></i>
-						<div class="content"><s:text name="global.shop_girl_info" /></div>
-					</h2>	
+				<div class="center aligned column">
+					<div class="ui segment header">
+						<h2 class="ui top header">
+							<i class="heart icon pink"></i>
+							<div class="content"><s:text name="global.shop_girl_info" /></div>
+						</h2>
+					</div>
 					<div class="ui attached segment">
 						<div class="ui grid stackable">
 							<div class="eight wide column">
@@ -142,68 +144,6 @@
 									</tbody>
 									
 								</table>
-								<table class="ui table definition unstackable">
-									<tr>
-										<td class="six wide"><s:text name="global.shop_girl_work_time" /></td>
-										<td><s:property value="scheduleInfo.startTime" /> - <s:property value="scheduleInfo.endTime" /></td>
-									</tr>
-								</table>
-								<div class="ui centered grid">
-									<div class="column one center aligned overflow">
-										<table class="ui table center aligned celled unstackable">
-											<thead>
-												<tr>
-													<th><s:text name="global.mon" /></th>
-													<th><s:text name="global.tue" /></th>
-													<th><s:text name="global.wed" /></th>
-													<th><s:text name="global.thu" /></th>
-													<th><s:text name="global.fri" /></th>
-													<th><s:text name="global.sat" /></th>
-													<th><s:text name="global.sun" /></th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td class="center aligned">
-														<div class="ui <s:if test="scheduleInfo.workMon == 'true'">checked</s:if> fitted checkbox disabled">
-														  <s:if test="scheduleInfo.workMon == 'true'"><i class="circle thin icon"></i></s:if>
-														</div>
-													</td>
-													<td class="center aligned">
-														<div class="ui <s:if test="scheduleInfo.workTue == 'true'">checked</s:if> fitted checkbox disabled">
-														  <s:if test="scheduleInfo.workTue == 'true'"><i class="circle thin icon"></i></s:if>
-														</div>
-													</td>
-													<td class="center aligned">
-														<div class="ui <s:if test="scheduleInfo.workWed == 'true'">checked</s:if> fitted checkbox disabled">
-														  <s:if test="scheduleInfo.workWed == 'true'"><i class="circle thin icon"></i></s:if>
-														</div>
-													</td>
-													<td class="center aligned">
-														<div class="ui <s:if test="scheduleInfo.workThu == 'true'">checked</s:if> fitted checkbox disabled">
-														  <s:if test="scheduleInfo.workThu == 'true'"><i class="circle thin icon"></i></s:if>
-														</div>
-													</td>
-													<td class="center aligned">
-														<div class="ui <s:if test="scheduleInfo.workFri == 'true'">checked</s:if> fitted checkbox disabled">
-														  <s:if test="scheduleInfo.workFri == 'true'"><i class="circle thin icon"></i></s:if>
-														</div>
-													</td>
-													<td class="center aligned">
-														<div class="ui <s:if test="scheduleInfo.workSat == 'true'">checked</s:if> fitted checkbox disabled">
-														  <s:if test="scheduleInfo.workSat == 'true'"><i class="circle thin icon"></i></s:if>
-														</div>
-													</td>
-													<td class="center aligned">
-														<div class="ui <s:if test="scheduleInfo.workSun == 'true'">checked</s:if> fitted checkbox disabled">
-														  <s:if test="scheduleInfo.workSun == 'true'"><i class="circle thin icon"></i></s:if>
-														</div>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>

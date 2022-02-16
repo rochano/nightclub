@@ -32,9 +32,14 @@
   .ui.red.button {width: 45%;}
   .ui.leaderboard.ad {
   	height: 100%;
+  	padding: 0;
+  	width: 100%;
   }
-  .ui.leaderboard.ad image {
-  	height: 100px;
+  .ui.leaderboard.ad img {
+  	height: auto;
+  }
+  .ui.grid.segment.banner {
+  	padding: 1em 0;
   }
   </style>
 
@@ -43,114 +48,92 @@
 <body>
 <!-- Sidebar Menu -->
 <s:set name="base_url" value="%{''}" />
-<%@include file="/common/common_menu_sidebar.jsp" %>
+<%@include file="/common/common_new_menu_sidebar.jsp" %>
 <div class="pusher">
 	<div class="ui segment very basic">
 		<div class="ui centered grid">
 			<div class="eleven wide column container" id="container">
 				<%@include file="/common/common_statistic_info.jsp" %>
-				<%@include file="/common/common_menu.jsp" %>
+				<%@include file="/common/common_new_menu.jsp" %>
 	  
-	  			<div class="ui segment">
-					<h2 class="ui top header">
-						<i class="bookmark icon yellow"></i>
-						<div class="content">ご利用上のご注意</div>
-					</h2>
-					<div class="ui centered grid attached segment">
+	  			<div class="center aligned column">
+		  			<div class="ui segment header">
+						<h2 class="ui top header">
+							<i class="bookmark icon yellow"></i>
+							<div class="content">ご利用上のご注意</div>
+						</h2>
+					</div>
+					<div class="ui grid attached segment">
 						<div class="column one left aligned">
 							<s:text name="homeInfo.description"></s:text>
 				 		</div>
 					</div>
 				</div>
 				
-				<div class="ui segment">
-					<h2 class="ui top header">
-						<i class="help circle icon blue"></i>
-						<div class="content">貴方は18才以上ですか？</div>
-					</h2>
-					<div class="ui centered grid attached segment">
+				<div class="center aligned column">
+					<div class="ui segment header">
+						<h2 class="ui top header">
+							<i class="help circle icon blue"></i>
+							<div class="content">貴方は18才以上ですか？</div>
+						</h2>
+					</div>
+					<div class="ui centered attached segment">
 						<a href="<s:url value="/shoplist"/>" class="ui massive button green"><i class="checkmark icon"></i>YES</a>
 						<a href="#" class="ui massive button red"><i class="remove icon"></i>NO</a>
 					</div>
 				</div>
-				  
-				<div class="ui segment">
-					<h2 class="ui top header ">
-						<i class="heart icon pink"></i>
-						<div class="content">在籍一覧</div>
-					</h2>
-					<div class="ui centered grid attached segment soft">
-						<div class="ui horizontal items">
-						<s:if test="%{girlInfos.size gte 0}">
-							<s:iterator value="girlInfos" status="status">
-								<div class="item">
-									<a href="<s:url value="/shop/%{basicInfo.shopCode}/girls/%{code}"/>" target="_blank" >
-										<img class="image ui small centered" src="<s:property value="pic1" />">
-									</a>
-								</div>
-							</s:iterator>
-						</s:if>
-						<s:if test="%{girlInfos.size eq 0}">
-							データかありません
-						</s:if>
-						</div>
-					</div>
-				</div>
 				
-				<div class="ui segment">
-					<h2 class="ui top header">
-						<i class="idea icon orange"></i>
-						<div class="content">東京ソープとは</div>
-					</h2>
-					<div class="ui centered grid attached segment">
+				<div class="center aligned column">
+					<div class="ui segment header">
+						<h2 class="ui top header">
+							<i class="idea icon orange"></i>
+							<div class="content">THAINIGHTNAVI.COMとは</div>
+						</h2>
+					</div>
+					<div class="ui grid attached segment">
 						<div class="column one left aligned">
 							<s:text name="homeInfo.description2"></s:text>
 				 		</div>
 					</div>
 				</div>
 				
-				<div class="ui segment">
-					<h2 class="ui top header">
-						<i class="newspaper icon"></i>
-						<div class="content">サイト最新情報</div>
-					</h2>
-					<div class="ui attached segment">
-						<s:iterator value="newsInfos" status="status">
-						<span>[<s:date name="newsDate" format="dd MMMM yyyy" /> at <s:property value="newsTime" />]</span>
-						<span><a href="<s:url value="/news/%{newsInfoId}" />"><s:property value="title" /></a></span><br />
-						</s:iterator>
+				<div class="center aligned column">
+					<div class="ui segment header ">
+						<h2 class="ui top header">
+							<i class="newspaper icon"></i>
+							<div class="content">サイト最新情報</div>
+						</h2>
+					</div>
+					<div class="ui grid attached segment">
+						<div class="column one left aligned">
+							<div class="ui list">
+								<s:iterator value="newsInfos" status="status">
+								<div class="item">
+									<div class="content">
+										<span>[<s:date name="newsDate" format="dd MMMM yyyy" /> at <s:property value="newsTime" />]</span>
+										&nbsp;
+										<span><a href="<s:url value="/news/%{newsInfoId}" />"><s:property value="title" /></a></span>
+									</div>
+								</div>
+								</s:iterator>
+							</div>
+				 		</div>
 					</div>
 				</div>
 				
-				<div class="ui segment">
-					<h2 class="ui top header">
-						<i class="announcement icon"></i>
-						<div class="content">リンク情報</div>
-					</h2>
-					<%
-						String RESULT_CODE_SUFFIX_MOBILE = "mobile";
-						String REQUEST_HEADER_ACCEPT = "Accept";
-						String[] MOBILE_BROWSER_UAS = {"iPhone OS","Android","BlackBerry","Windows Phone"};
-						//Get User Agent String
-						String userAgent = request.getHeader("User-Agent");
-						boolean showMobileVersion = false;
-						//Run through each entry in the list of browsers
-			            for(String ua : MOBILE_BROWSER_UAS){
-			                if(userAgent.toLowerCase().matches(".*"+ua.toLowerCase()+".*")){
-			                    showMobileVersion = true;
-			                }
-			            }
-					%>
-					<div class="ui centered grid attached segment soft">
+  				<div class="center aligned column">
+  					<div class="ui segment header banner">
+						<h2 class="ui top header">
+							<i class="announcement icon"></i>
+							<div class="content">リンク情報</div>
+						</h2>
+					</div>
+  					<div class="ui centered grid attached segment soft banner">
 						<s:if test="%{adsInfos.size gte 0}">
 							<s:iterator value="adsInfos" status="status">
 								<div class="ui leaderboard ad" data-text="Advertisment">
 									<a href="<s:property value="%{'http://' + customUrl}"/>" target="_blank" >
-										<% if(showMobileVersion){%>
-											<img  class="image ui centered" src="<s:property value="adsImgMobile" />">
-										<% } else { %>
-											<img  class="image ui centered" src="<s:property value="adsImg" />">
-										<% } %>
+										<img  class="image ui centered" src="<s:property value="adsImg" />">
 									</a>
 								</div>
 							</s:iterator>
@@ -159,7 +142,8 @@
 							データかありません
 						</s:if>
 					</div>
-				</div>
+  				</div>
+	  
 			</div>
 		</div>
 	</div><br />

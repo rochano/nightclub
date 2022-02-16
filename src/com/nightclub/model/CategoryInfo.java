@@ -19,7 +19,7 @@ public class CategoryInfo implements Serializable {
 
 	private static final long serialVersionUID = 3861433140662841566L;
 	private String categoryInfoId;
-	private String categoryCode;
+//	private String categoryCode;
 	private String categoryNameEn;
 	private String categoryNameJp;
 	private String description;
@@ -33,21 +33,29 @@ public class CategoryInfo implements Serializable {
 	public String getCategoryInfoId() {
 		return categoryInfoId;
 	}
-	@Column(name="category_code", unique=true)
-	public String getCategoryCode() {
-		return categoryCode;
-	}
+//	@Column(name="category_code", unique=true)
+//	public String getCategoryCode() {
+//		return categoryCode;
+//	}
 	@Column(name="category_name_en")
 	public String getCategoryNameEn() {
 		return categoryNameEn;
 	}
 	@Column(name="category_name_jp")
 	public String getCategoryNameJp() {
-		return categoryNameJp;
+		if (categoryNameJp == null) {
+			return "";
+		} else {
+			return categoryNameJp;
+		}
 	}
 	@Column(name="description")
 	public String getDescription() {
-		return description;
+		if (description == null) {
+			return "";
+		} else {
+			return description;
+		}
 	}
 	@OneToMany(mappedBy = "primaryKey.categoryInfo",
             cascade = CascadeType.ALL)
@@ -61,9 +69,9 @@ public class CategoryInfo implements Serializable {
 	public void setCategoryInfoId(String categoryInfoId) {
 		this.categoryInfoId = categoryInfoId;
 	}
-	public void setCategoryCode(String categoryCode) {
-		this.categoryCode = categoryCode;
-	}
+//	public void setCategoryCode(String categoryCode) {
+//		this.categoryCode = categoryCode;
+//	}
 	public void setCategoryNameEn(String categoryNameEn) {
 		this.categoryNameEn = categoryNameEn;
 	}

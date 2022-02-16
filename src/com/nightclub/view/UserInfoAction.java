@@ -1,12 +1,13 @@
 package com.nightclub.view;
 
+import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.struts2.interceptor.SessionAware;
 
-import com.nightclub.controller.BasicInfoManager;
+import com.nightclub.common.IConstants;
 import com.nightclub.controller.UserInfoManager;
-import com.nightclub.model.BasicInfo;
 import com.nightclub.model.UserInfo;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -25,6 +26,11 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	private String confirmPassword;
 	
 	private UserInfoManager linkController;
+	
+	public static final String SHOP_SERVICE = "shopService";
+	public static final String AGENT = "agent";
+	public static final String FREE_AGENT = "freeAgent";
+	public static final String CLIENT = "client";
 
 	public UserInfoAction() {
 		linkController = new UserInfoManager();
@@ -36,16 +42,46 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
         	
         	if(this.userInfo != null) {
         		// add userName to the session
-        		// user
-        		if(userType.equals("1")) { 
-        			sessionMap.put("userInfo", userInfo);
-        			
-        		// admin
-        		} else if(userType.equals("2")) {
+        		
+        		if(userType.equals(IConstants.USER_TYPE_ADMIN)) {
         			sessionMap.put("adminInfo", userInfo);
+        			return SUCCESS;
         		}
-                
-                return SUCCESS; // return welcome page
+        		
+        		if(!Boolean.TRUE.toString().toLowerCase().equals(userInfo.getActive())) {
+        			addActionError("Your account is not active !"); 
+    				return LOGIN;
+        		}
+        		
+        		if(userInfo.getValidDateFrom() != null && userInfo.getValidDateTo() != null) {
+        			Date now = new Date();
+        			if (now.compareTo(userInfo.getValidDateFrom()) < 0
+        					|| now.compareTo(userInfo.getValidDateTo()) > 0) {
+	        			addActionError("Your account is not active !"); 
+	    				return LOGIN;
+        			}
+        		}
+        		
+        		// user
+        		if(userType.equals(IConstants.USER_TYPE_SHOP)) {
+        			sessionMap.put("userInfo", userInfo);
+        			return SHOP_SERVICE;
+
+        		// agent
+        		} else if(userType.equals(IConstants.USER_TYPE_AGENT)) {
+        			sessionMap.put("userInfo", userInfo);
+        			return AGENT;
+
+				// free agent
+				} else if(userType.equals(IConstants.USER_TYPE_FREE_AGENT)) {
+					sessionMap.put("userInfo", userInfo);
+					return FREE_AGENT;
+        		
+				// client
+				} else if(userType.equals(IConstants.USER_TYPE_CLIENT)) {
+					sessionMap.put("userInfo", userInfo);
+					return CLIENT;
+				}
         	}
         	
         	addActionError("Your username or password is incorrect !"); 
@@ -59,10 +95,12 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	
 	// Log Out user
     public String logout() {
-    	if(userType.equals("1")) { 
+    	if (userType != null) {
+	    	if(userType.equals(IConstants.USER_TYPE_ADMIN)) { 
+	    		sessionMap.remove("adminInfo");
+	    	} 
+    	} else {
     		sessionMap.remove("userInfo");
-    	} else if(userType.equals("2")) { 
-    		sessionMap.remove("adminInfo");
     	}
         addActionMessage("You have been successfully logged out");
         return SUCCESS;
@@ -77,6 +115,7 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
     			
     		} else {
 	    		this.userInfo = new UserInfo();
+	    		this.userInfo.setUserInfoId(UUID.randomUUID().toString().toUpperCase());
 	    		this.userInfo.setUsername(username);
 	    		this.userInfo.setPassword(password);
 	    		this.userInfo.setUserType(userType);
@@ -93,9 +132,12 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
     public String changePassword() {
     	if (oldPassword != null && password != null && confirmPassword != null) {
     		
-    		if(userType.equals("1")) { 
+    		if(userType.equals(IConstants.USER_TYPE_SHOP)
+    				|| userType.equals(IConstants.USER_TYPE_AGENT)
+    				|| userType.equals(IConstants.USER_TYPE_FREE_AGENT)
+    				|| userType.equals(IConstants.USER_TYPE_CLIENT)) { 
     			this.userInfo = (UserInfo) sessionMap.get("userInfo");
-    		} else if(userType.equals("2")) { 
+    		} else if(userType.equals(IConstants.USER_TYPE_ADMIN)) { 
     			this.userInfo = (UserInfo) sessionMap.get("adminInfo");
     		}
     		

@@ -89,14 +89,14 @@
 	  <s:if test="hasActionErrors()">
       $('.ui.form').addClass("error");
       </s:if>
-      $("#basicInfo_categoryCode").change(function() {
-    	  var categoryCode = $(this).val();
-    	  $.getJSON("<s:url value="/ajax/categoryZoneJson/" />" + categoryCode, 
+      $("#basicInfo_categoryInfoId").change(function() {
+    	  var categoryInfoId = $(this).val();
+    	  $.getJSON("<s:url value="/ajax/categoryZoneJson/" />" + categoryInfoId, 
 			function(jsonResponse) {
-				var select = $('#basicInfo_zoneCode');
+				var select = $('#basicInfo_zoneInfoId');
 			     select.find('option').remove();
 			     $.each(jsonResponse.categoryZones, function(i, obj) {
-			       $('<option>').val(obj.zoneInfo.zoneCode).text(obj.zoneInfo.zoneNameJp).appendTo(select);
+			       $('<option>').val(obj.zoneInfo.zoneInfoId).text(obj.zoneInfo.zoneNameJp).appendTo(select);
 			     });
 			     select.parents(".ui.dropdown:first").find(".text").text(select.find('option:first').text());
 			});
@@ -188,25 +188,20 @@
 						<div class="ui error message"><s:actionerror cssClass="list" /></div>
 						<div class="two fields">
 							<div class="inline field">
-								<s:textfield name="basicInfo.shopCode" label="Shop code"/>
-							</div>
-							<div class="inline field">
-								<s:select list="categoryInfos"
-									headerKey="" headerValue="-"
-									listKey="categoryCode" listValue="categoryNameJp"
-									label="Shop category" 
-									cssClass="ui search dropdown" 
-									name="basicInfo.categoryCode">
-								</s:select>
-							</div>
-						</div>
-						<div class="two fields">
-							<div class="inline field">
 								<s:textfield name="basicInfo.shopNameJp" label="Japanese shop name"/>
 							</div>
 							<div class="inline field">
 								<s:textfield name="basicInfo.shopNameEn" label="English shop name"/>
 							</div>
+						</div>
+						<div class="inline field">
+							<s:select list="categoryInfos"
+								headerKey="" headerValue="-"
+								listKey="categoryInfoId" listValue="categoryNameJp"
+								label="Shop category" 
+								cssClass="ui search dropdown" 
+								name="basicInfo.categoryInfoId">
+							</s:select>
 						</div>
 						<div class="two fields">
 							<div class="inline field">
@@ -254,29 +249,10 @@
 								<s:hidden name="shopImageFileName"></s:hidden>
 							</div>
 						</div>
-						<div class="inline field">
-							<label>Cusom URL</label>
-							<div class="ui checkbox"><s:checkbox name="basicInfo.chkCustomUrl" label="" /></div>
-							<s:textfield name="basicInfo.customUrl" size="50" />
-						</div>
 						<h4 class="ui horizontal divider header">
 							<i class="home icon"></i>
-							Address information
+							Other information
 						</h4>
-						<div class="two fields">
-							<div class="inline field">
-								<s:textfield name="basicInfo.address" label="Address"/>
-							</div>
-							<div class="inline field">
-								<s:select list="categoryInfo.categoryZones"
-									headerKey="" headerValue="-"
-									listKey="primaryKey.zoneInfo.zoneCode" listValue="primaryKey.zoneInfo.zoneNameJp"
-									label="Zone" 
-									cssClass="ui search dropdown" 
-									name="basicInfo.zoneCode">
-								</s:select>
-							</div>
-						</div>
 						<div class="two fields">
 							<div class="inline field">
 								<s:select list="#{'bkk':'Bangkok'}"
@@ -286,7 +262,13 @@
 								</s:select>
 							</div>
 							<div class="inline field">
-								<s:textfield name="basicInfo.postcode" label="Post code"/>
+								<s:select list="categoryInfo.categoryZones"
+									headerKey="" headerValue="-"
+									listKey="primaryKey.zoneInfo.zoneInfoId" listValue="primaryKey.zoneInfo.zoneNameJp"
+									label="Location" 
+									cssClass="ui search dropdown" 
+									name="basicInfo.zoneInfoId">
+								</s:select>
 							</div>
 						</div>
 						<div class="two fields">
@@ -294,42 +276,11 @@
 								<s:textfield name="basicInfo.phone" label="Phone"/>
 							</div>
 							<div class="inline field">
-								<s:textfield name="basicInfo.mobile" label="Mobile"/>
+								<s:textfield name="basicInfo.lineId" label="Line ID"/>
 							</div>
 						</div>
 						<div class="inline field">
-							<s:textfield name="basicInfo.email" label="Email address"/>
-						</div>
-						<h4 class="ui horizontal divider header">
-							<i class="calendar icon"></i>
-							Work information
-						</h4>
-						<div class="inline fields">
-							<div class="ui grid stackable">
-								<div class="three wide column"><label>Working day</label></div>
-								<div class="thirteen wide column">
-									<div class="ui grid stackable equal width ">
-										<div class="equal width row">
-											<div class="column"><div class="ui checkbox"><s:checkbox name="basicInfo.workMon" label="Monday" /></div></div>
-											<div class="column"><div class="ui checkbox"><s:checkbox name="basicInfo.workTue" label="Tuesday" /></div></div>
-										</div>
-										<div class="equal width row">
-											<div class="column"><div class="ui checkbox"><s:checkbox name="basicInfo.workWed" label="Wednesday" /></div></div>
-											<div class="column"><div class="ui checkbox"><s:checkbox name="basicInfo.workThu" label="Thursday" /></div></div>
-										</div>
-										<div class="equal width row">	
-											<div class="column"><div class="ui checkbox"><s:checkbox name="basicInfo.workFri" label="Friday" /></div></div>
-											<div class="column"><div class="ui checkbox"><s:checkbox name="basicInfo.workSat" label="Saturday" /></div></div>
-										</div>
-										<div class="equal width row">
-											<div class="column"><div class="ui checkbox"><s:checkbox name="basicInfo.workSun" label="Sunday" /></div></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="inline field">
-							<s:textfield name="basicInfo.startTime" placeholder="HH:mm" label="Work time" size="6" />
+							<s:textfield name="basicInfo.startTime" placeholder="HH:mm" label="Open time" size="6" />
 							<label>-</label>
 							<s:textfield name="basicInfo.endTime" placeholder="HH:mm" size="6" />
 						</div>

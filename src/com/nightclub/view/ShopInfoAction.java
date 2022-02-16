@@ -8,17 +8,17 @@ import java.util.logging.Logger;
 
 import com.nightclub.controller.BasicInfoManager;
 import com.nightclub.controller.EventInfoManager;
-import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.MapInfoManager;
 import com.nightclub.controller.ScheduleInfoManager;
+import com.nightclub.controller.ShopGirlInfoManager;
 import com.nightclub.controller.SystemInfoManager;
 import com.nightclub.model.BasicInfo;
 import com.nightclub.model.EventInfo;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.MapInfo;
 import com.nightclub.model.ScheduleInfo;
+import com.nightclub.model.ShopGirlInfo;
 import com.nightclub.model.SystemInfo;
-import com.nightclub.util.ResourceBundleUtil;
 
 public class ShopInfoAction extends CommonAction {
 	
@@ -26,8 +26,8 @@ public class ShopInfoAction extends CommonAction {
 	Logger log_ = Logger.getLogger(this.getClass().getName());
 	
 	private String menu;
-	private String shopCode;
-	private String girlCode;
+	private String shopInfoId;
+	private String girlInfoId;
 	private BasicInfo shop;
 	private List<EventInfo> eventInfos;
 	private List<GirlInfo> girlInfos;
@@ -37,14 +37,14 @@ public class ShopInfoAction extends CommonAction {
 	private List<ScheduleInfo> scheduleInfos;
 	private Date currentDate;
 	private HashMap<String, List<GirlInfo>> hmRanking;
-	private List<SystemInfo> systemInfos;
+	private SystemInfo systemInfo;
 	private MapInfo mapInfo;
 	private String eventInfoId;
 	private EventInfo eventInfo;
 	
 	private BasicInfoManager basicInfoManager;
 	private EventInfoManager eventInfoManager;
-	private GirlInfoManager girlInfoManager;
+	private ShopGirlInfoManager girlInfoManager;
 	private ScheduleInfoManager scheduleInfoManager;
 	private SystemInfoManager systemInfoManager;
 	private MapInfoManager mapInfoManager;
@@ -53,7 +53,7 @@ public class ShopInfoAction extends CommonAction {
 		super();
 		basicInfoManager = new BasicInfoManager();
 		eventInfoManager = new EventInfoManager();
-		girlInfoManager = new GirlInfoManager();
+		girlInfoManager = new ShopGirlInfoManager();
 		scheduleInfoManager = new ScheduleInfoManager();
 		systemInfoManager = new SystemInfoManager();
 		mapInfoManager = new MapInfoManager();
@@ -61,7 +61,7 @@ public class ShopInfoAction extends CommonAction {
 	
 	public String execute() {
 		getStatisticInfo();
-		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
+		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
 		this.eventInfos = eventInfoManager.list(shop.getShopInfoId());
 		
 		return SUCCESS;
@@ -69,7 +69,7 @@ public class ShopInfoAction extends CommonAction {
 	
 	public String girls() {
 		getStatisticInfo();
-		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
+		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
 		this.girlInfos = girlInfoManager.list(shop.getShopInfoId());
 		
 		return SUCCESS;
@@ -77,8 +77,8 @@ public class ShopInfoAction extends CommonAction {
 	
 	public String girlInfo() {
 		getStatisticInfo();
-		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
-		this.girlInfo = girlInfoManager.getGirlInfoByCode(shop.getShopInfoId(), getGirlCode());
+		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
+		this.girlInfo = (ShopGirlInfo) girlInfoManager.getGirlInfo(getGirlInfoId());
 		this.scheduleInfo = scheduleInfoManager.getSchduleInfoByGirlInfoId(girlInfo.getGirlInfoId());
 		
 //		String filePath = ResourceBundleUtil.getUploadPath();
@@ -104,7 +104,7 @@ public class ShopInfoAction extends CommonAction {
 	
 	public String newface() {
 		getStatisticInfo();
-		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
+		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
 		
 		// previous month
 		Date today = new Date();
@@ -119,7 +119,7 @@ public class ShopInfoAction extends CommonAction {
 	
 	public String ranking() {
 		getStatisticInfo();
-		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
+		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
 		this.hmRanking = new HashMap<String, List<GirlInfo>>();
 		this.hmRanking.put("ranking", girlInfoManager.rankingList(shop.getShopInfoId()));
 		this.hmRanking.put("bodySize", girlInfoManager.rankingBodySizeList(shop.getShopInfoId()));
@@ -131,7 +131,7 @@ public class ShopInfoAction extends CommonAction {
 	
 	public String todayworking() {
 		getStatisticInfo();
-		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
+		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
 		
 		// day of week
 		Calendar c = Calendar.getInstance();
@@ -147,15 +147,18 @@ public class ShopInfoAction extends CommonAction {
 	
 	public String system() {
 		getStatisticInfo();
-		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
-		this.systemInfos = systemInfoManager.list(shop.getShopInfoId());
+		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
+		this.systemInfo = systemInfoManager.getSystemInfo(shop.getShopInfoId());
+		if(this.systemInfo == null) {
+			this.systemInfo = new SystemInfo();
+		}
 		
 		return SUCCESS;
 	}
 	
 	public String map() {
 		getStatisticInfo();
-		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
+		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
 		this.mapInfo = mapInfoManager.getMapInfo(shop.getShopInfoId());
 		
 		return SUCCESS;
@@ -163,7 +166,7 @@ public class ShopInfoAction extends CommonAction {
 	
 	public String eventInfo() {
 		getStatisticInfo();
-		this.shop = basicInfoManager.getBasicInfoByCode(getShopCode());
+		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
 		this.eventInfo = eventInfoManager.getEventInfo(getEventInfoId());
 		
 		return SUCCESS;
@@ -177,12 +180,12 @@ public class ShopInfoAction extends CommonAction {
 		this.menu = menu;
 	}
 
-	public String getShopCode() {
-		return shopCode;
+	public String getShopInfoId() {
+		return shopInfoId;
 	}
 
-	public void setShopCode(String shopCode) {
-		this.shopCode = shopCode;
+	public void setShopInfoId(String shopInfoId) {
+		this.shopInfoId = shopInfoId;
 	}
 
 	public List<EventInfo> getEventInfos() {
@@ -201,12 +204,12 @@ public class ShopInfoAction extends CommonAction {
 		this.girlInfos = girlInfos;
 	}
 
-	public String getGirlCode() {
-		return girlCode;
+	public String getGirlInfoId() {
+		return girlInfoId;
 	}
 
-	public void setGirlCode(String girlCode) {
-		this.girlCode = girlCode;
+	public void setGirlInfoId(String girlInfoId) {
+		this.girlInfoId = girlInfoId;
 	}
 
 	public GirlInfo getGirlInfo() {
@@ -233,12 +236,12 @@ public class ShopInfoAction extends CommonAction {
 		this.hmRanking = hmRanking;
 	}
 
-	public List<SystemInfo> getSystemInfos() {
-		return systemInfos;
+	public SystemInfo getSystemInfo() {
+		return systemInfo;
 	}
 
-	public void setSystemInfos(List<SystemInfo> systemInfos) {
-		this.systemInfos = systemInfos;
+	public void setSystemInfo(SystemInfo systemInfo) {
+		this.systemInfo = systemInfo;
 	}
 
 	public List<ScheduleInfo> getScheduleInfos() {

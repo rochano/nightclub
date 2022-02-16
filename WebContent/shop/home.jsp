@@ -26,29 +26,16 @@
 					<%@include file="/common/common_shop_menu.jsp" %>
 				</div>
 				
-	  			<div class="ui segment">
-					<h2 class="ui top header">
-						<i class="bookmark icon yellow"></i>
-						<div class="content"><s:text name="global.shop_menu_home" /></div>
-					</h2>
+				<div class="center aligned column">
+		  			<div class="ui segment header">
+						<h2 class="ui top header">
+							<i class="bookmark icon yellow"></i>
+							<div class="content"><s:text name="global.shop_menu_home" /></div>
+						</h2>
+					</div>
 					<div class="ui grid attached segment ">
 						<div class="column one left aligned">
 							<s:text name="shop.description" />
-						</div>
-					</div>
-				</div>
-				
-				<div class="ui segment">
-					<h2 class="ui top header">
-						<i class="newspaper icon"></i>
-						<div class="content"><s:text name="global.shop_event" /></div>
-					</h2>
-					<div class="ui centered grid attached segment">
-						<div class="column one left aligned">
-							<s:iterator value="eventInfos" status="status">
-								<span>[<s:date name="eventDate" format="dd/MM/yyyy" />&nbsp;<s:property value="eventTime" />]</span>
-								<span><a href="<s:url value="/shop/%{shopCode}/event/%{eventInfoId}"/>"><s:property value="title" /></a></span><br />
-							</s:iterator>
 						</div>
 					</div>
 				</div>

@@ -90,7 +90,7 @@
 	  $("#add-zone-btn").on("click", function(){
 		var container = $(this).parents(".feed:first");
 		$(this).parents(".event:first").clone().appendTo(container);
-		
+
 		container.find(".event:last select").insertBefore(container.find(".event:last .ui.search.dropdown.selection"));
 		container.find(".event:last .ui.search.dropdown.selection").remove();
 		
@@ -100,18 +100,61 @@
 		dropdown.val(dropdown.find("option:first").val());
 		dropdown.dropdown();
 		
-		var button = container.find(".event:last").find("button.icon");
-		button.find("i").removeClass("plus");
-		button.find("i").addClass("minus");
-		button.on("click", removeZoneHandler);
+		var buttonPlus = container.find(".event:last").find("button.icon");
+		buttonPlus.removeAttr("id");
+		buttonPlus.on("click", function() {insertZoneHandler(this)});
+
+		var buttonMinus = container.find(".event:last").find("button.icon").clone();
+		buttonMinus.removeAttr("id");
+		buttonMinus.find("i").removeClass("plus");
+		buttonMinus.find("i").addClass("minus");
+		buttonMinus.on("click", removeZoneHandler);
+		buttonPlus.after(buttonMinus)
 	  });
 
 	  $(".remove-zone-btn").on("click", removeZoneHandler);
+
+      $("#addbtn")
+		.on('click', function() {
+		  $('#infoForm').find("input[type=text], input[type=hidden], textarea").val("");
+		  CKEDITOR.instances.categoryInfo_description.setData('');
+		  $('#infoForm').find(".event:gt(0)").remove();
+		  var dropdown = $('#infoForm').find("select");
+		  dropdown.dropdown("clear");
+		  
+		  $('#infoForm')[0].action.value = "add";
+		  $('#infoForm')[0].action = "<s:url value="/admin/category/add"/>";
+	      $('.ui.modal')
+			    .modal('show')
+			  ;
+	    });
     })
   ;
   
   function removeZoneHandler() {
 	  $(this).parents(".event:first").remove();
+  }
+
+  function insertZoneHandler(obj) {
+	var newobj = $(obj).parents(".event:first").clone();
+	$(obj).parents(".event:first").before(newobj);
+
+	newobj.find("select").insertBefore(newobj.find(".ui.search.dropdown.selection"));
+	newobj.find(".ui.search.dropdown.selection").remove();
+
+	var dropdown = newobj.find("select");
+	dropdown.removeAttr("id");
+	dropdown.addClass("search");
+	dropdown.val(dropdown.find("option:first").val());
+	dropdown.dropdown();
+	
+	var buttonPlus = newobj.find(".icon.plus").parents("button:first");
+	buttonPlus.removeAttr("id");
+	buttonPlus.on("click", function() {insertZoneHandler(this)});
+	
+	var buttonMinus = newobj.find(".icon.minus").parents("button:first");
+	buttonMinus.removeAttr("id");
+	buttonMinus.on("click", removeZoneHandler);
   }
   </script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/ckeditor/ckeditor.js"></script>
@@ -183,11 +226,15 @@
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
+						<div class="ui right aligned one column grid">
+							<div class="column">
+								<div id="addbtn" class="ui small button blue">Add</div>
+							</div>
+						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th>Category code</th>
 									<th>Japanese name</th>
 									<th>English name</th>
 									<th>Operation</th>
@@ -197,11 +244,11 @@
 								<s:iterator value="categoryInfos" status="status">
 								<tr>
 									<td class="center aligned"><s:property value="#status.count" /></td>
-									<td><s:property value="categoryCode" /></td>
 									<td><s:property value="categoryNameJp" /></td>
 									<td><s:property value="categoryNameEn" /></td>
 									<td class="center aligned">
 										<a href="<s:url value="/admin/category/edit/%{categoryInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
+										<a href="<s:url value="/admin/category/delete/%{categoryInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
 									</td>
 								</tr>
 								</s:iterator>
@@ -224,40 +271,32 @@
   <div class="content">
     <form class="ui form" id="infoForm" method="post" action="<s:url value="/admin/category/update"/>">
 		<div class="inline field">
-			<s:textfield name="categoryInfo.categoryCode" label="Category code" />
-		</div>
-		<div class="inline field">
 			<s:textfield name="categoryInfo.categoryNameJp" label="Japanese name" />
 		</div>
 		<div class="inline field">
 			<s:textfield name="categoryInfo.categoryNameEn" label="English name" />
 		</div>
-		<div class="two fields">
-			<div class="inline fields">
-				<label class="label">Zone:</label>
-				<div class="ui left icon input">
-					<div class="ui feed">
-						<div class="event">
-							<div class="ui left icon action input">
-								<s:select name="zonelist" list="zoneInfos" cssClass="ui search dropdown" listKey="zoneInfoId" listValue="zoneCode"></s:select>
-								<button class="icon ui button" id="add-zone-btn" type="button"><i class="plus icon"></i></button>
-							</div>
+		<div class="inline fields">
+			<label class="label">Location:</label>
+			<div class="ui left icon input">
+				<div class="ui feed">
+					<div class="event">
+						<div class="ui left icon action input">
+							<s:select name="zonelist" list="zoneInfos" cssClass="ui search dropdown" listKey="zoneInfoId" listValue="zoneNameJp"></s:select>
+							<button class="icon ui button" id="add-zone-btn" type="button"><i class="plus icon"></i></button>
 						</div>
-						<s:if test="zonelist.size() > 1 ">
-						<s:iterator value="zonelist" begin="1" var="zone">
-						<div class="event">
-							<div class="ui left icon action input">
-								<s:select value="zone" name="zonelist" list="zoneInfos" cssClass="ui search dropdown" listKey="zoneInfoId" listValue="zoneCode"></s:select>
-								<button class="icon ui button remove-zone-btn" type="button"><i class="minus icon"></i></button>
-							</div>
-						</div>
-						</s:iterator>
-						</s:if>
 					</div>
+					<s:if test="zonelist.size() > 1 ">
+					<s:iterator value="zonelist" begin="1" var="zone">
+					<div class="event">
+						<div class="ui left icon action input">
+							<s:select value="zone" name="zonelist" list="zoneInfos" cssClass="ui search dropdown" listKey="zoneInfoId" listValue="zoneNameJp"></s:select>
+							<button class="icon ui button remove-zone-btn" type="button"><i class="minus icon"></i></button>
+						</div>
+					</div>
+					</s:iterator>
+					</s:if>
 				</div>
-			</div>
-			<div class="inline field">
-				<div class="ui checkbox"><s:checkbox name="categoryInfo.hideZoneFlag" label="Hide Zone" /></div>
 			</div>
 		</div>
 		<h4 class="ui horizontal divider header">

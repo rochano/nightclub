@@ -7,8 +7,8 @@ import java.util.logging.Logger;
 
 import org.apache.struts2.interceptor.SessionAware;
 
-import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.ScheduleInfoManager;
+import com.nightclub.controller.ShopGirlInfoManager;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.ScheduleInfo;
 import com.nightclub.model.ScheduleSearch;
@@ -31,11 +31,11 @@ public class SchduleInfoAction extends ActionSupport implements SessionAware {
 	private boolean showInfo = false;
 	
 	private ScheduleInfoManager scheduleInfoManager;
-	private GirlInfoManager girlInfoManager;
+	private ShopGirlInfoManager girlInfoManager;
 
 	public SchduleInfoAction() {
 		scheduleInfoManager = new ScheduleInfoManager();
-		girlInfoManager = new GirlInfoManager();
+		girlInfoManager = new ShopGirlInfoManager();
 	}
 	
 	public String execute() {

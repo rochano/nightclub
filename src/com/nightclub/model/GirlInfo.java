@@ -20,27 +20,28 @@ public class GirlInfo extends BaseModel implements Serializable{
 	private static final long serialVersionUID = 6848161747389312861L;
 	
 	private String girlInfoId;
-	private String shopInfoId;
-	private String code;
-	private String firstName;
-	private String lastName;
+//	private String shopInfoId;
+//	private String code;
 	private String nickName;
+//	private String category;
+	private String location;
 	private Integer age;
-	private String hometown;
-	private Double height;
-	private Double bustSize;
-	private Double waistSize;
-	private Double hipSize;
-	private String status;
-	private int ranking;
+	private Integer bustSize;
+	private Integer waistSize;
+	private Integer hipSize;
+	private Integer height;
+	private Integer weight;
 	private String description;
 	private String pic1;
 	private String pic2;
 	private String pic3;
 	private String pic4;
 	private String pic5;
+	private String available;
 	
-	private BasicInfo basicInfo;
+	private ZoneInfo zoneInfo;
+	
+//	private BasicInfo basicInfo;
 	
 	@Id
 	@Column(name="girl_info_id")
@@ -48,57 +49,53 @@ public class GirlInfo extends BaseModel implements Serializable{
 	public String getGirlInfoId() {
 		return girlInfoId;
 	}
-	@Column(name="shop_info_id")
-	public String getShopInfoId() {
-		return shopInfoId;
-	}
-	@Column(name="code")
-	public String getCode() {
-		return code;
-	}
-	@Column(name="first_name")
-	public String getFirstName() {
-		return firstName;
-	}
-	@Column(name="last_name")
-	public String getLastName() {
-		return lastName;
-	}
+//	@Column(name="shop_info_id")
+//	public String getShopInfoId() {
+//		return shopInfoId;
+//	}
+//	@Column(name="code")
+//	public String getCode() {
+//		return code;
+//	}
 	@Column(name="nick_name")
 	public String getNickName() {
 		return nickName;
 	}
+//	@Column(name="category")
+//	public String getCategory() {
+//		return category;
+//	}
+	@Column(name="location")
+	public String getLocation() {
+		return location;
+	}
 	@Column(name="age")
 	public Integer getAge() {
-		return age;
-	}
-	@Column(name="hometown")
-	public String getHometown() {
-		return hometown;
-	}
-	@Column(name="height")
-	public Double getHeight() {
-		return height;
+		if (age == null) {
+			return 0;
+		} else {
+			return age;
+		}
 	}
 	@Column(name="bust_size")
-	public Double getBustSize() {
+	public Integer getBustSize() {
 		return bustSize;
 	}
 	@Column(name="waist_size")
-	public Double getWaistSize() {
+	public Integer getWaistSize() {
 		return waistSize;
 	}
 	@Column(name="hip_size")
-	public Double getHipSize() {
+	public Integer getHipSize() {
 		return hipSize;
 	}
-	@Column(name="status")
-	public String getStatus() {
-		return status;
+	@Column(name="height")
+	public Integer getHeight() {
+		return height;
 	}
-	@Column(name="ranking")
-	public int getRanking() {
-		return ranking;
+	@Column(name="weight")
+	public Integer getWeight() {
+		return weight;
 	}
 	@Column(name="description")
 	public String getDescription() {
@@ -124,53 +121,51 @@ public class GirlInfo extends BaseModel implements Serializable{
 	public String getPic5() {
 		return pic5;
 	}
-	@OneToOne
-	@NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name="shop_info_id", referencedColumnName="shop_info_id", insertable=false, updatable=false)
-	public BasicInfo getBasicInfo() {
-		return basicInfo;
+	@Column(name="available")
+	public String getAvailable() {
+		return available;
 	}
+//	@OneToOne
+//	@NotFound(action = NotFoundAction.IGNORE)
+//    @JoinColumn(name="shop_info_id", referencedColumnName="shop_info_id", insertable=false, updatable=false)
+//	public BasicInfo getBasicInfo() {
+//		return basicInfo;
+//	}
 	public void setGirlInfoId(String girlInfoId) {
 		this.girlInfoId = girlInfoId;
 	}
-	public void setShopInfoId(String shopInfoId) {
-		this.shopInfoId = shopInfoId;
-	}
-	public void setCode(String code) {
-		this.code = code;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+//	public void setShopInfoId(String shopInfoId) {
+//		this.shopInfoId = shopInfoId;
+//	}
+//	public void setCode(String code) {
+//		this.code = code;
+//	}
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
+	}
+//	public void setCategory(String category) {
+//		this.category = category;
+//	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	public void setAge(Integer age) {
 		this.age = age;
 	}
-	public void setHometown(String hometown) {
-		this.hometown = hometown;
-	}
-	public void setHeight(Double height) {
-		this.height = height;
-	}
-	public void setBustSize(Double bustSize) {
+	public void setBustSize(Integer bustSize) {
 		this.bustSize = bustSize;
 	}
-	public void setWaistSize(Double waistSize) {
+	public void setWaistSize(Integer waistSize) {
 		this.waistSize = waistSize;
 	}
-	public void setHipSize(Double hipSize) {
+	public void setHipSize(Integer hipSize) {
 		this.hipSize = hipSize;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setHeight(Integer height) {
+		this.height = height;
 	}
-	public void setRanking(int ranking) {
-		this.ranking = ranking;
+	public void setWeight(Integer weight) {
+		this.weight = weight;
 	}
 	public void setDescription(String description) {
 		this.description = description;
@@ -193,7 +188,19 @@ public class GirlInfo extends BaseModel implements Serializable{
 	public void setPic5(String pic5) {
 		this.pic5 = pic5;
 	}
-	public void setBasicInfo(BasicInfo basicInfo) {
-		this.basicInfo = basicInfo;
+	public void setAvailable(String available) {
+		this.available = available;
+	}
+//	public void setBasicInfo(BasicInfo basicInfo) {
+//		this.basicInfo = basicInfo;
+//	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="location", referencedColumnName="zone_info_id", insertable=false, updatable=false)
+	public ZoneInfo getZoneInfo() {
+		return zoneInfo;
+	}
+	public void setZoneInfo(ZoneInfo zoneInfo) {
+		this.zoneInfo = zoneInfo;
 	}
 }

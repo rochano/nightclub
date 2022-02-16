@@ -7,7 +7,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>THAINIGHTNAVI.COM - Home</title>
+  <title>THAINIGHTNAVI.COM - News</title>
 
  <%@include file="/common/common_header.jsp" %>
   <!--- Example CSS -->
@@ -30,13 +30,13 @@
 <body>
 <!-- Sidebar Menu -->
 <s:set name="base_url" value="%{''}" />
-<%@include file="/common/common_menu_sidebar.jsp" %>
+<%@include file="/common/common_new_menu_sidebar.jsp" %>
 <div class="pusher">
 	<div class="ui segment very basic">
 		<div class="ui centered grid"> 
 			<div class="eleven wide column container" id="container">
 				<%@include file="/common/common_statistic_info.jsp" %>
-				<%@include file="/common/common_menu.jsp" %>
+				<%@include file="/common/common_new_menu.jsp" %>
 				<br/>
 				<div class="ui breadcrumb segment attached inverted">
 					<a class="section" href="<s:url value="/" />" >
@@ -45,18 +45,20 @@
 					<i class="right chevron icon divider"></i>
 					<div class="active section">サイト最新情報</div>
 				</div>
-				<div class="ui segment attached">
-					<h2 class="ui top header">
-						<i class="newspaper icon"></i>
-						<div class="content">
-							<s:property value="newsInfo.title" />
-							<div class="sub header">
-								<s:date name="newsInfo.newsDate" format="dd MMMM yyyy" />
-								at
-								<s:property value="newsInfo.newsTime" />
+				<div class="center aligned column">
+					<div class="ui segment header">
+						<h2 class="ui top header">
+							<i class="newspaper icon"></i>
+							<div class="content">
+								<s:property value="newsInfo.title" />
+								<div class="sub header">
+									<s:date name="newsInfo.newsDate" format="dd MMMM yyyy" />
+									at
+									<s:property value="newsInfo.newsTime" />
+								</div>
 							</div>
-						</div>
-					</h2>
+						</h2>
+					</div>
 					<div class="ui centered grid attached segment">
 						<div class="column one left aligned">
 							<s:text name="newsInfo.description"></s:text>

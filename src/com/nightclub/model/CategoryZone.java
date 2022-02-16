@@ -23,15 +23,10 @@ public class CategoryZone implements Serializable {
 
 	private static final long serialVersionUID = 916427013034934939L;
 	private CategoryZoneId primaryKey = new CategoryZoneId();
-	private BigInteger orderNo;
 
 	@EmbeddedId
 	public CategoryZoneId getPrimaryKey() {
 		return primaryKey;
-	}
-	@Column(name = "order_no")
-	public BigInteger getOrderNo() {
-		return orderNo;
 	}
 	@Transient
 	public CategoryInfo getCategoryInfo() {
@@ -44,13 +39,13 @@ public class CategoryZone implements Serializable {
 	public void setPrimaryKey(CategoryZoneId primaryKey) {
 		this.primaryKey = primaryKey;
 	}
-	public void setOrderNo(BigInteger orderNo) {
-		this.orderNo = orderNo;
-	}
 	public void setCategoryInfo(CategoryInfo categoryInfo) {
 		getPrimaryKey().setCategoryInfo(categoryInfo);;
 	}
 	public void setZoneInfo(ZoneInfo zoneInfo) {
 		getPrimaryKey().setZoneInfo(zoneInfo);
+	}
+	public void setOrderNo(BigInteger orderNo) {
+		getPrimaryKey().setOrderNo(orderNo);
 	}
 }

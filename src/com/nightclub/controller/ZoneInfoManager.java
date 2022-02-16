@@ -93,15 +93,15 @@ public class ZoneInfoManager extends HibernateUtil {
 		List<ZoneInfo> zoneInfos = null;
 		try {
 			
-			log_.info("zone code >> [" + zoneInfo.getZoneCode() + "]");
+//			log_.info("zone code >> [" + zoneInfo.getZoneCode() + "]");
 			log_.info("zone name jp >> [" + zoneInfo.getZoneNameJp() + "]");
 			log_.info("zone name en >> [" + zoneInfo.getZoneNameEn() + "]");
 			
 			StringBuffer sql = new StringBuffer();
 			sql.append("from ZoneInfo where 1 = 1 ");
-			if(!zoneInfo.getZoneCode().isEmpty()) {
-				sql.append("and zoneCode like :zoneCode ");
-			}
+//			if(!zoneInfo.getZoneCode().isEmpty()) {
+//				sql.append("and zoneCode like :zoneCode ");
+//			}
 			if(!zoneInfo.getZoneNameJp().isEmpty()) {
 				sql.append("and zoneNameJp like :zoneNameJp ");
 			}
@@ -110,9 +110,9 @@ public class ZoneInfoManager extends HibernateUtil {
 			}
 			
 			Query query = session.createQuery(sql.toString());
-			if(!zoneInfo.getZoneCode().isEmpty()) {
-				query.setParameter("zoneCode", '%'+zoneInfo.getZoneCode()+'%');
-			}
+//			if(!zoneInfo.getZoneCode().isEmpty()) {
+//				query.setParameter("zoneCode", '%'+zoneInfo.getZoneCode()+'%');
+//			}
 			if(!zoneInfo.getZoneNameJp().isEmpty()) {
 				query.setParameter("zoneNameJp", '%'+zoneInfo.getZoneNameJp()+'%');
 			}

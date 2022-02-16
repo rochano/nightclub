@@ -19,7 +19,7 @@
 								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
 							</s:if>
 							<s:else>
-								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryInfoId + '/' + zoneInfo.zoneInfoId}" />
 							</s:else>
 							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
@@ -41,7 +41,7 @@
 								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
 							</s:if>
 							<s:else>
-								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryInfoId + '/' + zoneInfo.zoneInfoId}" />
 							</s:else>
 							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
@@ -63,7 +63,7 @@
 								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
 							</s:if>
 							<s:else>
-								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryInfoId + '/' + zoneInfo.zoneInfoId}" />
 							</s:else>
 							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
@@ -85,7 +85,7 @@
 								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
 							</s:if>
 							<s:else>
-								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryInfoId + '/' + zoneInfo.zoneInfoId}" />
 							</s:else>
 							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
@@ -107,7 +107,7 @@
 								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
 							</s:if>
 							<s:else>
-								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryInfoId + '/' + zoneInfo.zoneInfoId}" />
 							</s:else>
 							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
@@ -141,7 +141,7 @@
 								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
 							</s:if>
 							<s:else>
-								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryInfoId + '/' + zoneInfo.zoneInfoId}" />
 							</s:else>
 							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
@@ -163,7 +163,7 @@
 								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
 							</s:if>
 							<s:else>
-								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryInfoId + '/' + zoneInfo.zoneInfoId}" />
 							</s:else>
 							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
@@ -185,7 +185,7 @@
 								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
 							</s:if>
 							<s:else>
-								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryInfoId + '/' + zoneInfo.zoneInfoId}" />
 							</s:else>
 							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>
@@ -207,7 +207,7 @@
 								<s:url var="url" value="%{'http://' + zoneInfo.customUrl}" />
 							</s:if>
 							<s:else>
-								<s:url var="url" action="%{#base_url + categoryInfo.categoryCode + '/' + zoneInfo.zoneCode}" />
+								<s:url var="url" action="%{#base_url + categoryInfo.categoryInfoId + '/' + zoneInfo.zoneInfoId}" />
 							</s:else>
 							<a class="item" href="<s:property value="%{url}" />">
 								<s:property value="zoneInfo.zoneNameJp" /></a>

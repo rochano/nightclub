@@ -33,6 +33,9 @@
   	width: 150px;
   	margin: 0;
   }
+  .ui.celled.table tr td.border-left {
+    border-left: 1px solid rgba(34,36,38,.1);
+  }
   </style>
 
   <!--- Example Javascript -->
@@ -88,7 +91,6 @@
           fields: {}
       })
       ;
-	  $("table").tablesort();
       <s:if test="showInfo">
 	  $('.ui.modal')
 	    .modal('show')
@@ -97,6 +99,24 @@
 	  $("body > .ui.dimmer.modals").addClass("scrolling");
 	  $("body > .ui.dimmer.modals > .ui.modal").addClass("scrolling");
 	  </s:if>
+	  $("input.number").on("focus", function() {
+		  $(this).val($(this).val().replace(",",""));
+	  }).on("blur", function() {
+		  var val = $(this).val().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		  $(this).val(val);
+	  });
+      $('#systemInfoupdateForm')
+      .form({
+          onSuccess: function() { 
+              var form = $(this);
+              form.find("[name=classType]").remove()
+              $( "input[name=classType]:checked", dataTable.fnGetNodes()).each(function(i, item) {
+            	  form.append("<input name='classType' value='" + item.value + "' type='hidden' />")
+              })
+              return true; 
+          }
+       })
+      ;
     })
   ;
   </script>
@@ -165,57 +185,109 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Search Conditions
-				</h4>
-				<div class="ui left aligned attached segment active content">
-					<form class="ui form" id="searchForm" method="post" action="<s:url value="/management/system/search"/>">
-						<div class="inline field">
-							<s:textfield name="systemSearch.infoName" label="Name"/>
-						</div>
-						<div class="ui error message"></div>
-						<div class="ui right aligned one column grid">
-							<div class="column">
-								<div class="ui small button submit blue">Search</div>
-								<div class="ui small button clear">Clear</div>
-							</div>
-						</div>
-					</form>
-				</div>
-				<h4 class="ui top attached header inverted active title">
-					<i class="dropdown icon"></i>
 					System List
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
-						<div class="ui right aligned one column grid">
-							<div class="column">
-								<div id="addbtn" class="ui small button blue">Add</div>
-							</div>
-						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable unstackable sortable">
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th>Name</th>
+									<th>Class</th>
+									<th>Service</th>
 									<th>Duration</th>
 									<th>Price</th>
+									<th>Active</th>
 									<th>Operation</th>
 								</tr>
 							</thead>
 							<tbody>
-								<s:iterator value="systemInfos" status="status">
+								<%-- Normal --%>
 								<tr>
-									<td class="center aligned"><s:property value="#status.count" /></td>
-									<td><s:property value="infoName" /></td>
-									<td><s:property value="duration" /></td>
-									<td class="right aligned"><s:property value="price" /></td>
-									<td class="center aligned">
-										<a href="<s:url value="/management/system/edit/%{systemInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
-										<a href="<s:url value="/management/system/delete/%{systemInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
+									<td class="center aligned" rowspan="3">1</td>
+									<td class="center aligned" rowspan="3">Normal</td>
+									<td class="center aligned">1</td>
+									<td class="center aligned">60</td>
+									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="systemInfo.priceNormal1"/></s:text></td>
+									<td class="center aligned" rowspan="3">
+										<div class="ui toggle fitted checkbox">
+											<input type="radio" name="classType" 
+											<s:if test="systemInfo.classType == 'Normal'">checked="checked"</s:if>
+											 value="Normal">
+											<label></label>
+										</div>
+									</td>
+									<td class="center aligned" rowspan="3">
+										<a href="<s:url value="/management/system/edit/Normal"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
 									</td>
 								</tr>
-								</s:iterator>
+								<tr>
+									<td style="display: none"></td>
+									<td style="display: none"></td>
+									<td class="center aligned border-left">2</td>
+									<td class="center aligned">90</td>
+									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="systemInfo.priceNormal2"/></s:text></td>
+									<td style="display: none"></td>
+									<td style="display: none"></td>
+								</tr>
+								<tr>
+									<td style="display: none"></td>
+									<td style="display: none"></td>
+									<td class="center aligned border-left">3</td>
+									<td class="center aligned">120</td>
+									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="systemInfo.priceNormal3"/></s:text></td>
+									<td style="display: none"></td>
+									<td style="display: none"></td>
+								</tr>
+								<%-- VIP --%>
+								<tr>
+									<td class="center aligned" rowspan="3">2</td>
+									<td class="center aligned" rowspan="3">VIP</td>
+									<td class="center aligned">1</td>
+									<td class="center aligned">60</td>
+									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="systemInfo.priceVIP1"/></s:text></td>
+									<td class="center aligned" rowspan="3">
+										<div class="ui toggle fitted checkbox">
+											<input type="radio" name="classType" 
+											<s:if test="systemInfo.classType == 'VIP'">checked="checked"</s:if>
+											 value="VIP">
+											<label></label>
+										</div>
+									</td>
+									<td class="center aligned" rowspan="3">
+										<a href="<s:url value="/management/system/edit/VIP"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
+									</td>
+								</tr>
+								<tr>
+									<td style="display: none"></td>
+									<td style="display: none"></td>
+									<td class="center aligned border-left">2</td>
+									<td class="center aligned">90</td>
+									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="systemInfo.priceVIP2"/></s:text></td>
+									<td style="display: none"></td>
+									<td style="display: none"></td>
+								</tr>
+								<tr>
+									<td style="display: none"></td>
+									<td style="display: none"></td>
+									<td class="center aligned border-left">3</td>
+									<td class="center aligned">120</td>
+									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="systemInfo.priceVIP3"/></s:text></td>
+									<td style="display: none"></td>
+									<td style="display: none"></td>
+								</tr>
 							</tbody>
+							<tfoot class="full-width">
+								<tr>
+									<th colspan="7">
+										<form id="systemInfoupdateForm" class="ui form " method="post" action="<s:url value="/management/system/systemsupdate"/>" >
+											<div class="ui right floated small primary submit button">
+												Submit
+											</div>
+										</form>
+									</th>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 				</div>
@@ -233,24 +305,51 @@
   </div>
   <div class="content">
     <form class="ui form" id="infoForm" method="post" action="<s:url value="/management/system/update"/>">
-		<div class="inline field">
-			<s:textfield name="systemInfo.infoName" label="Name" />
+		<div class="inline fields">
+			<label class="label">Class:</label>
+			<div class="disabled inline field">
+				<s:textfield name="classType" readonly="true" disabled="true" />
+			</div>
 		</div>
-		<div class="inline field">
-			<s:textfield name="systemInfo.duration" label="Duration" />
+		<div class="inline fields">
+			<label class="label">Service:</label>
+			<div class="disabled inline field">
+				<s:textfield name="service1" size="7" value="1" readonly="true" />
+			</div>
+			<div class="disabled inline field">
+				<s:textfield name="service2" size="7" value="2" readonly="true" />
+			</div>
+			<div class="disabled inline field">
+				<s:textfield name="service2" size="7" value="3" readonly="true" />
+			</div>
 		</div>
-		<div class="inline field">
-			<s:textfield name="systemInfo.price" label="Price" />
+		<div class="inline fields">
+			<label class="label">Duration:</label>
+			<div class="disabled inline field">
+				<s:textfield name="duration1" size="7" value="60" readonly="true" />
+			</div>
+			<div class="disabled inline field">
+				<s:textfield name="duration2" size="7" value="90" readonly="true" />
+			</div>
+			<div class="disabled inline field">
+				<s:textfield name="duration2" size="7" value="120" readonly="true" />
+			</div>
 		</div>
-		<h4 class="ui horizontal divider header">
-			<i class="comment icon"></i>
-			Description
-		</h4>		
-		<div class="inline field">
-			<s:textarea name="systemInfo.description" />
+		<div class="inline fields">
+			<label class="label">Price:</label>
+			<div class="inline field">
+				<s:textfield name="price1" size="7" class="number" value="%{getText('format.integer',{price1})}"/>
+			</div>
+			<div class="inline field">
+				<s:textfield name="price2" size="7" class="number" value="%{getText('format.integer',{price2})}"/>
+			</div>
+			<div class="inline field">
+				<s:textfield name="price3" size="7" class="number" value="%{getText('format.integer',{price3})}"/>
+			</div>
 		</div>
 		<s:hidden name="action" value="update"></s:hidden>
-		<s:hidden name="systemInfo.systemInfoId"></s:hidden>
+		<s:hidden name="systemInfo.classType"></s:hidden>
+		<s:hidden name="classType"></s:hidden>
 		<div class="ui error message"></div>
 	</form>
   </div>
@@ -259,15 +358,5 @@
     <div class="ui cancel button">Cancel</div>
   </div>
 </div>
-<script type="text/javascript">
-	CKEDITOR.replace("systemInfo.description", {
-		/*filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
-		filebrowserImageBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Images',
-		filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',*/
-		filebrowserUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
-		/*filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
-		filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'*/
-	});
-</script> 
 </body>
 </html>

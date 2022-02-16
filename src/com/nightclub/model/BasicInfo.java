@@ -2,6 +2,7 @@ package com.nightclub.model;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,32 +26,32 @@ public class BasicInfo implements Serializable {
 	private static final long serialVersionUID = 7406550732066083106L;
 	
 	private String shopInfoId;
-	private String shopCode;
-	private String categoryCode;
+//	private String shopCode;
+	private String categoryInfoId;
 	private String shopNameJp;
 	private String shopNameEn;
-	private String zoneCode;
+	private String zoneInfoId;
 	private String logoImg;
 	private String shopImg;
-	private String address;
+//	private String address;
 	private String province;
-	private String postcode;
+//	private String postcode;
 	private String phone;
-	private String mobile;
-	private String email;
+//	private String mobile;
+//	private String email;
 	private String description;
-	private String workMon;
-	private String workTue;
-	private String workWed;
-	private String workThu;
-	private String workFri;
-	private String workSat;
-	private String workSun;
+//	private String workMon;
+//	private String workTue;
+//	private String workWed;
+//	private String workThu;
+//	private String workFri;
+//	private String workSat;
+//	private String workSun;
 	private String startTime;
 	private String endTime;
-	private String chkCustomUrl;
-	private String customUrl;
-	private String active;
+//	private String chkCustomUrl;
+//	private String customUrl;
+	private String lineId;
 	
 	private CategoryInfo categoryInfo;
 	private ZoneInfo zoneInfo;
@@ -61,32 +62,32 @@ public class BasicInfo implements Serializable {
 	
 	protected BasicInfo(BasicInfo basicInfo) {
 		this.shopInfoId = basicInfo.shopInfoId;
-		this.shopCode = basicInfo.shopCode;
-		this.categoryCode = basicInfo.categoryCode;
+//		this.shopCode = basicInfo.shopCode;
+		this.categoryInfoId = basicInfo.categoryInfoId;
 		this.shopNameJp = basicInfo.shopNameJp;
 		this.shopNameEn = basicInfo.shopNameEn;
-		this.zoneCode = basicInfo.zoneCode;
+		this.zoneInfoId = basicInfo.zoneInfoId;
 		this.logoImg = basicInfo.logoImg;
 		this.shopImg = basicInfo.shopImg;
-		this.address = basicInfo.address;
+//		this.address = basicInfo.address;
 		this.province = basicInfo.province;
-		this.postcode = basicInfo.postcode;
+//		this.postcode = basicInfo.postcode;
 		this.phone = basicInfo.phone;
-		this.mobile = basicInfo.mobile;
-		this.email = basicInfo.email;
+//		this.mobile = basicInfo.mobile;
+//		this.email = basicInfo.email;
 		this.description = basicInfo.description;
-		this.workMon = basicInfo.workMon;
-		this.workTue = basicInfo.workTue;
-		this.workWed = basicInfo.workWed;
-		this.workThu = basicInfo.workThu;
-		this.workFri = basicInfo.workFri;
-		this.workSat = basicInfo.workSat;
-		this.workSun = basicInfo.workSun;
+//		this.workMon = basicInfo.workMon;
+//		this.workTue = basicInfo.workTue;
+//		this.workWed = basicInfo.workWed;
+//		this.workThu = basicInfo.workThu;
+//		this.workFri = basicInfo.workFri;
+//		this.workSat = basicInfo.workSat;
+//		this.workSun = basicInfo.workSun;
 		this.startTime = basicInfo.startTime;
 		this.endTime = basicInfo.endTime;
-		this.chkCustomUrl = basicInfo.chkCustomUrl;
-		this.customUrl = basicInfo.customUrl;
-		this.active = basicInfo.active;
+//		this.chkCustomUrl = basicInfo.chkCustomUrl;
+//		this.customUrl = basicInfo.customUrl;
+		this.lineId = basicInfo.lineId;
 	}
 	
 	@Id
@@ -95,13 +96,13 @@ public class BasicInfo implements Serializable {
 	public String getShopInfoId() {
 		return shopInfoId;
 	}
-	@Column(name="shop_code", unique=true)
-	public String getShopCode() {
-		return shopCode;
-	}
-	@Column(name="category_code")
-	public String getCategoryCode() {
-		return categoryCode;
+//	@Column(name="shop_code", unique=true)
+//	public String getShopCode() {
+//		return shopCode;
+//	}
+	@Column(name="category_info_id")
+	public String getCategoryInfoId() {
+		return categoryInfoId;
 	}
 	@Column(name="shop_name_jp")
 	public String getShopNameJp() {
@@ -111,9 +112,9 @@ public class BasicInfo implements Serializable {
 	public String getShopNameEn() {
 		return shopNameEn;
 	}
-	@Column(name="zone_code")
-	public String getZoneCode() {
-		return zoneCode;
+	@Column(name="zone_info_id")
+	public String getZoneInfoId() {
+		return zoneInfoId;
 	}
 	@Column(name="logo_img")
 	public String getLogoImg() {
@@ -123,43 +124,43 @@ public class BasicInfo implements Serializable {
 	public String getShopImg() {
 		return shopImg;
 	}
-	@Column(name="address")
-	public String getAddress() {
-		return address;
-	}
+//	@Column(name="address")
+//	public String getAddress() {
+//		return address;
+//	}
 	@Column(name="province")
 	public String getProvince() {
 		return province;
 	}
-	@Column(name="postcode")
-	public String getPostcode() {
-		return postcode;
-	}
+//	@Column(name="postcode")
+//	public String getPostcode() {
+//		return postcode;
+//	}
 	@Column(name="phone")
 	public String getPhone() {
 		return phone;
 	}
-	@Column(name="mobile")
-	public String getMobile() {
-		return mobile;
-	}
-	@Column(name="email")
-	public String getEmail() {
-		return email;
-	}
+//	@Column(name="mobile")
+//	public String getMobile() {
+//		return mobile;
+//	}
+//	@Column(name="email")
+//	public String getEmail() {
+//		return email;
+//	}
 	@Column(name="description")
 	public String getDescription() {
 		return description;
 	}
 	@OneToOne
 	@NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name="category_code", referencedColumnName="category_code", insertable=false, updatable=false)
+    @JoinColumn(name="category_info_id", referencedColumnName="category_info_id", insertable=false, updatable=false)
 	public CategoryInfo getCategoryInfo() {
 		return categoryInfo;
 	}
 	@OneToOne
 	@NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name="zone_code", referencedColumnName="zone_code", insertable=false, updatable=false)
+    @JoinColumn(name="zone_info_id", referencedColumnName="zone_info_id", insertable=false, updatable=false)
 	public ZoneInfo getZoneInfo() {
 		return zoneInfo;
 	}
@@ -169,34 +170,34 @@ public class BasicInfo implements Serializable {
 	public MapInfo getMapInfo() {
 		return mapInfo;
 	}
-	@Column(name="work_mon")
-	public String getWorkMon() {
-		return workMon;
-	}
-	@Column(name="work_tue")
-	public String getWorkTue() {
-		return workTue;
-	}
-	@Column(name="work_wed")
-	public String getWorkWed() {
-		return workWed;
-	}
-	@Column(name="work_thu")
-	public String getWorkThu() {
-		return workThu;
-	}
-	@Column(name="work_fri")
-	public String getWorkFri() {
-		return workFri;
-	}
-	@Column(name="work_sat")
-	public String getWorkSat() {
-		return workSat;
-	}
-	@Column(name="work_sun")
-	public String getWorkSun() {
-		return workSun;
-	}
+//	@Column(name="work_mon")
+//	public String getWorkMon() {
+//		return workMon;
+//	}
+//	@Column(name="work_tue")
+//	public String getWorkTue() {
+//		return workTue;
+//	}
+//	@Column(name="work_wed")
+//	public String getWorkWed() {
+//		return workWed;
+//	}
+//	@Column(name="work_thu")
+//	public String getWorkThu() {
+//		return workThu;
+//	}
+//	@Column(name="work_fri")
+//	public String getWorkFri() {
+//		return workFri;
+//	}
+//	@Column(name="work_sat")
+//	public String getWorkSat() {
+//		return workSat;
+//	}
+//	@Column(name="work_sun")
+//	public String getWorkSun() {
+//		return workSun;
+//	}
 	@Column(name="start_time")
 	public String getStartTime() {
 		return startTime;
@@ -205,17 +206,17 @@ public class BasicInfo implements Serializable {
 	public String getEndTime() {
 		return endTime;
 	}
-	@Column(name="chk_custom_url")
-	public String getChkCustomUrl() {
-		return chkCustomUrl;
-	}
-	@Column(name="custom_url")
-	public String getCustomUrl() {
-		return customUrl;
-	}
-	@Column(name="active")
-	public String getActive() {
-		return active;
+//	@Column(name="chk_custom_url")
+//	public String getChkCustomUrl() {
+//		return chkCustomUrl;
+//	}
+//	@Column(name="custom_url")
+//	public String getCustomUrl() {
+//		return customUrl;
+//	}
+	@Column(name="line_id")
+	public String getLineId() {
+		return lineId;
 	}
 	@OneToOne
 	@NotFound(action = NotFoundAction.IGNORE)
@@ -226,11 +227,11 @@ public class BasicInfo implements Serializable {
 	public void setShopInfoId(String shopInfoId) {
 		this.shopInfoId = shopInfoId;
 	}
-	public void setShopCode(String shopCode) {
-		this.shopCode = shopCode;
-	}
-	public void setCategoryCode(String categoryCode) {
-		this.categoryCode = categoryCode;
+//	public void setShopCode(String shopCode) {
+//		this.shopCode = shopCode;
+//	}
+	public void setCategoryInfoId(String categoryInfoId) {
+		this.categoryInfoId = categoryInfoId;
 	}
 	public void setShopNameJp(String shopNameJp) {
 		this.shopNameJp = shopNameJp;
@@ -238,8 +239,8 @@ public class BasicInfo implements Serializable {
 	public void setShopNameEn(String shopNameEn) {
 		this.shopNameEn = shopNameEn;
 	}
-	public void setZoneCode(String zoneCode) {
-		this.zoneCode = zoneCode;
+	public void setZoneInfoId(String zoneInfoId) {
+		this.zoneInfoId = zoneInfoId;
 	}
 	public void setLogoImg(String logoImg) {
 		this.logoImg = logoImg;
@@ -247,24 +248,24 @@ public class BasicInfo implements Serializable {
 	public void setShopImg(String shopImg) {
 		this.shopImg = shopImg;
 	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
+//	public void setAddress(String address) {
+//		this.address = address;
+//	}
 	public void setProvince(String province) {
 		this.province = province;
 	}
-	public void setPostcode(String postcode) {
-		this.postcode = postcode;
-	}
+//	public void setPostcode(String postcode) {
+//		this.postcode = postcode;
+//	}
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
+//	public void setMobile(String mobile) {
+//		this.mobile = mobile;
+//	}
+//	public void setEmail(String email) {
+//		this.email = email;
+//	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -277,46 +278,45 @@ public class BasicInfo implements Serializable {
 	public void setMapInfo(MapInfo mapInfo) {
 		this.mapInfo = mapInfo;
 	}
-	public void setWorkMon(String workMon) {
-		this.workMon = workMon;
-	}
-	public void setWorkTue(String workTue) {
-		this.workTue = workTue;
-	}
-	public void setWorkWed(String workWed) {
-		this.workWed = workWed;
-	}
-	public void setWorkThu(String workThu) {
-		this.workThu = workThu;
-	}
-	public void setWorkFri(String workFri) {
-		this.workFri = workFri;
-	}
-	public void setWorkSat(String workSat) {
-		this.workSat = workSat;
-	}
-	public void setWorkSun(String workSun) {
-		this.workSun = workSun;
-	}
+//	public void setWorkMon(String workMon) {
+//		this.workMon = workMon;
+//	}
+//	public void setWorkTue(String workTue) {
+//		this.workTue = workTue;
+//	}
+//	public void setWorkWed(String workWed) {
+//		this.workWed = workWed;
+//	}
+//	public void setWorkThu(String workThu) {
+//		this.workThu = workThu;
+//	}
+//	public void setWorkFri(String workFri) {
+//		this.workFri = workFri;
+//	}
+//	public void setWorkSat(String workSat) {
+//		this.workSat = workSat;
+//	}
+//	public void setWorkSun(String workSun) {
+//		this.workSun = workSun;
+//	}
 	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	public void setChkCustomUrl(String chkCustomUrl) {
-		this.chkCustomUrl = chkCustomUrl;
-	}
-	public void setCustomUrl(String customUrl) {
-		this.customUrl = customUrl;
-	}
+//	public void setChkCustomUrl(String chkCustomUrl) {
+//		this.chkCustomUrl = chkCustomUrl;
+//	}
+//	public void setCustomUrl(String customUrl) {
+//		this.customUrl = customUrl;
+//	}
 	public void setSystemInfo(SystemInfo systemInfo) {
 		this.systemInfo = systemInfo;
 	}
-	public void setActive(String active) {
-		this.active = active;
+	public void setLineId(String lineId) {
+		this.lineId = lineId;
 	}
-	
 	public BasicInfo clone() {
 		return new BasicInfo(this);
 	}

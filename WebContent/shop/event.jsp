@@ -27,25 +27,27 @@
 				</div>
 				
 				<div class="ui breadcrumb segment attached inverted">
-					<a class="section" href="<s:url value="/shop/"/><s:property value="shopCode" />" >
+					<a class="section" href="<s:url value="/shop/"/><s:property value="shopInfoId" />" >
 						<s:text name="global.shop_menu_home" />
 					</a>
 					<i class="right chevron icon divider"></i>
 					<div class="active section"><s:text name="global.shop_event" /></div>
 				</div>
 				
-	  			<div class="ui segment attached">
-					<h2 class="ui top header">
-						<i class="newspaper icon"></i>
-						<div class="content">
-							<s:property value="eventInfo.title" />
-							<div class="sub header">
-								<s:date name="eventInfo.eventDate" format="dd MMMM yyyy" />
-								at
-								<s:property value="eventInfo.eventTime" />
+				<div class="center aligned column">
+		  			<div class="ui segment header">
+						<h2 class="ui top header">
+							<i class="newspaper icon"></i>
+							<div class="content">
+								<s:property value="eventInfo.title" />
+								<div class="sub header">
+									<s:date name="eventInfo.eventDate" format="dd MMMM yyyy" />
+									at
+									<s:property value="eventInfo.eventTime" />
+								</div>
 							</div>
-						</div>
-					</h2>
+						</h2>
+					</div>
 					<div class="ui grid attached segment ">
 						<div class="column one left aligned">
 							<s:text name="eventInfo.description" />

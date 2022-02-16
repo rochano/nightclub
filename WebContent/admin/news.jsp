@@ -92,6 +92,7 @@
 	  $("#addbtn")
 		.on('click', function() {
 		  $('#infoForm').find("input[type=text], textarea").val("");
+		  CKEDITOR.instances.newsInfo_description.setData('');
 		  $('#infoForm')[0].action.value = "add";
 		  $('#infoForm')[0].action = "<s:url value="/admin/news/add"/>";
           $('.ui.modal')

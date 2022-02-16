@@ -12,7 +12,7 @@ import com.opensymphony.xwork2.Action;
 public class CategoryZoneJSonAction {
 
 	private List<CategoryZone> categoryZones = new ArrayList<CategoryZone>();
-	private String categoryCode;
+	private String categoryInfoId;
     private List<CategoryInfo> categoryInfos;
 	private CategoryInfoManager categoryInfoManager;
 	
@@ -22,11 +22,11 @@ public class CategoryZoneJSonAction {
 	
 	public String execute() {
 		CategoryInfoManager categoryInfoManager = new CategoryInfoManager();
-		if ("".equals(getCategoryCode())) {
+		if ("".equals(getCategoryInfoId())) {
 			this.categoryInfos = categoryInfoManager.list();
-			setCategoryCode(this.categoryInfos.get(0).getCategoryCode());
+			setCategoryInfoId(this.categoryInfos.get(0).getCategoryInfoId());
 		}
-		CategoryInfo categoryInfo = categoryInfoManager.getCategoryInfoByCode(getCategoryCode());
+		CategoryInfo categoryInfo = categoryInfoManager.getCategoryInfo(getCategoryInfoId());
 		List<CategoryZone> list = categoryInfo.getCategoryZones();
 		ZoneInfo zoneInfo = new ZoneInfo();
 		CategoryZone categoryZone;
@@ -36,19 +36,19 @@ public class CategoryZoneJSonAction {
 			categoryZone.setZoneInfo(zoneInfo);
 			categoryZones.add(categoryZone);
 			
-			zoneInfo.setZoneCode(cz.getZoneInfo().getZoneCode());
+			zoneInfo.setZoneInfoId(cz.getZoneInfo().getZoneInfoId());
 			zoneInfo.setZoneNameJp(cz.getZoneInfo().getZoneNameJp());
 		}
 		
         return Action.SUCCESS;
 	}
 	
-	public String getCategoryCode() {
-		return categoryCode;
+	public String getCategoryInfoId() {
+		return categoryInfoId;
 	}
 
-	public void setCategoryCode(String categoryCode) {
-		this.categoryCode = categoryCode;
+	public void setCategoryInfoId(String categoryInfoId) {
+		this.categoryInfoId = categoryInfoId;
 	}
 
 	public List<CategoryZone> getCategoryZones() {

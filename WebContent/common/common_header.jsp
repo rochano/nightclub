@@ -45,7 +45,8 @@
 	justify-content: flex-start;
   }
   @media only screen and (max-width: 767px) {
-  	.ui.menu:not(.vertical):not(.fixed) {
+  	.ui.menu:not(.vertical):not(.fixed),
+  	.ui.grid.menu-slide-image {
   		display: none;
   	}
   	.ui.menu.toc:not(.vertical):not(.fixed) {
@@ -78,6 +79,21 @@
 	.ui.leaderboard.ad {
 	    width: auto;
 	}
+	  .ui.header.segment.header {
+	  	margin-bottom: 0;
+	  }
+	  .ui.segment:first-child {
+	  	margin-top: 1em;
+	  }
+	  .centered {
+	  	text-align: center;
+	  }
+	  .ui.accordion .accordion {
+	  	margin: 0;
+	  }
+	  .slick-list {
+	  	background: inherit;
+	  }
   </style>
   <script>
   $(document)

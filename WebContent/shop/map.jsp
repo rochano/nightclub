@@ -59,12 +59,14 @@
 					<%@include file="/common/common_shop_menu.jsp" %>
 				</div>
 				
-				<div class="ui segment">
-					<h2 class="ui top header">
-						<i class="marker icon"></i>
-						<div class="content"><s:text name="global.shop_menu_map" /></div>
-					</h2>
-					<div class="ui centered grid attached segment">
+				<div class="center aligned column">
+					<div class="ui segment header">
+						<h2 class="ui top header">
+							<i class="marker icon"></i>
+							<div class="content"><s:text name="global.shop_menu_map" /></div>
+						</h2>
+					</div>
+					<div class="ui centered attached segment">
 						<div class="column one left aligned">
 							<div id="map_canvas" style="width: 100%; height: 350px; margin:auto;">
 							</div>

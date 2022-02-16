@@ -18,6 +18,14 @@
         	fields: {}
         })
         ;
+        $('.message .close')
+        .on('click', function() {
+          $(this)
+            .closest('.message')
+            .transition('fade')
+          ;
+        })
+      ;
     })
   ;
 </script>
@@ -75,6 +83,14 @@
 			<div class="ui menu inverted stackable toc left aligned">
 		  		<a class="toc item"><i class="sidebar icon"></i></a>
 		  	</div>
+		  	<s:if test="hasActionMessages()">
+				<div class="ui success message green inverted">
+					<i class="close icon"></i>
+					<div class="header">
+						<s:actionmessage cssClass="list" />
+					</div>
+				</div>
+			</s:if>
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>

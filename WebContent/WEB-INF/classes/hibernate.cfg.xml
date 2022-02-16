@@ -43,7 +43,7 @@
 		<mapping class="net.viralpatel.contact.model.Contact" />
 		<mapping class="com.nightclub.model.BasicInfo" />
 		<mapping class="com.nightclub.model.UserInfo" />
-		<mapping class="com.nightclub.model.GirlInfo" />
+		<mapping class="com.nightclub.model.ShopGirlInfo" />
 		<mapping class="com.nightclub.model.ScheduleInfo" />
 		<mapping class="com.nightclub.model.SystemInfo" />
 		<mapping class="com.nightclub.model.MapInfo" />
@@ -59,6 +59,15 @@
 		<mapping class="com.nightclub.model.CategoryZoneId" />
 		<mapping class="com.nightclub.model.BaseModel" />
 		<mapping class="com.nightclub.model.AdsInfo" />
+		
+		<mapping class="com.nightclub.model.AgentGirlInfo" />
+		<mapping class="com.nightclub.model.AgentInfo" />
+		<mapping class="com.nightclub.model.FreeAgentGirlInfo" />
+		<mapping class="com.nightclub.model.GirlService" />
+		<mapping class="com.nightclub.model.GirlServiceId" />
+		<mapping class="com.nightclub.model.GirlServiceInfo" />
+		<mapping class="com.nightclub.model.GirlSetting" />
+		<mapping class="com.nightclub.model.ClientInfo" />
 
 	</session-factory>
 

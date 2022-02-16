@@ -37,7 +37,7 @@ public class ShopController extends ActionSupport implements ModelDriven<Object>
 	}
 	
 	public HttpHeaders show() {
-		model = basicInfoManager.getBasicInfoByCode(getId()).clone();
+		model = basicInfoManager.getBasicInfoById(getId()).clone();
 		
 		return new DefaultHttpHeaders("show").disableCaching();
 	}
