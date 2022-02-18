@@ -394,13 +394,24 @@
 							<s:textfield name="girlSearch.nickName" label="Nick Name "/>
 						</div>
 						<div class="inline field">
-							<s:select list="zoneInfos"
-								headerKey="" headerValue="-"
-								listKey="zoneInfoId" listValue="zoneNameJp"
-								label="Location " 
-								cssClass="ui search dropdown" 
-								name="girlSearch.location">
-							</s:select>
+							<s:if test="#request.locale.language=='jp'">
+								<s:select list="zoneInfos"
+									headerKey="" headerValue="-"
+									listKey="zoneInfoId" listValue="zoneNameJp"
+									label="Location " 
+									cssClass="ui search dropdown" 
+									name="girlSearch.location">
+								</s:select>
+							</s:if>
+							<s:else>
+								<s:select list="zoneInfos"
+									headerKey="" headerValue="-"
+									listKey="zoneInfoId" listValue="zoneNameEn"
+									label="Location " 
+									cssClass="ui search dropdown" 
+									name="girlSearch.location">
+								</s:select>
+							</s:else>
 						</div>
 						<div class="ui error message"></div>
 						<div class="ui right aligned one column grid">
@@ -448,7 +459,14 @@
 									</td>
 									<td><s:property value="nickName" /></td>
 									<td class="center aligned"><s:property value="age" /></td>
-									<td><s:property value="zoneInfo.zoneNameJp" /></td>
+									<td>
+										<s:if test="#request.locale.language=='jp'">
+											<s:property value="zoneInfo.zoneNameJp" />
+										</s:if>
+										<s:else>
+											<s:property value="zoneInfo.zoneNameEn" />
+										</s:else>
+									</td>
 									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="height"/></s:text></td>
 									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="weight"/></s:text></td>
 									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="bustSize"/></s:text></td>
@@ -525,13 +543,24 @@
 			</div>
 		</div>
 		<div class="inline field">
-			<s:select list="zoneInfos"
-				headerKey="" headerValue="-"
-				listKey="zoneInfoId" listValue="zoneNameJp"
-				label="Location" 
-				cssClass="ui search dropdown" 
-				name="girlInfo.location">
-			</s:select>
+			<s:if test="#request.locale.language=='jp'">
+				<s:select list="zoneInfos"
+					headerKey="" headerValue="-"
+					listKey="zoneInfoId" listValue="zoneNameJp"
+					label="Location" 
+					cssClass="ui search dropdown" 
+					name="girlInfo.location">
+				</s:select>
+			</s:if>
+			<s:else>
+				<s:select list="zoneInfos"
+					headerKey="" headerValue="-"
+					listKey="zoneInfoId" listValue="zoneNameEn"
+					label="Location" 
+					cssClass="ui search dropdown" 
+					name="girlInfo.location">
+				</s:select>
+			</s:else>
 		</div>
 		<div class="inline field">
 			<s:textfield name="girlInfo.lineId" label="Line "/>

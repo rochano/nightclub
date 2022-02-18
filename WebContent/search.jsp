@@ -68,13 +68,20 @@
 						<div class="ui centered four column doubling grid data ">
 						<s:if test="%{zoneInfos.size gte 0}">
 							<s:iterator value="zoneInfos" status="status">
-								<a href="<s:url value="/search/%{zoneInfoId}"/>" class="ui column center aligned inverted">
-									<s:property value="zoneNameJp" />
-								</a>
+								<s:if test="#request.locale.language=='jp'">
+									<a href="<s:url value="/search/%{zoneInfoId}"/>" class="ui column center aligned inverted">
+										<s:property value="zoneNameJp" />
+									</a>
+								</s:if>
+								<s:else>
+									<a href="<s:url value="/search/%{zoneInfoId}"/>" class="ui column center aligned inverted">
+										<s:property value="zoneNameEn" />
+									</a>
+								</s:else>
 							</s:iterator>
 						</s:if>
 						<s:if test="%{zoneInfos.size eq 0}">
-							データかありません
+							<s:text name="global.no_data" />
 						</s:if>
 						</div>
 					</div>

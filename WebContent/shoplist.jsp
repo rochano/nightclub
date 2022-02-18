@@ -60,7 +60,14 @@
 	  				<div class="ui segment header">
 						<h2 class="ui top header">
 							<i class="bookmark icon yellow"></i>
-							<div class="content"><s:text name="category.categoryNameJp" /></div>
+							<div class="content">
+								<s:if test="#request.locale.language=='jp'">
+								<s:text name="category.categoryNameJp" />
+								</s:if>
+								<s:else>
+								<s:text name="category.categoryNameEn" />
+								</s:else>
+							</div>
 						</h2>
 					</div>
 					<div class="ui grid attached segment">
@@ -104,7 +111,14 @@
 								<td class="image" rowspan="2" style="width: 7%;">
 									<img class="ui tiny image centered" src="<s:property value="shopImg" />">
 								</td>
-								<td><a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui header medium"><s:property value="shopNameJp" /></a></td>
+								<td><a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui header medium">
+									<s:if test="#request.locale.language=='jp'">
+										<s:property value="shopNameJp" />
+									</s:if>
+									<s:else>
+										<s:property value="shopNameEn" />
+									</s:else>
+								</a></td>
 								<td>
 									<s:if test="systemInfo != null && systemInfo.classType == 'VIP'" >
 										<a href="<s:property value="%{#url + #system}"/>" <s:property value="%{target}"/> class="ui"><b>
@@ -125,13 +139,22 @@
 								<td rowspan="2"><a href="<s:property value="%{#url + #girls}"/>" <s:property value="%{target}"/> class="ui">All Stuff</a></td>
 							</tr>
 							<tr>
-								<td><a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui header tiny"><s:property value="zoneInfo.zoneNameJp" /></a></td>
+								<td>
+									<a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui header tiny">
+										<s:if test="#request.locale.language=='jp'">
+											<s:property value="zoneInfo.zoneNameJp" />
+										</s:if>
+										<s:else>
+											<s:property value="zoneInfo.zoneNameEn" />
+										</s:else>
+									</a>
+								</td>
 								<td>60分</td>
 								<td><s:property value="startTime" />-<s:property value="endTime" /></td>
 							</tr>
 							</s:iterator>
 							<s:if test="basicInfos.size() == 0" >
-								<tr><td colspan="6">データかありません</td></tr>
+								<tr><td colspan="6"><s:text name="global.no_data" /></td></tr>
 							</s:if>
 						</tbody>
 					</table>

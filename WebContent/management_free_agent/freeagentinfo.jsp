@@ -10,7 +10,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Management - Basic Info</title>
+  <title>Management - Information</title>
 
   <%@include file="/common/common_shop_management_header.jsp" %>
   <script src="<s:url value="/assets/library/jquery.form.js"/>"></script>
@@ -342,13 +342,24 @@
 							</div>
 						</div>
 						<div class="inline field">
-							<s:select list="zoneInfos"
-								headerKey="" headerValue="-"
-								listKey="zoneInfoId" listValue="zoneNameJp"
-								label="Location" 
-								cssClass="ui search dropdown" 
-								name="girlInfo.location">
-							</s:select>
+							<s:if test="#request.locale.language=='jp'">
+								<s:select list="zoneInfos"
+									headerKey="" headerValue="-"
+									listKey="zoneInfoId" listValue="zoneNameJp"
+									label="Location" 
+									cssClass="ui search dropdown" 
+									name="girlInfo.location">
+								</s:select>
+							</s:if>
+							<s:else>
+								<s:select list="zoneInfos"
+									headerKey="" headerValue="-"
+									listKey="zoneInfoId" listValue="zoneNameEn"
+									label="Location" 
+									cssClass="ui search dropdown" 
+									name="girlInfo.location">
+								</s:select>
+							</s:else>
 						</div>
 						<div class="inline field">
 							<s:textfield name="girlInfo.lineId" label="Line "/>

@@ -79,7 +79,7 @@
 							</s:iterator>
 						</s:if>
 						<s:if test="%{agentsInfos.size eq 0}">
-							データかありません
+							<s:text name="global.no_data" />
 						</s:if>
 						</div>
 					</div>
@@ -139,7 +139,7 @@
 							</s:iterator>
 						</s:if>
 						<s:if test="%{girlInfos.size eq 0}">
-							データかありません
+							<s:text name="global.no_data" />
 						</s:if>
 						</div>
 					</div>

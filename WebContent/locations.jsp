@@ -58,14 +58,28 @@
 						<s:text name="global.main_menu_search" />
 					</a>
 					<i class="right chevron icon divider"></i>
-					<div class="active section"><s:text name="zoneInfo.zoneNameJp" /></div>
+					<div class="active section">
+						<s:if test="#request.locale.language=='jp'">
+							<s:text name="zoneInfo.zoneNameJp" />
+						</s:if>
+						<s:else>
+							<s:text name="zoneInfo.zoneNameEn" />
+						</s:else>
+					</div>
 				</div>
 
 				<div class="center aligned column">
 					<div class="ui segment header">
 						<h2 class="ui top header">
 							<i class="bookmark icon yellow"></i>
-							<div class="content"><s:text name="zoneInfo.zoneNameJp" /></div>
+							<div class="content">
+								<s:if test="#request.locale.language=='jp'">
+									<s:text name="zoneInfo.zoneNameJp" />
+								</s:if>
+								<s:else>
+									<s:text name="zoneInfo.zoneNameEn" />
+								</s:else>
+									</div>
 						</h2>
 					</div>
 					<div class="ui centered attached segment soft">
@@ -98,7 +112,7 @@
 							</s:iterator>
 						</s:if>
 						<s:if test="%{girlInfos.size eq 0}">
-							データかありません
+							<s:text name="global.no_data" />
 						</s:if>
 						</div>
 					</div>

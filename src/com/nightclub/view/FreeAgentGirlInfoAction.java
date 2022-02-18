@@ -60,6 +60,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		girlInfoManager = new FreeAgentGirlInfoManager();
 		girlSettingManager = new GirlSettingManager();
 		zoneInfoManager = new ZoneInfoManager();
+		girlServices = new ArrayList();
 	}
 
 	public String execute() {

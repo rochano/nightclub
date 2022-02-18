@@ -133,7 +133,10 @@
 							<div class="field">
 								<label>User Type</label>
 								<div class="ui left icon input">
-									<s:select list="#{'1':'サービス店', '2':'彼女紹介', '3':'素人援交', '4':'นักท่องเที่ยวมาตามหาน้องๆ'}"
+									<s:select list="#{'1':getText('global.main_menu_service_shop'), 
+													'2':getText('global.main_menu_agents'), 
+													'3':getText('global.main_menu_free_agents'), 
+													'4':'นักท่องเที่ยวมาตามหาน้องๆ'}"
 										name="userType">
 									</s:select>
 								</div>

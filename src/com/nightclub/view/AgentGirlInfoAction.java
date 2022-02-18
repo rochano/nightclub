@@ -62,6 +62,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 		girlInfoManager = new AgentGirlInfoManager();
 		girlSettingManager = new GirlSettingManager();
 		zoneInfoManager = new ZoneInfoManager();
+		girlServices = new ArrayList();
 	}
 	
 	public String execute() {

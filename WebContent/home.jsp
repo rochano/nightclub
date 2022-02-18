@@ -139,7 +139,7 @@
 							</s:iterator>
 						</s:if>
 						<s:if test="%{adsInfos.size() eq 0}">
-							データかありません
+							<s:text name="global.no_data" />
 						</s:if>
 					</div>
   				</div>

@@ -11,11 +11,20 @@
 				<s:text name="global.main_menu_service_shop" />
 				<i class="dropdown icon"></i>
 				<div class="menu">
-					<s:iterator value="categoryInfos">
-						<s:url var="url" action="%{#base_url + categoryInfoId}" />
-						<a class="item" href="<s:property value="%{url}" />">
-								<s:property value="categoryNameJp" /></a>
-					</s:iterator>
+					<s:if test="#request.locale.language=='jp'">
+						<s:iterator value="categoryInfos">
+							<s:url var="url" action="%{#base_url + categoryInfoId}" />
+							<a class="item" href="<s:property value="%{url}" />">
+									<s:property value="categoryNameJp" /></a>
+						</s:iterator>
+					</s:if>
+					<s:else>
+						<s:iterator value="categoryInfos">
+							<s:url var="url" action="%{#base_url + categoryInfoId}" />
+							<a class="item" href="<s:property value="%{url}" />">
+									<s:property value="categoryNameEn" /></a>
+						</s:iterator>
+					</s:else>
 				</div>
 			</div>
 			<a href="<s:url value="/agents"/>" class="ui item"><s:text name="global.main_menu_agents" /></a>

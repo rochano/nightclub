@@ -38,6 +38,7 @@ public class CategoryZoneJSonAction {
 			
 			zoneInfo.setZoneInfoId(cz.getZoneInfo().getZoneInfoId());
 			zoneInfo.setZoneNameJp(cz.getZoneInfo().getZoneNameJp());
+			zoneInfo.setZoneNameEn(cz.getZoneInfo().getZoneNameEn());
 		}
 		
         return Action.SUCCESS;
