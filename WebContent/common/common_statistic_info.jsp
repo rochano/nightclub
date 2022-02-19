@@ -57,6 +57,10 @@ $(document)
 					<i class="setting icon teal"></i>
 					Information
 				</a>
+				<a class="ui tiny item" href="<s:url value="/favourite"/>">
+					<i class="setting icon red heart"></i>
+					Favourite
+				</a>
 				<a class="ui tiny item" href="<s:url value="/logout"/>">
 					<i class="sign out icon"></i>
 					Logout

@@ -68,6 +68,7 @@
 		<mapping class="com.nightclub.model.GirlServiceInfo" />
 		<mapping class="com.nightclub.model.GirlSetting" />
 		<mapping class="com.nightclub.model.ClientInfo" />
+		<mapping class="com.nightclub.model.GirlFavourite" />
 
 	</session-factory>
 

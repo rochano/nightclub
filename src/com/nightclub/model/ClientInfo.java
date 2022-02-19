@@ -1,10 +1,14 @@
 package com.nightclub.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.Length;
@@ -22,6 +26,7 @@ public class ClientInfo implements Serializable {
 	private String mobile;
 	private Integer age;
 	private String active;
+	private List<GirlFavourite> girlFavourite = new ArrayList<GirlFavourite>();
 
 	public ClientInfo() {}
 	
@@ -65,6 +70,11 @@ public class ClientInfo implements Serializable {
 	public String getActive() {
 		return active;
 	}
+	@OneToMany(mappedBy = "primaryKey.clientInfo",
+            cascade = CascadeType.ALL)
+	public List<GirlFavourite> getGirlFavourite() {
+		return girlFavourite;
+	}
 	public void setClientInfoId(String clientInfoId) {
 		this.clientInfoId = clientInfoId;
 	}
@@ -88,5 +98,8 @@ public class ClientInfo implements Serializable {
 	}
 	public ClientInfo clone() {
 		return new ClientInfo(this);
+	}
+	public void setGirlFavourite(List<GirlFavourite> girlFavourite) {
+		this.girlFavourite = girlFavourite;
 	}
 }

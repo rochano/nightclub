@@ -8,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>THAINIGHTNAVI.COM - <s:text name="global.main_menu_free_agents" /></title>
+  <title>THAINIGHTNAVI.COM - <s:text name="global.main_menu_agents" /></title>
   <%@include file="/common/common_header.jsp" %>
   <!--- Example CSS -->
   <style>
@@ -89,12 +89,14 @@
 				<%@include file="/common/common_statistic_info.jsp" %>
 				<%@include file="/common/common_new_menu.jsp" %>
   				<br/>
-  				<div class="ui breadcrumb segment attached inverted">
+				<div class="ui breadcrumb segment attached inverted">
 					<a class="section" href="<s:url value="/" />" >
 						<s:text name="global.shop_menu_home" />
 					</a>
 					<i class="right chevron icon divider"></i>
-					<div class="active section"><s:text name="global.main_menu_free_agents" /></div>
+					<div class="active section">
+						Favourite
+					</div>
 				</div>
 
 				<div class="center aligned column">
@@ -125,6 +127,7 @@
 									<div class="content left aligned">
 										<a class="ui header " href="<s:url value="/girl/%{girlInfoId}"/>"><s:property value="nickName" /></a>
 										<div class="description">
+											<s:property value="agentInfo.agentName" /><br/>
 											<i class="marker icon"></i><s:property value="zoneInfo.zoneNameEn" />
 										</div>
 									</div>

@@ -36,6 +36,47 @@
   	#shoplist-wrapper {overflow: scroll;}
   }
   </style>
+  <script type="text/javascript">
+  $(document)
+    .ready(function() {
+    	<s:if test="clientInfo != null">
+		$(".toggleFavourite").click(function() {
+			var favouriteIcon = $(this).find("i");
+			var girlInfoId = $(this).attr("data-girlInfoId");
+			var favourite = 0;
+			if (favouriteIcon.hasClass("outline")) {
+				favouriteIcon.removeClass("outline");
+				/* toggleFavourite.addClass("red") */
+				favourite = 1;
+			} else {
+				favouriteIcon.removeClass("red");
+				/* toggleFavourite.addClass("outline") */
+			}
+			favouriteIcon.removeClass("heart");
+			favouriteIcon.addClass("spinner");
+			$.getJSON("<s:url value="/ajax/toggleFavouriteJson/" />" + girlInfoId + "/" + favourite,
+			function(jsonResponse) {
+				favouriteIcon.removeClass("spinner");
+				favouriteIcon.addClass("heart");
+				if (jsonResponse.favourite === '1') {
+					favouriteIcon.removeClass("outline");
+					favouriteIcon.addClass("red")
+				} else {
+					favouriteIcon.removeClass("red");
+					favouriteIcon.addClass("outline")
+				}
+  			});
+		});
+		</s:if>
+		<s:else>
+		$('.toggleFavourite')
+			.popup({
+				on: 'click'
+			})
+		;
+		</s:else>
+	});
+  </script>
 </head>
 <body>
 <!-- Sidebar Menu -->
@@ -115,8 +156,13 @@
 							<s:iterator value="girlInfos" status="status">
 								<div class="ui red card">
 									<div class="image ui centered corner labeled" >
-										<a class="ui right corner label">
-											<i class="heart outline icon"></i>
+										<a class="ui right corner label toggleFavourite link" 
+												data-girlInfoId="<s:property value="girlInfoId" />"
+												data-content="Please login first" data-variation="tiny">
+											<i class="heart 
+												<s:if test="girlFavourites.indexOf(girlInfoId) != -1">red</s:if>
+												<s:else>outline</s:else>
+												icon"></i>
 										</a>
 										<a href="<s:url value="/girl/%{girlInfoId}"/>" >
 											<img class="image ui centered" src="<s:property value="pic1" />">

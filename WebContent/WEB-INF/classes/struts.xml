@@ -144,12 +144,24 @@
 			<result name="success">/contact.jsp</result>
 		</action>
 		
+		<action name="favourite"
+			class="com.nightclub.view.FrontEndAction" method="favourite">
+			<result name="success">/favourite.jsp</result>
+		</action>
+		
 	</package>
 	
 	<package name="ajax" extends="json-default" namespace="/ajax" >
 		<action name="categoryZoneJson/*"
 			class="com.nightclub.view.CategoryZoneJSonAction">
 			<param name="categoryInfoId">{1}</param>
+			<result type="json" />
+		</action>
+		
+		<action name="toggleFavouriteJson/*/*"
+			class="com.nightclub.view.ToggleFavouriteJSonAction">
+			<param name="girlInfoId">{1}</param>
+			<param name="favourite">{2}</param>
 			<result type="json" />
 		</action>
     </package>

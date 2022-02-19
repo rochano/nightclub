@@ -2,6 +2,7 @@ package com.nightclub.view;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.nightclub.controller.ClientInfoManager;
+import com.nightclub.controller.GirlFavouriteManager;
 import com.nightclub.controller.StatisticInfoManager;
 import com.nightclub.model.ClientInfo;
 import com.nightclub.model.StatisticInfo;
@@ -31,13 +33,16 @@ public class CommonAction extends ActionSupport implements ServletRequestAware, 
 	private HttpServletRequest servletRequest;
 	private ClientInfo clientInfo;
 	private Map<String, Object> sessionMap;
+	private List<String> girlFavourites = new ArrayList<String>();
 	
 	private StatisticInfoManager statisticInfoManager;
 	private ClientInfoManager clientInfoManager;
+	protected GirlFavouriteManager girlFavouriteManager;
 	
 	public CommonAction() {
 		statisticInfoManager = new StatisticInfoManager();
 		clientInfoManager = new ClientInfoManager();
+		girlFavouriteManager = new GirlFavouriteManager();
 	}
 
 	protected void getStatisticInfo() {
@@ -122,6 +127,7 @@ public class CommonAction extends ActionSupport implements ServletRequestAware, 
 		if (sessionMap.containsKey("userInfo")) {
 			UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 			this.clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
+			this.girlFavourites = girlFavouriteManager.listByCustomerInfoId(userInfo.getClientInfoId());
 		}
 	}
 
@@ -153,5 +159,17 @@ public class CommonAction extends ActionSupport implements ServletRequestAware, 
 	@Override
 	public void setSession(Map<String, Object> sessionMap) {
 		this.sessionMap = sessionMap;
+	}
+	
+	public Map<String, Object> getSession() {
+		return this.sessionMap;
+	}
+
+	public List<String> getGirlFavourites() {
+		return girlFavourites;
+	}
+
+	public void setGirlFavourites(List<String> girlFavourites) {
+		this.girlFavourites = girlFavourites;
 	}
 }

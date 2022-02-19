@@ -9,6 +9,7 @@ import com.nightclub.controller.AgentInfoManager;
 import com.nightclub.controller.BasicInfoManager;
 import com.nightclub.controller.CategoryInfoManager;
 import com.nightclub.controller.FreeAgentGirlInfoManager;
+import com.nightclub.controller.GirlFavouriteManager;
 import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.HomeInfoManager;
 import com.nightclub.controller.NewsInfoManager;
@@ -17,10 +18,12 @@ import com.nightclub.model.AdsInfo;
 import com.nightclub.model.AgentInfo;
 import com.nightclub.model.BasicInfo;
 import com.nightclub.model.CategoryInfo;
+import com.nightclub.model.GirlFavourite;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.HomeInfo;
 import com.nightclub.model.NewsInfo;
+import com.nightclub.model.UserInfo;
 import com.nightclub.model.ZoneInfo;
 
 public class FrontEndAction extends CommonAction {
@@ -57,6 +60,7 @@ public class FrontEndAction extends CommonAction {
 	private AdsInfoManager adsInfoManager;
 	private AgentInfoManager agentInfoManager;
 	private ZoneInfoManager zoneInfoManager;
+
 
 	public FrontEndAction() {
 		super();
@@ -124,6 +128,17 @@ public class FrontEndAction extends CommonAction {
 		this.categoryInfos = categoryInfoManager.list();
 		girlInfoManager = new FreeAgentGirlInfoManager();
 		this.girlInfos = girlInfoManager.list();
+		return SUCCESS;
+	}
+	
+	public String favourite() {
+		getStatisticInfo();
+		
+		this.categoryInfos = categoryInfoManager.list();
+		if (getSession().containsKey("userInfo")) {
+			UserInfo userInfo = (UserInfo)getSession().get("userInfo");
+			this.girlInfos = girlFavouriteManager.list(userInfo.getClientInfoId());
+		}
 		return SUCCESS;
 	}
 	
