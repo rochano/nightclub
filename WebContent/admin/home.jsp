@@ -102,7 +102,7 @@
 						<form class="ui form " method="post" action="<s:url value="/admin/home/update"/>" >
 							<h4 class="ui horizontal divider header">
 								<i class="comment icon"></i>
-								Home page content
+								Home page content JP
 							</h4>
 							<div class="inline field">
 								<s:textarea name="homeInfo.description" />
@@ -119,12 +119,47 @@
 							</div>
 							<h4 class="ui horizontal divider header">
 								<i class="comment icon"></i>
-								Home page content 2
+								Home page content JP 2
 							</h4>
 							<div class="inline field">
 								<s:textarea name="homeInfo.description2" />
 								<script type="text/javascript">
 									CKEDITOR.replace("homeInfo.description2", {
+										/* filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
+										filebrowserImageBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Images',
+										filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',*/
+										filebrowserUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files'/*,
+										filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
+										filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash' */
+									});
+								</script>
+							</div>
+							
+							<h4 class="ui horizontal divider header">
+								<i class="comment icon"></i>
+								Home page content EN
+							</h4>
+							<div class="inline field">
+								<s:textarea name="homeInfo.descriptionEn" />
+								<script type="text/javascript">
+									CKEDITOR.replace("homeInfo.descriptionEn", {
+										/*filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
+										filebrowserImageBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Images',
+										filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',*/
+										filebrowserUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files'/*,
+										filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
+										filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash' */
+									});
+								</script>
+							</div>
+							<h4 class="ui horizontal divider header">
+								<i class="comment icon"></i>
+								Home page content EN 2
+							</h4>
+							<div class="inline field">
+								<s:textarea name="homeInfo.descriptionEn2" />
+								<script type="text/javascript">
+									CKEDITOR.replace("homeInfo.descriptionEn2", {
 										/* filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
 										filebrowserImageBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Images',
 										filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',*/

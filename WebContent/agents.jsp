@@ -178,7 +178,13 @@
 										<a class="ui header " href="<s:url value="/girl/%{girlInfoId}"/>"><s:property value="nickName" /></a>
 										<div class="description">
 											<s:property value="agentInfo.agentName" /><br/>
-											<i class="marker icon"></i><s:property value="zoneInfo.zoneNameEn" />
+											<i class="marker icon"></i>
+											<s:if test="#request.locale.language=='jp'">
+												<s:text name="zoneInfo.zoneNameJp" />
+											</s:if>
+											<s:else>
+												<s:text name="zoneInfo.zoneNameEn" />
+											</s:else>
 										</div>
 									</div>
 								</div>

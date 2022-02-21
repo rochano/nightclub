@@ -190,7 +190,16 @@
 												<tr>
 													<td class="right aligned"><p>Location</p></td>
 													<td class="center aligned one wide"><p>:</p></td>
-													<td><p><s:property value="girlInfo.zoneInfo.zoneNameEn" /></p></td>
+													<td>
+														<p>
+															<s:if test="#request.locale.language=='jp'">
+																<s:text name="girlInfo.zoneInfo.zoneNameJp" />
+															</s:if>
+															<s:else>
+																<s:text name="girlInfo.zoneInfo.zoneNameEn" />
+															</s:else>
+														</p>
+													</td>
 												</tr>
 												<tr>
 													<td class="right aligned"><p>Line</p></td>
@@ -249,7 +258,12 @@
 										<div class="ui grid column">
 											<div class="column left aligned">
 												<i class="ui check square icon green"></i>
-												<s:property value="girlInfo.gender" />
+												<s:if test="girlInfo.gender == 'Straight'">
+													<s:text name="global.gender_straight" />
+												</s:if>
+												<s:else>
+													<s:text name="global.gender_transgender" />
+												</s:else>
 											</div>
 										</div>
 									</div>

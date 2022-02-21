@@ -9,7 +9,6 @@
 			<a href="<s:url value="/admin/client"/>"><span>Client</span></a> | 
 			<a href="<s:url value="/admin/zone"/>"><span>Location</span></a> | 
 			<a href="<s:url value="/admin/category"/>"><span>Category</span></a> | 
-			<a href="<s:url value="/admin/news"/>"><span>News</span></a> | 
 			<a href="<s:url value="/admin/ads"/>"><span>Ads</span></a> | 
 			<a href="<s:url value="/admin/girlservice"/>"><span>Girl Service</span></a> | 
 			<a href="<s:url value="/admin/girlsetting"/>"><span>Girl Setting</span></a> |

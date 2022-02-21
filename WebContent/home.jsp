@@ -8,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>THAINIGHTNAVI.COM - Home</title>
+  <title>THAINIGHTNAVI.COM - <s:text name="global.main_menu_home" /></title>
 
  <%@include file="/common/common_header.jsp" %>
   <!--- Example CSS -->
@@ -60,12 +60,17 @@
 		  			<div class="ui segment header">
 						<h2 class="ui top header">
 							<i class="bookmark icon yellow"></i>
-							<div class="content">ご利用上のご注意</div>
+							<div class="content"><s:text name="global.precautions_for_use" /></div>
 						</h2>
 					</div>
 					<div class="ui grid attached segment">
 						<div class="column one left aligned">
-							<s:text name="homeInfo.description"></s:text>
+							<s:if test="#request.locale.language=='jp'">
+								<s:text name="homeInfo.description"></s:text>
+							</s:if>
+							<s:else>
+								<s:text name="homeInfo.descriptionEn"></s:text>
+							</s:else>
 				 		</div>
 					</div>
 				</div>
@@ -74,12 +79,12 @@
 					<div class="ui segment header">
 						<h2 class="ui top header">
 							<i class="help circle icon blue"></i>
-							<div class="content">貴方は18才以上ですか？</div>
+							<div class="content"><s:text name="global.over_18_years_old" /></div>
 						</h2>
 					</div>
 					<div class="ui centered attached segment">
-						<a href="<s:url value="/shoplist"/>" class="ui massive button green"><i class="checkmark icon"></i>YES</a>
-						<a href="#" class="ui massive button red"><i class="remove icon"></i>NO</a>
+						<a href="<s:url value="/shoplist"/>" class="ui massive button green"><i class="checkmark icon"></i><s:text name="global.yes" /></a>
+						<a href="#" class="ui massive button red"><i class="remove icon"></i><s:text name="global.no" /></a>
 					</div>
 				</div>
 				
@@ -87,36 +92,17 @@
 					<div class="ui segment header">
 						<h2 class="ui top header">
 							<i class="idea icon orange"></i>
-							<div class="content">THAINIGHTNAVI.COMとは</div>
+							<div class="content"><s:text name="global.what_is_thainightnavi" /></div>
 						</h2>
 					</div>
 					<div class="ui grid attached segment">
 						<div class="column one left aligned">
-							<s:text name="homeInfo.description2"></s:text>
-				 		</div>
-					</div>
-				</div>
-				
-				<div class="center aligned column">
-					<div class="ui segment header ">
-						<h2 class="ui top header">
-							<i class="newspaper icon"></i>
-							<div class="content">サイト最新情報</div>
-						</h2>
-					</div>
-					<div class="ui grid attached segment">
-						<div class="column one left aligned">
-							<div class="ui list">
-								<s:iterator value="newsInfos" status="status">
-								<div class="item">
-									<div class="content">
-										<span>[<s:date name="newsDate" format="dd MMMM yyyy" /> at <s:property value="newsTime" />]</span>
-										&nbsp;
-										<span><a href="<s:url value="/news/%{newsInfoId}" />"><s:property value="title" /></a></span>
-									</div>
-								</div>
-								</s:iterator>
-							</div>
+							<s:if test="#request.locale.language=='jp'">
+								<s:text name="homeInfo.description2"></s:text>
+							</s:if>
+							<s:else>
+								<s:text name="homeInfo.descriptionEn2"></s:text>
+							</s:else>
 				 		</div>
 					</div>
 				</div>
@@ -125,7 +111,7 @@
   					<div class="ui segment header banner">
 						<h2 class="ui top header">
 							<i class="announcement icon"></i>
-							<div class="content">リンク情報</div>
+							<div class="content"><s:text name="global.link_information" /></div>
 						</h2>
 					</div>
   					<div class="ui centered grid attached segment soft banner">

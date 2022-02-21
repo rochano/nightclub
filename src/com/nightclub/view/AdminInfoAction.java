@@ -65,6 +65,8 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			homeInfo_.setHomeInfoId("0");
 			homeInfo_.setDescription(UploadFileUtils.uploadImageinDescription(homeInfo.getDescription(), sessionMap, userInfo));
 			homeInfo_.setDescription2(UploadFileUtils.uploadImageinDescription(homeInfo.getDescription2(), sessionMap, userInfo));
+			homeInfo_.setDescriptionEn(UploadFileUtils.uploadImageinDescription(homeInfo.getDescriptionEn(), sessionMap, userInfo));
+			homeInfo_.setDescriptionEn2(UploadFileUtils.uploadImageinDescription(homeInfo.getDescriptionEn2(), sessionMap, userInfo));
 			
 			if(homeInfoManager.getHomeInfo("0") != null) {
 				homeInfoManager.update(homeInfo_);
