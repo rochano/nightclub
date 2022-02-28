@@ -36,6 +36,7 @@ public class UserInfo implements Serializable{
 	private AgentInfo agentInfo;
 	private FreeAgentGirlInfo freeAgentGirlInfo;
 	private ClientInfo clientInfo;
+	private EnGirlInfo enGirlInfo; 
 
 	@Id
 	@Column(name="user_info_id")
@@ -116,6 +117,12 @@ public class UserInfo implements Serializable{
 	public ClientInfo getClientInfo() {
 		return clientInfo;
 	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="girl_info_id", insertable=false, updatable=false)
+	public EnGirlInfo getEnGirlInfo() {
+		return enGirlInfo;
+	}
 	public void setUserInfoId(String userInfoId) {
 		this.userInfoId = userInfoId;
 	}
@@ -160,6 +167,9 @@ public class UserInfo implements Serializable{
 	}
 	public void setClientInfo(ClientInfo clientInfo) {
 		this.clientInfo = clientInfo;
+	}
+	public void setEnGirlInfo(EnGirlInfo enGirlInfo) {
+		this.enGirlInfo = enGirlInfo;
 	}
 
 }

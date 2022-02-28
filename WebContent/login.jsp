@@ -136,6 +136,7 @@
 									<s:select list="#{'1':getText('global.main_menu_service_shop'), 
 													'2':getText('global.main_menu_agents'), 
 													'3':getText('global.main_menu_free_agents'), 
+													'5':getText('global.main_menu_en_girls'), 
 													'4':'นักท่องเที่ยวมาตามหาน้องๆ'}"
 										name="userType">
 									</s:select>

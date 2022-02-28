@@ -9,31 +9,37 @@ import java.util.logging.Logger;
 
 import org.apache.struts2.interceptor.SessionAware;
 
-import com.nightclub.controller.BasicInfoManager;
+import com.nightclub.controller.EnGirlInfoManager;
 import com.nightclub.controller.GirlSettingManager;
-import com.nightclub.controller.ShopGirlInfoManager;
+import com.nightclub.controller.SkinInfoManager;
 import com.nightclub.controller.UserInfoManager;
-import com.nightclub.model.BasicInfo;
+import com.nightclub.controller.ZoneInfoManager;
+import com.nightclub.model.EnGirlInfo;
+import com.nightclub.model.FreeAgentGirlInfo;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlSetting;
-import com.nightclub.model.ShopGirlInfo;
+import com.nightclub.model.SkinInfo;
 import com.nightclub.model.UserInfo;
+import com.nightclub.model.ZoneInfo;
 import com.nightclub.util.UploadFileUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
+public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 	
 	private static final long serialVersionUID = 1L;
 	Logger log_ = Logger.getLogger(this.getClass().getName());
 	
 	private Map<String, Object> sessionMap;
-	private List<GirlInfo> girlInfos;
-	private ShopGirlInfo girlInfo;
-	private ShopGirlInfo girlSearch;
+	private EnGirlInfo girlInfo;
 	private String girlInfoId;
 	private String menu;
-	private String action;
-	private boolean showInfo = false;
+	
+	private EnGirlInfoManager girlInfoManager;
+	private UserInfoManager userInfoManager;
+	private GirlSettingManager girlSettingManager;
+	private ZoneInfoManager zoneInfoManager;
+	private SkinInfoManager skinInfoManager;
+
 	private GirlSetting girlSetting;
 	private ArrayList<String> ageList;
 	private ArrayList<String> bustSizeList;
@@ -41,121 +47,44 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 	private ArrayList<String> hipSizeList;
 	private ArrayList<String> heightList;
 	private ArrayList<String> weightList;
-
-	private ShopGirlInfoManager girlInfoManager;
-	private GirlSettingManager girlSettingManager;
-	private BasicInfoManager basicInfoManager;
-	private UserInfoManager userInfoManager;
-
+	private List<ZoneInfo> zoneInfos;
+	private List<SkinInfo> skinInfos;
+	
     private String pic1FileName;
     private String pic2FileName;
     private String pic3FileName;
     private String pic4FileName;
     private String pic5FileName;
 
-	private List<String> availablelist;
-
-	public ShopGirlInfoAction() {
-		girlInfoManager = new ShopGirlInfoManager();
-		girlSettingManager = new GirlSettingManager();
-		basicInfoManager = new BasicInfoManager();
+	public EnGirlInfoAction() {
 		userInfoManager = new UserInfoManager();
+		girlInfoManager = new EnGirlInfoManager();
+		girlSettingManager = new GirlSettingManager();
+		zoneInfoManager = new ZoneInfoManager();
+		skinInfoManager = new SkinInfoManager();
 	}
-	
+
 	public String execute() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
-		
-		if(getAction() != null) {
-			if(getAction().equals("add")) {
-				add();
-			} else if(getAction().equals("update")) {
-				update();
-			}
+		this.girlInfo = (EnGirlInfo)girlInfoManager.getGirlInfo(userInfo.getGirlInfoId());
+		if (this.girlInfo == null) {
+			this.girlInfo = new EnGirlInfo();
 		}
-		this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
 		setFormValue(userInfo);
-		
+
 		return SUCCESS;
 	}
 
-	public String add() {
-		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
-		
-		try {
-			girlInfo.setGirlInfoId(UUID.randomUUID().toString().toUpperCase());
-			girlInfo.setShopInfoId(userInfo.getShopInfoId());
-			
-			try {
-	            if(!getPic1FileName().isEmpty()) {
-//	            	this.pic1FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic1FileName);
-	            	this.pic1FileName = UploadFileUtils.uploadImageApi(getPic1FileName(), sessionMap, userInfo);
-	            	this.girlInfo.setPic1(this.pic1FileName);
-	            }
-	            
-	            if(!getPic2FileName().isEmpty()) {
-//	            	this.pic2FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic2FileName);
-	            	this.pic2FileName = UploadFileUtils.uploadImageApi(getPic2FileName(), sessionMap, userInfo);
-		            this.girlInfo.setPic2(this.pic2FileName);
-	            }
-	            
-	            if(!getPic3FileName().isEmpty()) {
-//	            	this.pic3FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic3FileName);
-	            	this.pic3FileName = UploadFileUtils.uploadImageApi(getPic3FileName(), sessionMap, userInfo);
-		            this.girlInfo.setPic3(this.pic3FileName);
-	            }
-	            
-	            if(!getPic4FileName().isEmpty()) {
-//	            	this.pic4FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic4FileName);
-	            	this.pic4FileName = UploadFileUtils.uploadImageApi(getPic4FileName(), sessionMap, userInfo);
-		            this.girlInfo.setPic4(this.pic4FileName);
-	            }
-	            
-	            if(!getPic5FileName().isEmpty()) {
-//	            	this.pic5FileName = UploadFileUtils.writeByteArrayToFile(sessionMap, this.pic5FileName);
-	            	this.pic5FileName = UploadFileUtils.uploadImageApi(getPic5FileName(), sessionMap, userInfo);
-		            this.girlInfo.setPic5(this.pic5FileName);
-	            }
-	            
-	            this.girlInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.girlInfo.getDescription(), sessionMap, userInfo));
-	            
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            addActionError(e.getMessage());
-	        }
-			
-			this.girlInfo.setCreatedDate(new Date());
-			this.girlInfo.setCreatedBy(userInfo.getUsername());
-			if(userInfo.getShopInfoId() == null) {
-				BasicInfo basicInfo = new BasicInfo();
-				basicInfo.setShopInfoId(UUID.randomUUID().toString().toUpperCase());
-				basicInfo = basicInfoManager.add(basicInfo);
-				userInfo.setShopInfoId(basicInfo.getShopInfoId());
-				userInfo = userInfoManager.update(userInfo);
-				girlInfo.setShopInfoId(userInfo.getShopInfoId());
-			}
-			girlInfoManager.add(this.girlInfo);
-			
-			addActionMessage("You have been successfully inserted");
-			this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
-			setFormValue(userInfo);
-			
-			return SUCCESS;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
-		setFormValue(userInfo);
-		
-		return INPUT;
-	}
-	
 	public String update() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		
 		try {
-			GirlInfo currentGirlInfo = girlInfoManager.getGirlInfo(this.girlInfo.getGirlInfoId());
-			
-			girlInfo.setShopInfoId(userInfo.getShopInfoId());
+			GirlInfo currentGirlInfo = girlInfoManager.getGirlInfo(userInfo.getGirlInfoId());
+			if (currentGirlInfo == null) {
+				currentGirlInfo = new FreeAgentGirlInfo();
+			}
+
+			girlInfo.setGirlInfoId(userInfo.getGirlInfoId());
 			
 			try {
 				if(!getPic1FileName().isEmpty()) {
@@ -233,67 +162,30 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 			
 			this.girlInfo.setUpdatedDate(new Date());
 			this.girlInfo.setUpdatedBy(userInfo.getUsername());
-			girlInfoManager.update(this.girlInfo);
+
+			if(girlInfoManager.getGirlInfo(userInfo.getGirlInfoId()) != null) {
+				girlInfoManager.update(this.girlInfo);
+			} else {
+				if(userInfo.getGirlInfoId() != null) {
+					this.girlInfo.setGirlInfoId(userInfo.getGirlInfoId());
+					girlInfoManager.add(this.girlInfo);
+				} else {
+					this.girlInfo.setGirlInfoId(UUID.randomUUID().toString().toUpperCase());
+					girlInfoManager.add(this.girlInfo);
+					userInfo.setGirlInfoId(this.girlInfo.getGirlInfoId());
+					userInfo = userInfoManager.update(userInfo);
+				}
+			}
 			
 			addActionMessage("You have been successfully updated");
-			this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
 			setFormValue(userInfo);
 			
 			return SUCCESS;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
-		setFormValue(userInfo);
-		
-		return INPUT;
-	}
-	
-	public String edit() {
-		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
-		this.girlInfo = (ShopGirlInfo)girlInfoManager.getGirlInfo(this.girlInfoId);
-		
-//		String filePath = ResourceBundleUtil.getUploadPath();
-        
-		if(this.girlInfo.getPic1() == null){// || !new File(filePath, this.girlInfo.getPic1()).exists()) {
-        	this.girlInfo.setPic1("");
-        }
-		if(this.girlInfo.getPic2() == null){// || !new File(filePath, this.girlInfo.getPic2()).exists()) {
-        	this.girlInfo.setPic2("");
-        }
-		if(this.girlInfo.getPic3() == null){// || !new File(filePath, this.girlInfo.getPic3()).exists()) {
-        	this.girlInfo.setPic3("");
-        }
-		if(this.girlInfo.getPic4() == null){// || !new File(filePath, this.girlInfo.getPic4()).exists()) {
-        	this.girlInfo.setPic4("");
-        }
-		if(this.girlInfo.getPic5() == null){// || !new File(filePath, this.girlInfo.getPic5()).exists()) {
-        	this.girlInfo.setPic5("");
-        }
-        if(this.girlInfo.getPic5() == null){// || !new File(filePath, this.girlInfo.getPic5()).exists()) {
-        	this.girlInfo.setPic5("");
-        }
-		this.showInfo = true;
-		this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
-		setFormValue(userInfo);
-		return SUCCESS;
-	}
 
-	public String delete() {
-		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
-		girlInfoManager.delete(getGirlInfoId());
-		addActionMessage("You have been successfully deleted");
-		this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
-		setFormValue(userInfo);
-		return SUCCESS;
-	}
-	
-	public String search() {
-		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
-		this.girlSearch.setShopInfoId(userInfo.getShopInfoId());
-		this.girlInfos = girlInfoManager.search(this.girlSearch);
-		setFormValue(userInfo);
-		return SUCCESS;
+		return INPUT;
 	}
 
 	public String getMenu() {
@@ -317,36 +209,12 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 		this.girlInfoId = girlInfoId;
 	}
 
-	public List<GirlInfo> getGirlInfos() {
-		return girlInfos;
-	}
-
-	public void setGirlInfos(List<GirlInfo> girlInfos) {
-		this.girlInfos = girlInfos;
-	}
-
-	public ShopGirlInfo getGirlInfo() {
+	public EnGirlInfo getGirlInfo() {
 		return girlInfo;
 	}
 
-	public void setGirlInfo(ShopGirlInfo girlInfo) {
+	public void setGirlInfo(EnGirlInfo girlInfo) {
 		this.girlInfo = girlInfo;
-	}
-
-	public String getAction() {
-		return action;
-	}
-
-	public void setAction(String action) {
-		this.action = action;
-	}
-
-	public boolean isShowInfo() {
-		return showInfo;
-	}
-
-	public void setShowInfo(boolean showInfo) {
-		this.showInfo = showInfo;
 	}
 
 	public String getPic1FileName() {
@@ -389,73 +257,48 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 		this.pic5FileName = pic5FileName;
 	}
 
-	public ShopGirlInfo getGirlSearch() {
-		return girlSearch;
+	public UserInfoManager getUserInfoManager() {
+		return userInfoManager;
 	}
 
-	public void setGirlSearch(ShopGirlInfo girlSearch) {
-		this.girlSearch = girlSearch;
-	}
-
-	public String girlsupdate() {
-		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
-		
-		if(getAvailablelist() == null) {
-			setAvailablelist(new ArrayList<String>());
-		}
-
-		girlInfoManager.avaiableByGirlInfoId(userInfo.getShopInfoId(), getAvailablelist());
-		setFormValue(userInfo);
-		addActionMessage("You have been successfully updated");
-		return SUCCESS;
-	}
-
-	public List<String> getAvailablelist() {
-		return availablelist;
-	}
-
-	public void setAvailablelist(List<String> availablelist) {
-		this.availablelist = availablelist;
+	public void setUserInfoManager(UserInfoManager userInfoManager) {
+		this.userInfoManager = userInfoManager;
 	}
 
 	public GirlSetting getGirlSetting() {
 		return girlSetting;
 	}
 
-	public GirlSettingManager getGirlSettingManager() {
-		return girlSettingManager;
+	public ArrayList<String> getAgeList() {
+		return ageList;
+	}
+
+	public ArrayList<String> getBustSizeList() {
+		return bustSizeList;
+	}
+
+	public ArrayList<String> getWaistSizeList() {
+		return waistSizeList;
+	}
+
+	public ArrayList<String> getHipSizeList() {
+		return hipSizeList;
+	}
+
+	public ArrayList<String> getHeightList() {
+		return heightList;
+	}
+
+	public ArrayList<String> getWeightList() {
+		return weightList;
+	}
+
+	public List<ZoneInfo> getZoneInfos() {
+		return zoneInfos;
 	}
 
 	public void setGirlSetting(GirlSetting girlSetting) {
 		this.girlSetting = girlSetting;
-	}
-
-	public void setGirlSettingManager(GirlSettingManager girlSettingManager) {
-		this.girlSettingManager = girlSettingManager;
-	}
-
-	public List<String> getAgeList() {
-		return ageList;
-	}
-
-	public List<String> getBustSizeList() {
-		return bustSizeList;
-	}
-
-	public List<String> getWaistSizeList() {
-		return waistSizeList;
-	}
-
-	public List<String> getHipSizeList() {
-		return hipSizeList;
-	}
-
-	public List<String> getHeightList() {
-		return heightList;
-	}
-
-	public List<String> getWeightList() {
-		return weightList;
 	}
 
 	public void setAgeList(ArrayList<String> ageList) {
@@ -482,6 +325,10 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 		this.weightList = weightList;
 	}
 
+	public void setZoneInfos(List<ZoneInfo> zoneInfos) {
+		this.zoneInfos = zoneInfos;
+	}
+	
 	private ArrayList<String> makeList(Integer from, Integer to) {
 		ArrayList<String> list = new ArrayList<String>();
 		for(int i=from; i<=to;i++) {
@@ -498,5 +345,15 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 		this.hipSizeList = makeList(girlSetting.getHipSizeFrom(), girlSetting.getHipSizeTo());
 		this.heightList = makeList(girlSetting.getHeightFrom(), girlSetting.getHeightTo());
 		this.weightList = makeList(girlSetting.getWeightFrom(), girlSetting.getWeightTo());
+		this.zoneInfos = zoneInfoManager.list();
+		this.skinInfos = skinInfoManager.list();
+	}
+
+	public List<SkinInfo> getSkinInfos() {
+		return skinInfos;
+	}
+
+	public void setSkinInfos(List<SkinInfo> skinInfos) {
+		this.skinInfos = skinInfos;
 	}
 }

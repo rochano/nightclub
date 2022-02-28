@@ -88,6 +88,7 @@
 			<result name="agent" type="redirect">/management_agent</result>
 			<result name="freeAgent" type="redirect">/management_free_agent</result>
 			<result name="client" type="redirect">/</result>
+			<result name="enGirl" type="redirect">/management_en_girl</result>
 		</action>
 
 		<action name="logout"
@@ -115,6 +116,11 @@
 		<action name="freeagents"
 			class="com.nightclub.view.FrontEndAction" method="freeagentInfo">
 			<result name="success">/freeagents.jsp</result>
+		</action>
+		
+		<action name="engirls"
+			class="com.nightclub.view.FrontEndAction" method="engirlInfo">
+			<result name="success">/engirl.jsp</result>
 		</action>
 		
 		<action name="girl/*"
@@ -703,6 +709,36 @@
 			<result name="success">/admin/client.jsp</result>
 		</action>
 		
+		<action name="engirl"
+			class="com.nightclub.view.AdminInfoAction" method="userlist">
+			<param name="menu">client</param>
+			<param name="userType">5</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">engirl.jsp</result>
+		</action>
+		
+		<action name="engirl/*"
+			class="com.nightclub.view.AdminInfoAction" method="user{1}">
+			<param name="menu">client</param>
+			<param name="userType">5</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/engirl.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/engirl.jsp</result>
+		</action>
+		
+		<action name="engirl/edit/*"
+			class="com.nightclub.view.AdminInfoAction" method="useredit">
+			<param name="menu">engirl</param>
+			<param name="userInfoId">{1}</param>
+			<param name="userType">5</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/engirl.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/engirl.jsp</result>
+		</action>
+		
 	    <action name="zone"
 			class="com.nightclub.view.ZoneInfoAction" method="execute">
 			<param name="menu">zone</param>
@@ -930,6 +966,49 @@
 		    <result name="input">/admin/contact.jsp</result>
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/contact.jsp</result>
+		</action>
+		
+		<action name="skin"
+			class="com.nightclub.view.SkinInfoAction" method="execute">
+			<param name="menu">skin</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">skin.jsp</result>
+		</action>
+		
+		<action name="skin/*"
+			class="com.nightclub.view.SkinInfoAction" method="{1}">
+			<param name="menu">skin</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" type="redirect">skin</result>
+		</action>
+		
+		<action name="skin/edit/*"
+			class="com.nightclub.view.SkinInfoAction" method="edit">
+			<param name="menu">skin</param>
+			<param name="skinInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" >/admin/skin.jsp</result>
+		</action>
+		
+		<action name="skin/delete/*"
+			class="com.nightclub.view.SkinInfoAction" method="delete">
+			<param name="menu">skin</param>
+			<param name="skinInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="input" >/admin/skin.jsp</result>
+			<result name="success" type="redirect">skin</result>
+		</action>
+		
+		<action name="skin/search"
+			class="com.nightclub.view.SkinInfoAction" method="search">
+			<param name="menu">skin</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/skin.jsp</result>
 		</action>
 	</package>
 
@@ -1203,6 +1282,79 @@
 			<result name="login" type="redirect">/login</result>
 			<result name="input">/management_client/changepassword.jsp</result>
 			<result name="success">/management_client/changepassword.jsp</result>
+		</action>
+
+	</package>
+	
+	<package name="management_en_girl" extends="struts-default" namespace="/management_en_girl">
+	    
+	    <interceptors>
+			<interceptor class="com.nightclub.interceptor.LoginInterceptor" name="loginInterceptor">
+			</interceptor>
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+			
+			<interceptor name="redirectMessage"
+      			class="com.nightclub.interceptor.RedirectMessageInterceptor" />
+			<interceptor-stack name="myStack">
+			    <interceptor-ref name="redirectMessage" />
+			    <interceptor-ref name="loginStack" />
+			    <interceptor-ref name="paramsPrepareParamsStack" />
+			</interceptor-stack>
+		</interceptors>
+		
+	    <default-action-ref name="home"/>
+		
+	    <action name="home" 
+			class="net.viralpatel.contact.view.CommonAction" method="execute">
+			<param name="menu">index</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">home.jsp</result>
+		</action>
+		
+		<action name="information"
+			class="com.nightclub.view.EnGirlInfoAction" method="execute">
+			<param name="menu">information</param>
+			<interceptor-ref name="myStack" />
+			<result name="input" type="redirect">information</result>
+			<result name="login" type="redirect">/login</result>
+			<result name="success" >engirlinfo.jsp</result>
+		</action>
+		
+		<action name="information/*"
+			class="com.nightclub.view.EnGirlInfoAction" method="{1}">
+			<param name="menu">information</param>
+			<interceptor-ref name="myStack" />
+			<!-- <interceptor-ref name="fileUpload">
+		        <param name="maximumSize">2097152</param>
+		        <param name="allowedTypes">
+		            image/png,image/gif,image/jpeg,image/pjpeg
+		        </param>
+		    </interceptor-ref> -->
+		    <result name="input">/management_en_girl/engirlinfo.jsp</result>
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_en_girl/engirlinfo.jsp</result>
+		</action>
+		
+		<action name="changepassword"
+			class="com.nightclub.view.UserInfoAction" method="execute">
+			<param name="menu">changepassword</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_en_girl/changepassword.jsp</result>
+		</action>
+		
+		<action name="changepassword/update"
+			class="com.nightclub.view.UserInfoAction" method="changePassword">
+			<param name="menu">changepassword</param>
+			<param name="userType">5</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="input">/management_en_girl/changepassword.jsp</result>
+			<result name="success">/management_en_girl/changepassword.jsp</result>
 		</action>
 
 	</package>

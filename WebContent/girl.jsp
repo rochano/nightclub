@@ -49,7 +49,10 @@
     padding-top: 10px;
     padding-bottom: 0;
   }
-  .ui.table, .ui.table tr th, .ui.table tr td {border-width:1px 0px!important;}
+  .ui.table, .ui.table tr th, .ui.table tr td {
+  	border-width:1px 0px!important; 
+  	vertical-align: text-top;
+  }
   </style>
   <script type="text/javascript">
   $(document)
@@ -118,11 +121,16 @@
 						<s:text name="girlInfo.agentInfo.agentName" />
 					</a>
 					</s:if>
-					<s:else>
+					<s:elseif test="%{girlInfo instanceof com.nightclub.model.FreeAgentGirlInfo}" >
 					<a class="section" href="<s:url value="/freeagents" />" >
 						<s:text name="global.main_menu_free_agents" />
 					</a>
-					</s:else>
+					</s:elseif>
+					<s:elseif test="%{girlInfo instanceof com.nightclub.model.EnGirlInfo}" >
+					<a class="section" href="<s:url value="/engirls" />" >
+						<s:text name="global.main_menu_en_girls" />
+					</a>
+					</s:elseif>
 					<i class="right chevron icon divider"></i>
 					<div class="active section"><s:property value="girlInfo.nickName" /></div>
 				</div>
@@ -166,6 +174,36 @@
 													<td class="center aligned one wide"><p>:</p></td>
 													<td><p><s:property value="girlInfo.nickName" /></p></td>
 												</tr>
+												<s:if test="%{girlInfo instanceof com.nightclub.model.EnGirlInfo}" >
+													<tr>
+														<td class="right aligned"><p>Gender</p></td>
+														<td class="center aligned one wide"><p>:</p></td>
+														<td>
+															<p>
+																<s:if test="girlInfo.gender == 'Straight'">
+																	<s:text name="global.gender_straight" />
+																</s:if>
+																<s:else>
+																	<s:text name="global.gender_transgender" />
+																</s:else>
+															</p>
+														</td>
+													</tr>
+													<tr>
+														<td class="right aligned"><p>Skin</p></td>
+														<td class="center aligned one wide"><p>:</p></td>
+														<td>
+															<p>
+																<s:if test="#request.locale.language=='jp'">
+																	<s:property value="girlInfo.skinInfo.skinNameJp" />
+																</s:if>
+																<s:else>
+																	<s:property value="girlInfo.skinInfo.skinNameEn" />
+																</s:else>
+															</p>
+														</td>
+													</tr>
+												</s:if>
 												<tr>
 													<td class="right aligned"><p>Age</p></td>
 													<td class="center aligned one wide"><p>:</p></td>
@@ -198,6 +236,26 @@
 															<s:else>
 																<s:text name="girlInfo.zoneInfo.zoneNameEn" />
 															</s:else>
+														</p>
+													</td>
+												</tr>
+												<tr>
+													<td class="right aligned"><p><s:text name="global.job" /></p></td>
+													<td class="center aligned one wide"><p>:</p></td>
+													<td>
+														<p>
+															<s:if test="girlInfo.type == 1"><s:text name="global.en_girl_type_1" /></s:if>
+															<s:if test="girlInfo.type == 2"><s:text name="global.en_girl_type_2" /></s:if>
+															<s:if test="girlInfo.type == 3"><s:text name="global.en_girl_type_3" /></s:if>
+														</p>
+													</td>
+												</tr>
+												<tr>
+													<td class="right aligned"><p><s:text name="global.service_charge" /></p></td>
+													<td class="center aligned one wide"><p>:</p></td>
+													<td>
+														<p>
+															<s:text name="format.integer"><s:param name="value" value="girlInfo.price"/></s:text>
 														</p>
 													</td>
 												</tr>
@@ -239,9 +297,6 @@
 													</td>
 												</tr>
 												</s:elseif>
-												<s:else>
-													
-												</s:else>
 											</tbody>
 										</table>
 										<h5 class="ui horizontal left aligned header">
@@ -250,6 +305,9 @@
 										<s:text name="girlInfo.description"></s:text>
 									</div>
 								</div>
+								<s:if test="%{girlInfo instanceof com.nightclub.model.EnGirlInfo}" >
+								</s:if>
+								<s:else>
 								<div class="row">
 									<div class="four wide column">
 										<h5 class="ui header left aligned inverted">
@@ -365,6 +423,7 @@
 										</table>
 									</div>
 								</div>
+								</s:else>
 							</div>
 						</div>
 					</div>

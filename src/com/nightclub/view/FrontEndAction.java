@@ -8,6 +8,7 @@ import com.nightclub.controller.AgentGirlInfoManager;
 import com.nightclub.controller.AgentInfoManager;
 import com.nightclub.controller.BasicInfoManager;
 import com.nightclub.controller.CategoryInfoManager;
+import com.nightclub.controller.EnGirlInfoManager;
 import com.nightclub.controller.FreeAgentGirlInfoManager;
 import com.nightclub.controller.GirlFavouriteManager;
 import com.nightclub.controller.GirlInfoManager;
@@ -127,6 +128,15 @@ public class FrontEndAction extends CommonAction {
 		
 		this.categoryInfos = categoryInfoManager.list();
 		girlInfoManager = new FreeAgentGirlInfoManager();
+		this.girlInfos = girlInfoManager.list();
+		return SUCCESS;
+	}
+	
+	public String engirlInfo() {
+		getStatisticInfo();
+		
+		this.categoryInfos = categoryInfoManager.list();
+		girlInfoManager = new EnGirlInfoManager();
 		this.girlInfos = girlInfoManager.list();
 		return SUCCESS;
 	}

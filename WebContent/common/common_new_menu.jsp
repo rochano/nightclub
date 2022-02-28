@@ -29,7 +29,7 @@
 			</div>
 			<a href="<s:url value="/agents"/>" class="ui item"><s:text name="global.main_menu_agents" /></a>
 			<a href="<s:url value="/freeagents"/>" class="ui item"><s:text name="global.main_menu_free_agents" /></a>
-			<a href="#" class="ui item"><s:text name="global.main_menu_en_girls" /></a>
+			<a href="<s:url value="/engirls"/>" class="ui item"><s:text name="global.main_menu_en_girls" /></a>
 		</div>
 		<div class="ui centered grid menu-slide-image">
 	  		<div class="center aligned sixteen wide column slide-image">

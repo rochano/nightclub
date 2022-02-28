@@ -31,6 +31,7 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	public static final String AGENT = "agent";
 	public static final String FREE_AGENT = "freeAgent";
 	public static final String CLIENT = "client";
+	public static final String EN_GIRL = "enGirl";
 
 	public UserInfoAction() {
 		linkController = new UserInfoManager();
@@ -48,19 +49,19 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
         			return SUCCESS;
         		}
         		
-        		if(!Boolean.TRUE.toString().toLowerCase().equals(userInfo.getActive())) {
-        			addActionError("Your account is not active !"); 
-    				return LOGIN;
-        		}
-        		
-        		if(userInfo.getValidDateFrom() != null && userInfo.getValidDateTo() != null) {
-        			Date now = new Date();
-        			if (now.compareTo(userInfo.getValidDateFrom()) < 0
-        					|| now.compareTo(userInfo.getValidDateTo()) > 0) {
-	        			addActionError("Your account is not active !"); 
-	    				return LOGIN;
-        			}
-        		}
+//        		if(!Boolean.TRUE.toString().toLowerCase().equals(userInfo.getActive())) {
+//        			addActionError("Your account is not active !"); 
+//    				return LOGIN;
+//        		}
+//        		
+//        		if(userInfo.getValidDateFrom() != null && userInfo.getValidDateTo() != null) {
+//        			Date now = new Date();
+//        			if (now.compareTo(userInfo.getValidDateFrom()) < 0
+//        					|| now.compareTo(userInfo.getValidDateTo()) > 0) {
+//	        			addActionError("Your account is not active !"); 
+//	    				return LOGIN;
+//        			}
+//        		}
         		
         		// user
         		if(userType.equals(IConstants.USER_TYPE_SHOP)) {
@@ -81,6 +82,11 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 				} else if(userType.equals(IConstants.USER_TYPE_CLIENT)) {
 					sessionMap.put("userInfo", userInfo);
 					return CLIENT;
+					
+				// entertain girl
+				} else if(userType.equals(IConstants.USER_TYPE_EN_GIRL)) {
+					sessionMap.put("userInfo", userInfo);
+					return EN_GIRL;
 				}
         	}
         	
@@ -135,7 +141,8 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
     		if(userType.equals(IConstants.USER_TYPE_SHOP)
     				|| userType.equals(IConstants.USER_TYPE_AGENT)
     				|| userType.equals(IConstants.USER_TYPE_FREE_AGENT)
-    				|| userType.equals(IConstants.USER_TYPE_CLIENT)) { 
+    				|| userType.equals(IConstants.USER_TYPE_CLIENT)
+    				|| userType.equals(IConstants.USER_TYPE_EN_GIRL)) { 
     			this.userInfo = (UserInfo) sessionMap.get("userInfo");
     		} else if(userType.equals(IConstants.USER_TYPE_ADMIN)) { 
     			this.userInfo = (UserInfo) sessionMap.get("adminInfo");

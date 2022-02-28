@@ -147,12 +147,13 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
 		} else {
 			if(userInfo.getShopInfoId() != null) {
 				this.basicInfo.setShopInfoId(userInfo.getShopInfoId());
+				this.basicInfo = basicInfoManager.add(this.basicInfo);
 			} else {
 				this.basicInfo.setShopInfoId(UUID.randomUUID().toString().toUpperCase());
+				this.basicInfo = basicInfoManager.add(this.basicInfo);
 				userInfo.setShopInfoId(this.basicInfo.getShopInfoId());
 				userInfo = userInfoManager.update(userInfo);
 			}
-			this.basicInfo = basicInfoManager.add(this.basicInfo);
 		}
 		
 		addActionMessage("You have been successfully updated");

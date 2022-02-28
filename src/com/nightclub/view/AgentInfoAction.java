@@ -94,12 +94,13 @@ public class AgentInfoAction extends ActionSupport implements SessionAware {
 		} else {
 			if(userInfo.getAgentInfoId() != null) {
 				this.agentInfo.setAgentInfoId(userInfo.getAgentInfoId());
+				this.agentInfo = agentInfoManager.add(this.agentInfo);
 			} else {
 				this.agentInfo.setAgentInfoId(UUID.randomUUID().toString().toUpperCase());
+				this.agentInfo = agentInfoManager.add(this.agentInfo);
 				userInfo.setAgentInfoId(this.agentInfo.getAgentInfoId());
 				userInfo = userInfoManager.update(userInfo);
 			}
-			this.agentInfo = agentInfoManager.add(this.agentInfo);
 		}
 		
 		addActionMessage("You have been successfully updated");

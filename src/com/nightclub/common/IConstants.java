@@ -14,4 +14,6 @@ public class IConstants {
 	public static String USER_TYPE_FREE_AGENT = "3";
 	/** user type : 4 CLIENT */
 	public static String USER_TYPE_CLIENT = "4";
+	/** user type : 5 EN */
+	public static String USER_TYPE_EN_GIRL = "5";
 }

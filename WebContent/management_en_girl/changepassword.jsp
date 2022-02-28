@@ -103,21 +103,21 @@
   </script>
 </head>
 <body class="menu pushable">
-<%@include file="/common/common_free_agent_management_header_info.jsp" %>
+<%@include file="/common/common_en_girl_management_header_info.jsp" %>
 <!-- Sidebar Menu -->
 <div class="ui toc vertical top large inverted sidebar menu">
   	<a class="ui toc item title">
 		<i class="cancel icon"></i>
 		&nbsp;
 	</a>
-	<%@include file="/common/common_free_agent_management_menu.jsp" %>
+	<%@include file="/common/common_en_girl_management_menu.jsp" %>
 </div>
 <div class="pusher">
 <div class="full height">
 <div class="toc">
 	<!-- Sidebar Menu -->
 	<div class="ui inverted vertical menu">
-		<%@include file="/common/common_free_agent_management_menu.jsp" %>
+		<%@include file="/common/common_en_girl_management_menu.jsp" %>
 	</div>
 </div>
 <div class="article">
@@ -139,7 +139,7 @@
 					Change password
 				</h4>
 				<div class="ui centered attached segment active content">
-					<form class="ui form" method="post" action="<s:url value="/management_free_agent/changepassword/update"/>">
+					<form class="ui form" method="post" action="<s:url value="/management_en_girl/changepassword/update"/>">
 						<div class="ui error message">
 							<s:if test="hasActionErrors()">
 								<i class="close icon"></i>
@@ -167,7 +167,7 @@
 			</div>
 		</div>
 	</div>
-  	<%@include file="/common/common_free_agent_management_footer.jsp" %>  
+  	<%@include file="/common/common_en_girl_management_footer.jsp" %>  
 </div>
 </div>
 </body>

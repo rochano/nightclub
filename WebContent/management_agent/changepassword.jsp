@@ -139,7 +139,7 @@
 					Change password
 				</h4>
 				<div class="ui centered attached segment active content">
-					<form class="ui form" method="post" action="<s:url value="/management/changepassword/update"/>">
+					<form class="ui form" method="post" action="<s:url value="/management_agent/changepassword/update"/>">
 						<div class="ui error message">
 							<s:if test="hasActionErrors()">
 								<i class="close icon"></i>

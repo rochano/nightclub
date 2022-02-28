@@ -8,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>THAINIGHTNAVI.COM - <s:text name="global.main_menu_agents" /></title>
+  <title>THAINIGHTNAVI.COM - <s:text name="global.main_menu_en_girls" /></title>
   <%@include file="/common/common_header.jsp" %>
   <!--- Example CSS -->
   <style>
@@ -89,40 +89,15 @@
 				<%@include file="/common/common_statistic_info.jsp" %>
 				<%@include file="/common/common_new_menu.jsp" %>
   				<br/>
-
-				<div class="ui breadcrumb segment attached inverted">
+  				<div class="ui breadcrumb segment attached inverted">
 					<a class="section" href="<s:url value="/" />" >
 						<s:text name="global.shop_menu_home" />
 					</a>
 					<i class="right chevron icon divider"></i>
-					<a class="section" href="<s:url value="/search" />" >
-						<s:text name="global.main_menu_search" />
-					</a>
-					<i class="right chevron icon divider"></i>
-					<div class="active section">
-						<s:if test="#request.locale.language=='jp'">
-							<s:text name="zoneInfo.zoneNameJp" />
-						</s:if>
-						<s:else>
-							<s:text name="zoneInfo.zoneNameEn" />
-						</s:else>
-					</div>
+					<div class="active section"><s:text name="global.main_menu_en_girls" /></div>
 				</div>
 
 				<div class="center aligned column">
-					<div class="ui segment header">
-						<h2 class="ui top header">
-							<i class="bookmark icon yellow"></i>
-							<div class="content">
-								<s:if test="#request.locale.language=='jp'">
-									<s:text name="zoneInfo.zoneNameJp" />
-								</s:if>
-								<s:else>
-									<s:text name="zoneInfo.zoneNameEn" />
-								</s:else>
-									</div>
-						</h2>
-					</div>
 					<div class="ui centered attached segment soft">
 						<div class="ui centered six doubling cards ">
 						<s:if test="%{girlInfos.size gte 0}">
@@ -143,30 +118,25 @@
 									</div>
 									<div class="content left aligned label pink circular ui">
 										<span class="right floated">
-											<s:property value="girlInfo.class.name" />
-											<s:if test="%{type != null}" >
-												<s:text name="format.integer"><s:param name="value" value="price"/></s:text>
-											</s:if>
-											<s:else>
-												<s:text name="format.integer"><s:param name="value" value="price40Mins"/></s:text>
-											</s:else>
+											<s:text name="format.integer"><s:param name="value" value="price"/></s:text>
 										</span>
 										ตรงปก
 									</div>
 									<div class="content left aligned">
 										<a class="ui header " href="<s:url value="/girl/%{girlInfoId}"/>"><s:property value="nickName" /></a>
 										<div class="description">
-											<s:if test="%{type != null}" >
-												<s:text name="global.job" /> : 
-												<s:if test="type == 1"><s:text name="global.en_girl_type_1" /></s:if>
-												<s:if test="type == 2"><s:text name="global.en_girl_type_2" /></s:if>
-												<s:if test="type == 3"><s:text name="global.en_girl_type_3" /></s:if>
-												<br/>
+											<s:text name="global.job" /> : 
+											<s:if test="type == 1"><s:text name="global.en_girl_type_1" /></s:if>
+											<s:if test="type == 2"><s:text name="global.en_girl_type_2" /></s:if>
+											<s:if test="type == 3"><s:text name="global.en_girl_type_3" /></s:if>
+											<br/>
+											<i class="marker icon"></i>
+											<s:if test="#request.locale.language=='jp'">
+												<s:text name="zoneInfo.zoneNameJp" />
 											</s:if>
-											<s:elseif test="%{agentInfo != null}">
-												<s:property value="agentInfo.agentName" /><br/>
-											</s:elseif>
-											<i class="marker icon"></i><s:property value="zoneInfo.zoneNameEn" />
+											<s:else>
+												<s:text name="zoneInfo.zoneNameEn" />
+											</s:else>
 										</div>
 									</div>
 								</div>

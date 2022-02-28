@@ -186,12 +186,13 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 			} else {
 				if(userInfo.getGirlInfoId() != null) {
 					this.girlInfo.setGirlInfoId(userInfo.getGirlInfoId());
+					girlInfoManager.add(this.girlInfo);
 				} else {
 					this.girlInfo.setGirlInfoId(UUID.randomUUID().toString().toUpperCase());
+					girlInfoManager.add(this.girlInfo);
 					userInfo.setGirlInfoId(this.girlInfo.getGirlInfoId());
 					userInfo = userInfoManager.update(userInfo);
 				}
-				girlInfoManager.add(this.girlInfo);
 			}
 			
 			addActionMessage("You have been successfully updated");

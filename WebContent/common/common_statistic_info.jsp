@@ -33,9 +33,18 @@ $(document)
 	</div>
 	<div class="right menu">
 		<div class="ui dropdown item">
-			<s:if test="clientInfo != null">
-			สวัสดี, คุณ<s:property value="clientInfo.firstName" /> <s:property value="clientInfo.lastName" />
+			<s:if test="agentInfo != null">
+			สวัสดี, คุณ<s:property value="agentInfo.agentName" />
 			</s:if>
+			<s:elseif test="freeAgentGirlInfo != null">
+			สวัสดี, คุณ<s:property value="freeAgentGirlInfo.nickName" />
+			</s:elseif>
+			<s:elseif test="clientInfo != null">
+			สวัสดี, คุณ<s:property value="clientInfo.firstName" /> <s:property value="clientInfo.lastName" />
+			</s:elseif>
+			<s:elseif test="enGirlInfo != null">
+			สวัสดี, คุณ<s:property value="enGirlInfo.nickName" />
+			</s:elseif>
 			<s:else>
 			<div class="ui label blue">
 				<i class="user icon"></i>
@@ -52,21 +61,54 @@ $(document)
 			</s:else>
 		  	<i class="dropdown icon"></i>
 			<div class="menu">
-				<s:if test="clientInfo != null">
-				<a class="ui tiny item" href="<s:url value="/management_client/information"/>">
-					<i class="setting icon teal"></i>
-					Information
-				</a>
-				<a class="ui tiny item" href="<s:url value="/favourite"/>">
-					<i class="setting icon red heart"></i>
-					Favourite
-				</a>
-				<a class="ui tiny item" href="<s:url value="/logout"/>">
-					<i class="sign out icon"></i>
-					Logout
-				</a>
-				<div class="ui divider"></div>
+				<s:if test="agentInfo != null">
+					<a class="ui tiny item" href="<s:url value="/management_agent/agentinfo"/>">
+						<i class="setting icon teal"></i>
+						Agent Info
+					</a>
+					<a class="ui tiny item" href="<s:url value="/logout"/>">
+						<i class="sign out icon"></i>
+						Logout
+					</a>
+					<div class="ui divider"></div>
 				</s:if>
+				<s:elseif test="freeAgentGirlInfo != null">
+					<a class="ui tiny item" href="<s:url value="/management_free_agent/information"/>">
+						<i class="setting icon teal"></i>
+						Information
+					</a>
+					<a class="ui tiny item" href="<s:url value="/logout"/>">
+						<i class="sign out icon"></i>
+						Logout
+					</a>
+					<div class="ui divider"></div>
+				</s:elseif>
+				<s:elseif test="clientInfo != null">
+					<a class="ui tiny item" href="<s:url value="/management_client/information"/>">
+						<i class="setting icon teal"></i>
+						Information
+					</a>
+					<a class="ui tiny item" href="<s:url value="/favourite"/>">
+						<i class="setting icon red heart"></i>
+						Favourite
+					</a>
+					<a class="ui tiny item" href="<s:url value="/logout"/>">
+						<i class="sign out icon"></i>
+						Logout
+					</a>
+					<div class="ui divider"></div>
+				</s:elseif>
+				<s:elseif test="enGirlInfo != null">
+					<a class="ui tiny item" href="<s:url value="/management_en_girl/information"/>">
+						<i class="setting icon teal"></i>
+						Information
+					</a>
+					<a class="ui tiny item" href="<s:url value="/logout"/>">
+						<i class="sign out icon"></i>
+						Logout
+					</a>
+					<div class="ui divider"></div>
+				</s:elseif>
 				<div class="item">
 					<div class="ui one statistics orange inverted tiny">
 						<h4 class="ui top header inverted centered">

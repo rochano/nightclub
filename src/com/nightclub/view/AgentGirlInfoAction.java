@@ -10,9 +10,12 @@ import java.util.logging.Logger;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.nightclub.controller.AgentGirlInfoManager;
+import com.nightclub.controller.AgentInfoManager;
 import com.nightclub.controller.GirlSettingManager;
+import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.AgentGirlInfo;
+import com.nightclub.model.AgentInfo;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
@@ -49,6 +52,8 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	private AgentGirlInfoManager girlInfoManager;
 	private GirlSettingManager girlSettingManager;
 	private ZoneInfoManager zoneInfoManager;
+	private AgentInfoManager agentInfoManager;
+	private UserInfoManager userInfoManager;
 	
     private String pic1FileName;
     private String pic2FileName;
@@ -63,6 +68,8 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 		girlSettingManager = new GirlSettingManager();
 		zoneInfoManager = new ZoneInfoManager();
 		girlServices = new ArrayList();
+		agentInfoManager = new AgentInfoManager();
+		userInfoManager = new UserInfoManager();
 	}
 	
 	public String execute() {
@@ -140,6 +147,14 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 			
 			this.girlInfo.setCreatedDate(new Date());
 			this.girlInfo.setCreatedBy(userInfo.getUsername());
+			if(userInfo.getAgentInfoId() == null) {
+				AgentInfo agentInfo = new AgentInfo();
+				agentInfo.setAgentInfoId(UUID.randomUUID().toString().toUpperCase());
+				agentInfo = agentInfoManager.add(agentInfo);
+				userInfo.setAgentInfoId(agentInfo.getAgentInfoId());
+				userInfo = userInfoManager.update(userInfo);
+				girlInfo.setAgentInfoId(userInfo.getAgentInfoId());
+			}
 			girlInfoManager.add(this.girlInfo);
 			
 			addActionMessage("You have been successfully inserted");

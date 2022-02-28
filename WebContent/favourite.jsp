@@ -120,14 +120,29 @@
 									</div>
 									<div class="content left aligned label pink circular ui">
 										<span class="right floated">
-											<s:text name="format.integer"><s:param name="value" value="price40Mins"/></s:text>
+											<s:property value="girlInfo.class.name" />
+											<s:if test="%{type != null}" >
+												<s:text name="format.integer"><s:param name="value" value="price"/></s:text>
+											</s:if>
+											<s:else>
+												<s:text name="format.integer"><s:param name="value" value="price40Mins"/></s:text>
+											</s:else>
 										</span>
 										ตรงปก
 									</div>
 									<div class="content left aligned">
 										<a class="ui header " href="<s:url value="/girl/%{girlInfoId}"/>"><s:property value="nickName" /></a>
 										<div class="description">
-											<s:property value="agentInfo.agentName" /><br/>
+											<s:if test="%{type != null}" >
+												<s:text name="global.job" /> : 
+												<s:if test="type == 1"><s:text name="global.en_girl_type_1" /></s:if>
+												<s:if test="type == 2"><s:text name="global.en_girl_type_2" /></s:if>
+												<s:if test="type == 3"><s:text name="global.en_girl_type_3" /></s:if>
+												<br/>
+											</s:if>
+											<s:elseif test="%{agentInfo != null}">
+												<s:property value="agentInfo.agentName" /><br/>
+											</s:elseif>
 											<i class="marker icon"></i><s:property value="zoneInfo.zoneNameEn" />
 										</div>
 									</div>
