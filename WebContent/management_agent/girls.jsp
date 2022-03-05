@@ -396,7 +396,6 @@
 						<div class="inline field">
 							<s:if test="#request.locale.language=='jp'">
 								<s:select list="zoneInfos"
-									headerKey="" headerValue="-"
 									listKey="zoneInfoId" listValue="zoneNameJp"
 									label="Location " 
 									cssClass="ui search dropdown" 
@@ -405,7 +404,6 @@
 							</s:if>
 							<s:else>
 								<s:select list="zoneInfos"
-									headerKey="" headerValue="-"
 									listKey="zoneInfoId" listValue="zoneNameEn"
 									label="Location " 
 									cssClass="ui search dropdown" 
@@ -545,7 +543,6 @@
 		<div class="inline field">
 			<s:if test="#request.locale.language=='jp'">
 				<s:select list="zoneInfos"
-					headerKey="" headerValue="-"
 					listKey="zoneInfoId" listValue="zoneNameJp"
 					label="Location" 
 					cssClass="ui search dropdown" 
@@ -554,7 +551,6 @@
 			</s:if>
 			<s:else>
 				<s:select list="zoneInfos"
-					headerKey="" headerValue="-"
 					listKey="zoneInfoId" listValue="zoneNameEn"
 					label="Location" 
 					cssClass="ui search dropdown" 

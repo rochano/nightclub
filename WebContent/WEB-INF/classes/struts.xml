@@ -720,7 +720,7 @@
 		
 		<action name="engirl/*"
 			class="com.nightclub.view.AdminInfoAction" method="user{1}">
-			<param name="menu">client</param>
+			<param name="menu">engirl</param>
 			<param name="userType">5</param>
 			<interceptor-ref name="adminStack" />
 		    <result name="input">/admin/engirl.jsp</result>

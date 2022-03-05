@@ -83,6 +83,9 @@ public class UserInfo implements Serializable{
 	}
 	@Column(name="active")
 	public String getActive() {
+		if (active == null || "".equals(active)) {
+			return Boolean.FALSE.toString();
+		}
 		return active;
 	}
 	@Column(name="valid_date_from")

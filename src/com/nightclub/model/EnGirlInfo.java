@@ -20,6 +20,7 @@ public class EnGirlInfo extends GirlInfo {
 	private String type;
 	
 	private SkinInfo skinInfo;
+	private UserInfo userInfo;
 	
 	@Column(name="line_id")
 	public String getLineId() {
@@ -51,6 +52,12 @@ public class EnGirlInfo extends GirlInfo {
 	public SkinInfo getSkinInfo() {
 		return skinInfo;
 	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="girl_info_id", insertable=false, updatable=false)
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
 	public void setLineId(String lineId) {
 		this.lineId = lineId;
 	}
@@ -68,5 +75,8 @@ public class EnGirlInfo extends GirlInfo {
 	}
 	public void setSkinInfo(SkinInfo skinInfo) {
 		this.skinInfo = skinInfo;
+	}
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
 	}
 }

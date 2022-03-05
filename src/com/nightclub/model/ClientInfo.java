@@ -8,9 +8,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.Length;
 
 @Entity
@@ -27,6 +31,7 @@ public class ClientInfo implements Serializable {
 	private Integer age;
 	private String active;
 	private List<GirlFavourite> girlFavourite = new ArrayList<GirlFavourite>();
+	private UserInfo userInfo;
 
 	public ClientInfo() {}
 	
@@ -75,6 +80,12 @@ public class ClientInfo implements Serializable {
 	public List<GirlFavourite> getGirlFavourite() {
 		return girlFavourite;
 	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="girl_info_id", insertable=false, updatable=false)
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
 	public void setClientInfoId(String clientInfoId) {
 		this.clientInfoId = clientInfoId;
 	}
@@ -101,5 +112,8 @@ public class ClientInfo implements Serializable {
 	}
 	public void setGirlFavourite(List<GirlFavourite> girlFavourite) {
 		this.girlFavourite = girlFavourite;
+	}
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
 	}
 }

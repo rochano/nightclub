@@ -41,10 +41,10 @@ public class EnGirlInfoManager extends GirlInfoManager {
 			
 			girlInfos = (List<GirlInfo>)session.createQuery("select enGirlInfo from EnGirlInfo enGirlInfo, UserInfo userInfo " +
 					"where DTYPE = 'EnGirlInfo' " +
-					"and enGirlInfo.girlInfoId = userInfo.girlInfoId " +
-					"and userInfo.active = :active " +
-					"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
-					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+					"and enGirlInfo.girlInfoId = userInfo.girlInfoId ")
+//					"and userInfo.active = :active " +
+//					"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
+//					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
 					.list();
 			
 		} catch (HibernateException e) {

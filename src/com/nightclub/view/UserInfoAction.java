@@ -10,6 +10,7 @@ import com.nightclub.common.IConstants;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.model.UserInfo;
 import com.opensymphony.xwork2.ActionSupport;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 public class UserInfoAction extends ActionSupport implements SessionAware {
 
@@ -80,6 +81,14 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
         		
 				// client
 				} else if(userType.equals(IConstants.USER_TYPE_CLIENT)) {
+					if(userInfo.getActive().equals(Boolean.TRUE.toString()) 
+							&& userInfo.getValidDateFrom() != null && userInfo.getValidDateTo() != null) {
+	        			Date now = new Date();
+	        			if (now.compareTo(userInfo.getValidDateFrom()) < 0
+	        					|| now.compareTo(userInfo.getValidDateTo()) > 0) {
+	        				userInfo.setActive(Boolean.FALSE.toString());
+	        			}
+	        		}
 					sessionMap.put("userInfo", userInfo);
 					return CLIENT;
 					

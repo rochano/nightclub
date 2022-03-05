@@ -47,10 +47,10 @@ public class AgentInfoManager extends HibernateUtil {
 		try {
 			
 			agentInfos = (List<AgentInfo>)session.createQuery("select agentInfo from AgentInfo agentInfo, UserInfo userInfo " +
-					"where agentInfo.agentInfoId = userInfo.agentInfoId " +
-					"and userInfo.active = :active " +
-					"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
-					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+					"where agentInfo.agentInfoId = userInfo.agentInfoId ")
+//					"and userInfo.active = :active " +
+//					"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
+//					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
 					.list();
 			
 		} catch (HibernateException e) {

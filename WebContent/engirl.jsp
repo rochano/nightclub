@@ -113,7 +113,24 @@
 												icon"></i>
 										</a>
 										<a href="<s:url value="/girl/%{girlInfoId}"/>" >
-											<img class="image ui centered" src="<s:property value="pic1" />">
+											<s:if test="pic1 != null && pic1 != ''">
+												<img class="image ui centered" src="<s:property value="pic1" />">
+											</s:if>
+											<s:elseif test="pic2 != null && pic2 != ''">
+												<img class="image ui centered" src="<s:property value="pic2" />">
+											</s:elseif>
+											<s:elseif test="pic3 != null && pic3 != ''">
+												<img class="image ui centered" src="<s:property value="pic3" />">
+											</s:elseif>
+											<s:elseif test="pic4 != null && pic4 != ''">
+												<img class="image ui centered" src="<s:property value="pic4" />">
+											</s:elseif>
+											<s:elseif test="pic5 != null && pic5 != ''">
+												<img class="image ui centered" src="<s:property value="pic5" />">
+											</s:elseif>
+											<s:else>
+												<img class="image ui centered" src="<s:url value="/assets/images/wireframe/square-image.png" />">
+											</s:else>
 										</a>
 									</div>
 									<div class="content left aligned label pink circular ui">
@@ -131,12 +148,14 @@
 											<s:if test="type == 3"><s:text name="global.en_girl_type_3" /></s:if>
 											<br/>
 											<i class="marker icon"></i>
-											<s:if test="#request.locale.language=='jp'">
-												<s:text name="zoneInfo.zoneNameJp" />
+											<s:if test="zoneInfo != null">
+												<s:if test="#request.locale.language=='jp'">
+													<s:text name="zoneInfo.zoneNameJp" />
+												</s:if>
+												<s:else>
+													<s:text name="zoneInfo.zoneNameEn" />
+												</s:else>
 											</s:if>
-											<s:else>
-												<s:text name="zoneInfo.zoneNameEn" />
-											</s:else>
 										</div>
 									</div>
 								</div>

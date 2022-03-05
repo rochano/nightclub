@@ -140,5 +140,22 @@ public class UserInfoManager extends HibernateUtil {
 		}
 		session.getTransaction().commit();
 	}
+	
+	public UserInfo getUserByColumnName(String columnName, String value) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		UserInfo userInfo = null;
+		try {
+			
+			userInfo = (UserInfo)session.createQuery("from UserInfo where " + columnName + " = :param1 ")
+					.setParameter("param1", value).uniqueResult();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return userInfo;
+	}
 
 }

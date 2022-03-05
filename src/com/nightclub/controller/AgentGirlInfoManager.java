@@ -140,10 +140,10 @@ public class AgentGirlInfoManager extends GirlInfoManager {
 			girlInfos = (List<GirlInfo>)session.createQuery("select agentGirlInfo " + 
 							"from AgentGirlInfo agentGirlInfo, UserInfo userInfo " + 
 							"where agentGirlInfo.agentInfoId = userInfo.agentInfoId " +
-							"and userInfo.active = :active " +
-							"and current_date between userInfo.validDateFrom and userInfo.validDateTo " +
+//							"and userInfo.active = :active " +
+//							"and current_date between userInfo.validDateFrom and userInfo.validDateTo " +
 							"and agentGirlInfo.available = :available ")
-							.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+//							.setParameter("active", Boolean.TRUE.toString().toLowerCase())
 							.setParameter("available", Boolean.TRUE.toString().toLowerCase())
 							.list();
 			

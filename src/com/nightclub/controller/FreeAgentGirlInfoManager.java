@@ -69,10 +69,10 @@ public class FreeAgentGirlInfoManager extends GirlInfoManager {
 			
 			girlInfos = (List<GirlInfo>)session.createQuery("select freeAgentGirlInfo from FreeAgentGirlInfo freeAgentGirlInfo, UserInfo userInfo " +
 					"where DTYPE = 'FreeAgentGirlInfo' " +
-					"and freeAgentGirlInfo.girlInfoId = userInfo.girlInfoId " +
-					"and userInfo.active = :active " +
-					"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
-					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+					"and freeAgentGirlInfo.girlInfoId = userInfo.girlInfoId ")
+//					"and userInfo.active = :active " +
+//					"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
+//					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
 					.list();
 			
 		} catch (HibernateException e) {

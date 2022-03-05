@@ -1,5 +1,6 @@
 package com.nightclub.view;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -10,16 +11,18 @@ import com.nightclub.controller.BasicInfoManager;
 import com.nightclub.controller.CategoryInfoManager;
 import com.nightclub.controller.EnGirlInfoManager;
 import com.nightclub.controller.FreeAgentGirlInfoManager;
-import com.nightclub.controller.GirlFavouriteManager;
 import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.HomeInfoManager;
 import com.nightclub.controller.NewsInfoManager;
+import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.AdsInfo;
+import com.nightclub.model.AgentGirlInfo;
 import com.nightclub.model.AgentInfo;
 import com.nightclub.model.BasicInfo;
 import com.nightclub.model.CategoryInfo;
-import com.nightclub.model.GirlFavourite;
+import com.nightclub.model.EnGirlInfo;
+import com.nightclub.model.FreeAgentGirlInfo;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.HomeInfo;
@@ -61,6 +64,7 @@ public class FrontEndAction extends CommonAction {
 	private AdsInfoManager adsInfoManager;
 	private AgentInfoManager agentInfoManager;
 	private ZoneInfoManager zoneInfoManager;
+	private UserInfoManager userInfoManager;
 
 
 	public FrontEndAction() {
@@ -73,6 +77,7 @@ public class FrontEndAction extends CommonAction {
 		adsInfoManager = new AdsInfoManager();
 		agentInfoManager = new AgentInfoManager();
 		zoneInfoManager = new ZoneInfoManager();
+		userInfoManager = new UserInfoManager();
 	}
 	
 	public String execute() {
@@ -157,8 +162,36 @@ public class FrontEndAction extends CommonAction {
 		
 		this.categoryInfos = categoryInfoManager.list();
 		this.girlInfo = girlInfoManager.getGirlInfo(girlInfoId);
+		if(this.girlInfo != null) {
+			if (this.girlInfo instanceof AgentGirlInfo) {
+				UserInfo userInfo = userInfoManager.getUserByColumnName("agentInfoId", ((AgentGirlInfo) this.girlInfo).getAgentInfoId());
+				userInfo = validateUser(userInfo);
+				((AgentGirlInfo) this.girlInfo).getAgentInfo().setUserInfo(userInfo);
+			} else if (this.girlInfo instanceof FreeAgentGirlInfo) {
+				UserInfo userInfo = userInfoManager.getUserByColumnName("girlInfoId", this.girlInfo.getGirlInfoId());
+				userInfo = validateUser(userInfo);
+				((FreeAgentGirlInfo)this.girlInfo).setUserInfo(userInfo);
+			} else if (this.girlInfo instanceof EnGirlInfo) {
+				UserInfo userInfo = userInfoManager.getUserByColumnName("girlInfoId", this.girlInfo.getGirlInfoId());
+				userInfo = validateUser(userInfo);
+				((EnGirlInfo)this.girlInfo).setUserInfo(userInfo);
+			}
+			
+		}
 		this.girlServices = girlInfoManager.getGirlServiceListByGirlInfoId(this.girlInfo.getGirlInfoId());
 		return SUCCESS;
+	}
+	
+	private UserInfo validateUser(UserInfo userInfo) {
+		if(userInfo.getActive().equals(Boolean.TRUE.toString()) 
+				&& userInfo.getValidDateFrom() != null && userInfo.getValidDateTo() != null) {
+			Date now = new Date();
+			if (now.compareTo(userInfo.getValidDateFrom()) < 0
+					|| now.compareTo(userInfo.getValidDateTo()) > 0) {
+				userInfo.setActive(Boolean.FALSE.toString());
+			}
+		}
+		return userInfo;
 	}
 	
 	public String search() {

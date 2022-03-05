@@ -32,6 +32,7 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	private Double price120Mins;
 	private String chk6Hrs;
 	private Double price6Hrs;
+	private UserInfo userInfo;
 	
 	@Column(name="line_id")
 	public String getLineId() {
@@ -106,6 +107,12 @@ public class FreeAgentGirlInfo extends GirlInfo {
 			return price6Hrs;
 		}
 	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="girl_info_id", insertable=false, updatable=false)
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
 	public void setLineId(String lineId) {
 		this.lineId = lineId;
 	}
@@ -144,5 +151,8 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	}
 	public void setPrice6Hrs(Double price6Hrs) {
 		this.price6Hrs = price6Hrs;
+	}
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
 	}
 }

@@ -384,11 +384,12 @@ public class GirlInfoManager extends HibernateUtil {
 					"where ((DTYPE = 'ShopGirlInfo' and girlInfo.shopInfoId = userInfo.shopInfoId and girlInfo.available = :availableShopGirlInfo) " +
 					"or (DTYPE = 'AgentGirlInfo' and girlInfo.agentInfoId = userInfo.agentInfoId and girlInfo.available = :availableAgentGirlInfo) " +
 					"or (DTYPE = 'FreeAgentGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId)) " +
-					"and userInfo.active = :active " +
-					"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
+					"or (DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId)) ")
+//					"and userInfo.active = :active " +
+//					"and current_date between userInfo.validDateFrom and userInfo.validDateTo"
 					.setParameter("availableShopGirlInfo", Boolean.TRUE.toString().toLowerCase())
 					.setParameter("availableAgentGirlInfo", Boolean.TRUE.toString().toLowerCase())
-					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+//					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
 					.list();
 			
 		} catch (HibernateException e) {
@@ -412,12 +413,13 @@ public class GirlInfoManager extends HibernateUtil {
 					"and ((DTYPE = 'ShopGirlInfo' and girlInfo.shopInfoId = userInfo.shopInfoId and girlInfo.available = :availableShopGirlInfo) " +
 					"or (DTYPE = 'AgentGirlInfo' and girlInfo.agentInfoId = userInfo.agentInfoId and girlInfo.available = :availableAgentGirlInfo) " +
 					"or (DTYPE = 'FreeAgentGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId)) " +
-					"and userInfo.active = :active " +
-					"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
+					"or (DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId)) ")
+//					"and userInfo.active = :active " +
+//					"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
 					.setParameter("zoneInfoId", zoneInfoId)
 					.setParameter("availableShopGirlInfo", Boolean.TRUE.toString().toLowerCase())
 					.setParameter("availableAgentGirlInfo", Boolean.TRUE.toString().toLowerCase())
-					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+//					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
 					.list();
 			
 		} catch (HibernateException e) {

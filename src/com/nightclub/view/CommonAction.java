@@ -127,6 +127,7 @@ public class CommonAction extends ActionSupport implements ServletRequestAware, 
 		if (sessionMap.containsKey("userInfo")) {
 			UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 			this.clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
+			this.clientInfo.setUserInfo(userInfo);
 			this.girlFavourites = girlFavouriteManager.listByCustomerInfoId(userInfo.getClientInfoId());
 		}
 	}

@@ -100,12 +100,14 @@
 					</a>
 					<i class="right chevron icon divider"></i>
 					<div class="active section">
-						<s:if test="#request.locale.language=='jp'">
-							<s:text name="zoneInfo.zoneNameJp" />
+						<s:if test="zoneInfo != null">
+							<s:if test="#request.locale.language=='jp'">
+								<s:text name="zoneInfo.zoneNameJp" />
+							</s:if>
+							<s:else>
+								<s:text name="zoneInfo.zoneNameEn" />
+							</s:else>
 						</s:if>
-						<s:else>
-							<s:text name="zoneInfo.zoneNameEn" />
-						</s:else>
 					</div>
 				</div>
 
@@ -114,13 +116,15 @@
 						<h2 class="ui top header">
 							<i class="bookmark icon yellow"></i>
 							<div class="content">
-								<s:if test="#request.locale.language=='jp'">
-									<s:text name="zoneInfo.zoneNameJp" />
+								<s:if test="zoneInfo != null">
+									<s:if test="#request.locale.language=='jp'">
+										<s:text name="zoneInfo.zoneNameJp" />
+									</s:if>
+									<s:else>
+										<s:text name="zoneInfo.zoneNameEn" />
+									</s:else>
 								</s:if>
-								<s:else>
-									<s:text name="zoneInfo.zoneNameEn" />
-								</s:else>
-									</div>
+							</div>
 						</h2>
 					</div>
 					<div class="ui centered attached segment soft">
@@ -138,7 +142,12 @@
 												icon"></i>
 										</a>
 										<a href="<s:url value="/girl/%{girlInfoId}"/>" >
-											<img class="image ui centered" src="<s:property value="pic1" />">
+											<s:if test="pic1 != null">
+												<img class="image ui centered" src="<s:property value="pic1" />">
+											</s:if>
+											<s:else>
+												<img class="image ui centered" src="<s:url value="/assets/images/wireframe/square-image.png" />">
+											</s:else>
 										</a>
 									</div>
 									<div class="content left aligned label pink circular ui">
@@ -166,7 +175,15 @@
 											<s:elseif test="%{agentInfo != null}">
 												<s:property value="agentInfo.agentName" /><br/>
 											</s:elseif>
-											<i class="marker icon"></i><s:property value="zoneInfo.zoneNameEn" />
+											<i class="marker icon"></i>
+											<s:if test="zoneInfo != null">
+												<s:if test="#request.locale.language=='jp'">
+													<s:text name="zoneInfo.zoneNameJp" />
+												</s:if>
+												<s:else>
+													<s:text name="zoneInfo.zoneNameEn" />
+												</s:else>
+											</s:if>
 										</div>
 									</div>
 								</div>

@@ -151,11 +151,28 @@
 										</a>
 										<div class="center aligned sixteen wide column slide-image">
 											<div class="single-item">
-												<div><img class="ui image fluid centered" src="<s:property value="girlInfo.pic1" />" /></div>
-												<div><img class="ui image fluid centered" src="<s:property value="girlInfo.pic2" />" /></div>
-												<div><img class="ui image fluid centered" src="<s:property value="girlInfo.pic3" />" /></div>
-												<div><img class="ui image fluid centered" src="<s:property value="girlInfo.pic4" />" /></div>
-												<div><img class="ui image fluid centered" src="<s:property value="girlInfo.pic5" />" /></div>
+												<s:if test="girlInfo.pic1 != null && girlInfo.pic1 != ''">
+													<div><img class="ui image fluid centered" src="<s:property value="girlInfo.pic1" />" /></div>
+												</s:if>
+												<s:if test="girlInfo.pic2 != null && girlInfo.pic2 != ''">
+													<div><img class="ui image fluid centered" src="<s:property value="girlInfo.pic2" />" /></div>
+												</s:if>
+												<s:if test="girlInfo.pic3 != null && girlInfo.pic3 != ''">
+													<div><img class="ui image fluid centered" src="<s:property value="girlInfo.pic3" />" /></div>
+												</s:if>
+												<s:if test="girlInfo.pic4 != null && girlInfo.pic4 != ''">
+													<div><img class="ui image fluid centered" src="<s:property value="girlInfo.pic4" />" /></div>
+												</s:if>
+												<s:if test="girlInfo.pic5 != null && girlInfo.pic5 != ''">
+													<div><img class="ui image fluid centered" src="<s:property value="girlInfo.pic5" />" /></div>
+												</s:if>
+												<s:if test="(girlInfo.pic1 == null || girlInfo.pic1 == '') 
+															&& (girlInfo.pic2 == null || girlInfo.pic2 == '') 
+															&& (girlInfo.pic3 == null || girlInfo.pic3 == '') 
+															&& (girlInfo.pic4 == null || girlInfo.pic4 == '') 
+															&& (girlInfo.pic5 == null || girlInfo.pic5 == '')">
+													<img class="image ui centered" src="<s:url value="/assets/images/wireframe/square-image.png" />">
+												</s:if>
 										  	</div>
 										</div>
 									</div>
@@ -230,73 +247,113 @@
 													<td class="center aligned one wide"><p>:</p></td>
 													<td>
 														<p>
-															<s:if test="#request.locale.language=='jp'">
-																<s:text name="girlInfo.zoneInfo.zoneNameJp" />
+															<s:if test="girlInfo.zoneInfo != null">
+																<s:if test="#request.locale.language=='jp'">
+																	<s:text name="girlInfo.zoneInfo.zoneNameJp" />
+																</s:if>
+																<s:else>
+																	<s:text name="girlInfo.zoneInfo.zoneNameEn" />
+																</s:else>
 															</s:if>
-															<s:else>
-																<s:text name="girlInfo.zoneInfo.zoneNameEn" />
-															</s:else>
 														</p>
 													</td>
 												</tr>
-												<tr>
-													<td class="right aligned"><p><s:text name="global.job" /></p></td>
-													<td class="center aligned one wide"><p>:</p></td>
-													<td>
-														<p>
-															<s:if test="girlInfo.type == 1"><s:text name="global.en_girl_type_1" /></s:if>
-															<s:if test="girlInfo.type == 2"><s:text name="global.en_girl_type_2" /></s:if>
-															<s:if test="girlInfo.type == 3"><s:text name="global.en_girl_type_3" /></s:if>
-														</p>
-													</td>
-												</tr>
-												<tr>
-													<td class="right aligned"><p><s:text name="global.service_charge" /></p></td>
-													<td class="center aligned one wide"><p>:</p></td>
-													<td>
-														<p>
-															<s:text name="format.integer"><s:param name="value" value="girlInfo.price"/></s:text>
-														</p>
-													</td>
-												</tr>
-												<tr>
-													<td class="right aligned"><p>Line</p></td>
-													<td class="center aligned one wide"><p>:</p></td>
-													<td>
-														<s:if test="%{girlInfo.agentInfoId != null}">
-														<p><s:property value="girlInfo.lineId" /></p>
-														</s:if>
-														<s:elseif test="%{clientInfo != null}">
-														<p><s:property value="girlInfo.lineId" /></p>
-														</s:elseif>
-														<s:else>
-														<p>[คลิกเพื่อดูข้อมูล]</p>
-														<p>[<a href="<s:url value="/signup"/>">กรุณาสมัครสมาชิก</a> หรือ <a href="<s:url value="/login"/>">เข้าสู่ระบบ</a>]</p>
-														</s:else>
-													</td>
-												</tr>
-												<s:if test="%{girlInfo.agentInfoId != null}">
-												<tr>
-													<td colspan="3">
-														<p class="centered" style="text-align: -webkit-center;">
-															<a href="https://line.me/ti/p/~<s:property value="girlInfo.lineId" />">
-																<img class="ui small image" src="https://scdn.line-apps.com/n/line_add_friends/btn/th.png">
-															</a>
-														</p>
-													</td>
-												</tr>
+												<s:if test="%{girlInfo instanceof com.nightclub.model.EnGirlInfo}" >
+													<tr>
+														<td class="right aligned"><p><s:text name="global.job" /></p></td>
+														<td class="center aligned one wide"><p>:</p></td>
+														<td>
+															<p>
+																<s:if test="girlInfo.type == 1"><s:text name="global.en_girl_type_1" /></s:if>
+																<s:if test="girlInfo.type == 2"><s:text name="global.en_girl_type_2" /></s:if>
+																<s:if test="girlInfo.type == 3"><s:text name="global.en_girl_type_3" /></s:if>
+															</p>
+														</td>
+													</tr>
+													<tr>
+														<td class="right aligned"><p><s:text name="global.service_charge" /></p></td>
+														<td class="center aligned one wide"><p>:</p></td>
+														<td>
+															<p>
+																<s:text name="format.integer"><s:param name="value" value="girlInfo.price"/></s:text>
+															</p>
+														</td>
+													</tr>
 												</s:if>
-												<s:elseif test="%{clientInfo != null}">
-												<tr>
-													<td colspan="3">
-														<p class="centered" style="text-align: -webkit-center;">
-															<a href="https://line.me/ti/p/~<s:property value="girlInfo.lineId" />">
-																<img class="ui small image" src="https://scdn.line-apps.com/n/line_add_friends/btn/th.png">
-															</a>
-														</p>
-													</td>
-												</tr>
-												</s:elseif>
+												<s:if test="%{girlInfo.agentInfoId != null}">
+													<s:if test="%{girlInfo.agentInfo.userInfo.active  == 'true'}">
+														<tr>
+															<td class="right aligned"><p>Line</p></td>
+															<td class="center aligned one wide"><p>:</p></td>
+															<td>
+																<s:if test="%{clientInfo != null}">
+																	<s:if test="%{clientInfo.userInfo.active  == 'true'}">
+																		<p><s:property value="girlInfo.lineId" /></p>
+																	</s:if>
+																	<s:else>
+																		<p>[รอตรวจสอบข้อมูลลูกค้า]</p>
+																	</s:else>
+																</s:if>
+																<s:else>
+																	<p>[คลิกเพื่อดูข้อมูล]</p>
+																	<p>[<a href="<s:url value="/signup"/>">กรุณาสมัครสมาชิก</a> หรือ <a href="<s:url value="/login"/>">เข้าสู่ระบบ</a>]</p>
+																</s:else>
+															</td>
+														</tr>
+													</s:if>
+												</s:if>
+												<s:else>
+													<s:if test="%{girlInfo.userInfo.active  == 'true'}">
+														<tr>
+															<td class="right aligned"><p>Line</p></td>
+															<td class="center aligned one wide"><p>:</p></td>
+															<td>
+																<s:if test="%{clientInfo != null}">
+																	<s:if test="%{clientInfo.userInfo.active  == 'true'}">
+																		<p><s:property value="girlInfo.lineId" /></p>
+																	</s:if>
+																	<s:else>
+																		<p>[รอตรวจสอบข้อมูลลูกค้า]</p>
+																	</s:else>
+																</s:if>
+																<s:else>
+																	<p>[คลิกเพื่อดูข้อมูล]</p>
+																	<p>[<a href="<s:url value="/signup"/>">กรุณาสมัครสมาชิก</a> หรือ <a href="<s:url value="/login"/>">เข้าสู่ระบบ</a>]</p>
+																</s:else>
+															</td>
+														</tr>
+													</s:if>
+												</s:else>
+												<s:if test="%{clientInfo != null}">
+													<s:if test="%{clientInfo.userInfo.active  == 'true'}">
+														<s:if test="%{girlInfo.agentInfoId != null}">
+															<s:if test="%{girlInfo.agentInfo.userInfo.active  == 'true'}">
+																<tr>
+																	<td colspan="3">
+																		<p class="centered" style="text-align: -webkit-center;">
+																			<a href="https://line.me/ti/p/~<s:property value="girlInfo.lineId" />">
+																				<img class="ui small image" src="https://scdn.line-apps.com/n/line_add_friends/btn/th.png">
+																			</a>
+																		</p>
+																	</td>
+																</tr>
+															</s:if>
+														</s:if>
+														<s:else>
+															<s:if test="%{girlInfo.userInfo.active  == 'true'}">
+																<tr>
+																	<td colspan="3">
+																		<p class="centered" style="text-align: -webkit-center;">
+																			<a href="https://line.me/ti/p/~<s:property value="girlInfo.lineId" />">
+																				<img class="ui small image" src="https://scdn.line-apps.com/n/line_add_friends/btn/th.png">
+																			</a>
+																		</p>
+																	</td>
+																</tr>
+															</s:if>
+														</s:else>
+													</s:if>
+												</s:if>
 											</tbody>
 										</table>
 										<h5 class="ui horizontal left aligned header">

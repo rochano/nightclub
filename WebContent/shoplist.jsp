@@ -141,12 +141,14 @@
 							<tr>
 								<td>
 									<a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui header tiny">
-										<s:if test="#request.locale.language=='jp'">
-											<s:property value="zoneInfo.zoneNameJp" />
+										<s:if test="zoneInfo != null">
+											<s:if test="#request.locale.language=='jp'">
+												<s:text name="zoneInfo.zoneNameJp" />
+											</s:if>
+											<s:else>
+												<s:text name="zoneInfo.zoneNameEn" />
+											</s:else>
 										</s:if>
-										<s:else>
-											<s:property value="zoneInfo.zoneNameEn" />
-										</s:else>
 									</a>
 								</td>
 								<td>60分</td>
