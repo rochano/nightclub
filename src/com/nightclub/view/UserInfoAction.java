@@ -134,6 +134,7 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	    		this.userInfo.setUsername(username);
 	    		this.userInfo.setPassword(password);
 	    		this.userInfo.setUserType(userType);
+	    		this.userInfo.setActive(Boolean.FALSE.toString());
 	    		this.userInfo = linkController.add(userInfo);
 	    		
 	    		addActionMessage("You have been successfully registered");
