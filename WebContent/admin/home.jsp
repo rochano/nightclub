@@ -98,7 +98,7 @@
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
-						<h2 class="ui header">Welcome to administrator management<h2>
+						<h2 class="ui header">Welcome to administrator management</h2>
 						<form class="ui form " method="post" action="<s:url value="/admin/home/update"/>" >
 							<h4 class="ui horizontal divider header">
 								<i class="comment icon"></i>

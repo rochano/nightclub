@@ -171,6 +171,7 @@
 								<tr>
 									<th>#</th>
 									<th>Photo</th>
+									<th>Username</th>
 									<th>Japanese name</th>
 									<th>English name</th>
 									<th>Category</th>
@@ -188,6 +189,7 @@
 									<td>
 										<img class="image ui tiny centered" src="<s:property value="shopInfo.logoImg" />">
 									</td>
+									<td><s:property value="username" /></td>
 									<td><s:property value="shopInfo.shopNameJp" /></td>
 									<td><s:property value="shopInfo.shopNameEn" /></td>
 									<td><s:property value="shopInfo.categoryInfo.categoryNameEn" /></td>

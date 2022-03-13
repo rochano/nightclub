@@ -10,15 +10,18 @@ import java.util.logging.Logger;
 
 import org.apache.struts2.interceptor.SessionAware;
 
-import com.nightclub.common.IConstants;
 import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.GirlSettingManager;
 import com.nightclub.controller.HomeInfoManager;
+import com.nightclub.controller.HomeSlideImageManager;
 import com.nightclub.controller.UserInfoManager;
+import com.nightclub.model.CategoryZone;
 import com.nightclub.model.GirlServiceInfo;
 import com.nightclub.model.GirlSetting;
 import com.nightclub.model.HomeInfo;
+import com.nightclub.model.HomeSlideImage;
 import com.nightclub.model.UserInfo;
+import com.nightclub.model.ZoneInfo;
 import com.nightclub.util.UploadFileUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -30,6 +33,8 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private Map<String, Object> sessionMap;
 	private String menu;
 	private HomeInfo homeInfo;
+	private List<HomeSlideImage> homeSlideImages;
+	private List<String> homeSlideImagesFileNameList;
 	private List<UserInfo> userInfos;
 	private List<String> activelist;
 	private List<GirlServiceInfo> girlServicInfoList;
@@ -41,6 +46,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private String userType;
 	
 	private HomeInfoManager homeInfoManager;
+	private HomeSlideImageManager homeSlideImageManager;
 	private GirlInfoManager girlInfoManager;
 	private GirlSettingManager girlSettingManager;
 	private UserInfoManager userInfoManager;
@@ -50,6 +56,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		girlInfoManager = new GirlInfoManager();
 		girlSettingManager = new GirlSettingManager();
 		userInfoManager = new UserInfoManager();
+		homeSlideImageManager = new HomeSlideImageManager();
 	}
 	
 	public String execute() {
@@ -77,6 +84,43 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			addActionMessage("You have been successfully updated");
 			
 			this.execute();
+			
+			return SUCCESS;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return INPUT;
+		}
+	}
+	
+	public String homeslideimage() {
+		this.homeSlideImages = homeSlideImageManager.list();
+		
+		return SUCCESS;
+	}
+	
+	public String homeslideimageupdate() {
+		try {
+			UserInfo userInfo = (UserInfo)sessionMap.get("adminInfo");
+			Integer homeSlideImageId = 1;
+			HomeSlideImage homeSlideImage;
+			this.homeSlideImages = new ArrayList<HomeSlideImage>();
+			if(this.homeSlideImagesFileNameList != null) {
+				for(String fileName : this.homeSlideImagesFileNameList) {
+					if(!fileName.isEmpty()) {
+						fileName = UploadFileUtils.uploadImageApi(fileName, sessionMap, userInfo);
+					}
+					homeSlideImage = new HomeSlideImage();
+					homeSlideImage.setHomeSlideImageId(homeSlideImageId);
+					homeSlideImage.setSlideImg(fileName);
+					this.homeSlideImages.add(homeSlideImage);
+					homeSlideImageId++;
+				}
+			}
+			homeSlideImageManager.add(this.homeSlideImages);
+			addActionMessage("You have been successfully updated");
+			
+			this.homeslideimage();
 			
 			return SUCCESS;
 		} catch (IOException e) {
@@ -325,6 +369,22 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+
+	public List<HomeSlideImage> getHomeSlideImages() {
+		return homeSlideImages;
+	}
+
+	public void setHomeSlideImages(List<HomeSlideImage> homeSlideImages) {
+		this.homeSlideImages = homeSlideImages;
+	}
+
+	public List<String> getHomeSlideImagesFileNameList() {
+		return homeSlideImagesFileNameList;
+	}
+
+	public void setHomeSlideImagesFileNameList(List<String> homeSlideImagesFileNameList) {
+		this.homeSlideImagesFileNameList = homeSlideImagesFileNameList;
 	}
 
 

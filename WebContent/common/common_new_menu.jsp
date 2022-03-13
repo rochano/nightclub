@@ -34,11 +34,10 @@
 		<div class="ui centered grid menu-slide-image">
 	  		<div class="center aligned sixteen wide column slide-image">
 			  	<div class="single-item">
-				    <div><img class="ui image fluid centered" src="<s:url value="/assets/images/slideimage/cowboy-612x246.jpg" />" /></div>
-				    <div><img class="ui image fluid centered" src="<s:url value="/assets/images/slideimage/patpong2-1-612x246.jpg" />" /></div>
-				    <div><img class="ui image fluid centered" src="<s:url value="/assets/images/slideimage/Thaniya-612x246.jpg" />" /></div>
-				    <div><img class="ui image fluid centered" src="<s:url value="/assets/images/slideimage/nanaplaza1-612x246.jpg" />" /></div>
-			  	</div>
+			  		<s:iterator value="homeSlideImages" status="status">
+			  			<div><img class="ui image fluid centered" src="<s:property value="slideImg" />" /></div>
+			  		</s:iterator>
+				</div>
 			</div>
 		</div>
 		<div class="ui menu inverted stackable">

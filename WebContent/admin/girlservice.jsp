@@ -66,7 +66,7 @@
       .form({
           onSuccess: function() { 
               var form = $(this);
-              form.find("[name=activelist]").remove()
+              form.find("[name=girlservicenamelist]").remove()
               $( "input[name=girlServiceName]", dataTable.fnGetNodes()).each(function(i, item) {
             	  form.append("<input name='girlservicenamelist' value='" + item.value + "' type='hidden' />")
               })

@@ -100,6 +100,11 @@
 			class="com.nightclub.view.UserInfoAction" method="signup">
 			<result name="input">/signup.jsp</result>
 			<result name="success">/login.jsp</result>
+			<result name="shopService" type="redirect">/management</result>
+			<result name="agent" type="redirect">/management_agent</result>
+			<result name="freeAgent" type="redirect">/management_free_agent</result>
+			<result name="client" type="redirect">/</result>
+			<result name="enGirl" type="redirect">/management_en_girl</result>
 		</action>
 		
 		<action name="agents"
@@ -572,6 +577,23 @@
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/home.jsp</result>
 		</action>
+		
+		<action name="homeslideimage"
+			class="com.nightclub.view.AdminInfoAction" method="homeslideimage">
+			<param name="menu">homeslideimage</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">homeslideimage.jsp</result>
+		</action>
+		
+		<action name="homeslideimage/*"
+			class="com.nightclub.view.AdminInfoAction" method="homeslideimage{1}">
+			<param name="menu">homeslideimage</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/homeslideimage.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/homeslideimage.jsp</result>
+		</action>
 	    
 	    <action name="login"
 			class="com.nightclub.view.UserInfoAction" method="login">
@@ -711,7 +733,7 @@
 		
 		<action name="engirl"
 			class="com.nightclub.view.AdminInfoAction" method="userlist">
-			<param name="menu">client</param>
+			<param name="menu">engirl</param>
 			<param name="userType">5</param>
 			<interceptor-ref name="adminStack" />
 			<result name="login" type="redirect">/admin/login</result>

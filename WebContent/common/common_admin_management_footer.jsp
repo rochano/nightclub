@@ -3,6 +3,7 @@
 	<div  class="one column center aligned ">
 		<div><p>
 			<a href="<s:url value="/admin"/>"><span>Home</span></a> | 
+			<a href="<s:url value="/admin/homeslideimage"/>"><span>Home Slide Image</span></a> | 
 			<a href="<s:url value="/admin/shop"/>"><span>Shop</span></a> | 
 			<a href="<s:url value="/admin/agent"/>"><span>Agent</span></a> | 
 			<a href="<s:url value="/admin/freeagent"/>"><span>Free Agent</span></a> | 

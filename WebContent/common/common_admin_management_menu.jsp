@@ -1,5 +1,6 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('index')}">active</s:if>" href="<s:url value="/admin"/>"><i class="home icon"></i>Home</a>
+	<a class="item <s:if test="%{menu.equalsIgnoreCase('homeslideimage')}">active</s:if>" href="<s:url value="/admin/homeslideimage"/>"><i class="picture icon"></i>Home Slide Image</a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('shop')}">active</s:if>" href="<s:url value="/admin/shop"/>"><i class="building icon"></i>Shop</a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('agent')}">active</s:if>" href="<s:url value="/admin/agent"/>"><i class="users icon"></i>Agent</a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('freeagent')}">active</s:if>" href="<s:url value="/admin/freeagent"/>"><i class="heart icon"></i>Free Agent</a>

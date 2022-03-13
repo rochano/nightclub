@@ -13,6 +13,7 @@ import com.nightclub.controller.EnGirlInfoManager;
 import com.nightclub.controller.FreeAgentGirlInfoManager;
 import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.HomeInfoManager;
+import com.nightclub.controller.HomeSlideImageManager;
 import com.nightclub.controller.NewsInfoManager;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
@@ -26,6 +27,7 @@ import com.nightclub.model.FreeAgentGirlInfo;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.HomeInfo;
+import com.nightclub.model.HomeSlideImage;
 import com.nightclub.model.NewsInfo;
 import com.nightclub.model.UserInfo;
 import com.nightclub.model.ZoneInfo;
@@ -55,6 +57,7 @@ public class FrontEndAction extends CommonAction {
 	private String girlInfoId;
 	private List<ZoneInfo> zoneInfos;
 	private ZoneInfo zoneInfo;
+	private List<HomeSlideImage> homeSlideImages;
 
 	private CategoryInfoManager categoryInfoManager;
 	private BasicInfoManager basicInfoManager;
@@ -65,7 +68,7 @@ public class FrontEndAction extends CommonAction {
 	private AgentInfoManager agentInfoManager;
 	private ZoneInfoManager zoneInfoManager;
 	private UserInfoManager userInfoManager;
-
+	private HomeSlideImageManager homeSlideImageManager;
 
 	public FrontEndAction() {
 		super();
@@ -78,12 +81,14 @@ public class FrontEndAction extends CommonAction {
 		agentInfoManager = new AgentInfoManager();
 		zoneInfoManager = new ZoneInfoManager();
 		userInfoManager = new UserInfoManager();
+		homeSlideImageManager = new HomeSlideImageManager();
 	}
 	
 	public String execute() {
 		getStatisticInfo();
 
 		this.categoryInfos = categoryInfoManager.list();
+		this.homeSlideImages = homeSlideImageManager.list();
 		this.newsInfos = newsInfoManager.list();
 		this.homeInfo = homeInfoManager.getHomeInfo("0");
 		this.adsInfos = adsInfoManager.active();
@@ -95,6 +100,7 @@ public class FrontEndAction extends CommonAction {
 		getStatisticInfo();
 		
 		this.categoryInfos = categoryInfoManager.list();
+		this.homeSlideImages = homeSlideImageManager.list();
 		this.newsInfo = newsInfoManager.getNewsInfo(this.newsInfoId);
 		
 		return SUCCESS;
@@ -104,6 +110,7 @@ public class FrontEndAction extends CommonAction {
 		getStatisticInfo();
 		
 		this.categoryInfos = categoryInfoManager.list();
+		this.homeSlideImages = homeSlideImageManager.list();
 		this.basicInfos = basicInfoManager.filter(getCategoryInfoId());
 		this.category = categoryInfoManager.getCategoryInfo(getCategoryInfoId());
 		if (this.category == null) {
@@ -117,6 +124,7 @@ public class FrontEndAction extends CommonAction {
 		getStatisticInfo();
 		
 		this.categoryInfos = categoryInfoManager.list();
+		this.homeSlideImages = homeSlideImageManager.list();
 		girlInfoManager = new AgentGirlInfoManager();
 		if (agentInfoId == null) {
 			this.agentInfos = agentInfoManager.list();
@@ -132,6 +140,7 @@ public class FrontEndAction extends CommonAction {
 		getStatisticInfo();
 		
 		this.categoryInfos = categoryInfoManager.list();
+		this.homeSlideImages = homeSlideImageManager.list();
 		girlInfoManager = new FreeAgentGirlInfoManager();
 		this.girlInfos = girlInfoManager.list();
 		return SUCCESS;
@@ -141,6 +150,7 @@ public class FrontEndAction extends CommonAction {
 		getStatisticInfo();
 		
 		this.categoryInfos = categoryInfoManager.list();
+		this.homeSlideImages = homeSlideImageManager.list();
 		girlInfoManager = new EnGirlInfoManager();
 		this.girlInfos = girlInfoManager.list();
 		return SUCCESS;
@@ -150,6 +160,7 @@ public class FrontEndAction extends CommonAction {
 		getStatisticInfo();
 		
 		this.categoryInfos = categoryInfoManager.list();
+		this.homeSlideImages = homeSlideImageManager.list();
 		if (getSession().containsKey("userInfo")) {
 			UserInfo userInfo = (UserInfo)getSession().get("userInfo");
 			this.girlInfos = girlFavouriteManager.list(userInfo.getClientInfoId());
@@ -161,6 +172,7 @@ public class FrontEndAction extends CommonAction {
 		getStatisticInfo();
 		
 		this.categoryInfos = categoryInfoManager.list();
+		this.homeSlideImages = homeSlideImageManager.list();
 		this.girlInfo = girlInfoManager.getGirlInfo(girlInfoId);
 		if(this.girlInfo != null) {
 			if (this.girlInfo instanceof AgentGirlInfo) {
@@ -198,6 +210,7 @@ public class FrontEndAction extends CommonAction {
 		getStatisticInfo();
 		
 		this.categoryInfos = categoryInfoManager.list();
+		this.homeSlideImages = homeSlideImageManager.list();
 		this.zoneInfos = zoneInfoManager.list();
 		return SUCCESS;
 	}
@@ -206,6 +219,7 @@ public class FrontEndAction extends CommonAction {
 		getStatisticInfo();
 		
 		this.categoryInfos = categoryInfoManager.list();
+		this.homeSlideImages = homeSlideImageManager.list();
 		this.zoneInfo = zoneInfoManager.getZoneInfo(zoneInfoId);
 		this.girlInfos = girlInfoManager.listByZoneInfoId(zoneInfoId);
 		return SUCCESS;
@@ -215,6 +229,7 @@ public class FrontEndAction extends CommonAction {
 		getStatisticInfo();
 		
 		this.categoryInfos = categoryInfoManager.list();
+		this.homeSlideImages = homeSlideImageManager.list();
 		this.homeInfo = homeInfoManager.getHomeInfo("0");
 		return SUCCESS;
 	}
@@ -223,6 +238,7 @@ public class FrontEndAction extends CommonAction {
 		getStatisticInfo();
 		
 		this.categoryInfos = categoryInfoManager.list();
+		this.homeSlideImages = homeSlideImageManager.list();
 		this.homeInfo = homeInfoManager.getHomeInfo("0");
 		return SUCCESS;
 	}
@@ -385,5 +401,13 @@ public class FrontEndAction extends CommonAction {
 
 	public void setZoneInfo(ZoneInfo zoneInfo) {
 		this.zoneInfo = zoneInfo;
+	}
+
+	public List<HomeSlideImage> getHomeSlideImages() {
+		return homeSlideImages;
+	}
+
+	public void setHomeSlideImages(List<HomeSlideImage> homeSlideImages) {
+		this.homeSlideImages = homeSlideImages;
 	}
 }

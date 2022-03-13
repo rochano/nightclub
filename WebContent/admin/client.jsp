@@ -170,6 +170,7 @@
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
+									<th>Username</th>
 									<th>First Name</th>
 									<th>Last Name</th>
 									<th>Email</th>
@@ -185,6 +186,7 @@
 								<s:iterator value="userInfos" status="status">
 								<tr>
 									<td class="center aligned"><s:property value="#status.count" /></td>
+									<td><s:property value="username" /></td>
 									<td><s:property value="clientInfo.firstName" /></td>
 									<td><s:property value="clientInfo.lastName" /></td>
 									<td><s:property value="clientInfo.email" /></td>

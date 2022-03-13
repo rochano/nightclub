@@ -10,7 +10,6 @@ import com.nightclub.common.IConstants;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.model.UserInfo;
 import com.opensymphony.xwork2.ActionSupport;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 public class UserInfoAction extends ActionSupport implements SessionAware {
 
@@ -138,7 +137,7 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	    		this.userInfo = linkController.add(userInfo);
 	    		
 	    		addActionMessage("You have been successfully registered");
-	    		return SUCCESS;
+	    		return login();
     		}
     	}
     	

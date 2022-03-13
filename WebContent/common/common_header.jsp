@@ -44,6 +44,10 @@
   .ui.menu.toc:not(.vertical) > .item {
 	justify-content: flex-start;
   }
+  .slide-image img.ui.fluid.image {
+  	height: 350px;
+  	width:auto;
+  }
   @media only screen and (max-width: 767px) {
   	.ui.menu:not(.vertical):not(.fixed),
   	.ui.grid.menu-slide-image {

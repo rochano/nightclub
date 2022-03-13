@@ -171,6 +171,7 @@
 								<tr>
 									<th>#</th>
 									<th>Photo</th>
+									<th>Username</th>
 									<th>Nick Name</th>
 									<th>Type</th>
 									<th>Valid date from</th>
@@ -186,6 +187,7 @@
 									<td>
 										<img class="image ui tiny centered" src="<s:property value="enGirlInfo.pic1" />">
 									</td>
+									<td><s:property value="username" /></td>
 									<td><s:property value="enGirlInfo.nickName" /></td>
 									<td>
 										<s:if test="enGirlInfo.type == '1'"><s:text name="global.en_girl_type_1" /></s:if>

@@ -171,6 +171,7 @@
 								<tr>
 									<th>#</th>
 									<th>Photo</th>
+									<th>Username</th>
 									<th>Nick Name</th>
 									<th>Valid date from</th>
 									<th>Valid date to</th>
@@ -185,6 +186,7 @@
 									<td>
 										<img class="image ui tiny centered" src="<s:property value="freeAgentGirlInfo.pic1" />">
 									</td>
+									<td><s:property value="username" /></td>
 									<td><s:property value="freeAgentGirlInfo.nickName" /></td>
 									<td class="center aligned"><s:date name="validDateFrom" format="dd/MM/yyyy" /></td>
 									<td class="center aligned"><s:date name="validDateTo" format="dd/MM/yyyy" /></td>
