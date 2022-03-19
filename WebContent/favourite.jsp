@@ -142,7 +142,21 @@
 												<s:text name="format.integer"><s:param name="value" value="price"/></s:text>
 											</s:if>
 											<s:else>
-												<s:text name="format.integer"><s:param name="value" value="price40Mins"/></s:text>
+												<s:if test="chk40Mins == 'true'">
+													<s:text name="format.integer"><s:param name="value" value="price40Mins"/></s:text>
+												</s:if>
+												<s:elseif test="chk60Mins == 'true'">
+													<s:text name="format.integer"><s:param name="value" value="price60Mins"/></s:text>
+												</s:elseif>
+												<s:elseif test="chk90Mins == 'true'">
+													<s:text name="format.integer"><s:param name="value" value="price90Mins"/></s:text>
+												</s:elseif>
+												<s:elseif test="chk120Mins == 'true'">
+													<s:text name="format.integer"><s:param name="value" value="price120Mins"/></s:text>
+												</s:elseif>
+												<s:elseif test="chk6Hrs == 'true'">
+													<s:text name="format.integer"><s:param name="value" value="price6Hrs"/></s:text>
+												</s:elseif>
 											</s:else>
 										</span>
 										ตรงปก
