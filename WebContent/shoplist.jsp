@@ -61,11 +61,11 @@
 						<h2 class="ui top header">
 							<i class="bookmark icon yellow"></i>
 							<div class="content">
-								<s:if test="#request.locale.language=='jp'">
-								<s:text name="category.categoryNameJp" />
+								<s:if test="#request.locale.language=='th'">
+								<s:text name="category.categoryNameEn" />
 								</s:if>
 								<s:else>
-								<s:text name="category.categoryNameEn" />
+								<s:text name="category.categoryNameJp" />
 								</s:else>
 							</div>
 						</h2>
@@ -112,11 +112,11 @@
 									<img class="ui tiny image centered" src="<s:property value="shopImg" />">
 								</td>
 								<td><a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui header medium">
-									<s:if test="#request.locale.language=='jp'">
-										<s:property value="shopNameJp" />
+									<s:if test="#request.locale.language=='th'">
+										<s:property value="shopNameEn" />
 									</s:if>
 									<s:else>
-										<s:property value="shopNameEn" />
+										<s:property value="shopNameJp" />
 									</s:else>
 								</a></td>
 								<td>
@@ -142,11 +142,11 @@
 								<td>
 									<a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui header tiny">
 										<s:if test="zoneInfo != null">
-											<s:if test="#request.locale.language=='jp'">
-												<s:text name="zoneInfo.zoneNameJp" />
+											<s:if test="#request.locale.language=='th'">
+												<s:text name="zoneInfo.zoneNameEn" />
 											</s:if>
 											<s:else>
-												<s:text name="zoneInfo.zoneNameEn" />
+												<s:text name="zoneInfo.zoneNameJp" />
 											</s:else>
 										</s:if>
 									</a>

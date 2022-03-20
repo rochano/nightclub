@@ -96,11 +96,11 @@
 				var select = $('#basicInfo_zoneInfoId');
 			     select.find('option').remove();
 			     $.each(jsonResponse.categoryZones, function(i, obj) {
-			       <s:if test="#request.locale.language=='jp'">
-			       $('<option>').val(obj.zoneInfo.zoneInfoId).text(obj.zoneInfo.zoneNameJp).appendTo(select);
+			       <s:if test="#request.locale.language=='th'">
+			       $('<option>').val(obj.zoneInfo.zoneInfoId).text(obj.zoneInfo.zoneNameEn).appendTo(select);
 			       </s:if>
 			       <s:else>
-			       $('<option>').val(obj.zoneInfo.zoneInfoId).text(obj.zoneInfo.zoneNameEn).appendTo(select);
+			       $('<option>').val(obj.zoneInfo.zoneInfoId).text(obj.zoneInfo.zoneNameJp).appendTo(select);
 			       </s:else>
 			     });
 			     select.parents(".ui.dropdown:first").find(".text").text(select.find('option:first').text());
@@ -200,10 +200,10 @@
 							</div>
 						</div>
 						<div class="inline field">
-							<s:if test="#request.locale.language=='jp'">
+							<s:if test="#request.locale.language=='th'">
 								<s:select list="categoryInfos"
 									headerKey="" headerValue="-"
-									listKey="categoryInfoId" listValue="categoryNameJp"
+									listKey="categoryInfoId" listValue="categoryNameEn"
 									label="Shop category" 
 									cssClass="ui search dropdown" 
 									name="basicInfo.categoryInfoId">
@@ -212,7 +212,7 @@
 							<s:else>
 								<s:select list="categoryInfos"
 									headerKey="" headerValue="-"
-									listKey="categoryInfoId" listValue="categoryNameEn"
+									listKey="categoryInfoId" listValue="categoryNameJp"
 									label="Shop category" 
 									cssClass="ui search dropdown" 
 									name="basicInfo.categoryInfoId">
@@ -278,9 +278,9 @@
 								</s:select>
 							</div>
 							<div class="inline field">
-								<s:if test="#request.locale.language=='jp'">
+								<s:if test="#request.locale.language=='th'">
 									<s:select list="categoryInfo.categoryZones"
-										listKey="primaryKey.zoneInfo.zoneInfoId" listValue="primaryKey.zoneInfo.zoneNameJp"
+										listKey="primaryKey.zoneInfo.zoneInfoId" listValue="primaryKey.zoneInfo.zoneNameEn"
 										label="Location" 
 										cssClass="ui search dropdown" 
 										name="basicInfo.zoneInfoId">
@@ -288,7 +288,7 @@
 								</s:if>
 								<s:else>
 									<s:select list="categoryInfo.categoryZones"
-										listKey="primaryKey.zoneInfo.zoneInfoId" listValue="primaryKey.zoneInfo.zoneNameEn"
+										listKey="primaryKey.zoneInfo.zoneInfoId" listValue="primaryKey.zoneInfo.zoneNameJp"
 										label="Location" 
 										cssClass="ui search dropdown" 
 										name="basicInfo.zoneInfoId">

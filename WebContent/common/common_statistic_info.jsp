@@ -200,11 +200,11 @@ $(document)
 					</div>
 				</div>
 				<div class="ui divider"></div>
-				<a class="ui tiny item" href="<s:url value="?request_locale=jp"/>">
+				<a class="ui tiny item" href="<s:url value="?request_cookie_locale=jp"/>">
 					<i class="jp flag"></i>
 					JP
 				</a>
-				<a class="ui tiny item" href="<s:url value="?request_locale=en"/>">
+				<a class="ui tiny item" href="<s:url value="?request_cookie_locale=th"/>">
 					<i class="th flag"></i>
 					TH
 				</a>

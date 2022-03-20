@@ -211,11 +211,11 @@
 														<td class="center aligned one wide"><p>:</p></td>
 														<td>
 															<p>
-																<s:if test="#request.locale.language=='jp'">
-																	<s:property value="girlInfo.skinInfo.skinNameJp" />
+																<s:if test="#request.locale.language=='th'">
+																	<s:property value="girlInfo.skinInfo.skinNameEn" />
 																</s:if>
 																<s:else>
-																	<s:property value="girlInfo.skinInfo.skinNameEn" />
+																	<s:property value="girlInfo.skinInfo.skinNameJp" />
 																</s:else>
 															</p>
 														</td>
@@ -248,11 +248,11 @@
 													<td>
 														<p>
 															<s:if test="girlInfo.zoneInfo != null">
-																<s:if test="#request.locale.language=='jp'">
-																	<s:text name="girlInfo.zoneInfo.zoneNameJp" />
+																<s:if test="#request.locale.language=='th'">
+																	<s:text name="girlInfo.zoneInfo.zoneNameEn" />
 																</s:if>
 																<s:else>
-																	<s:text name="girlInfo.zoneInfo.zoneNameEn" />
+																	<s:text name="girlInfo.zoneInfo.zoneNameJp" />
 																</s:else>
 															</s:if>
 														</p>

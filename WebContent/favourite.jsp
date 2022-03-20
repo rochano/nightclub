@@ -176,11 +176,11 @@
 											</s:elseif>
 											<i class="marker icon"></i>
 											<s:if test="zoneInfo != null">
-												<s:if test="#request.locale.language=='jp'">
-													<s:text name="zoneInfo.zoneNameJp" />
+												<s:if test="#request.locale.language=='th'">
+													<s:text name="zoneInfo.zoneNameEn" />
 												</s:if>
 												<s:else>
-													<s:text name="zoneInfo.zoneNameEn" />
+													<s:text name="zoneInfo.zoneNameJp" />
 												</s:else>
 											</s:if>
 										</div>

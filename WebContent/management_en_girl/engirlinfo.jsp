@@ -349,10 +349,10 @@
 							</div>
 						</div>
 						<div class="inline field">
-							<s:if test="#request.locale.language=='jp'">
+							<s:if test="#request.locale.language=='th'">
 								<s:select list="skinInfos"
 									headerKey="" headerValue="-"
-									listKey="skinInfoId" listValue="skinNameJp"
+									listKey="skinInfoId" listValue="skinNameEn"
 									label="Skin " 
 									cssClass="ui search dropdown" 
 									name="girlInfo.skinInfoId">
@@ -361,7 +361,7 @@
 							<s:else>
 								<s:select list="skinInfos"
 									headerKey="" headerValue="-"
-									listKey="skinInfoId" listValue="skinNameEn"
+									listKey="skinInfoId" listValue="skinNameJp"
 									label="Skin " 
 									cssClass="ui search dropdown" 
 									name="girlInfo.skinInfoId">
@@ -390,9 +390,9 @@
 							</div>
 						</div>
 						<div class="inline field">
-							<s:if test="#request.locale.language=='jp'">
+							<s:if test="#request.locale.language=='th'">
 								<s:select list="zoneInfos"
-									listKey="zoneInfoId" listValue="zoneNameJp"
+									listKey="zoneInfoId" listValue="zoneNameEn"
 									label="Location" 
 									cssClass="ui search dropdown" 
 									name="girlInfo.location">
@@ -400,7 +400,7 @@
 							</s:if>
 							<s:else>
 								<s:select list="zoneInfos"
-									listKey="zoneInfoId" listValue="zoneNameEn"
+									listKey="zoneInfoId" listValue="zoneNameJp"
 									label="Location" 
 									cssClass="ui search dropdown" 
 									name="girlInfo.location">

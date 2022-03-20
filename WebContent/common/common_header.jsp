@@ -16,7 +16,7 @@
 	border-color: #555555;
 	border-width: 1px 1px 1px 0;
 	background: linear-gradient(#6E6E6E 50%, #2e2e2e 50%);
-  	font-size: calc(1px + 1vw);
+  	font-size: 14px;
   }
   .ui.menu:not(.vertical) > .item:first-child {
   	border-left-width: 1px;
@@ -98,6 +98,9 @@
 	  .slick-list {
 	  	background: inherit;
 	  }
+	  .ui.modal, .ui.modal>.actions {
+	  	text-align: center;
+	  }
   </style>
   <script>
   $(document)
@@ -110,7 +113,7 @@
     	  autoplaySpeed: 3000,
     	  arrows: true
       });
-      $('.ui.sidebar')
+      $('.ui.sidebar.menu')
       .sidebar('setting', {
          dimPage          : true,
          transition       : "overlay",
@@ -120,6 +123,24 @@
     	;
       $('.ui.accordion')
       .accordion()
+      var key = 'thainightnavi_cookies', value = 'accept', age_days = 90;
+      if(!document.cookie.includes(key + '=' + value)) {
+			$('.ui.cookie.sidebar').sidebar('setting', {
+		         dimPage          : true,
+		         transition       : "overlay",
+		         mobileTransition : "overlay",
+		         closable         : false
+		       }).sidebar('show');
+			$('.ui.cookie.sidebar .ui.accept.button').on('click', function() {
+				document.cookie = key + '=' + value + '; Path=/; SameSite=Strict; Max-Age=' + (60 * 60 * 24 * age_days);
+				$('.ui.cookie.sidebar').sidebar('hide');
+				$('.ui.basic.modal')
+				.modal('setting', {
+		         closable         : false
+		       }).modal('show')
+				;
+			});
+		};
     })
   ;
   </script>

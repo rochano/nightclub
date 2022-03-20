@@ -394,9 +394,9 @@
 							<s:textfield name="girlSearch.nickName" label="Nick Name "/>
 						</div>
 						<div class="inline field">
-							<s:if test="#request.locale.language=='jp'">
+							<s:if test="#request.locale.language=='th'">
 								<s:select list="zoneInfos"
-									listKey="zoneInfoId" listValue="zoneNameJp"
+									listKey="zoneInfoId" listValue="zoneNameEn"
 									label="Location " 
 									cssClass="ui search dropdown" 
 									name="girlSearch.location">
@@ -404,7 +404,7 @@
 							</s:if>
 							<s:else>
 								<s:select list="zoneInfos"
-									listKey="zoneInfoId" listValue="zoneNameEn"
+									listKey="zoneInfoId" listValue="zoneNameJp"
 									label="Location " 
 									cssClass="ui search dropdown" 
 									name="girlSearch.location">
@@ -458,11 +458,11 @@
 									<td><s:property value="nickName" /></td>
 									<td class="center aligned"><s:property value="age" /></td>
 									<td>
-										<s:if test="#request.locale.language=='jp'">
-											<s:property value="zoneInfo.zoneNameJp" />
+										<s:if test="#request.locale.language=='th'">
+											<s:property value="zoneInfo.zoneNameEn" />
 										</s:if>
 										<s:else>
-											<s:property value="zoneInfo.zoneNameEn" />
+											<s:property value="zoneInfo.zoneNameJp" />
 										</s:else>
 									</td>
 									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="height"/></s:text></td>
@@ -541,9 +541,9 @@
 			</div>
 		</div>
 		<div class="inline field">
-			<s:if test="#request.locale.language=='jp'">
+			<s:if test="#request.locale.language=='th'">
 				<s:select list="zoneInfos"
-					listKey="zoneInfoId" listValue="zoneNameJp"
+					listKey="zoneInfoId" listValue="zoneNameEn"
 					label="Location" 
 					cssClass="ui search dropdown" 
 					name="girlInfo.location">
@@ -551,7 +551,7 @@
 			</s:if>
 			<s:else>
 				<s:select list="zoneInfos"
-					listKey="zoneInfoId" listValue="zoneNameEn"
+					listKey="zoneInfoId" listValue="zoneNameJp"
 					label="Location" 
 					cssClass="ui search dropdown" 
 					name="girlInfo.location">

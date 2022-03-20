@@ -68,14 +68,14 @@
 						<div class="ui centered four column doubling grid data ">
 						<s:if test="%{zoneInfos.size gte 0}">
 							<s:iterator value="zoneInfos" status="status">
-								<s:if test="#request.locale.language=='jp'">
+								<s:if test="#request.locale.language=='th'">
 									<a href="<s:url value="/search/%{zoneInfoId}"/>" class="ui column center aligned inverted">
-										<s:property value="zoneNameJp" />
+										<s:property value="zoneNameEn" />
 									</a>
 								</s:if>
 								<s:else>
 									<a href="<s:url value="/search/%{zoneInfoId}"/>" class="ui column center aligned inverted">
-										<s:property value="zoneNameEn" />
+										<s:property value="zoneNameJp" />
 									</a>
 								</s:else>
 							</s:iterator>

@@ -342,9 +342,9 @@
 							</div>
 						</div>
 						<div class="inline field">
-							<s:if test="#request.locale.language=='jp'">
+							<s:if test="#request.locale.language=='th'">
 								<s:select list="zoneInfos"
-									listKey="zoneInfoId" listValue="zoneNameJp"
+									listKey="zoneInfoId" listValue="zoneNameEn"
 									label="Location" 
 									cssClass="ui search dropdown" 
 									name="girlInfo.location">
@@ -352,7 +352,7 @@
 							</s:if>
 							<s:else>
 								<s:select list="zoneInfos"
-									listKey="zoneInfoId" listValue="zoneNameEn"
+									listKey="zoneInfoId" listValue="zoneNameJp"
 									label="Location" 
 									cssClass="ui search dropdown" 
 									name="girlInfo.location">

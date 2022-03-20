@@ -16,3 +16,31 @@
 		<p class="copy">COPYRIGHT(C) ALL RIGHTS RESERVED.</p>
 	</div>
 </div>
+<div class="ui bottom cookie sidebar">
+	<div class="ui vertical inverted center aligned segment">
+		This site uses cookies. By continuing to use this site you agree with our cookie policy.
+		<div class="ui borderless pipe"></div>
+		<button class="ui small inverted compact marginless accept button">Got it</button>
+	</div>
+</div>
+<div class="ui basic modal">
+  <div class="ui icon header">
+    <i class="language icon"></i>
+    Default Language
+  </div>
+  <div class="content">
+    <p>Please select default language below</p>
+  </div>
+  <div class="actions">
+    <div class="ui large buttons">
+		<a class="ui blue button" href="<s:url value="?request_cookie_locale=jp"/>">
+			<i class="jp flag"></i>
+			JP
+		</a>
+		<a class="ui orange button" href="<s:url value="?request_cookie_locale=th"/>">
+			<i class="th flag"></i>
+			TH
+		</a>
+	</div>
+  </div>
+</div>

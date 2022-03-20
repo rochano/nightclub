@@ -38,11 +38,19 @@
 	    <result-types>
 	        <result-type name="bytesResult" class="com.nightclub.result.BytesResult"/>
 	    </result-types>
+	    <interceptors>
+	    	<interceptor name="i18n" class="org.apache.struts2.interceptor.I18nInterceptor"/>
+	    	<interceptor-stack name="i18nStack">
+                <interceptor-ref name="i18n"/>
+                <interceptor-ref name="basicStack"/>
+            </interceptor-stack>
+	    </interceptors>
 	    
 	    <default-action-ref name="home"/>
 	    
 		<action name="home"
 			class="com.nightclub.view.FrontEndAction" method="execute">
+			<interceptor-ref name="i18nStack" />
 			<result name="success">/home.jsp</result>
 		</action>
 		
