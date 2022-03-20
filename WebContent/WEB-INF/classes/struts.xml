@@ -43,14 +43,14 @@
 	    	<interceptor-stack name="i18nStack">
                 <interceptor-ref name="i18n"/>
                 <interceptor-ref name="basicStack"/>
+                <interceptor-ref name="paramsPrepareParamsStack" />
             </interceptor-stack>
 	    </interceptors>
-	    
+	    <default-interceptor-ref name="i18nStack"/>
 	    <default-action-ref name="home"/>
 	    
 		<action name="home"
 			class="com.nightclub.view.FrontEndAction" method="execute">
-			<interceptor-ref name="i18nStack" />
 			<result name="success">/home.jsp</result>
 		</action>
 		
@@ -187,15 +187,15 @@
 	
 	<package name="shop" extends="struts-default" namespace="/shop">
 	    
-	    <interceptors>
-			<interceptor class="com.nightclub.interceptor.LoginInterceptor" name="loginInterceptor">
-			</interceptor>
-			<interceptor-stack name="loginStack">
-				<interceptor-ref name="loginInterceptor" />
-				<interceptor-ref name="defaultStack" />
-			</interceptor-stack>
-		</interceptors>
-		
+		<interceptors>
+	    	<interceptor name="i18n" class="org.apache.struts2.interceptor.I18nInterceptor"/>
+	    	<interceptor-stack name="i18nStack">
+                <interceptor-ref name="i18n"/>
+                <interceptor-ref name="basicStack"/>
+                <interceptor-ref name="paramsPrepareParamsStack" />
+            </interceptor-stack>
+	    </interceptors>
+	    <default-interceptor-ref name="i18nStack"/>
 	    <default-action-ref name="index"/>
 	    
 	    <action name="*"
@@ -291,8 +291,10 @@
 	    <interceptors>
 			<interceptor class="com.nightclub.interceptor.LoginInterceptor" name="loginInterceptor">
 			</interceptor>
+			<interceptor name="i18n" class="org.apache.struts2.interceptor.I18nInterceptor"/>
 			<interceptor-stack name="loginStack">
 				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="i18n" />
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 			
@@ -553,8 +555,10 @@
 	    <interceptors>
 			<interceptor class="com.nightclub.interceptor.AdminLoginInterceptor" name="adminLoginInterceptor">
 			</interceptor>
+			<interceptor name="i18n" class="org.apache.struts2.interceptor.I18nInterceptor"/>
 			<interceptor-stack name="adminLoginStack">
 				<interceptor-ref name="adminLoginInterceptor" />
+				<interceptor-ref name="i18n" />
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 			
@@ -1054,8 +1058,10 @@
 	    <interceptors>
 			<interceptor class="com.nightclub.interceptor.LoginInterceptor" name="loginInterceptor">
 			</interceptor>
+			<interceptor name="i18n" class="org.apache.struts2.interceptor.I18nInterceptor"/>
 			<interceptor-stack name="loginStack">
 				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="i18n" />
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 			
@@ -1175,8 +1181,10 @@
 	    <interceptors>
 			<interceptor class="com.nightclub.interceptor.LoginInterceptor" name="loginInterceptor">
 			</interceptor>
+			<interceptor name="i18n" class="org.apache.struts2.interceptor.I18nInterceptor"/>
 			<interceptor-stack name="loginStack">
 				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="i18n" />
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 			
@@ -1248,8 +1256,10 @@
 	    <interceptors>
 			<interceptor class="com.nightclub.interceptor.LoginInterceptor" name="loginInterceptor">
 			</interceptor>
+			<interceptor name="i18n" class="org.apache.struts2.interceptor.I18nInterceptor"/>
 			<interceptor-stack name="loginStack">
 				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="i18n" />
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 			
@@ -1321,8 +1331,10 @@
 	    <interceptors>
 			<interceptor class="com.nightclub.interceptor.LoginInterceptor" name="loginInterceptor">
 			</interceptor>
+			<interceptor name="i18n" class="org.apache.struts2.interceptor.I18nInterceptor"/>
 			<interceptor-stack name="loginStack">
 				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="i18n" />
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 			

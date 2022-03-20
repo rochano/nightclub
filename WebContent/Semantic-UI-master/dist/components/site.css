@@ -161,7 +161,7 @@ input::selection {
 *******************************/
 body.pushable>.pusher {
   background: #373534 url(../../../assets/images/subtle_carbon.png) repeat fixed;
-  padding-bottom: 65px;
+  padding-bottom: 80px;
 }
 .container {
   background: inherit;
