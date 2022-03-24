@@ -81,6 +81,16 @@
 	      $('#username').parents(".field:first").addClass("error");
 	      $('#password').parents(".field:first").addClass("error");
       </s:if>
+
+      $('[name=chkUserType]')
+      .on('change', function() {
+        if($(this).val() == "list") {
+            $("#userType").parents(".field:first").removeClass("disabled");
+        } else {
+        	$("#userType").parents(".field:first").addClass("disabled");
+        }
+      })
+    ;
     })
   ;
   </script>
@@ -132,14 +142,35 @@
 							</div>
 							<div class="field">
 								<label>User Type</label>
-								<div class="ui left icon input">
-									<s:select list="#{'1':getText('global.main_menu_service_shop'), 
-													'2':getText('global.main_menu_agents'), 
-													'3':getText('global.main_menu_free_agents'), 
-													'5':getText('global.main_menu_en_girls'), 
-													'4':'นักท่องเที่ยวมาตามหาน้องๆ'}"
-										name="userType">
-									</s:select>
+							</div>
+							<div class="grouped fields">
+								<div class="field">
+									<div class="ui left icon input">
+										<div class="ui radio checkbox">
+											<input type="radio" name="chkUserType" id="userType_4"
+												checked value="4">
+											<label for="userType_4">นักท่องเที่ยวมาตามหาน้องๆ</label>
+										</div>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui left icon input">
+										<div class="ui radio checkbox">
+											<input type="radio" name="chkUserType" id="userType_list"
+												value="list">
+											<label for="userType_list">น้องไซด์ไลน์ ต้องการลงโพสต์</label>
+										</div>
+									</div>
+								</div>
+								<div class="field disabled">
+									<div class="ui left icon input">
+										<s:select list="#{'1':getText('global.main_menu_service_shop'), 
+														'2':getText('global.main_menu_agents'), 
+														'3':getText('global.main_menu_free_agents'), 
+														'5':getText('global.main_menu_en_girls')}"
+											name="userType">
+										</s:select>
+									</div>
 								</div>
 							</div>
 							<div class="ui fluid large teal submit button">Login</div>

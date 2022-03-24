@@ -35,6 +35,13 @@
   @media only screen and (max-width: 767px) {
   	#shoplist-wrapper {overflow: scroll;}
   }
+  .ui.image {
+	width: auto;
+	height: 160px;
+  }
+  .ui.image img {
+	height: 100%;
+  }
   </style>
   <script type="text/javascript">
   $(document)
@@ -99,7 +106,7 @@
 
 				<div class="center aligned column">
 					<div class="ui centered attached segment soft">
-						<div class="ui centered six doubling cards ">
+						<div class="ui centered four doubling cards ">
 						<s:if test="%{girlInfos.size gte 0}">
 							<s:iterator value="girlInfos" status="status">
 								<div class="ui red card">

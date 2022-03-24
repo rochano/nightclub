@@ -78,19 +78,6 @@
 				<div class="center aligned column">
 					<div class="ui segment header">
 						<h2 class="ui top header">
-							<i class="help circle icon blue"></i>
-							<div class="content"><s:text name="global.over_18_years_old" /></div>
-						</h2>
-					</div>
-					<div class="ui centered attached segment">
-						<a href="<s:url value="/shoplist"/>" class="ui massive button green"><i class="checkmark icon"></i><s:text name="global.yes" /></a>
-						<a href="#" class="ui massive button red"><i class="remove icon"></i><s:text name="global.no" /></a>
-					</div>
-				</div>
-				
-				<div class="center aligned column">
-					<div class="ui segment header">
-						<h2 class="ui top header">
 							<i class="idea icon orange"></i>
 							<div class="content"><s:text name="global.what_is_thainightnavi" /></div>
 						</h2>

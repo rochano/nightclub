@@ -68,7 +68,7 @@
 		  			<div class="ui segment header">
 						<h2 class="ui top header">
 							<i class="bookmark icon yellow"></i>
-							<div class="content"><s:text name="global.main_menu_how_to_use" /></div>
+							<div class="content"><s:text name="global.main_menu_how_to_use_title" /></div>
 						</h2>
 					</div>
 					<div class="ui grid attached segment">

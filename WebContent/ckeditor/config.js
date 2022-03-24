@@ -13,7 +13,8 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
 		{ name: 'basicStyles', items: [ 'Bold', 'Italic', 'Strike', '-', 'RemoveFormat' ] },
 		{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', '-', 'Blockquote' ] },
-		{ name: 'styles', items: [ 'Styles', 'Format' ] },
+		{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+		{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
 		{ name: 'tools', items: [ 'Maximize' ] }
 	];
 };

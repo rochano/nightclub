@@ -68,7 +68,16 @@
                   prompt : 'Confirm password mismatch.'
                 },
               ]
-            }
+            },
+            chk_over18: {
+                identifier  : 'chk_over18',
+                rules: [
+                  {
+                    type   : 'checked',
+                    prompt : 'You must agree to the over 18 years conditions'
+                  },
+                ]
+              }
           }
         })
       ;
@@ -78,6 +87,16 @@
 	      $('#username').parents(".field:first").addClass("error");
 	      $('#password').parents(".field:first").addClass("error");
       </s:if>
+
+      $('[name=chkUserType]')
+      .on('change', function() {
+        if($(this).val() == "list") {
+            $("#userType").parents(".field:first").removeClass("disabled");
+        } else {
+        	$("#userType").parents(".field:first").addClass("disabled");
+        }
+      })
+    ;
     })
   ;
   </script>
@@ -98,7 +117,7 @@
 			<h2 class="ui teal image header">
 				<img src="assets/images/logo.png" class="image">
 				<div class="content">
-					Sign-up for registration
+					Log-in to your account
 				</div>
 			</h2>
 			<form class="ui large form inverted" name="form1" method="post" action="<s:url value="/signup"/>">
@@ -124,18 +143,47 @@
 							<s:password name="confirmpassword" placeholder="Confirm Password" />  
 						</div>
 					</div>
-					<div class="field">
-						<label>User Type</label>
-						<div class="ui left icon input">
-							<s:select list="#{'1':getText('global.main_menu_service_shop'), 
-											'2':getText('global.main_menu_agents'), 
-											'3':getText('global.main_menu_free_agents'), 
-											'5':getText('global.main_menu_en_girls'), 
-											'4':'นักท่องเที่ยวมาตามหาน้องๆ'}"
-								name="userType">
-							</s:select>
-						</div>
-					</div>
+							<div class="field">
+								<label>User Type</label>
+							</div>
+							<div class="grouped fields">
+								<div class="field">
+									<div class="ui left icon input">
+										<div class="ui radio checkbox">
+											<input type="radio" name="chkUserType" id="userType_4"
+												checked value="4">
+											<label for="userType_4">นักท่องเที่ยวมาตามหาน้องๆ</label>
+										</div>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui left icon input">
+										<div class="ui radio checkbox">
+											<input type="radio" name="chkUserType" id="userType_list"
+												value="list">
+											<label for="userType_list">น้องไซด์ไลน์ ต้องการลงโพสต์</label>
+										</div>
+									</div>
+								</div>
+								<div class="field disabled">
+									<div class="ui left icon input">
+										<s:select list="#{'1':getText('global.main_menu_service_shop'), 
+														'2':getText('global.main_menu_agents'), 
+														'3':getText('global.main_menu_free_agents'), 
+														'5':getText('global.main_menu_en_girls')}"
+											name="userType">
+										</s:select>
+									</div>
+								</div>
+							</div>
+							<div class="field inverted">
+							 	<div class="ui left icon input">
+									<div class="ui checkbox">
+										<input type="checkbox" name="chk_over18" id="chk_over18">
+										<label for="chk_over18">คุณยอมรับว่ามีอายุมากกว่า 18 ปี</label>
+									</div>
+								</div>
+							</div>
 					<div class="ui fluid large teal submit button">Signup</div>
 				</div>
 				<div class="ui error message"><s:actionerror cssClass="list" /></div>

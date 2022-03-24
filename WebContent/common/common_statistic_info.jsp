@@ -14,6 +14,9 @@
 		.ui.grid .ui.stackable.grid {
 			margin-left: auto !important; margin-right: auto !important;}
 	}
+	.ui.menu .header.item.link a {
+		font-size: 18px;
+	}
 </style>
 <%-- <script type="text/javascript">
 $(document)
@@ -27,7 +30,7 @@ $(document)
 </script> --%>
 <div class="ui inverted menu fixed">
 	<div class="menu">
-		<div class="header item">
+		<div class="header item link">
 			<a href="<s:url value="/"/>">THAINIGHTNAVI.COM</a>
 		</div>
 	</div>
