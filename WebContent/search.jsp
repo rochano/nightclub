@@ -71,11 +71,50 @@
   	-webkit-flex-grow: 0;
   	-ms-flex-positive: 0;
   }
+  .ui.form select {
+  	width: 150px;
+  }
   </style>
     <!--- Example Javascript -->
   <script>
   $(document)
     .ready(function() {
+    	<s:if test="clientInfo != null">
+		$(".toggleFavourite").click(function() {
+			var favouriteIcon = $(this).find("i");
+			var girlInfoId = $(this).attr("data-girlInfoId");
+			var favourite = 0;
+			if (favouriteIcon.hasClass("outline")) {
+				favouriteIcon.removeClass("outline");
+				/* toggleFavourite.addClass("red") */
+				favourite = 1;
+			} else {
+				favouriteIcon.removeClass("red");
+				/* toggleFavourite.addClass("outline") */
+			}
+			favouriteIcon.removeClass("heart");
+			favouriteIcon.addClass("spinner");
+			$.getJSON("<s:url value="/ajax/toggleFavouriteJson/" />" + girlInfoId + "/" + favourite,
+			function(jsonResponse) {
+				favouriteIcon.removeClass("spinner");
+				favouriteIcon.addClass("heart");
+				if (jsonResponse.favourite === '1') {
+					favouriteIcon.removeClass("outline");
+					favouriteIcon.addClass("red")
+				} else {
+					favouriteIcon.removeClass("red");
+					favouriteIcon.addClass("outline")
+				}
+  			});
+		});
+		</s:if>
+		<s:else>
+		$('.toggleFavourite')
+			.popup({
+				on: 'click'
+			})
+		;
+		</s:else>
 	  $('#searchForm.ui.form')
       .form({
           fields: {}
