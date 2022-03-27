@@ -86,6 +86,7 @@
 			$("#frontSearch_categoryInfoId").removeAttr("disabled");
 		} else {
 			$("#frontSearch_categoryInfoId").attr("disabled", "disabled");
+			$("#frontSearch_categoryInfoId").val($("#frontSearch_categoryInfoId option:first").val());
 		}
      });
      $("#frontSearch_chkAgents").click(function() {
@@ -93,6 +94,7 @@
  			$("#frontSearch_agentInfoId").removeAttr("disabled");
  		} else {
  			$("#frontSearch_agentInfoId").attr("disabled", "disabled");
+ 			$("#frontSearch_categoryInfoId").val($("#frontSearch_categoryInfoId option:first").val());
  		}
      });
      $("#frontSearch_chkIncallOutcall").click(function() {
@@ -100,8 +102,17 @@
   			$("#frontSearch_incallOutcall").removeAttr("disabled");
   		} else {
   			$("#frontSearch_incallOutcall").attr("disabled", "disabled");
+  			 $("#frontSearch_incallOutcall").val($("#frontSearch_incallOutcall option:first").val());
   		}
      });
+     $(".clear").click(function() {
+    	 $("#frontSearch_categoryInfoId").attr("disabled", "disabled");
+    	 $("#frontSearch_categoryInfoId").val($("#frontSearch_categoryInfoId option:first").val());
+    	 $("#frontSearch_agentInfoId").attr("disabled", "disabled");
+    	 $("#frontSearch_agentInfoId").val($("#frontSearch_agentInfoId option:first").val());
+    	 $("#frontSearch_incallOutcall").attr("disabled", "disabled");
+    	 $("#frontSearch_incallOutcall").val($("#frontSearch_incallOutcall option:first").val());
+     })
     })
   ;
   </script>
@@ -216,40 +227,45 @@
 									name="frontSearch.gender"></s:select>
 								</div>
 								<br/>
-								<div class="field">
-									<label><s:text name="global.location_specify" /></label>
-								</div>
-								<div class="ui four column grid stackable">
-									<s:if test="#request.locale.language=='th'">
-										<s:iterator value="zoneInfos" status="rowstatus">
-											<div class="column">
-												<div class="field ui checkbox">
-													<input type="checkbox" name="frontSearch.zoneInfos" id="zoneInfos_<s:property value="#rowstatus.count" />"
-														<s:iterator value="frontSearch.zoneInfos" >
-															<s:property value="top" />
-															<s:if test="top == zoneInfoId">checked="checked"</s:if>
-														</s:iterator>
-														value="<s:property value="zoneInfoId" />">
-													<label for="zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
-												</div>
-											</div>
-										</s:iterator>
-									</s:if>
-									<s:else>
-										<s:iterator value="zoneInfos" status="rowstatus">
-											<div class="column">
-												<div class="field ui checkbox">
-													<input type="checkbox" name="frontSearch.zoneInfos" id="zoneInfos_<s:property value="#rowstatus.count" />"
-														<s:iterator value="frontSearch.zoneInfos" >
-															<s:property value="top" />
-															<s:if test="top == zoneInfoId">checked="checked"</s:if>
-														</s:iterator>
-														value="<s:property value="zoneInfoId" />">
-													<label for="zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameJp" /></label>
-												</div>
-											</div>
-										</s:iterator>
-									</s:else>
+								<div class="ui inverted accordion">
+									<div class="title">
+										<label><s:text name="global.location_specify" /></label>
+										<i class="dropdown icon"></i>
+									</div>
+									<div class="content">
+										<div class="ui four column grid doubling">
+											<s:if test="#request.locale.language=='th'">
+												<s:iterator value="zoneInfos" status="rowstatus">
+													<div class="column">
+														<div class="field ui checkbox">
+															<input type="checkbox" name="frontSearch.zoneInfos" id="zoneInfos_<s:property value="#rowstatus.count" />"
+																<s:iterator value="frontSearch.zoneInfos" >
+																	<s:property value="top" />
+																	<s:if test="top == zoneInfoId">checked="checked"</s:if>
+																</s:iterator>
+																value="<s:property value="zoneInfoId" />">
+															<label for="zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
+														</div>
+													</div>
+												</s:iterator>
+											</s:if>
+											<s:else>
+												<s:iterator value="zoneInfos" status="rowstatus">
+													<div class="column">
+														<div class="field ui checkbox">
+															<input type="checkbox" name="frontSearch.zoneInfos" id="zoneInfos_<s:property value="#rowstatus.count" />"
+																<s:iterator value="frontSearch.zoneInfos" >
+																	<s:property value="top" />
+																	<s:if test="top == zoneInfoId">checked="checked"</s:if>
+																</s:iterator>
+																value="<s:property value="zoneInfoId" />">
+															<label for="zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameJp" /></label>
+														</div>
+													</div>
+												</s:iterator>
+											</s:else>
+										</div>
+									</div>
 								</div>
 								<br/>
 								<div class="inline field">
