@@ -41,6 +41,11 @@
   .ui.image img {
 	height: 100%;
   }
+  .ui.cards > .card > .content, .ui.card > .content {
+  	flex-grow: 0;
+  	-webkit-flex-grow: 0;
+  	-ms-flex-positive: 0;
+  }
   </style>
   <script type="text/javascript">
   $(document)

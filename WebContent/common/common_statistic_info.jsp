@@ -120,7 +120,7 @@ $(document)
 						<s:if test="getText('display.statistic.today_view') == 1">
 							<div class="statistic">
 								<div class="value">
-									<i class="user icon blue ui cicular image"></i>
+									<i class="user icon blue"></i>
 									<s:text name="format.integer">
 										<s:param name="value" value="statisticModel.todayView"/>
 									</s:text>

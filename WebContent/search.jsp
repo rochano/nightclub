@@ -42,7 +42,69 @@
   .ui.grid.data > a[class*="center aligned"].column:hover {
     background: #555555;
   }
+  .ui.inverted.form label,
+  .ui.form .inline.field > label {
+  	color: rgba(255, 255, 255, 0.9);
+  }
+  .ui.checkbox label, .ui.form select {
+  	display: inline-block;
+  	width: auto;
+  }
+  ui.form select {
+    margin-top: 0em;
+    margin-bottom: 0em;
+    vertical-align: middle;
+    font-size: 1em;
+  }
+  .ui.checkbox label {
+  	margin: 0em 0.85714286em 0em 0em;
+  }
+  .ui.image {
+	width: auto;
+	height: 160px;
+  }
+  .ui.image img {
+	height: 100%;
+  }
+  .ui.cards > .card > .content, .ui.card > .content {
+  	flex-grow: 0;
+  	-webkit-flex-grow: 0;
+  	-ms-flex-positive: 0;
+  }
   </style>
+    <!--- Example Javascript -->
+  <script>
+  $(document)
+    .ready(function() {
+	  $('#searchForm.ui.form')
+      .form({
+          fields: {}
+      })
+      ;
+     $("#frontSearch_chkCategory").click(function() {
+		if($(this).prop("checked") == true) {
+			$("#frontSearch_categoryInfoId").removeAttr("disabled");
+		} else {
+			$("#frontSearch_categoryInfoId").attr("disabled", "disabled");
+		}
+     });
+     $("#frontSearch_chkAgents").click(function() {
+ 		if($(this).prop("checked") == true) {
+ 			$("#frontSearch_agentInfoId").removeAttr("disabled");
+ 		} else {
+ 			$("#frontSearch_agentInfoId").attr("disabled", "disabled");
+ 		}
+     });
+     $("#frontSearch_chkIncallOutcall").click(function() {
+  		if($(this).prop("checked") == true) {
+  			$("#frontSearch_incallOutcall").removeAttr("disabled");
+  		} else {
+  			$("#frontSearch_incallOutcall").attr("disabled", "disabled");
+  		}
+     });
+    })
+  ;
+  </script>
 </head>
 <body>
 <!-- Sidebar Menu -->
@@ -62,31 +124,252 @@
 					<i class="right chevron icon divider"></i>
 					<div class="active section"><s:text name="global.main_menu_search" /></div>
 				</div>
-
+				
 				<div class="center aligned column">
+					<div class="ui segment header">
+						<h4 class="ui top header">
+							<i class="filter icon"></i>
+							<s:text name="global.search_condition" />
+						</h4>
+					</div>
+					<div class="ui grid attached segment">
+						<div class="column one left aligned">
+							<form class="ui inverted form" id="searchForm" method="post" action="<s:url value="/search"/>">
+								<div class="field">
+									<label><s:text name="global.service_type_specify" /></label>
+								</div>
+								<div class="inline field">
+									<div class="ui checkbox">
+										<input type="checkbox" name="frontSearch.chkCategory" id="frontSearch_chkCategory"
+											<s:if test="frontSearch.chkCategory == 'true'">checked="checked"</s:if>
+											value="true" />
+										<label for="frontSearch_chkCategory"><s:text name="global.main_menu_service_shop" /></label>
+										<s:if test="#request.locale.language=='th'">
+											<select name="frontSearch.categoryInfoId" id="frontSearch_categoryInfoId" 
+												<s:if test="frontSearch.chkCategory == 'true'"></s:if>
+												<s:else>disabled="disabled"</s:else>
+												>
+												<option value=""></option>
+												<s:iterator value="categoryInfos">
+													<option value="<s:property value="categoryInfoId" />"
+													<s:if test="frontSearch.categoryInfoId == categoryInfoId">selected="selected"</s:if>
+													><s:property value="categoryNameEn" /></option>
+												</s:iterator>
+											</select>
+										</s:if>
+										<s:else>
+											<select name="frontSearch.categoryInfoId" id="frontSearch_categoryInfoId" 
+												<s:if test="frontSearch.chkCategory == 'true'"></s:if>
+												<s:else>disabled="disabled"</s:else>
+												>
+												<option value=""></option>
+												<s:iterator value="categoryInfos">
+													<option value="<s:property value="categoryInfoId" />"
+													<s:if test="frontSearch.categoryInfoId == categoryInfoId">selected="selected"</s:if>
+													><s:property value="categoryNameJp" /></option>
+												</s:iterator>
+											</select>
+										</s:else>
+									</div>
+								</div>
+								<div class="inline field">
+									<div class="ui checkbox">
+										<input type="checkbox" name="frontSearch.chkAgents" id="frontSearch_chkAgents"
+											<s:if test="frontSearch.chkAgents == 'true'">checked="checked"</s:if>
+											value="true" />
+										<label for="frontSearch_chkAgents"><s:text name="global.main_menu_agents" /></label>
+										<select name="frontSearch.agentInfoId" id="frontSearch_agentInfoId"
+											<s:if test="frontSearch.chkAgents == 'true'"></s:if>
+											<s:else>disabled="disabled"</s:else>
+											>
+											<option value=""></option>
+											<s:iterator value="agentInfos">
+												<option value="<s:property value="agentInfoId" />"
+												<s:if test="frontSearch.agentInfoId == agentInfoId">selected="selected"</s:if>
+												><s:property value="agentName" /></option>
+											</s:iterator>
+										</select>
+									</div>
+								</div>
+								<div class="inline field">
+									<div class="ui checkbox">
+										<input type="checkbox" name="frontSearch.chkFreeAgents" id="frontSearch_chkFreeAgents"
+											<s:if test="frontSearch.chkFreeAgents == 'true'">checked="checked"</s:if>
+											value="true" />
+										<label for="frontSearch_chkFreeAgents"><s:text name="global.main_menu_free_agents" /></label>
+									</div>
+								</div>
+								<div class="inline field">
+									<div class="ui checkbox">
+										<input type="checkbox" name="frontSearch.chkEnGirls" id="frontSearch_chkEnGirls"
+											<s:if test="frontSearch.chkEnGirls == 'true'">checked="checked"</s:if>
+											value="true" />
+										<label for="frontSearch_chkEnGirls"><s:text name="global.main_menu_en_girls" /></label>
+									</div>
+								</div>
+								<br/>
+								<div class="inline field">
+									<label><s:text name="global.gender_specify" /></label>
+									<s:select list="#{'':'',
+										'Straight':getText('global.gender_straight'),
+										'Transgender':getText('global.gender_transgender')}"
+									name="frontSearch.gender"></s:select>
+								</div>
+								<br/>
+								<div class="field">
+									<label><s:text name="global.location_specify" /></label>
+								</div>
+								<div class="ui four column grid stackable">
+									<s:if test="#request.locale.language=='th'">
+										<s:iterator value="zoneInfos" status="rowstatus">
+											<div class="column">
+												<div class="field ui checkbox">
+													<input type="checkbox" name="frontSearch.zoneInfos" id="zoneInfos_<s:property value="#rowstatus.count" />"
+														<s:iterator value="frontSearch.zoneInfos" >
+															<s:property value="top" />
+															<s:if test="top == zoneInfoId">checked="checked"</s:if>
+														</s:iterator>
+														value="<s:property value="zoneInfoId" />">
+													<label for="zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
+												</div>
+											</div>
+										</s:iterator>
+									</s:if>
+									<s:else>
+										<s:iterator value="zoneInfos" status="rowstatus">
+											<div class="column">
+												<div class="field ui checkbox">
+													<input type="checkbox" name="frontSearch.zoneInfos" id="zoneInfos_<s:property value="#rowstatus.count" />"
+														<s:iterator value="frontSearch.zoneInfos" >
+															<s:property value="top" />
+															<s:if test="top == zoneInfoId">checked="checked"</s:if>
+														</s:iterator>
+														value="<s:property value="zoneInfoId" />">
+													<label for="zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameJp" /></label>
+												</div>
+											</div>
+										</s:iterator>
+									</s:else>
+								</div>
+								<br/>
+								<div class="inline field">
+									<div class="ui checkbox">
+										<input type="checkbox" name="frontSearch.chkIncallOutcall" id="frontSearch_chkIncallOutcall"
+											<s:if test="frontSearch.chkIncallOutcall == 'true'">checked="checked"</s:if>
+											value="true" />
+										<label for="frontSearch_chkIncallOutcall"><s:text name="global.incall_outcall_specify" /></label>
+										<select name="frontSearch.incallOutcall" id="frontSearch_incallOutcall"
+											<s:if test="frontSearch.chkIncallOutcall == 'true'"></s:if>
+											<s:else>disabled="disabled"</s:else>
+											>
+											<option value=""></option>
+											<option value="1" <s:if test="frontSearch.incallOutcall == 1">selected="selected"</s:if>><s:text name="global.incall" /></option>
+											<option value="2" <s:if test="frontSearch.incallOutcall == 2">selected="selected"</s:if>><s:text name="global.outcall" /></option>
+										</select>
+									</div>
+								</div>
+								<s:hidden name="action" value="search"></s:hidden>
+								<div class="ui error message"></div>
+								<div class="ui right aligned one column grid">
+									<div class="column">
+										<div class="ui small button submit blue">Search</div>
+										<div class="ui small button clear">Clear</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				
+				<div class="center aligned column">
+					<div class="ui segment header">
+						<h4 class="ui top header">
+							<i class="list icon"></i>
+							<s:text name="global.search_result" />
+						</h4>
+					</div>
 					<div class="ui centered attached segment soft">
-						<div class="ui centered four column doubling grid data ">
-						<s:if test="%{zoneInfos.size gte 0}">
-							<s:iterator value="zoneInfos" status="status">
-								<s:if test="#request.locale.language=='th'">
-									<a href="<s:url value="/search/%{zoneInfoId}"/>" class="ui column center aligned inverted">
-										<s:property value="zoneNameEn" />
-									</a>
-								</s:if>
-								<s:else>
-									<a href="<s:url value="/search/%{zoneInfoId}"/>" class="ui column center aligned inverted">
-										<s:property value="zoneNameJp" />
-									</a>
-								</s:else>
+						<div class="ui centered four doubling cards ">
+						<s:if test="%{girlInfos.size gte 0}">
+							<s:iterator value="girlInfos" status="status">
+								<div class="ui red card">
+									<div class="image ui centered corner labeled" >
+										<a class="ui right corner label toggleFavourite link" 
+												data-girlInfoId="<s:property value="girlInfoId" />"
+												data-content="Please login first" data-variation="tiny">
+											<i class="heart 
+												<s:if test="girlFavourites.indexOf(girlInfoId) != -1">red</s:if>
+												<s:else>outline</s:else>
+												icon"></i>
+										</a>
+										<a href="<s:url value="/girl/%{girlInfoId}"/>" >
+											<s:if test="pic1 != null">
+												<img class="image ui centered" src="<s:property value="pic1" />">
+											</s:if>
+											<s:else>
+												<img class="image ui centered" src="<s:url value="/assets/images/wireframe/square-image.png" />">
+											</s:else>
+										</a>
+									</div>
+									<div class="content left aligned label pink circular ui">
+										<span class="right floated">
+											<s:property value="girlInfo.class.name" />
+											<s:if test="%{type != null}" >
+												<s:text name="format.integer"><s:param name="value" value="price"/></s:text>
+											</s:if>
+											<s:else>
+												<s:if test="chk40Mins == 'true'">
+													<s:text name="format.integer"><s:param name="value" value="price40Mins"/></s:text>
+												</s:if>
+												<s:elseif test="chk60Mins == 'true'">
+													<s:text name="format.integer"><s:param name="value" value="price60Mins"/></s:text>
+												</s:elseif>
+												<s:elseif test="chk90Mins == 'true'">
+													<s:text name="format.integer"><s:param name="value" value="price90Mins"/></s:text>
+												</s:elseif>
+												<s:elseif test="chk120Mins == 'true'">
+													<s:text name="format.integer"><s:param name="value" value="price120Mins"/></s:text>
+												</s:elseif>
+												<s:elseif test="chk6Hrs == 'true'">
+													<s:text name="format.integer"><s:param name="value" value="price6Hrs"/></s:text>
+												</s:elseif>
+											</s:else>
+										</span>
+										ตรงปก
+									</div>
+									<div class="content left aligned">
+										<a class="ui header " href="<s:url value="/girl/%{girlInfoId}"/>"><s:property value="nickName" /></a>
+										<div class="description">
+											<s:if test="%{type != null}" >
+												<s:text name="global.job" /> : 
+												<s:if test="type == 1"><s:text name="global.en_girl_type_1" /></s:if>
+												<s:if test="type == 2"><s:text name="global.en_girl_type_2" /></s:if>
+												<s:if test="type == 3"><s:text name="global.en_girl_type_3" /></s:if>
+												<br/>
+											</s:if>
+											<s:elseif test="%{agentInfo != null}">
+												<s:property value="agentInfo.agentName" /><br/>
+											</s:elseif>
+											<i class="marker icon"></i>
+											<s:if test="zoneInfo != null">
+												<s:if test="#request.locale.language=='th'">
+													<s:text name="zoneInfo.zoneNameEn" />
+												</s:if>
+												<s:else>
+													<s:text name="zoneInfo.zoneNameJp" />
+												</s:else>
+											</s:if>
+										</div>
+									</div>
+								</div>
 							</s:iterator>
 						</s:if>
-						<s:if test="%{zoneInfos.size eq 0}">
+						<s:if test="%{girlInfos.size eq 0}">
 							<s:text name="global.no_data" />
 						</s:if>
 						</div>
 					</div>
 				</div>
-			    
 			</div>
 		</div>
 	</div>

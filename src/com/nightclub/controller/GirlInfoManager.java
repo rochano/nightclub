@@ -1,13 +1,16 @@
 package com.nightclub.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.viralpatel.contact.util.HibernateUtil;
 
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.classic.Session;
 
+import com.nightclub.model.FrontSearch;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
@@ -422,6 +425,125 @@ public class GirlInfoManager extends HibernateUtil {
 //					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
 					.list();
 			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return girlInfos;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GirlInfo> search(FrontSearch frontSearch) {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<GirlInfo> girlInfos = new ArrayList();
+		try {
+			String sql = "";
+			List<GirlInfo> shopGirlInfoList = new ArrayList();
+			List<GirlInfo> agentGirlInfoList = new ArrayList();
+			List<GirlInfo> freeAgentGirlInfoList = new ArrayList();
+			List<GirlInfo> enGirlInfoList = new ArrayList();
+			Query query;
+			if (frontSearch.getChkCategory() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkCategory())) {
+				sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo, BasicInfo basicInfo ";
+				sql += "where DTYPE = 'ShopGirlInfo' and girlInfo.shopInfoId = userInfo.shopInfoId and girlInfo.available = :availableShopGirlInfo ";
+				sql += "and girlInfo.shopInfoId = basicInfo.shopInfoId ";
+				if (!frontSearch.getCategoryInfoId().isEmpty()) {
+					sql += " and basicInfo.categoryInfoId = :categoryInfoId ";
+				}
+				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
+					sql += " and girlInfo.gender = :gender ";
+				}
+				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
+					sql += " and girlInfo.location in (:zoneInfoIdList) ";
+				}
+				query = session.createQuery(sql.toString());
+				query = query.setParameter("availableShopGirlInfo", Boolean.TRUE.toString().toLowerCase());
+				if (!frontSearch.getCategoryInfoId().isEmpty()) {
+					query = query.setParameter("categoryInfoId", frontSearch.getCategoryInfoId());
+				}
+				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
+					query = query.setParameter("gender", frontSearch.getGender());
+				}
+				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
+					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
+				}
+				shopGirlInfoList = (List<GirlInfo>)query.list();
+				girlInfos.addAll(shopGirlInfoList);
+			}
+
+			if (frontSearch.getChkAgents() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkAgents())) {
+				sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo ";
+				sql += "where DTYPE = 'AgentGirlInfo' and girlInfo.agentInfoId = userInfo.agentInfoId and girlInfo.available = :availableAgentGirlInfo ";
+				if (!frontSearch.getAgentInfoId().isEmpty()) {
+					sql += " and girlInfo.agentInfoId = :agentInfoId ";
+				}
+				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
+					sql += " and girlInfo.gender = :gender ";
+				}
+				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
+					sql += " and girlInfo.location in (:zoneInfoIdList) ";
+				}
+				query = session.createQuery(sql.toString());
+				query = query.setParameter("availableAgentGirlInfo", Boolean.TRUE.toString().toLowerCase());
+				if (frontSearch.getChkAgents() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkAgents())) {
+					if (!frontSearch.getAgentInfoId().isEmpty()) {
+						query = query.setParameter("agentInfoId", frontSearch.getAgentInfoId());
+					}
+				}
+				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
+					query = query.setParameter("gender", frontSearch.getGender());
+				}
+				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
+					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
+				}
+				agentGirlInfoList = (List<GirlInfo>)query.list();
+				girlInfos.addAll(agentGirlInfoList);
+			}
+			
+			if (frontSearch.getChkFreeAgents() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkFreeAgents())) {
+				sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo ";
+				sql += "where DTYPE = 'FreeAgentGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId ";
+				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
+					sql += " and girlInfo.gender = :gender ";
+				}
+				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
+					sql += " and girlInfo.location in (:zoneInfoIdList) ";
+				}
+				query = session.createQuery(sql.toString());
+				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
+					query = query.setParameter("gender", frontSearch.getGender());
+				}
+				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
+					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
+				}
+				freeAgentGirlInfoList = (List<GirlInfo>)query.list();
+				girlInfos.addAll(freeAgentGirlInfoList);
+			}
+
+			if (frontSearch.getChkEnGirls() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkEnGirls())) {
+				sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo ";
+				sql += "where DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId ";
+				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
+					sql += " and girlInfo.gender = :gender ";
+				}
+				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
+					sql += " and girlInfo.location in (:zoneInfoIdList) ";
+				}
+				query = session.createQuery(sql.toString());
+				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
+					query = query.setParameter("gender", frontSearch.getGender());
+				}
+				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
+					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
+				}
+				enGirlInfoList = (List<GirlInfo>)query.list();
+				girlInfos.addAll(enGirlInfoList);
+			}
+
+
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();

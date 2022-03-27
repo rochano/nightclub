@@ -19,6 +19,7 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	private UserInfo userInfo;
 	private String username;
 	private String password;
+	private String chkUserType;
 	private String userType;
 	private String menu;
 	
@@ -39,12 +40,15 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 
 	public String login() {
         if (username != null && password != null) {
+        	if(IConstants.USER_TYPE_CLIENT.equals(chkUserType)) {
+        		userType = IConstants.USER_TYPE_CLIENT;
+        	}
         	this.userInfo = linkController.authenticate(username, password, userType);
         	
         	if(this.userInfo != null) {
         		// add userName to the session
         		
-        		if(userType.equals(IConstants.USER_TYPE_ADMIN)) {
+        		if(IConstants.USER_TYPE_ADMIN.equals(userType)) {
         			sessionMap.put("adminInfo", userInfo);
         			return SUCCESS;
         		}
@@ -64,22 +68,22 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 //        		}
         		
         		// user
-        		if(userType.equals(IConstants.USER_TYPE_SHOP)) {
+        		if(IConstants.USER_TYPE_SHOP.equals(userType)) {
         			sessionMap.put("userInfo", userInfo);
         			return SHOP_SERVICE;
 
         		// agent
-        		} else if(userType.equals(IConstants.USER_TYPE_AGENT)) {
+        		} else if(IConstants.USER_TYPE_AGENT.equals(userType)) {
         			sessionMap.put("userInfo", userInfo);
         			return AGENT;
 
 				// free agent
-				} else if(userType.equals(IConstants.USER_TYPE_FREE_AGENT)) {
+				} else if(IConstants.USER_TYPE_FREE_AGENT.equals(userType)) {
 					sessionMap.put("userInfo", userInfo);
 					return FREE_AGENT;
         		
 				// client
-				} else if(userType.equals(IConstants.USER_TYPE_CLIENT)) {
+				} else if(IConstants.USER_TYPE_CLIENT.equals(userType)) {
 					if(userInfo.getActive().equals(Boolean.TRUE.toString()) 
 							&& userInfo.getValidDateFrom() != null && userInfo.getValidDateTo() != null) {
 	        			Date now = new Date();
@@ -92,7 +96,7 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 					return CLIENT;
 					
 				// entertain girl
-				} else if(userType.equals(IConstants.USER_TYPE_EN_GIRL)) {
+				} else if(IConstants.USER_TYPE_EN_GIRL.equals(userType)) {
 					sessionMap.put("userInfo", userInfo);
 					return EN_GIRL;
 				}
@@ -132,6 +136,9 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	    		this.userInfo.setUserInfoId(UUID.randomUUID().toString().toUpperCase());
 	    		this.userInfo.setUsername(username);
 	    		this.userInfo.setPassword(password);
+	    		if(IConstants.USER_TYPE_CLIENT.equals(chkUserType)) {
+	    			userType = IConstants.USER_TYPE_CLIENT;
+	    		}
 	    		this.userInfo.setUserType(userType);
 	    		this.userInfo.setActive(Boolean.FALSE.toString());
 	    		this.userInfo = linkController.add(userInfo);
@@ -231,6 +238,14 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
+	}
+
+	public String getChkUserType() {
+		return chkUserType;
+	}
+
+	public void setChkUserType(String chkUserType) {
+		this.chkUserType = chkUserType;
 	}
 
 }

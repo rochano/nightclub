@@ -24,6 +24,7 @@ import com.nightclub.model.BasicInfo;
 import com.nightclub.model.CategoryInfo;
 import com.nightclub.model.EnGirlInfo;
 import com.nightclub.model.FreeAgentGirlInfo;
+import com.nightclub.model.FrontSearch;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.HomeInfo;
@@ -58,6 +59,7 @@ public class FrontEndAction extends CommonAction {
 	private List<ZoneInfo> zoneInfos;
 	private ZoneInfo zoneInfo;
 	private List<HomeSlideImage> homeSlideImages;
+	private FrontSearch frontSearch;
 
 	private CategoryInfoManager categoryInfoManager;
 	private BasicInfoManager basicInfoManager;
@@ -211,7 +213,13 @@ public class FrontEndAction extends CommonAction {
 		
 		this.categoryInfos = categoryInfoManager.list();
 		this.homeSlideImages = homeSlideImageManager.list();
+		this.agentInfos = agentInfoManager.list();
 		this.zoneInfos = zoneInfoManager.list();
+		
+		if(this.frontSearch != null) {
+			this.girlInfos = girlInfoManager.search(this.frontSearch);
+		}
+		
 		return SUCCESS;
 	}
 	
@@ -409,5 +417,13 @@ public class FrontEndAction extends CommonAction {
 
 	public void setHomeSlideImages(List<HomeSlideImage> homeSlideImages) {
 		this.homeSlideImages = homeSlideImages;
+	}
+
+	public FrontSearch getFrontSearch() {
+		return frontSearch;
+	}
+
+	public void setFrontSearch(FrontSearch frontSearch) {
+		this.frontSearch = frontSearch;
 	}
 }
