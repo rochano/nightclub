@@ -17,6 +17,7 @@ import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.AgentGirlInfo;
 import com.nightclub.model.AgentInfo;
 import com.nightclub.model.GirlInfo;
+import com.nightclub.model.GirlLocation;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
 import com.nightclub.model.GirlSetting;
@@ -34,6 +35,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	private List<GirlInfo> girlInfos;
 	private AgentGirlInfo girlInfo;
 	private AgentGirlInfo girlSearch;
+	private List<String> searchGirlLocations;
 	private String girlInfoId;
 	private String menu;
 	private String action;
@@ -48,7 +50,8 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	private ArrayList<String> heightList;
 	private ArrayList<String> weightList;
 	private List<ZoneInfo> zoneInfos;
-	
+	private List<String> girlLocations;
+
 	private AgentGirlInfoManager girlInfoManager;
 	private GirlSettingManager girlSettingManager;
 	private ZoneInfoManager zoneInfoManager;
@@ -140,6 +143,18 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	            	girlService.setFreeAgentGirlInfo(this.girlInfo);
 					this.girlInfo.getGirlServices().add(girlService);
 				}
+	            this.girlInfo.getGirlLocations().clear();
+	            GirlLocation girlLocation;
+	            for(String zoneInfoId : this.girlLocations) {
+	            	ZoneInfo zoneInfo = new ZoneInfo();
+	            	zoneInfo.setZoneInfoId(zoneInfoId);
+
+	            	girlLocation = new GirlLocation();
+	            	girlLocation.setZoneInfo(zoneInfo);
+	            	girlLocation.setGirlInfo(this.girlInfo);
+					this.girlInfo.getGirlLocations().add(girlLocation);
+				}
+	            
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	            addActionError(e.getMessage());
@@ -258,6 +273,17 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	            	girlService.setFreeAgentGirlInfo(this.girlInfo);
 	            	this.girlInfo.getGirlServices().add(girlService);
 				}
+	            this.girlInfo.getGirlLocations().clear();
+	            GirlLocation girlLocation;
+	            for(String zoneInfoId : this.girlLocations) {
+	            	ZoneInfo zoneInfo = new ZoneInfo();
+	            	zoneInfo.setZoneInfoId(zoneInfoId);
+
+	            	girlLocation = new GirlLocation();
+	            	girlLocation.setZoneInfo(zoneInfo);
+	            	girlLocation.setGirlInfo(this.girlInfo);
+					this.girlInfo.getGirlLocations().add(girlLocation);
+				}
 	            
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -316,6 +342,13 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 				this.girlServices.add(girlService.getGirlServiceInfo().getGirlServiceInfoId());
 			}
 		}
+		this.girlLocations = new ArrayList<String>();
+		List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
+		if(girlLocations != null) {
+			for(GirlLocation girlLocation : girlLocations) {
+				this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
+			}
+		}
 		return SUCCESS;
 	}
 
@@ -331,7 +364,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	public String search() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.girlSearch.setAgentInfoId(userInfo.getAgentInfoId());
-		this.girlInfos = girlInfoManager.search(this.girlSearch);
+		this.girlInfos = girlInfoManager.search(this.girlSearch, this.searchGirlLocations);
 		setFormValue(userInfo);
 		return SUCCESS;
 	}
@@ -557,5 +590,21 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 
 	public void setZoneInfos(List<ZoneInfo> zoneInfos) {
 		this.zoneInfos = zoneInfos;
+	}
+	
+	public List<String> getGirlLocations() {
+		return girlLocations;
+	}
+
+	public void setGirlLocations(List<String> girlLocations) {
+		this.girlLocations = girlLocations;
+	}
+
+	public List<String> getSearchGirlLocations() {
+		return searchGirlLocations;
+	}
+
+	public void setSearchGirlLocations(List<String> searchGirlLocations) {
+		this.searchGirlLocations = searchGirlLocations;
 	}
 }

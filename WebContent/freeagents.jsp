@@ -169,14 +169,20 @@
 										<a class="ui header " href="<s:url value="/girl/%{girlInfoId}"/>"><s:property value="nickName" /></a>
 										<div class="description">
 											<i class="marker icon"></i>
-											<s:if test="zoneInfo != null">
-												<s:if test="#request.locale.language=='th'">
-													<s:text name="zoneInfo.zoneNameEn" />
-												</s:if>
-												<s:else>
-													<s:text name="zoneInfo.zoneNameJp" />
-												</s:else>
+											<s:if test="#request.locale.language=='th'">
+												<s:iterator value="girlLocations" >
+													<div class="ui medium label">
+														<s:property value="primaryKey.zoneInfo.zoneNameEn" />
+													</div>
+												</s:iterator>
 											</s:if>
+											<s:else>
+												<s:iterator value="girlLocations" >
+													<div class="ui medium label">
+														<s:property value="primaryKey.zoneInfo.zoneNameJp" />
+													</div>
+												</s:iterator>
+											</s:else>
 										</div>
 									</div>
 								</div>

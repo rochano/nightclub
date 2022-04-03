@@ -17,6 +17,7 @@ import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.EnGirlInfo;
 import com.nightclub.model.FreeAgentGirlInfo;
 import com.nightclub.model.GirlInfo;
+import com.nightclub.model.GirlLocation;
 import com.nightclub.model.GirlSetting;
 import com.nightclub.model.SkinInfo;
 import com.nightclub.model.UserInfo;
@@ -49,6 +50,7 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 	private ArrayList<String> weightList;
 	private List<ZoneInfo> zoneInfos;
 	private List<SkinInfo> skinInfos;
+	private List<String> girlLocations;
 	
     private String pic1FileName;
     private String pic2FileName;
@@ -71,6 +73,13 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 			this.girlInfo = new EnGirlInfo();
 		}
 		setFormValue(userInfo);
+		this.girlLocations = new ArrayList<String>();
+		List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
+		if(girlLocations != null) {
+			for(GirlLocation girlLocation : girlLocations) {
+				this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
+			}
+		}
 
 		return SUCCESS;
 	}
@@ -154,6 +163,17 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 	            }
 	            
 	            this.girlInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.girlInfo.getDescription(), sessionMap, userInfo));
+	            this.girlInfo.getGirlLocations().clear();
+	            GirlLocation girlLocation;
+	            for(String zoneInfoId : this.girlLocations) {
+	            	ZoneInfo zoneInfo = new ZoneInfo();
+	            	zoneInfo.setZoneInfoId(zoneInfoId);
+
+	            	girlLocation = new GirlLocation();
+	            	girlLocation.setZoneInfo(zoneInfo);
+	            	girlLocation.setGirlInfo(this.girlInfo);
+					this.girlInfo.getGirlLocations().add(girlLocation);
+				}
 	            
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -355,5 +375,13 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 
 	public void setSkinInfos(List<SkinInfo> skinInfos) {
 		this.skinInfos = skinInfos;
+	}
+
+	public List<String> getGirlLocations() {
+		return girlLocations;
+	}
+
+	public void setGirlLocations(List<String> girlLocations) {
+		this.girlLocations = girlLocations;
 	}
 }

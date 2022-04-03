@@ -1,6 +1,7 @@
 package com.nightclub.controller;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import net.viralpatel.contact.util.HibernateUtil;
@@ -11,6 +12,7 @@ import org.hibernate.Query;
 import org.hibernate.classic.Session;
 
 import com.nightclub.model.GirlInfo;
+import com.nightclub.model.GirlLocation;
 import com.nightclub.model.ShopGirlInfo;
 
 public class ShopGirlInfoManager extends GirlInfoManager {
@@ -23,11 +25,18 @@ public class ShopGirlInfoManager extends GirlInfoManager {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		List<GirlInfo> girlInfos = null;
+		GirlInfo girlInfo;
+		List<GirlLocation> girlLocations;
 		try {
 			
 			girlInfos = (List<GirlInfo>)session.createQuery("from ShopGirlInfo where shopInfoId = :shopInfoId ")
 					.setParameter("shopInfoId", shopInfoId).list();
-			
+			Iterator it = girlInfos.iterator();
+			while(it.hasNext()) {
+				girlInfo = (GirlInfo) it.next();
+				girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+				girlInfo.setGirlLocations(girlLocations);
+			}
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
@@ -179,44 +188,54 @@ public class ShopGirlInfoManager extends GirlInfoManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<GirlInfo> search(ShopGirlInfo girlInfo ) {
+	public List<GirlInfo> search(ShopGirlInfo searchGirlInfo, List<String> searchGirlLocations ) {
 		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		List<GirlInfo> girlInfos = null;
+		GirlInfo girlInfo;
+		List<GirlLocation> girlLocations;
 		try {
 			
-			log_.info("shopInfoId >> [" + girlInfo.getShopInfoId() + "]");
-			log_.info("nickName >> [" + girlInfo.getNickName() + "]");
-			log_.info("category >> [" + girlInfo.getCategory() + "]");
-			log_.info("location >> [" + girlInfo.getLocation() + "]");
+			log_.info("shopInfoId >> [" + searchGirlInfo.getShopInfoId() + "]");
+			log_.info("nickName >> [" + searchGirlInfo.getNickName() + "]");
+			log_.info("category >> [" + searchGirlInfo.getCategory() + "]");
+			log_.info("location >> [" + searchGirlLocations + "]");
 			
 			StringBuffer sql = new StringBuffer();
-			sql.append("from ShopGirlInfo ");
-			sql.append("where shopInfoId = :shopInfoId ");
-			if(!girlInfo.getNickName().isEmpty()) {
-				sql.append("and nickName like :nickName ");
+			sql.append("from ShopGirlInfo g ");
+			sql.append("where g.shopInfoId = :shopInfoId ");
+			if(!searchGirlInfo.getNickName().isEmpty()) {
+				sql.append("and g.nickName like :nickName ");
 			}
-			if(!girlInfo.getCategory().isEmpty()) {
-				sql.append("and category like :category ");
+			if(!searchGirlInfo.getCategory().isEmpty()) {
+				sql.append("and g.category like :category ");
 			}
-			if(!girlInfo.getLocation().isEmpty()) {
-				sql.append("and location like :location ");
+			if(searchGirlLocations != null && searchGirlLocations.size() > 0) {
+				sql.append("and exists(select 1 from GirlLocation gl "
+						+ "where gl.primaryKey.girlInfo.girlInfoId = g.girlInfoId "
+						+ "and gl.primaryKey.zoneInfo.zoneInfoId in (:location)) ");
 			}
 			
 			Query query = session.createQuery(sql.toString());
-			query.setParameter("shopInfoId", girlInfo.getShopInfoId());
-			if(!girlInfo.getNickName().isEmpty()) {
-				query.setParameter("nickName", '%'+girlInfo.getNickName()+'%');
+			query.setParameter("shopInfoId", searchGirlInfo.getShopInfoId());
+			if(!searchGirlInfo.getNickName().isEmpty()) {
+				query.setParameter("nickName", '%'+searchGirlInfo.getNickName()+'%');
 			}
-			if(!girlInfo.getCategory().isEmpty()) {
-				query.setParameter("category", '%'+girlInfo.getCategory()+'%');
+			if(!searchGirlInfo.getCategory().isEmpty()) {
+				query.setParameter("category", '%'+searchGirlInfo.getCategory()+'%');
 			}
-			if(!girlInfo.getLocation().isEmpty()) {
-				query.setParameter("location", '%'+girlInfo.getLocation()+'%');
+			if(searchGirlLocations != null && searchGirlLocations.size() > 0) {
+				query.setParameterList("location", searchGirlLocations.toArray());
 			}
 			
 			girlInfos = (List<GirlInfo>)query.list();
+			Iterator it = girlInfos.iterator();
+			while(it.hasNext()) {
+				girlInfo = (GirlInfo) it.next();
+				girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+				girlInfo.setGirlLocations(girlLocations);
+			}
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();

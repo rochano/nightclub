@@ -47,7 +47,7 @@
 </head>
 <body>
 <!-- Sidebar Menu -->
-<s:set name="base_url" value="%{''}" />
+<s:set name="base_url" value="%{'shoplist/'}" />
 <%@include file="/common/common_new_menu_sidebar.jsp" %>
 <div class="pusher">
 	<div class="ui segment very basic">

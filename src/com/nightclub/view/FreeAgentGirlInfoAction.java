@@ -15,6 +15,7 @@ import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.FreeAgentGirlInfo;
 import com.nightclub.model.GirlInfo;
+import com.nightclub.model.GirlLocation;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
 import com.nightclub.model.GirlSetting;
@@ -48,6 +49,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	private ArrayList<String> heightList;
 	private ArrayList<String> weightList;
 	private List<ZoneInfo> zoneInfos;
+	private List<String> girlLocations;
 	
     private String pic1FileName;
     private String pic2FileName;
@@ -76,6 +78,13 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		if(girlServices != null) {
 			for(GirlService girlService : girlServices) {
 				this.girlServices.add(girlService.getGirlServiceInfo().getGirlServiceInfoId());
+			}
+		}
+		this.girlLocations = new ArrayList<String>();
+		List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
+		if(girlLocations != null) {
+			for(GirlLocation girlLocation : girlLocations) {
+				this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
 			}
 		}
 
@@ -171,6 +180,17 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	            	girlService.setGirlServiceInfo(girlServiceInfo);
 	            	girlService.setFreeAgentGirlInfo(this.girlInfo);
 	            	this.girlInfo.getGirlServices().add(girlService);
+				}
+	            this.girlInfo.getGirlLocations().clear();
+	            GirlLocation girlLocation;
+	            for(String zoneInfoId : this.girlLocations) {
+	            	ZoneInfo zoneInfo = new ZoneInfo();
+	            	zoneInfo.setZoneInfoId(zoneInfoId);
+
+	            	girlLocation = new GirlLocation();
+	            	girlLocation.setZoneInfo(zoneInfo);
+	            	girlLocation.setGirlInfo(this.girlInfo);
+					this.girlInfo.getGirlLocations().add(girlLocation);
 				}
 	            
 	        } catch (Exception e) {
@@ -381,5 +401,13 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		this.heightList = makeList(girlSetting.getHeightFrom(), girlSetting.getHeightTo());
 		this.weightList = makeList(girlSetting.getWeightFrom(), girlSetting.getWeightTo());
 		this.zoneInfos = zoneInfoManager.list();
+	}
+
+	public List<String> getGirlLocations() {
+		return girlLocations;
+	}
+
+	public void setGirlLocations(List<String> girlLocations) {
+		this.girlLocations = girlLocations;
 	}
 }

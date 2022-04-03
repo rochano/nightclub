@@ -160,14 +160,20 @@
 											<s:if test="type == 3"><s:text name="global.en_girl_type_3" /></s:if>
 											<br/>
 											<i class="marker icon"></i>
-											<s:if test="zoneInfo != null">
-												<s:if test="#request.locale.language=='th'">
-													<s:text name="zoneInfo.zoneNameEn" />
-												</s:if>
-												<s:else>
-													<s:text name="zoneInfo.zoneNameJp" />
-												</s:else>
+											<s:if test="#request.locale.language=='th'">
+												<s:iterator value="girlLocations" >
+													<div class="ui medium label">
+														<s:property value="primaryKey.zoneInfo.zoneNameEn" />
+													</div>
+												</s:iterator>
 											</s:if>
+											<s:else>
+												<s:iterator value="girlLocations" >
+													<div class="ui medium label">
+														<s:property value="primaryKey.zoneInfo.zoneNameJp" />
+													</div>
+												</s:iterator>
+											</s:else>
 										</div>
 									</div>
 								</div>

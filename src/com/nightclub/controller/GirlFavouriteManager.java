@@ -1,5 +1,6 @@
 package com.nightclub.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import net.viralpatel.contact.util.HibernateUtil;
@@ -11,6 +12,7 @@ import com.nightclub.model.ClientInfo;
 import com.nightclub.model.GirlFavourite;
 import com.nightclub.model.GirlFavouriteId;
 import com.nightclub.model.GirlInfo;
+import com.nightclub.model.GirlLocation;
 
 public class GirlFavouriteManager extends HibernateUtil {
 	
@@ -92,6 +94,8 @@ public class GirlFavouriteManager extends HibernateUtil {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		List<GirlInfo> girlFavourites = null;
+		GirlInfo girlInfo;
+		List<GirlLocation> girlLocations;
 		try {
 			
 			girlFavourites = session.createQuery("select girlInfo from GirlFavourite girlFavourite, GirlInfo girlInfo " + 
@@ -99,6 +103,12 @@ public class GirlFavouriteManager extends HibernateUtil {
 					"and girlFavourite.primaryKey.clientInfo.clientInfoId = :clientInfoId ")
 					.setParameter("clientInfoId", clientInfoId)
 					.list();
+			Iterator it = girlFavourites.iterator();
+			while(it.hasNext()) {
+				girlInfo = (GirlInfo) it.next();
+				girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+				girlInfo.setGirlLocations(girlLocations);
+			}
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -106,5 +116,14 @@ public class GirlFavouriteManager extends HibernateUtil {
 		}
 		session.getTransaction().commit();
 		return girlFavourites;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GirlLocation> getGirlLocationListByGirlInfoId(Session session, String girlInfoId) {
+		List<GirlLocation> girlLocations = null;
+		girlLocations = (List<GirlLocation>)session.createQuery("from GirlLocation gl where gl.primaryKey.girlInfo.girlInfoId = :girlInfoId")
+					.setParameter("girlInfoId", girlInfoId)
+					.list();
+		return girlLocations;
 	}
 }

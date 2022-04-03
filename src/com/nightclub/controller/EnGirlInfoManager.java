@@ -1,5 +1,6 @@
 package com.nightclub.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import net.viralpatel.contact.util.HibernateUtil;
@@ -9,6 +10,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
 
 import com.nightclub.model.GirlInfo;
+import com.nightclub.model.GirlLocation;
 
 public class EnGirlInfoManager extends GirlInfoManager {
 	
@@ -37,6 +39,8 @@ public class EnGirlInfoManager extends GirlInfoManager {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		List<GirlInfo> girlInfos = null;
+		GirlInfo girlInfo;
+		List<GirlLocation> girlLocations;
 		try {
 			
 			girlInfos = (List<GirlInfo>)session.createQuery("select enGirlInfo from EnGirlInfo enGirlInfo, UserInfo userInfo " +
@@ -46,6 +50,12 @@ public class EnGirlInfoManager extends GirlInfoManager {
 //					"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
 //					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
 					.list();
+			Iterator it = girlInfos.iterator();
+			while(it.hasNext()) {
+				girlInfo = (GirlInfo) it.next();
+				girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+				girlInfo.setGirlLocations(girlLocations);
+			}
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();

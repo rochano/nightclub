@@ -72,6 +72,8 @@
 		<mapping class="com.nightclub.model.EnGirlInfo" />
 		<mapping class="com.nightclub.model.SkinInfo" />
 		<mapping class="com.nightclub.model.HomeSlideImage" />
+		<mapping class="com.nightclub.model.GirlLocation" />
+		<mapping class="com.nightclub.model.GirlLocationId" />
 
 	</session-factory>
 

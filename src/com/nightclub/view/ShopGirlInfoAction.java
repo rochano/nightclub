@@ -13,11 +13,14 @@ import com.nightclub.controller.BasicInfoManager;
 import com.nightclub.controller.GirlSettingManager;
 import com.nightclub.controller.ShopGirlInfoManager;
 import com.nightclub.controller.UserInfoManager;
+import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.BasicInfo;
 import com.nightclub.model.GirlInfo;
+import com.nightclub.model.GirlLocation;
 import com.nightclub.model.GirlSetting;
 import com.nightclub.model.ShopGirlInfo;
 import com.nightclub.model.UserInfo;
+import com.nightclub.model.ZoneInfo;
 import com.nightclub.util.UploadFileUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -30,6 +33,7 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 	private List<GirlInfo> girlInfos;
 	private ShopGirlInfo girlInfo;
 	private ShopGirlInfo girlSearch;
+	private List<String> searchGirlLocations;
 	private String girlInfoId;
 	private String menu;
 	private String action;
@@ -41,11 +45,14 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 	private ArrayList<String> hipSizeList;
 	private ArrayList<String> heightList;
 	private ArrayList<String> weightList;
+	private List<ZoneInfo> zoneInfos;
+	private List<String> girlLocations;
 
 	private ShopGirlInfoManager girlInfoManager;
 	private GirlSettingManager girlSettingManager;
 	private BasicInfoManager basicInfoManager;
 	private UserInfoManager userInfoManager;
+	private ZoneInfoManager zoneInfoManager;
 
     private String pic1FileName;
     private String pic2FileName;
@@ -60,6 +67,7 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 		girlSettingManager = new GirlSettingManager();
 		basicInfoManager = new BasicInfoManager();
 		userInfoManager = new UserInfoManager();
+		zoneInfoManager = new ZoneInfoManager();
 	}
 	
 	public String execute() {
@@ -117,6 +125,17 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 	            }
 	            
 	            this.girlInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.girlInfo.getDescription(), sessionMap, userInfo));
+	            this.girlInfo.getGirlLocations().clear();
+	            GirlLocation girlLocation;
+	            for(String zoneInfoId : this.girlLocations) {
+	            	ZoneInfo zoneInfo = new ZoneInfo();
+	            	zoneInfo.setZoneInfoId(zoneInfoId);
+
+	            	girlLocation = new GirlLocation();
+	            	girlLocation.setZoneInfo(zoneInfo);
+	            	girlLocation.setGirlInfo(this.girlInfo);
+					this.girlInfo.getGirlLocations().add(girlLocation);
+				}
 	            
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -225,6 +244,17 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 	            }
 	            
 	            this.girlInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.girlInfo.getDescription(), sessionMap, userInfo));
+	            this.girlInfo.getGirlLocations().clear();
+	            GirlLocation girlLocation;
+	            for(String zoneInfoId : this.girlLocations) {
+	            	ZoneInfo zoneInfo = new ZoneInfo();
+	            	zoneInfo.setZoneInfoId(zoneInfoId);
+
+	            	girlLocation = new GirlLocation();
+	            	girlLocation.setZoneInfo(zoneInfo);
+	            	girlLocation.setGirlInfo(this.girlInfo);
+					this.girlInfo.getGirlLocations().add(girlLocation);
+				}
 	            
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -275,6 +305,13 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
         }
 		this.showInfo = true;
 		this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
+		this.girlLocations = new ArrayList<String>();
+		List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
+		if(girlLocations != null) {
+			for(GirlLocation girlLocation : girlLocations) {
+				this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
+			}
+		}
 		setFormValue(userInfo);
 		return SUCCESS;
 	}
@@ -291,7 +328,7 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 	public String search() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.girlSearch.setShopInfoId(userInfo.getShopInfoId());
-		this.girlInfos = girlInfoManager.search(this.girlSearch);
+		this.girlInfos = girlInfoManager.search(this.girlSearch, this.searchGirlLocations);
 		setFormValue(userInfo);
 		return SUCCESS;
 	}
@@ -498,5 +535,30 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 		this.hipSizeList = makeList(girlSetting.getHipSizeFrom(), girlSetting.getHipSizeTo());
 		this.heightList = makeList(girlSetting.getHeightFrom(), girlSetting.getHeightTo());
 		this.weightList = makeList(girlSetting.getWeightFrom(), girlSetting.getWeightTo());
+		this.zoneInfos = zoneInfoManager.list();
+	}
+
+	public List<String> getSearchGirlLocations() {
+		return searchGirlLocations;
+	}
+
+	public void setSearchGirlLocations(List<String> searchGirlLocations) {
+		this.searchGirlLocations = searchGirlLocations;
+	}
+
+	public List<ZoneInfo> getZoneInfos() {
+		return zoneInfos;
+	}
+
+	public void setZoneInfos(List<ZoneInfo> zoneInfos) {
+		this.zoneInfos = zoneInfos;
+	}
+
+	public List<String> getGirlLocations() {
+		return girlLocations;
+	}
+
+	public void setGirlLocations(List<String> girlLocations) {
+		this.girlLocations = girlLocations;
 	}
 }

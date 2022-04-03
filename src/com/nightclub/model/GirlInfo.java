@@ -1,16 +1,17 @@
 package com.nightclub.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.Length;
 
 @Entity
@@ -24,7 +25,7 @@ public class GirlInfo extends BaseModel implements Serializable{
 //	private String code;
 	private String nickName;
 //	private String category;
-	private String location;
+//	private String location;
 	private Integer age;
 	private Integer bustSize;
 	private Integer waistSize;
@@ -39,9 +40,11 @@ public class GirlInfo extends BaseModel implements Serializable{
 	private String pic5;
 	private String available;
 	
-	private ZoneInfo zoneInfo;
+//	private ZoneInfo zoneInfo;
 	
 //	private BasicInfo basicInfo;
+	
+	private List<GirlLocation> girlLocations = new ArrayList<GirlLocation>();
 	
 	@Id
 	@Column(name="girl_info_id")
@@ -65,10 +68,10 @@ public class GirlInfo extends BaseModel implements Serializable{
 //	public String getCategory() {
 //		return category;
 //	}
-	@Column(name="location")
-	public String getLocation() {
-		return location;
-	}
+//	@Column(name="location")
+//	public String getLocation() {
+//		return location;
+//	}
 	@Column(name="age")
 	public Integer getAge() {
 		if (age == null) {
@@ -131,6 +134,11 @@ public class GirlInfo extends BaseModel implements Serializable{
 //	public BasicInfo getBasicInfo() {
 //		return basicInfo;
 //	}
+	@OneToMany(mappedBy = "primaryKey.girlInfo",
+            cascade = CascadeType.ALL)
+	public List<GirlLocation> getGirlLocations() {
+		return girlLocations;
+	}
 	public void setGirlInfoId(String girlInfoId) {
 		this.girlInfoId = girlInfoId;
 	}
@@ -146,9 +154,9 @@ public class GirlInfo extends BaseModel implements Serializable{
 //	public void setCategory(String category) {
 //		this.category = category;
 //	}
-	public void setLocation(String location) {
-		this.location = location;
-	}
+//	public void setLocation(String location) {
+//		this.location = location;
+//	}
 	public void setAge(Integer age) {
 		this.age = age;
 	}
@@ -194,13 +202,17 @@ public class GirlInfo extends BaseModel implements Serializable{
 //	public void setBasicInfo(BasicInfo basicInfo) {
 //		this.basicInfo = basicInfo;
 //	}
-	@OneToOne
-	@NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name="location", referencedColumnName="zone_info_id", insertable=false, updatable=false)
-	public ZoneInfo getZoneInfo() {
-		return zoneInfo;
+//	@OneToOne
+//	@NotFound(action = NotFoundAction.IGNORE)
+//    @JoinColumn(name="location", referencedColumnName="zone_info_id", insertable=false, updatable=false)
+//	public ZoneInfo getZoneInfo() {
+//		return zoneInfo;
+//	}
+//	public void setZoneInfo(ZoneInfo zoneInfo) {
+//		this.zoneInfo = zoneInfo;
+//	}
+	public void setGirlLocations(List<GirlLocation> girlLocations) {
+		this.girlLocations = girlLocations;
 	}
-	public void setZoneInfo(ZoneInfo zoneInfo) {
-		this.zoneInfo = zoneInfo;
-	}
+	
 }

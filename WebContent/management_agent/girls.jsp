@@ -149,7 +149,7 @@
                         prompt : 'Please enter your category'
                       },
                     ]
-                  },
+                  },*/
                 girlInfo_location: {
                     identifier  : 'girlInfo_location',
                     rules: [
@@ -158,7 +158,7 @@
                         prompt : 'Please enter your location'
                       },
                     ]
-                  }, */
+                  }, 
                 girlInfo_age: {
                     identifier  : 'girlInfo_age',
                     rules: [
@@ -393,23 +393,46 @@
 						<div class="inline field">
 							<s:textfield name="girlSearch.nickName" label="Nick Name "/>
 						</div>
-						<div class="inline field">
-							<s:if test="#request.locale.language=='th'">
-								<s:select list="zoneInfos"
-									listKey="zoneInfoId" listValue="zoneNameEn"
-									label="Location " 
-									cssClass="ui search dropdown" 
-									name="girlSearch.location">
-								</s:select>
-							</s:if>
-							<s:else>
-								<s:select list="zoneInfos"
-									listKey="zoneInfoId" listValue="zoneNameJp"
-									label="Location " 
-									cssClass="ui search dropdown" 
-									name="girlSearch.location">
-								</s:select>
-							</s:else>
+						<div class="accordion">
+							<div class="inline field title">
+								<label class="label">Location :
+									<i class="dropdown icon"></i>
+								</label>
+							</div>
+							<div class="content">
+								<div class="ui four column grid doubling">
+									<s:if test="#request.locale.language=='th'">
+										<s:iterator value="zoneInfos" status="rowstatus">
+											<div class="column">
+												<div class="field ui checkbox">
+													<input type="checkbox" name="searchGirlLocations" id="searchGirlLocations_<s:property value="#rowstatus.count" />"
+														<s:iterator value="searchGirlLocations" >
+															<s:property value="top" />
+															<s:if test="top == zoneInfoId">checked="checked"</s:if>
+														</s:iterator>
+														value="<s:property value="zoneInfoId" />">
+													<label for="searchGirlLocations_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
+												</div>
+											</div>
+										</s:iterator>
+									</s:if>
+									<s:else>
+										<s:iterator value="zoneInfos" status="rowstatus">
+											<div class="column">
+												<div class="field ui checkbox">
+													<input type="checkbox" name="searchGirlLocations" id="searchGirlLocations_<s:property value="#rowstatus.count" />"
+														<s:iterator value="searchGirlLocations" >
+															<s:property value="top" />
+															<s:if test="top == zoneInfoId">checked="checked"</s:if>
+														</s:iterator>
+														value="<s:property value="zoneInfoId" />">
+													<label for="searchGirlLocations_<s:property value="#rowstatus.count" />"><s:property value="zoneNameJp" /></label>
+												</div>
+											</div>
+										</s:iterator>
+									</s:else>
+								</div>
+							</div>
 						</div>
 						<div class="ui error message"></div>
 						<div class="ui right aligned one column grid">
@@ -459,10 +482,16 @@
 									<td class="center aligned"><s:property value="age" /></td>
 									<td>
 										<s:if test="#request.locale.language=='th'">
-											<s:property value="zoneInfo.zoneNameEn" />
+											<s:iterator value="girlLocations" >
+												<s:property value="primaryKey.zoneInfo.zoneNameEn" />
+												<br />
+											</s:iterator>
 										</s:if>
 										<s:else>
-											<s:property value="zoneInfo.zoneNameJp" />
+											<s:iterator value="girlLocations" >
+												<s:property value="primaryKey.zoneInfo.zoneNameJp" />
+												<br />
+											</s:iterator>
 										</s:else>
 									</td>
 									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="height"/></s:text></td>
@@ -540,24 +569,47 @@
 				<s:select list="weightList" name="girlInfo.weight" label="W "></s:select>
 			</div>
 		</div>
-		<div class="inline field">
-			<s:if test="#request.locale.language=='th'">
-				<s:select list="zoneInfos"
-					listKey="zoneInfoId" listValue="zoneNameEn"
-					label="Location" 
-					cssClass="ui search dropdown" 
-					name="girlInfo.location">
-				</s:select>
-			</s:if>
-			<s:else>
-				<s:select list="zoneInfos"
-					listKey="zoneInfoId" listValue="zoneNameJp"
-					label="Location" 
-					cssClass="ui search dropdown" 
-					name="girlInfo.location">
-				</s:select>
-			</s:else>
+		<div class="ui accordion">
+			<h4 class="title">
+				Location :
+				<i class="dropdown icon"></i>
+			</h4>
+			<div class="content">
+				<div class="ui four column grid doubling">
+					<s:if test="#request.locale.language=='th'">
+						<s:iterator value="zoneInfos" status="rowstatus">
+							<div class="column">
+								<div class="field ui checkbox">
+									<input type="checkbox" name="girlLocations" id="girlLocations_<s:property value="#rowstatus.count" />"
+										<s:iterator value="girlLocations" >
+											<s:property value="top" />
+											<s:if test="top == zoneInfoId">checked="checked"</s:if>
+										</s:iterator>
+										value="<s:property value="zoneInfoId" />">
+									<label for="girlLocations_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
+								</div>
+							</div>
+						</s:iterator>
+					</s:if>
+					<s:else>
+						<s:iterator value="zoneInfos" status="rowstatus">
+							<div class="column">
+								<div class="field ui checkbox">
+									<input type="checkbox" name="girlLocations" id="girlLocations_<s:property value="#rowstatus.count" />"
+										<s:iterator value="girlLocations" >
+											<s:property value="top" />
+											<s:if test="top == zoneInfoId">checked="checked"</s:if>
+										</s:iterator>
+										value="<s:property value="zoneInfoId" />">
+									<label for="girlLocations_<s:property value="#rowstatus.count" />"><s:property value="zoneNameJp" /></label>
+								</div>
+							</div>
+						</s:iterator>
+					</s:else>
+				</div>
+			</div>
 		</div>
+		<br />
 		<div class="inline field">
 			<s:textfield name="girlInfo.lineId" label="Line "/>
 		</div>
@@ -686,23 +738,29 @@
 				</div>
 			</div>
 		</div>
-		<h4 class="ui horizontal header">
-			Service
-		</h4>
-		<div class="ui four column grid stackable">
-			<s:iterator value="girlServiceInfos" status="rowstatus">
-				<div class="column">
-					<div class="field ui checkbox">
-						<input type="checkbox" name="girlServices" id="girlServices_<s:property value="#rowstatus.count" />"
-							<s:iterator value="girlServices" >
-								<s:property value="top" />
-								<s:if test="top == girlServiceInfoId">checked="checked"</s:if>
-							</s:iterator>
-							value="<s:property value="girlServiceInfoId" />">
-						<label for="girlServices_<s:property value="#rowstatus.count" />"><s:property value="girlServiceName" /></label>
-					</div>
+		<br />
+		<div class="ui accordion">
+			<h4 class="title">
+				Service
+				<i class="dropdown icon"></i>
+			</h4>
+			<div class="content">
+				<div class="ui four column grid doubling">
+					<s:iterator value="girlServiceInfos" status="rowstatus">
+						<div class="column">
+							<div class="field ui checkbox">
+								<input type="checkbox" name="girlServices" id="girlServices_<s:property value="#rowstatus.count" />"
+									<s:iterator value="girlServices" >
+										<s:property value="top" />
+										<s:if test="top == girlServiceInfoId">checked="checked"</s:if>
+									</s:iterator>
+									value="<s:property value="girlServiceInfoId" />">
+								<label for="girlServices_<s:property value="#rowstatus.count" />"><s:property value="girlServiceName" /></label>
+							</div>
+						</div>
+					</s:iterator>
 				</div>
-			</s:iterator>
+			</div>
 		</div>
 		<h4 class="ui horizontal header">
 			Price List

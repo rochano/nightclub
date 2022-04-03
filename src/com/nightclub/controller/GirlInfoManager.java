@@ -1,6 +1,7 @@
 package com.nightclub.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.viralpatel.contact.util.HibernateUtil;
@@ -12,6 +13,7 @@ import org.hibernate.classic.Session;
 
 import com.nightclub.model.FrontSearch;
 import com.nightclub.model.GirlInfo;
+import com.nightclub.model.GirlLocation;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
 
@@ -30,6 +32,7 @@ public class GirlInfoManager extends HibernateUtil {
 	public GirlInfo update(GirlInfo girlInfo) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
+		deleteGirlLocationInfo(girlInfo.getGirlInfoId());
 		deleteGirlServiceInfo(girlInfo.getGirlInfoId());
 		session.saveOrUpdate(girlInfo);
 		session.getTransaction().commit();
@@ -40,6 +43,17 @@ public class GirlInfoManager extends HibernateUtil {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.createQuery("delete from GirlService gs where gs.primaryKey.freeAgentGirlInfo.girlInfoId = :girlInfoId")
+			.setParameter("girlInfoId", girlInfoId).executeUpdate();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+	}
+	
+	public void deleteGirlLocationInfo(String girlInfoId) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			session.createQuery("delete from GirlLocation gl where gl.primaryKey.girlInfo.girlInfoId = :girlInfoId")
 			.setParameter("girlInfoId", girlInfoId).executeUpdate();
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -271,10 +285,13 @@ public class GirlInfoManager extends HibernateUtil {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		GirlInfo girlInfo = null;
+		List<GirlLocation> girlLocations;
 		try {
 			
 			girlInfo = (GirlInfo)session.createQuery("from GirlInfo where girlInfoId = :girlInfoId ")
 					.setParameter("girlInfoId", girlInfoId).uniqueResult();
+			girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+			girlInfo.setGirlLocations(girlLocations);
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -445,6 +462,8 @@ public class GirlInfoManager extends HibernateUtil {
 			List<GirlInfo> agentGirlInfoList = new ArrayList();
 			List<GirlInfo> freeAgentGirlInfoList = new ArrayList();
 			List<GirlInfo> enGirlInfoList = new ArrayList();
+			GirlInfo girlInfo;
+			List<GirlLocation> girlLocations;
 			Query query;
 			if (frontSearch.getChkCategory() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkCategory())) {
 				sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo, BasicInfo basicInfo ";
@@ -457,7 +476,9 @@ public class GirlInfoManager extends HibernateUtil {
 					sql += " and girlInfo.gender = :gender ";
 				}
 				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
-					sql += " and girlInfo.location in (:zoneInfoIdList) ";
+					sql += " and exists(select 1 from GirlLocation gl ";
+					sql += "where gl.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
+					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
 				}
 				query = session.createQuery(sql.toString());
 				query = query.setParameter("availableShopGirlInfo", Boolean.TRUE.toString().toLowerCase());
@@ -471,6 +492,12 @@ public class GirlInfoManager extends HibernateUtil {
 					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
 				}
 				shopGirlInfoList = (List<GirlInfo>)query.list();
+				Iterator it = shopGirlInfoList.iterator();
+				while(it.hasNext()) {
+					girlInfo = (GirlInfo) it.next();
+					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+					girlInfo.setGirlLocations(girlLocations);
+				}
 				girlInfos.addAll(shopGirlInfoList);
 			}
 
@@ -484,7 +511,9 @@ public class GirlInfoManager extends HibernateUtil {
 					sql += " and girlInfo.gender = :gender ";
 				}
 				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
-					sql += " and girlInfo.location in (:zoneInfoIdList) ";
+					sql += " and exists(select 1 from GirlLocation gl ";
+					sql += "where gl.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
+					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
 				}
 				query = session.createQuery(sql.toString());
 				query = query.setParameter("availableAgentGirlInfo", Boolean.TRUE.toString().toLowerCase());
@@ -500,6 +529,12 @@ public class GirlInfoManager extends HibernateUtil {
 					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
 				}
 				agentGirlInfoList = (List<GirlInfo>)query.list();
+				Iterator it = agentGirlInfoList.iterator();
+				while(it.hasNext()) {
+					girlInfo = (GirlInfo) it.next();
+					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+					girlInfo.setGirlLocations(girlLocations);
+				}
 				girlInfos.addAll(agentGirlInfoList);
 			}
 			
@@ -510,7 +545,9 @@ public class GirlInfoManager extends HibernateUtil {
 					sql += " and girlInfo.gender = :gender ";
 				}
 				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
-					sql += " and girlInfo.location in (:zoneInfoIdList) ";
+					sql += " and exists(select 1 from GirlLocation gl ";
+					sql += "where gl.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
+					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
 				}
 				query = session.createQuery(sql.toString());
 				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
@@ -520,6 +557,12 @@ public class GirlInfoManager extends HibernateUtil {
 					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
 				}
 				freeAgentGirlInfoList = (List<GirlInfo>)query.list();
+				Iterator it = freeAgentGirlInfoList.iterator();
+				while(it.hasNext()) {
+					girlInfo = (GirlInfo) it.next();
+					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+					girlInfo.setGirlLocations(girlLocations);
+				}
 				girlInfos.addAll(freeAgentGirlInfoList);
 			}
 
@@ -530,7 +573,9 @@ public class GirlInfoManager extends HibernateUtil {
 					sql += " and girlInfo.gender = :gender ";
 				}
 				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
-					sql += " and girlInfo.location in (:zoneInfoIdList) ";
+					sql += " and exists(select 1 from GirlLocation gl ";
+					sql += "where gl.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
+					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
 				}
 				query = session.createQuery(sql.toString());
 				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
@@ -540,6 +585,12 @@ public class GirlInfoManager extends HibernateUtil {
 					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
 				}
 				enGirlInfoList = (List<GirlInfo>)query.list();
+				Iterator it = enGirlInfoList.iterator();
+				while(it.hasNext()) {
+					girlInfo = (GirlInfo) it.next();
+					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+					girlInfo.setGirlLocations(girlLocations);
+				}
 				girlInfos.addAll(enGirlInfoList);
 			}
 
@@ -550,5 +601,32 @@ public class GirlInfoManager extends HibernateUtil {
 		}
 		session.getTransaction().commit();
 		return girlInfos;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GirlLocation> getGirlLocationListByGirlInfoId(String girlInfoId) {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<GirlLocation> girlLocations = null;
+		try {
+			
+			girlLocations = getGirlLocationListByGirlInfoId(session, girlInfoId);
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return girlLocations;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GirlLocation> getGirlLocationListByGirlInfoId(Session session, String girlInfoId) {
+		List<GirlLocation> girlLocations = null;
+		girlLocations = (List<GirlLocation>)session.createQuery("from GirlLocation gl where gl.primaryKey.girlInfo.girlInfoId = :girlInfoId")
+					.setParameter("girlInfoId", girlInfoId)
+					.list();
+		return girlLocations;
 	}
 }

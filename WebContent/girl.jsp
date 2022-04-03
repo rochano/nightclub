@@ -247,14 +247,18 @@
 													<td class="center aligned one wide"><p>:</p></td>
 													<td>
 														<p>
-															<s:if test="girlInfo.zoneInfo != null">
-																<s:if test="#request.locale.language=='th'">
-																	<s:text name="girlInfo.zoneInfo.zoneNameEn" />
-																</s:if>
-																<s:else>
-																	<s:text name="girlInfo.zoneInfo.zoneNameJp" />
-																</s:else>
+															<s:if test="#request.locale.language=='th'">
+																<s:iterator value="girlInfo.girlLocations" >
+																	<s:property value="primaryKey.zoneInfo.zoneNameEn" />
+																	<br />
+																</s:iterator>
 															</s:if>
+															<s:else>
+																<s:iterator value="girlInfo.girlLocations" >
+																	<s:property value="primaryKey.zoneInfo.zoneNameJp" />
+																	<br />
+																</s:iterator>
+															</s:else>
 														</p>
 													</td>
 												</tr>

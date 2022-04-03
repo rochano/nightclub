@@ -1,5 +1,6 @@
 package com.nightclub.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import net.viralpatel.contact.util.HibernateUtil;
@@ -11,6 +12,7 @@ import org.hibernate.classic.Session;
 
 import com.nightclub.model.AgentGirlInfo;
 import com.nightclub.model.GirlInfo;
+import com.nightclub.model.GirlLocation;
 
 public class AgentGirlInfoManager extends GirlInfoManager {
 	
@@ -27,6 +29,8 @@ public class AgentGirlInfoManager extends GirlInfoManager {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		List<GirlInfo> girlInfos = null;
+		GirlInfo girlInfo;
+		List<GirlLocation> girlLocations;
 		try {
 			String sql = "from AgentGirlInfo where agentInfoId = :agentInfoId ";
 			if(checkAvailable) {
@@ -38,7 +42,12 @@ public class AgentGirlInfoManager extends GirlInfoManager {
 				query = query.setParameter("available", Boolean.TRUE.toString().toLowerCase());
 			}
 			girlInfos = (List<GirlInfo>)query.list();
-			
+			Iterator it = girlInfos.iterator();
+			while(it.hasNext()) {
+				girlInfo = (GirlInfo) it.next();
+				girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+				girlInfo.setGirlLocations(girlLocations);
+			}
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
@@ -48,37 +57,47 @@ public class AgentGirlInfoManager extends GirlInfoManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<GirlInfo> search(AgentGirlInfo girlInfo ) {
+	public List<GirlInfo> search(AgentGirlInfo searchGirlInfo, List<String> searchGirlLocations ) {
 		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		List<GirlInfo> girlInfos = null;
+		GirlInfo girlInfo;
+		List<GirlLocation> girlLocations;
 		try {
 			
-			log_.info("agentInfoId >> [" + girlInfo.getAgentInfoId() + "]");
-			log_.info("nickName >> [" + girlInfo.getNickName() + "]");
-			log_.info("location >> [" + girlInfo.getLocation() + "]");
+			log_.info("agentInfoId >> [" + searchGirlInfo.getAgentInfoId() + "]");
+			log_.info("nickName >> [" + searchGirlInfo.getNickName() + "]");
+			log_.info("location >> [" + searchGirlLocations + "]");
 			
 			StringBuffer sql = new StringBuffer();
-			sql.append("from AgentGirlInfo ");
-			sql.append("where agentInfoId = :agentInfoId ");
-			if(!girlInfo.getNickName().isEmpty()) {
-				sql.append("and nickName like :nickName ");
+			sql.append("from AgentGirlInfo g ");
+			sql.append("where g.agentInfoId = :agentInfoId ");
+			if(!searchGirlInfo.getNickName().isEmpty()) {
+				sql.append("and g.nickName like :nickName ");
 			}
-			if(!girlInfo.getLocation().isEmpty()) {
-				sql.append("and location like :location ");
+			if(searchGirlLocations != null && searchGirlLocations.size() > 0) {
+				sql.append("and exists(select 1 from GirlLocation gl "
+						+ "where gl.primaryKey.girlInfo.girlInfoId = g.girlInfoId "
+						+ "and gl.primaryKey.zoneInfo.zoneInfoId in (:location)) ");
 			}
 			
 			Query query = session.createQuery(sql.toString());
-			query.setParameter("agentInfoId", girlInfo.getAgentInfoId());
-			if(!girlInfo.getNickName().isEmpty()) {
-				query.setParameter("nickName", '%'+girlInfo.getNickName()+'%');
+			query.setParameter("agentInfoId", searchGirlInfo.getAgentInfoId());
+			if(!searchGirlInfo.getNickName().isEmpty()) {
+				query.setParameter("nickName", '%'+searchGirlInfo.getNickName()+'%');
 			}
-			if(!girlInfo.getLocation().isEmpty()) {
-				query.setParameter("location", '%'+girlInfo.getLocation()+'%');
+			if(searchGirlLocations != null && searchGirlLocations.size() > 0) {
+				query.setParameterList("location", searchGirlLocations.toArray());
 			}
 			
 			girlInfos = (List<GirlInfo>)query.list();
+			Iterator it = girlInfos.iterator();
+			while(it.hasNext()) {
+				girlInfo = (GirlInfo) it.next();
+				girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+				girlInfo.setGirlLocations(girlLocations);
+			}
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -135,6 +154,8 @@ public class AgentGirlInfoManager extends GirlInfoManager {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		List<GirlInfo> girlInfos = null;
+		GirlInfo girlInfo;
+		List<GirlLocation> girlLocations;
 		try {
 			
 			girlInfos = (List<GirlInfo>)session.createQuery("select agentGirlInfo " + 
@@ -146,6 +167,12 @@ public class AgentGirlInfoManager extends GirlInfoManager {
 //							.setParameter("active", Boolean.TRUE.toString().toLowerCase())
 							.setParameter("available", Boolean.TRUE.toString().toLowerCase())
 							.list();
+			Iterator it = girlInfos.iterator();
+			while(it.hasNext()) {
+				girlInfo = (GirlInfo) it.next();
+				girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+				girlInfo.setGirlLocations(girlLocations);
+			}
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
