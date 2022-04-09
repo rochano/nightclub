@@ -49,12 +49,13 @@ public class ClientInfoAction extends ActionSupport implements SessionAware {
 		} else {
 			if(userInfo.getClientInfoId() != null) {
 				this.clientInfo.setClientInfoId(userInfo.getClientInfoId());
+				clientInfoManager.add(this.clientInfo);
 			} else {
 				this.clientInfo.setClientInfoId(UUID.randomUUID().toString().toUpperCase());
+				clientInfoManager.add(this.clientInfo);
 				userInfo.setClientInfoId(this.clientInfo.getClientInfoId());
 				userInfo = userInfoManager.update(userInfo);
 			}
-			this.clientInfo = clientInfoManager.add(this.clientInfo);
 		}
 		
 		addActionMessage("You have been successfully updated");

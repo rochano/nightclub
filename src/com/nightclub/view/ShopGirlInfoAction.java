@@ -442,6 +442,7 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 		}
 
 		girlInfoManager.avaiableByGirlInfoId(userInfo.getShopInfoId(), getAvailablelist());
+		this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
 		setFormValue(userInfo);
 		addActionMessage("You have been successfully updated");
 		return SUCCESS;

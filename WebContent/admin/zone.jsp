@@ -218,7 +218,7 @@
 			<s:textfield name="zoneInfo.zoneNameEn" label="English zone name" />
 		</div>
 		<div class="inline field">
-			<label>Cusom URL:</label>
+			<label>Custom URL:</label>
 			<div class="ui checkbox"><s:checkbox name="zoneInfo.chkCustomUrl" label="" /></div>
 			<s:textfield name="zoneInfo.customUrl" size="50" />
 		</div>

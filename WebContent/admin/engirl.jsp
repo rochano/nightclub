@@ -190,9 +190,9 @@
 									<td><s:property value="username" /></td>
 									<td><s:property value="enGirlInfo.nickName" /></td>
 									<td>
-										<s:if test="enGirlInfo.type == '1'"><s:text name="global.en_girl_type_1" /></s:if>
-										<s:if test="enGirlInfo.type == '2'"><s:text name="global.en_girl_type_2" /></s:if>
-										<s:if test="enGirlInfo.type == '3'"><s:text name="global.en_girl_type_3" /></s:if>
+										<s:if test="enGirlInfo.type == 1"><s:text name="global.en_girl_type_1" /></s:if>
+										<s:if test="enGirlInfo.type == 2"><s:text name="global.en_girl_type_2" /></s:if>
+										<s:if test="enGirlInfo.type == 3"><s:text name="global.en_girl_type_3" /></s:if>
 									</td>
 									<td class="center aligned"><s:date name="validDateFrom" format="dd/MM/yyyy" /></td>
 									<td class="center aligned"><s:date name="validDateTo" format="dd/MM/yyyy" /></td>

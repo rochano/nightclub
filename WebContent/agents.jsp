@@ -122,9 +122,11 @@
 						<s:if test="%{agentInfos.size gte 0}">
 							<s:iterator value="agentInfos" status="status">
 								<div class="ui red card">
-									<a class="image uicentered" href="<s:url value="/agents/%{agentInfoId}"/>" >
-										<img class="image ui centered" src="<s:property value="logoImg" />">
-									</a>
+									<div class="image ui centered" >
+										<a class="ui centered" href="<s:url value="/agents/%{agentInfoId}"/>" >
+											<img class="image ui centered" src="<s:property value="logoImg" />">
+										</a>
+									</div>
 									<div class="content">
 										<a class="header" href="<s:url value="/agents/%{agentInfoId}"/>"><s:property value="agentName" /></a>
 									</div>

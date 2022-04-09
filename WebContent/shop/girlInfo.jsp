@@ -126,10 +126,6 @@
 										<td class="six wide"><s:text name="global.shop_girl_age" /></td>
 										<td><s:property value="girlInfo.age" /></td>
 									</tr>
-									<tr>
-										<td class="six wide"><s:text name="global.shop_girl_home_town" /></td>
-										<td><s:property value="girlInfo.hometown" /></td>
-									</tr>
 								</table>
 								<table class="ui table celled unstackable">
 									<thead>
