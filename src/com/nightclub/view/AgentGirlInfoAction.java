@@ -161,7 +161,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	        }
 			
 			this.girlInfo.setCreatedDate(new Date());
-			this.girlInfo.setCreatedBy(userInfo.getUsername());
+			this.girlInfo.setCreatedBy(userInfo.getUserInfoId());
 			if(userInfo.getAgentInfoId() == null) {
 				AgentInfo agentInfo = new AgentInfo();
 				agentInfo.setAgentInfoId(UUID.randomUUID().toString().toUpperCase());
@@ -291,7 +291,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	        }
 			
 			this.girlInfo.setUpdatedDate(new Date());
-			this.girlInfo.setUpdatedBy(userInfo.getUsername());
+			this.girlInfo.setUpdatedBy(userInfo.getUserInfoId());
 			girlInfoManager.update(this.girlInfo);
 			
 			addActionMessage("You have been successfully updated");

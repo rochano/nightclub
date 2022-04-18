@@ -181,7 +181,7 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 	        }
 			
 			this.girlInfo.setUpdatedDate(new Date());
-			this.girlInfo.setUpdatedBy(userInfo.getUsername());
+			this.girlInfo.setUpdatedBy(userInfo.getUserInfoId());
 
 			if(girlInfoManager.getGirlInfo(userInfo.getGirlInfoId()) != null) {
 				girlInfoManager.update(this.girlInfo);

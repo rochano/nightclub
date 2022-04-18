@@ -38,14 +38,16 @@ public class UserInfoManager extends HibernateUtil {
 		return userInfo;
 	}
 	
-	public UserInfo getUserInfo(String username) {
+	public UserInfo getUserInfo(String username, String phone) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		UserInfo userInfo = null;
 		try {
 			
-			userInfo = (UserInfo)session.createQuery("from UserInfo where username = :username ")
-					.setParameter("username", username).uniqueResult();
+			userInfo = (UserInfo)session.createQuery("from UserInfo where username = :username or phone = :phone ")
+					.setParameter("username", username)
+					.setParameter("phone", phone)
+					.uniqueResult();
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -55,7 +57,7 @@ public class UserInfoManager extends HibernateUtil {
 		return userInfo;
 	}
 	
-	public UserInfo authenticate(String username, String password, String userType) {
+	public UserInfo authenticate(String username, String password) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		UserInfo userInfo = null;
@@ -63,12 +65,10 @@ public class UserInfoManager extends HibernateUtil {
 			
 			userInfo = (UserInfo)session
 					.createQuery("from UserInfo " + 
-						"where username = :username " + 
-						"and password = :password " + 
-						"and userType = :userType ")
+						"where (username = :username or phone = :username) " + 
+						"and password = :password ")
 					.setParameter("username", username)
 					.setParameter("password", password)
-					.setParameter("userType", userType)
 					.uniqueResult();
 			
 		} catch (HibernateException e) {

@@ -10,10 +10,10 @@ public class CustomConfigurationPathBuilder extends ConfigurationPathBuilder {
 		String userName = "";
 		if(request.getSession().getAttribute("userInfo") != null) {
 			UserInfo userInfo = (UserInfo)request.getSession().getAttribute("userInfo");
-			userName = userInfo.getUsername() + "/";
+			userName = userInfo.getUserInfoId() + "/";
 		} else if(request.getSession().getAttribute("adminInfo") != null) {
 			UserInfo userInfo = (UserInfo)request.getSession().getAttribute("adminInfo");
-			userName = userInfo.getUsername() + "/";
+			userName = userInfo.getUserInfoId() + "/";
 		}
 		return super.getBaseUrl(request) + userName;
 	}
@@ -23,10 +23,10 @@ public class CustomConfigurationPathBuilder extends ConfigurationPathBuilder {
 		String userName = "";
 		if(request.getSession().getAttribute("userInfo") != null) {
 			UserInfo userInfo = (UserInfo)request.getSession().getAttribute("userInfo");
-			userName = userInfo.getUsername() + "/";
+			userName = userInfo.getUserInfoId() + "/";
 		} else if(request.getSession().getAttribute("adminInfo") != null) {
 			UserInfo userInfo = (UserInfo)request.getSession().getAttribute("adminInfo");
-			userName = userInfo.getUsername() + "/";
+			userName = userInfo.getUserInfoId() + "/";
 		}
 		return super.getBaseDir(request) + userName;
 	}

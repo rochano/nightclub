@@ -31,6 +31,7 @@ public class UserInfo implements Serializable{
 	private String active;
 	private Date validDateFrom;
 	private Date validDateTo;
+	private String phone;
 	
 	private BasicInfo shopInfo;
 	private AgentInfo agentInfo;
@@ -173,6 +174,12 @@ public class UserInfo implements Serializable{
 	}
 	public void setEnGirlInfo(EnGirlInfo enGirlInfo) {
 		this.enGirlInfo = enGirlInfo;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 }

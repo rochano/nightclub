@@ -59,7 +59,11 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
 		
 		if(this.basicInfo != null) {
 			this.categoryInfo = categoryInfoManager.getCategoryInfo(basicInfo.getCategoryInfoId());
-		} 
+		} else {
+			this.basicInfo = new BasicInfo();
+			this.basicInfo.setPhone(userInfo.getPhone());
+		}
+		sessionMap.put("basicInfo", basicInfo);
 		
 		if(this.categoryInfo == null) {
 			this.categoryInfo = categoryInfoManager.getCategoryInfo(this.categoryInfos.get(0).getCategoryInfoId());

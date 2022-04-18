@@ -55,7 +55,7 @@ public class UploadFileUtils {
 					  "api_key", "486787566588465",
 					  "api_secret", "ltE8fUE2mSc2HCpydAW5kqmriGA"));
     		Map param = new HashMap();
-    		param.put("folder", userInfo.getUsername());
+    		param.put("folder", userInfo.getUserInfoId());
 			Map uploadResult = cloudinary.uploader().upload(fileToCreate, param);
 			log_.info("uploadResult >> " + uploadResult.toString());
 			fileName = uploadResult.get("url").toString();

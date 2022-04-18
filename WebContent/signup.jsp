@@ -39,14 +39,23 @@
               rules: [
                 {
                   type   : 'empty',
-                  prompt : 'Please enter your e-mail.'
-                },
+                  prompt : 'Please enter your username.'
+                }/* ,
                 {
                   type   : 'email',
                   prompt : 'Please enter a valid e-mail.'
-                }
+                } */
               ]
             },
+            phone: {
+                identifier  : 'phone',
+                rules: [
+                  {
+                    type   : 'empty',
+                    prompt : 'Please enter your phone number.'
+                  }
+                ]
+              },
             password: {
               identifier  : 'password',
               rules: [
@@ -126,7 +135,14 @@
 						<label>Username</label>
 						<div class="ui left icon input">
 							<i class="user icon"></i>
-							<s:textfield name="username" placeholder="E-mail address" />  
+							<s:textfield name="username" placeholder="Username" />
+						</div>
+					</div>
+					<div class="field">
+						<label>Phone number</label>
+						<div class="ui left icon input">
+							<i class="phone icon"></i>
+							<s:textfield name="phone" placeholder="Phone number" />
 						</div>
 					</div>
 					<div class="field">
@@ -152,7 +168,7 @@
 										<div class="ui radio checkbox">
 											<input type="radio" name="chkUserType" id="userType_4"
 												checked value="4">
-											<label for="userType_4">นักท่องเที่ยวมาตามหาน้องๆ</label>
+											<label for="userType_4">ลูกค้าที่ต้องการค้นหาข้อมูล</label>
 										</div>
 									</div>
 								</div>
@@ -161,7 +177,7 @@
 										<div class="ui radio checkbox">
 											<input type="radio" name="chkUserType" id="userType_list"
 												value="list">
-											<label for="userType_list">น้องไซด์ไลน์ ต้องการลงโพสต์</label>
+											<label for="userType_list">ลูกค้าที่ต้องการโพสต์ข้อมูล</label>
 										</div>
 									</div>
 								</div>

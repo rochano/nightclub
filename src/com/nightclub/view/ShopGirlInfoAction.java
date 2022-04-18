@@ -143,7 +143,7 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 	        }
 			
 			this.girlInfo.setCreatedDate(new Date());
-			this.girlInfo.setCreatedBy(userInfo.getUsername());
+			this.girlInfo.setCreatedBy(userInfo.getUserInfoId());
 			if(userInfo.getShopInfoId() == null) {
 				BasicInfo basicInfo = new BasicInfo();
 				basicInfo.setShopInfoId(UUID.randomUUID().toString().toUpperCase());
@@ -262,7 +262,7 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 	        }
 			
 			this.girlInfo.setUpdatedDate(new Date());
-			this.girlInfo.setUpdatedBy(userInfo.getUsername());
+			this.girlInfo.setUpdatedBy(userInfo.getUserInfoId());
 			girlInfoManager.update(this.girlInfo);
 			
 			addActionMessage("You have been successfully updated");

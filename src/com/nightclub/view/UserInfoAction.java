@@ -7,7 +7,9 @@ import java.util.UUID;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.nightclub.common.IConstants;
+import com.nightclub.controller.BasicInfoManager;
 import com.nightclub.controller.UserInfoManager;
+import com.nightclub.model.BasicInfo;
 import com.nightclub.model.UserInfo;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -18,6 +20,7 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	private Map<String, Object> sessionMap;
 	private UserInfo userInfo;
 	private String username;
+	private String phone;
 	private String password;
 	private String chkUserType;
 	private String userType;
@@ -27,6 +30,7 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	private String confirmPassword;
 	
 	private UserInfoManager linkController;
+	private BasicInfoManager basicInfoManager;
 	
 	public static final String SHOP_SERVICE = "shopService";
 	public static final String AGENT = "agent";
@@ -36,6 +40,7 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 
 	public UserInfoAction() {
 		linkController = new UserInfoManager();
+		basicInfoManager = new BasicInfoManager();
 	}
 
 	public String login() {
@@ -43,9 +48,13 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
         	if(IConstants.USER_TYPE_CLIENT.equals(chkUserType)) {
         		userType = IConstants.USER_TYPE_CLIENT;
         	}
-        	this.userInfo = linkController.authenticate(username, password, userType);
+        	this.userInfo = linkController.authenticate(username, password);
         	
         	if(this.userInfo != null) {
+        		if (!this.userInfo.getUserType().equals(userType)) {
+        			addActionError("Your user type is incorrect !");
+        			return LOGIN;
+        		}
         		// add userName to the session
         		
         		if(IConstants.USER_TYPE_ADMIN.equals(userType)) {
@@ -70,6 +79,10 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
         		// user
         		if(IConstants.USER_TYPE_SHOP.equals(userType)) {
         			sessionMap.put("userInfo", userInfo);
+        			BasicInfo basicInfo = basicInfoManager.getBasicInfo(userInfo.getShopInfoId());
+        			if (basicInfo != null) {
+        				sessionMap.put("basicInfo", basicInfo);
+        			}
         			return SHOP_SERVICE;
 
         		// agent
@@ -100,9 +113,9 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 					sessionMap.put("userInfo", userInfo);
 					return EN_GIRL;
 				}
+        	} else {
+        		addActionError("Your username or password is incorrect !");
         	}
-        	
-        	addActionError("Your username or password is incorrect !"); 
             
             return LOGIN;
         }
@@ -125,16 +138,17 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
     }
     
     public String signup() {
-    	if (username != null && password != null) {
+    	if (username != null && phone != null && password != null) {
     		
-    		if(linkController.getUserInfo(username) != null) {
-    			addActionError("Your username has been already existed !"); 
+    		if(linkController.getUserInfo(username, phone) != null) {
+    			addActionError("Your username or phone number has been already existed !"); 
     			return INPUT;
     			
     		} else {
 	    		this.userInfo = new UserInfo();
 	    		this.userInfo.setUserInfoId(UUID.randomUUID().toString().toUpperCase());
 	    		this.userInfo.setUsername(username);
+	    		this.userInfo.setPhone(phone);
 	    		this.userInfo.setPassword(password);
 	    		if(IConstants.USER_TYPE_CLIENT.equals(chkUserType)) {
 	    			userType = IConstants.USER_TYPE_CLIENT;
@@ -193,6 +207,14 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	
 	public String getPassword() {
