@@ -68,23 +68,25 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	public String execute() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.girlInfo = (FreeAgentGirlInfo)girlInfoManager.getGirlInfo(userInfo.getGirlInfoId());
-		if (this.girlInfo == null) {
-			this.girlInfo = new FreeAgentGirlInfo();
-		}
+		sessionMap.put("freeAgentGirlInfo", girlInfo);
 		this.girlServiceInfos = girlInfoManager.getGirlServiceList();
 		setFormValue(userInfo);
 		this.girlServices = new ArrayList<String>();
-		List<GirlService> girlServices = girlInfoManager.getGirlServiceListByGirlInfoId(this.girlInfo.getGirlInfoId());
-		if(girlServices != null) {
-			for(GirlService girlService : girlServices) {
-				this.girlServices.add(girlService.getGirlServiceInfo().getGirlServiceInfoId());
+		if (this.girlInfo != null) {
+			List<GirlService> girlServices = girlInfoManager.getGirlServiceListByGirlInfoId(this.girlInfo.getGirlInfoId());
+			if(girlServices != null) {
+				for(GirlService girlService : girlServices) {
+					this.girlServices.add(girlService.getGirlServiceInfo().getGirlServiceInfoId());
+				}
 			}
 		}
 		this.girlLocations = new ArrayList<String>();
-		List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
-		if(girlLocations != null) {
-			for(GirlLocation girlLocation : girlLocations) {
-				this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
+		if (this.girlInfo != null) {
+			List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
+			if(girlLocations != null) {
+				for(GirlLocation girlLocation : girlLocations) {
+					this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
+				}
 			}
 		}
 
@@ -216,7 +218,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 			}
 			
 			addActionMessage("You have been successfully updated");
-			setFormValue(userInfo);
+			execute();
 			
 			return SUCCESS;
 		} catch (Exception e) {

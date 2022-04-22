@@ -24,6 +24,9 @@
 			<i class="dropdown icon"></i>
 			<div class="menu">
 				<div class="item">
+					<a class="ui tiny" href="<s:url value="/management/howtoinput"/>"><i class="file outline icon"></i>How to input</a>
+				</div>
+				<div class="item">
 					<a class="ui tiny" href="<s:url value="/management/changepassword"/>"><i class="edit icon"></i>Change password</a>
 				</div>
 				<div class="item">

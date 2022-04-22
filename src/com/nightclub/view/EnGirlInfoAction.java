@@ -69,17 +69,17 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 	public String execute() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.girlInfo = (EnGirlInfo)girlInfoManager.getGirlInfo(userInfo.getGirlInfoId());
-		if (this.girlInfo == null) {
-			this.girlInfo = new EnGirlInfo();
-		}
 		setFormValue(userInfo);
 		this.girlLocations = new ArrayList<String>();
-		List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
-		if(girlLocations != null) {
-			for(GirlLocation girlLocation : girlLocations) {
-				this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
+		if (this.girlInfo != null) {
+			List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
+			if(girlLocations != null) {
+				for(GirlLocation girlLocation : girlLocations) {
+					this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
+				}
 			}
 		}
+		sessionMap.put("enGirlInfo", girlInfo);
 
 		return SUCCESS;
 	}
@@ -198,7 +198,7 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 			}
 			
 			addActionMessage("You have been successfully updated");
-			setFormValue(userInfo);
+			execute();
 			
 			return SUCCESS;
 		} catch (Exception e) {

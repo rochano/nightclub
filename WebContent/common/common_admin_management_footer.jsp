@@ -16,7 +16,8 @@
 			<a href="<s:url value="/admin/girlsetting"/>"><span>Girl Setting</span></a> |
 			<a href="<s:url value="/admin/howtouse"/>"><span>How to use</span></a> |
 			<a href="<s:url value="/admin/contact"/>"><span>Contact</span></a> |
-			<a href="<s:url value="/admin/skin"/>"><span>Skin</span></a>
+			<a href="<s:url value="/admin/skin"/>"><span>Skin</span></a> |
+			<a href="<s:url value="/admin/howtoinput"/>"><span>How to input</span></a>
 		</p></div>
 		<p class="copy">COPYRIGHT(C) ALL RIGHTS RESERVED.</p>
 	</div>

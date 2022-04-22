@@ -1,27 +1,18 @@
 package com.nightclub.view;
 
-import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.struts2.interceptor.SessionAware;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.nightclub.controller.BasicInfoManager;
 import com.nightclub.controller.CategoryInfoManager;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.model.BasicInfo;
 import com.nightclub.model.CategoryInfo;
-import com.nightclub.model.FileModel;
 import com.nightclub.model.UserInfo;
-import com.nightclub.util.ResourceBundleUtil;
 import com.nightclub.util.UploadFileUtils;
 import com.opensymphony.xwork2.ActionSupport;
 

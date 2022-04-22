@@ -35,6 +35,7 @@ public class AgentInfoAction extends ActionSupport implements SessionAware {
 	public String execute() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.agentInfo = agentInfoManager.getAgentInfo(userInfo.getAgentInfoId());
+		sessionMap.put("agentInfo", agentInfo);
 
 		return SUCCESS;
 	}

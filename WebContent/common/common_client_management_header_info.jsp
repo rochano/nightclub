@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <div class="ui fixed top menu">
 	<div class="left menu">
 		<div class="header item">
@@ -6,7 +7,15 @@
 	</div>
 	<div class="right menu">
 		<div class="ui dropdown item">
-			Logged in user&nbsp;&nbsp;<label class="ui large"> ${sessionScope.userInfo.username}</label>
+			Logged in as&nbsp;&nbsp;
+			<label class="ui large">
+				<s:if test="#session.clientInfo != null">
+					<s:property value="#session.clientInfo.nickName" />
+				</s:if>
+				<s:else>
+					<s:property value="#session.userInfo.username" />
+				</s:else>
+			</label>
 			<i class="dropdown icon"></i>
 			<div class="menu">
 				<div class="item">

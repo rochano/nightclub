@@ -480,6 +480,9 @@ public class GirlInfoManager extends HibernateUtil {
 					sql += "where gl.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
 					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
 				}
+				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
+					sql += " and girlInfo.incallOutcall = :incallOutcall ";
+				}
 				query = session.createQuery(sql.toString());
 				query = query.setParameter("availableShopGirlInfo", Boolean.TRUE.toString().toLowerCase());
 				if (!frontSearch.getCategoryInfoId().isEmpty()) {
@@ -490,6 +493,9 @@ public class GirlInfoManager extends HibernateUtil {
 				}
 				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
 					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
+				}
+				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
+					query = query.setParameter("incallOutcall", frontSearch.getIncallOutcall());
 				}
 				shopGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = shopGirlInfoList.iterator();
@@ -515,6 +521,9 @@ public class GirlInfoManager extends HibernateUtil {
 					sql += "where gl.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
 					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
 				}
+				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
+					sql += " and girlInfo.incallOutcall = :incallOutcall ";
+				}
 				query = session.createQuery(sql.toString());
 				query = query.setParameter("availableAgentGirlInfo", Boolean.TRUE.toString().toLowerCase());
 				if (frontSearch.getChkAgents() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkAgents())) {
@@ -527,6 +536,9 @@ public class GirlInfoManager extends HibernateUtil {
 				}
 				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
 					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
+				}
+				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
+					query = query.setParameter("incallOutcall", frontSearch.getIncallOutcall());
 				}
 				agentGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = agentGirlInfoList.iterator();
@@ -549,12 +561,18 @@ public class GirlInfoManager extends HibernateUtil {
 					sql += "where gl.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
 					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
 				}
+				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
+					sql += " and girlInfo.incallOutcall = :incallOutcall ";
+				}
 				query = session.createQuery(sql.toString());
 				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
 					query = query.setParameter("gender", frontSearch.getGender());
 				}
 				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
 					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
+				}
+				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
+					query = query.setParameter("incallOutcall", frontSearch.getIncallOutcall());
 				}
 				freeAgentGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = freeAgentGirlInfoList.iterator();
@@ -577,12 +595,18 @@ public class GirlInfoManager extends HibernateUtil {
 					sql += "where gl.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
 					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
 				}
+				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
+					sql += " and girlInfo.incallOutcall = :incallOutcall ";
+				}
 				query = session.createQuery(sql.toString());
 				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
 					query = query.setParameter("gender", frontSearch.getGender());
 				}
 				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
 					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
+				}
+				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
+					query = query.setParameter("incallOutcall", frontSearch.getIncallOutcall());
 				}
 				enGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = enGirlInfoList.iterator();

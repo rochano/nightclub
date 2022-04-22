@@ -43,7 +43,7 @@ $(document)
 			สวัสดี, คุณ<s:property value="freeAgentGirlInfo.nickName" />
 			</s:elseif>
 			<s:elseif test="clientInfo != null">
-			สวัสดี, คุณ<s:property value="clientInfo.firstName" /> <s:property value="clientInfo.lastName" />
+			สวัสดี, คุณ<s:property value="clientInfo.nickName" />
 			</s:elseif>
 			<s:elseif test="enGirlInfo != null">
 			สวัสดี, คุณ<s:property value="enGirlInfo.nickName" />

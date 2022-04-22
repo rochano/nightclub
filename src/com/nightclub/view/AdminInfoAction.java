@@ -270,6 +270,40 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		return SUCCESS;
 	}
 	
+	public String howToInput() {
+		this.homeInfo = homeInfoManager.getHomeInfo("0");
+		
+		return SUCCESS;
+	}
+
+	public String howToInputupdate() {
+		try {
+			UserInfo userInfo = (UserInfo)sessionMap.get("adminInfo");
+			HomeInfo homeInfo_ = homeInfoManager.getHomeInfo("0");
+			homeInfo_.setHomeInfoId("0");
+			homeInfo_.setHowToInputShopService(UploadFileUtils.uploadImageinDescription(homeInfo.getHowToInputShopService(), sessionMap, userInfo));
+			homeInfo_.setHowToInputAgent(UploadFileUtils.uploadImageinDescription(homeInfo.getHowToInputAgent(), sessionMap, userInfo));
+			homeInfo_.setHowToInputFreeAgent(UploadFileUtils.uploadImageinDescription(homeInfo.getHowToInputFreeAgent(), sessionMap, userInfo));
+			homeInfo_.setHowToInputEnGirl(UploadFileUtils.uploadImageinDescription(homeInfo.getHowToInputEnGirl(), sessionMap, userInfo));
+			
+			if(homeInfoManager.getHomeInfo("0") != null) {
+				homeInfoManager.update(homeInfo_);
+			} else {
+				homeInfoManager.add(homeInfo_);
+			}
+			
+			addActionMessage("You have been successfully updated");
+			
+			this.execute();
+			
+			return SUCCESS;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return INPUT;
+		}
+	}
+	
 	public String getMenu() {
 		return menu;
 	}

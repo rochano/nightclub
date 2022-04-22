@@ -14,3 +14,5 @@
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('howtouse')}">active</s:if>" href="<s:url value="/admin/howtouse"/>"><i class="file outline icon"></i>How to use</a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('contact')}">active</s:if>" href="<s:url value="/admin/contact"/>"><i class="phone icon"></i>Contact</a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('skin')}">active</s:if>" href="<s:url value="/admin/skin"/>"><i class="adjust icon"></i>Skin</a>
+	<a class="item <s:if test="%{menu.equalsIgnoreCase('howtoinput')}">active</s:if>" href="<s:url value="/admin/howtoinput"/>"><i class="file outline icon"></i>How to input</a>
+	

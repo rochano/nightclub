@@ -124,10 +124,7 @@
 						<div class="ui error message"><s:actionerror cssClass="list" /></div>
 						<div class="two fields">
 							<div class="inline field">
-								<s:textfield name="clientInfo.firstName" label="First Name"/>
-							</div>
-							<div class="inline field">
-								<s:textfield name="clientInfo.lastName" label="Last Name"/>
+								<s:textfield name="clientInfo.nickName" label="Nick Name"/>
 							</div>
 						</div>
 						<div class="inline field">

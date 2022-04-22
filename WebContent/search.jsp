@@ -318,8 +318,8 @@
 											<s:else>disabled="disabled"</s:else>
 											>
 											<option value=""></option>
-											<option value="1" <s:if test="frontSearch.incallOutcall == 1">selected="selected"</s:if>><s:text name="global.incall" /></option>
-											<option value="2" <s:if test="frontSearch.incallOutcall == 2">selected="selected"</s:if>><s:text name="global.outcall" /></option>
+											<option value="incall" <s:if test="frontSearch.incallOutcall == 'incall'">selected="selected"</s:if>><s:text name="global.incall" /></option>
+											<option value="outcall" <s:if test="frontSearch.incallOutcall == 'outcall'">selected="selected"</s:if>><s:text name="global.outcall" /></option>
 										</select>
 									</div>
 								</div>

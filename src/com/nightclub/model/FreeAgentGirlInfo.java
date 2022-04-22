@@ -33,6 +33,7 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	private String chk6Hrs;
 	private Double price6Hrs;
 	private UserInfo userInfo;
+	private String incallOutcall;
 	
 	@Column(name="line_id")
 	public String getLineId() {
@@ -113,6 +114,10 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	public UserInfo getUserInfo() {
 		return userInfo;
 	}
+	@Column(name="incall_outcall")
+	public String getIncallOutcall() {
+		return incallOutcall;
+	}
 	public void setLineId(String lineId) {
 		this.lineId = lineId;
 	}
@@ -154,5 +159,8 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	}
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
+	}
+	public void setIncallOutcall(String incallOutcall) {
+		this.incallOutcall = incallOutcall;
 	}
 }

@@ -550,6 +550,14 @@
 			<result name="login" type="redirect">/login</result>
 			<result name="success">/management/system.jsp</result>
 		</action>
+		
+		<action name="howtoinput"
+			class="com.nightclub.view.AdminInfoAction" method="howToInput">
+			<param name="menu">howtoinput</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management/how_to_input.jsp</result>
+		</action>
 	</package>
 	<package name="admin" extends="struts-default" namespace="/admin">
 	    <interceptors>
@@ -1044,6 +1052,23 @@
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/skin.jsp</result>
 		</action>
+		
+		<action name="howtoinput"
+			class="com.nightclub.view.AdminInfoAction" method="howToInput">
+			<param name="menu">howtoinput</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">how_to_input.jsp</result>
+		</action>
+		
+		<action name="howtoinput/*"
+			class="com.nightclub.view.AdminInfoAction" method="howToInput{1}">
+			<param name="menu">howtoinput</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/how_to_input.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/how_to_input.jsp</result>
+		</action>
 	</package>
 
 	<package name="api" extends="rest-default" namespace="/api" >
@@ -1174,6 +1199,14 @@
 			<result name="login" type="redirect">/login</result>
 			<result name="success">/management_agent/girls.jsp</result>
 		</action>
+		
+		<action name="howtoinput"
+			class="com.nightclub.view.AdminInfoAction" method="howToInput">
+			<param name="menu">howtoinput</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_agent/how_to_input.jsp</result>
+		</action>
 	</package>
 	
 	<package name="management_free_agent" extends="struts-default" namespace="/management_free_agent">
@@ -1247,6 +1280,14 @@
 			<result name="login" type="redirect">/login</result>
 			<result name="input">/management_free_agent/changepassword.jsp</result>
 			<result name="success">/management_free_agent/changepassword.jsp</result>
+		</action>
+		
+		<action name="howtoinput"
+			class="com.nightclub.view.AdminInfoAction" method="howToInput">
+			<param name="menu">howtoinput</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_free_agent/how_to_input.jsp</result>
 		</action>
 
 	</package>
@@ -1397,6 +1438,14 @@
 			<result name="login" type="redirect">/login</result>
 			<result name="input">/management_en_girl/changepassword.jsp</result>
 			<result name="success">/management_en_girl/changepassword.jsp</result>
+		</action>
+		
+		<action name="howtoinput"
+			class="com.nightclub.view.AdminInfoAction" method="howToInput">
+			<param name="menu">howtoinput</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_en_girl/how_to_input.jsp</result>
 		</action>
 
 	</package>

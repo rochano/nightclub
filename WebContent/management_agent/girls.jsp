@@ -569,6 +569,28 @@
 				<s:select list="weightList" name="girlInfo.weight" label="W "></s:select>
 			</div>
 		</div>
+		<h4 class="ui horizontal header">
+			In call or Out call :
+		</h4>
+		<div class="ui four column grid stackable">
+			<div class="column">
+				<div class="ui radio checkbox">
+					<input type="radio" name="girlInfo.incallOutcall" id="girlInfo_gender_incall"
+						<s:if test="girlInfo.incallOutcall == 'incall'">checked="checked"</s:if>
+						 value="incall">
+					<label for="girlInfo_gender_incall"><s:text name="global.incall" /></label>
+				</div>
+			</div>
+			<div class="column">
+				<div class="ui radio checkbox">
+					<input type="radio" name="girlInfo.incallOutcall" id="girlInfo_gender_outcall"
+						<s:if test="girlInfo.incallOutcall == 'outcall'">checked="checked"</s:if>
+						 value="outcall">
+					<label for="girlInfo_gender_outcall"><s:text name="global.outcall" /></label>
+				</div>
+			</div>
+		</div>
+		<br />
 		<div class="ui accordion">
 			<h4 class="title">
 				Location :

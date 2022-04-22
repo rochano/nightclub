@@ -7,9 +7,15 @@ import java.util.UUID;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.nightclub.common.IConstants;
+import com.nightclub.controller.AgentInfoManager;
 import com.nightclub.controller.BasicInfoManager;
+import com.nightclub.controller.ClientInfoManager;
+import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.UserInfoManager;
+import com.nightclub.model.AgentInfo;
 import com.nightclub.model.BasicInfo;
+import com.nightclub.model.ClientInfo;
+import com.nightclub.model.GirlInfo;
 import com.nightclub.model.UserInfo;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -31,6 +37,9 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	
 	private UserInfoManager linkController;
 	private BasicInfoManager basicInfoManager;
+	private AgentInfoManager agentInfoManager;
+	private GirlInfoManager girlInfoManager;
+	private ClientInfoManager clientInfoManager;
 	
 	public static final String SHOP_SERVICE = "shopService";
 	public static final String AGENT = "agent";
@@ -41,6 +50,9 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	public UserInfoAction() {
 		linkController = new UserInfoManager();
 		basicInfoManager = new BasicInfoManager();
+		agentInfoManager = new AgentInfoManager();
+		girlInfoManager = new GirlInfoManager();
+		clientInfoManager = new ClientInfoManager();
 	}
 
 	public String login() {
@@ -88,11 +100,19 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
         		// agent
         		} else if(IConstants.USER_TYPE_AGENT.equals(userType)) {
         			sessionMap.put("userInfo", userInfo);
+        			AgentInfo agentInfo = agentInfoManager.getAgentInfo(userInfo.getAgentInfoId());
+        			if (agentInfo != null) {
+        				sessionMap.put("agentInfo", agentInfo);
+        			}
         			return AGENT;
 
 				// free agent
 				} else if(IConstants.USER_TYPE_FREE_AGENT.equals(userType)) {
 					sessionMap.put("userInfo", userInfo);
+					GirlInfo girlInfo = girlInfoManager.getGirlInfo(userInfo.getGirlInfoId());
+					if (girlInfo != null) {
+        				sessionMap.put("freeAgentGirlInfo", girlInfo);
+        			}
 					return FREE_AGENT;
         		
 				// client
@@ -106,11 +126,19 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	        			}
 	        		}
 					sessionMap.put("userInfo", userInfo);
+					ClientInfo clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
+					if (clientInfo != null) {
+        				sessionMap.put("clientInfo", clientInfo);
+        			}
 					return CLIENT;
 					
 				// entertain girl
 				} else if(IConstants.USER_TYPE_EN_GIRL.equals(userType)) {
 					sessionMap.put("userInfo", userInfo);
+					GirlInfo girlInfo = girlInfoManager.getGirlInfo(userInfo.getGirlInfoId());
+					if (girlInfo != null) {
+        				sessionMap.put("enGirlInfo", girlInfo);
+        			}
 					return EN_GIRL;
 				}
         	} else {
@@ -132,6 +160,10 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	    	} 
     	} else {
     		sessionMap.remove("userInfo");
+    		sessionMap.remove("basicInfo");
+    		sessionMap.remove("agentInfo");
+    		sessionMap.remove("freeAgentGirlInfo");
+    		sessionMap.remove("enGirlInfo");
     	}
         addActionMessage("You have been successfully logged out");
         return SUCCESS;

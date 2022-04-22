@@ -21,6 +21,10 @@ public class HomeInfo implements Serializable {
 	private String descriptionEn2;
 	private String howToUse;
 	private String lineContactUrl;
+	private String howToInputShopService;
+	private String howToInputAgent;
+	private String howToInputFreeAgent;
+	private String howToInputEnGirl;
 	
 	@Id
 	@Column(name="home_info_id")
@@ -58,6 +62,26 @@ public class HomeInfo implements Serializable {
 	public String getDescriptionEn2() {
 		return descriptionEn2;
 	}
+	@Column(name="how_to_input_shop_service")
+	@Length(max=1000)
+	public String getHowToInputShopService() {
+		return howToInputShopService;
+	}
+	@Column(name="how_to_input_agent")
+	@Length(max=1000)
+	public String getHowToInputAgent() {
+		return howToInputAgent;
+	}
+	@Column(name="how_to_input_free_agent")
+	@Length(max=1000)
+	public String getHowToInputFreeAgent() {
+		return howToInputFreeAgent;
+	}
+	@Column(name="how_to_input_en_girl")
+	@Length(max=1000)
+	public String getHowToInputEnGirl() {
+		return howToInputEnGirl;
+	}
 	public void setHomeInfoId(String homeInfoId) {
 		this.homeInfoId = homeInfoId;
 	}
@@ -78,6 +102,18 @@ public class HomeInfo implements Serializable {
 	}
 	public void setDescriptionEn2(String descriptionEn2) {
 		this.descriptionEn2 = descriptionEn2;
+	}
+	public void setHowToInputShopService(String howToInputShopService) {
+		this.howToInputShopService = howToInputShopService;
+	}
+	public void setHowToInputAgent(String howToInputAgent) {
+		this.howToInputAgent = howToInputAgent;
+	}
+	public void setHowToInputFreeAgent(String howToInputFreeAgent) {
+		this.howToInputFreeAgent = howToInputFreeAgent;
+	}
+	public void setHowToInputEnGirl(String howToInputEnGirl) {
+		this.howToInputEnGirl = howToInputEnGirl;
 	}
 	
 }

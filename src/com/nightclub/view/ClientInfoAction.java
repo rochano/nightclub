@@ -35,6 +35,7 @@ public class ClientInfoAction extends ActionSupport implements SessionAware {
 	public String execute() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
+		sessionMap.put("clientInfo", clientInfo);
 		this.ageList = makeList(18, 50);
 
 		return SUCCESS;

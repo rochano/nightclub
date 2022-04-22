@@ -24,8 +24,9 @@ public class ClientInfo implements Serializable {
 	private static final long serialVersionUID = 7406550732066083106L;
 	
 	private String clientInfoId;
-	private String firstName;
-	private String lastName;
+//	private String firstName;
+//	private String lastName;
+	private String nickName;
 	private String email;
 	private String mobile;
 	private Integer age;
@@ -37,8 +38,9 @@ public class ClientInfo implements Serializable {
 	
 	protected ClientInfo(ClientInfo clientInfo) {
 		this.clientInfoId = clientInfo.clientInfoId;
-		this.firstName = clientInfo.firstName;
-		this.lastName = clientInfo.lastName;
+//		this.firstName = clientInfo.firstName;
+//		this.lastName = clientInfo.lastName;
+		this.nickName = clientInfo.nickName;
 		this.email = clientInfo.email;
 		this.mobile = clientInfo.mobile;
 		this.age = clientInfo.age;
@@ -51,13 +53,17 @@ public class ClientInfo implements Serializable {
 	public String getClientInfoId() {
 		return clientInfoId;
 	}
-	@Column(name="first_name")
-	public String getFirstName() {
-		return firstName;
-	}
-	@Column(name="last_name")
-	public String getLastName() {
-		return lastName;
+//	@Column(name="first_name")
+//	public String getFirstName() {
+//		return firstName;
+//	}
+//	@Column(name="last_name")
+//	public String getLastName() {
+//		return lastName;
+//	}
+	@Column(name="nick_name")
+	public String getNickName() {
+		return nickName;
 	}
 	@Column(name="email")
 	public String getEmail() {
@@ -89,11 +95,14 @@ public class ClientInfo implements Serializable {
 	public void setClientInfoId(String clientInfoId) {
 		this.clientInfoId = clientInfoId;
 	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+//	public void setFirstName(String firstName) {
+//		this.firstName = firstName;
+//	}
+//	public void setLastName(String lastName) {
+//		this.lastName = lastName;
+//	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 	public void setEmail(String email) {
 		this.email = email;
