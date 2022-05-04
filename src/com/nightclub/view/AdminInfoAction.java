@@ -3,25 +3,28 @@ package com.nightclub.view;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.apache.struts2.interceptor.SessionAware;
+import org.cloudinary.json.JSONObject;
 
+import com.nightclub.common.IConstants;
 import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.GirlSettingManager;
 import com.nightclub.controller.HomeInfoManager;
 import com.nightclub.controller.HomeSlideImageManager;
 import com.nightclub.controller.UserInfoManager;
-import com.nightclub.model.CategoryZone;
+import com.nightclub.model.AdminSearch;
+import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
 import com.nightclub.model.GirlSetting;
 import com.nightclub.model.HomeInfo;
 import com.nightclub.model.HomeSlideImage;
 import com.nightclub.model.UserInfo;
-import com.nightclub.model.ZoneInfo;
 import com.nightclub.util.UploadFileUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -44,6 +47,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private String userInfoId;
 	private UserInfo userInfo;
 	private String userType;
+	private AdminSearch search;
 	
 	private HomeInfoManager homeInfoManager;
 	private HomeSlideImageManager homeSlideImageManager;
@@ -81,7 +85,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 				homeInfoManager.add(homeInfo_);
 			}
 			
-			addActionMessage("You have been successfully updated");
+			addActionMessage(getText("global.message_success_update"));
 			
 			this.execute();
 			
@@ -118,7 +122,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 				}
 			}
 			homeSlideImageManager.add(this.homeSlideImages);
-			addActionMessage("You have been successfully updated");
+			addActionMessage(getText("global.message_success_update"));
 			
 			this.homeslideimage();
 			
@@ -142,9 +146,19 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			setActivelist(new ArrayList<String>());
 		}
 
-		userInfoManager.activeByUserInfoId(getActivelist(), getUserType());
+		Iterator<String> it = getActivelist().iterator();
+		List<String> allUserInfoIdList = new ArrayList<String>();
+		List<String> availableUserInfoIdList = new ArrayList<String>();
+		while(it.hasNext()) {
+			JSONObject jsonData = new JSONObject(it.next());
+			allUserInfoIdList.add(jsonData.getString("id"));
+			if (jsonData.getBoolean("checked")) {
+				availableUserInfoIdList.add(jsonData.getString("id"));
+			}
+		}
+		userInfoManager.activeByUserInfoId(allUserInfoIdList, availableUserInfoIdList, getUserType());
 		this.userInfos = userInfoManager.list(getUserType());
-		addActionMessage("You have been successfully updated");
+		addActionMessage(getText("global.message_success_update"));
 		return SUCCESS;
 	}
 	
@@ -161,20 +175,48 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		userInfo_.setValidDateFrom(userInfo.getValidDateFrom());
 		userInfo_.setValidDateTo(userInfo.getValidDateTo());
 		userInfoManager.update(userInfo_);
-		addActionMessage("You have been successfully updated");
+		addActionMessage(getText("global.message_success_update"));
 		this.userInfos = userInfoManager.list(getUserType());
 		
 		return SUCCESS;
 	}
 	
+	public String userdelete() {
+		userInfoManager.deleteByUserInfoId(getUserInfoId());
+		addActionMessage(getText("global.message_success_delete"));
+		this.userInfos = userInfoManager.list(getUserType());
+		
+		return SUCCESS;
+	}
+	
+	public String usersearch() {
+		// shop
+		if(IConstants.USER_TYPE_SHOP.equals(userType)) {
+			this.userInfos = userInfoManager.searchShop(getUserType(), getSearch());
+		// agent
+		} else if(IConstants.USER_TYPE_AGENT.equals(userType)) {
+			this.userInfos = userInfoManager.searchAgent(getUserType(), getSearch());
+		// free agent
+		} else if(IConstants.USER_TYPE_FREE_AGENT.equals(userType)) {
+			this.userInfos = userInfoManager.searchFreeAgent(getUserType(), getSearch());
+		// client
+		} else if(IConstants.USER_TYPE_CLIENT.equals(userType)) {
+			this.userInfos = userInfoManager.searchClient(getUserType(), getSearch());
+		// entertain girl
+		} else if(IConstants.USER_TYPE_EN_GIRL.equals(userType)) {
+			this.userInfos = userInfoManager.searchEnGirl(getUserType(), getSearch());
+		}
+		
+		return SUCCESS;
+	}
+	
 	public String girlservice() {
-		this.girlServicInfoList = girlInfoManager.getGirlServiceList();
+		this.girlServicInfoList = girlInfoManager.getGirlServiceInfoList();
 		
 		return SUCCESS;
 	}
 
 	public String girlserviceupdate() {
-		
 		if(getGirlservicenamelist() == null) {
 			setGirlservicenamelist(new ArrayList<String>());
 		}
@@ -189,8 +231,13 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			getGirlServicInfoList().add(girlServiceInfo);
 		}
 
+		List<GirlService> girlServices = girlInfoManager.getGirlServiceList();
+		if(girlServices.size() > 0) {
+			addActionError(getText("global.message_girl_service_update_fail"));
+			return INPUT;
+		}
 		girlInfoManager.updateGirlServiceInfo(getGirlServicInfoList());
-		addActionMessage("You have been successfully updated");
+		addActionMessage(getText("global.message_success_update"));
 		return SUCCESS;
 	}
 
@@ -208,7 +255,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			this.girlSetting = girlSettingManager.add(this.girlSetting);
 		}
 		
-		addActionMessage("You have been successfully updated");
+		addActionMessage(getText("global.message_success_update"));
 		
 		this.execute();
 		
@@ -234,7 +281,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 				homeInfoManager.add(homeInfo_);
 			}
 			
-			addActionMessage("You have been successfully updated");
+			addActionMessage(getText("global.message_success_update"));
 			
 			this.execute();
 			
@@ -263,7 +310,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			homeInfoManager.add(homeInfo_);
 		}
 		
-		addActionMessage("You have been successfully updated");
+		addActionMessage(getText("global.message_success_update"));
 		
 		this.execute();
 		
@@ -292,7 +339,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 				homeInfoManager.add(homeInfo_);
 			}
 			
-			addActionMessage("You have been successfully updated");
+			addActionMessage(getText("global.message_success_update"));
 			
 			this.execute();
 			
@@ -419,6 +466,14 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 
 	public void setHomeSlideImagesFileNameList(List<String> homeSlideImagesFileNameList) {
 		this.homeSlideImagesFileNameList = homeSlideImagesFileNameList;
+	}
+
+	public AdminSearch getSearch() {
+		return search;
+	}
+
+	public void setSearch(AdminSearch search) {
+		this.search = search;
 	}
 
 

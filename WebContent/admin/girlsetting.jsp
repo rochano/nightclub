@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -7,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Administrator - Girl Service</title>
+  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_girl_setting" /></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
 
@@ -70,7 +71,7 @@
                     rules: [
                       {
                         type   : 'integer',
-                        prompt : 'Please enter a valid age'
+                        prompt : '<s:text name="global.message_please_input" /><s:text name="global.age" /><s:text name="global.message_correctly" />'
                       },
                     ]
                   },
@@ -79,7 +80,7 @@
                      rules: [
                        {
                          type   : 'integer',
-                         prompt : 'Please enter a valid age'
+                         prompt : '<s:text name="global.message_please_input" /><s:text name="global.age" /><s:text name="global.message_correctly" />'
                        },
                      ]
                    },
@@ -88,7 +89,7 @@
                   rules: [
                     {
                       type   : 'integer',
-                      prompt : 'Please enter a valid bust size'
+                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.bust" /><s:text name="global.message_correctly" />'
                     },
                   ]
                 },
@@ -97,7 +98,7 @@
                   rules: [
                     {
                       type   : 'integer',
-                      prompt : 'Please enter a valid bust size'
+                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.bust" /><s:text name="global.message_correctly" />'
                     },
                   ]
                 },
@@ -106,7 +107,7 @@
                   rules: [
                     {
                       type   : 'integer',
-                      prompt : 'Please enter a valid waist size'
+                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.waist" /><s:text name="global.message_correctly" />'
                     },
                   ]
                 },
@@ -115,7 +116,7 @@
                    rules: [
                      {
                        type   : 'integer',
-                       prompt : 'Please enter a valid waist size'
+                       prompt : '<s:text name="global.message_please_input" /><s:text name="global.waist" /><s:text name="global.message_correctly" />'
                      },
                    ]
                  },
@@ -124,7 +125,7 @@
                 rules: [
                   {
                     type   : 'integer',
-                    prompt : 'Please enter a valid hip size'
+                    prompt : '<s:text name="global.message_please_input" /><s:text name="global.hip" /><s:text name="global.message_correctly" />'
                   },
                 ]
               },
@@ -133,7 +134,7 @@
                   rules: [
                     {
                       type   : 'integer',
-                      prompt : 'Please enter a valid hip size'
+                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.hip" /><s:text name="global.message_correctly" />'
                     },
                   ]
                 },
@@ -142,7 +143,7 @@
                   rules: [
                     {
                       type   : 'integer',
-                      prompt : 'Please enter a valid height'
+                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.height" /><s:text name="global.message_correctly" />'
                     },
                   ]
                 },
@@ -151,7 +152,7 @@
                   rules: [
                     {
                       type   : 'integer',
-                      prompt : 'Please enter a valid height'
+                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.height" /><s:text name="global.message_correctly" />'
                     },
                   ]
                 },
@@ -160,7 +161,7 @@
                   rules: [
                     {
                       type   : 'integer',
-                      prompt : 'Please enter a valid weight'
+                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.weight" /><s:text name="global.message_correctly" />'
                     },
                   ]
                 },
@@ -169,7 +170,7 @@
                   rules: [
                     {
                       type   : 'integer',
-                      prompt : 'Please enter a valid weight'
+                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.weight" /><s:text name="global.message_correctly" />'
                     },
                   ]
                 },
@@ -219,13 +220,13 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Girl Setting
+					<s:text name="global.menu_girl_setting" />
 				</h4>
 				<div class="ui centered attached segment active content">
 					<form class="ui form " method="post" action="<s:url value="/admin/girlsetting/update"/>">
 						<div class="ui error message"><s:actionerror cssClass="list" /></div>
 						<div class="inline fields">
-							<label>Age</label>
+							<label><s:text name="global.age" /></label>
 							<div class="field">
 								<s:textfield name="girlSetting.ageFrom" size="5" />
 							</div>
@@ -235,7 +236,7 @@
 							</div>
 						</div>
 						<div class="inline fields">
-							<label>Bust Size</label>
+							<label><s:text name="global.bust" /></label>
 							<div class="field">
 								<s:textfield name="girlSetting.bustSizeFrom" size="5" />
 							</div>
@@ -245,7 +246,7 @@
 							</div>
 						</div>
 						<div class="inline fields">
-							<label>Waist Size</label>
+							<label><s:text name="global.waist" /></label>
 							<div class="field">
 								<s:textfield name="girlSetting.waistSizeFrom" size="5" />
 							</div>
@@ -255,7 +256,7 @@
 							</div>
 						</div>
 						<div class="inline fields">
-							<label>Hip Size</label>
+							<label><s:text name="global.hip" /></label>
 							<div class="field">
 								<s:textfield name="girlSetting.hipSizeFrom" size="5" />
 							</div>
@@ -265,7 +266,7 @@
 							</div>
 						</div>
 						<div class="inline fields">
-							<label>Height</label>
+							<label><s:text name="global.height" /></label>
 							<div class="field">
 								<s:textfield name="girlSetting.heightFrom" size="5" />
 							</div>
@@ -275,7 +276,7 @@
 							</div>
 						</div>
 						<div class="inline fields">
-							<label>Weight</label>
+							<label><s:text name="global.weight" /></label>
 							<div class="field">
 								<s:textfield name="girlSetting.weightFrom" size="5" />
 							</div>
@@ -286,7 +287,7 @@
 						</div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div class="ui small button submit blue">Submit</div>
+								<div class="ui small button submit blue"><s:text name="global.submit" /></div>
 							</div>
 						</div>
 					</form>

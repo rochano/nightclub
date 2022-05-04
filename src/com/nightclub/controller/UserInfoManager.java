@@ -5,8 +5,11 @@ import java.util.List;
 import net.viralpatel.contact.util.HibernateUtil;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.classic.Session;
 
+import com.nightclub.model.AdminSearch;
+import com.nightclub.model.GirlInfo;
 import com.nightclub.model.UserInfo;
 
 public class UserInfoManager extends HibernateUtil {
@@ -96,6 +99,23 @@ public class UserInfoManager extends HibernateUtil {
 		return userInfo;
 	}
 	
+	public void deleteByUserInfoId(String userInfoId) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			
+			session.createQuery("update UserInfo set delete_flg = :delete_flg where userInfoId = :userInfoId ")
+					.setParameter("delete_flg", Boolean.TRUE.toString().toLowerCase())
+					.setParameter("userInfoId", userInfoId)
+					.executeUpdate();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<UserInfo> list(String userType) {
 		
@@ -104,8 +124,9 @@ public class UserInfoManager extends HibernateUtil {
 		List<UserInfo> userInfos = null;
 		try {
 			
-			userInfos = (List<UserInfo>)session.createQuery("from UserInfo where userType = :userType")
+			userInfos = (List<UserInfo>)session.createQuery("from UserInfo where userType = :userType and COALESCE(delete_flg, :delete_flg) = :delete_flg ")
 					.setParameter("userType", userType)
+					.setParameter("delete_flg", Boolean.FALSE.toString().toLowerCase())
 					.list();
 			
 		} catch (HibernateException e) {
@@ -116,22 +137,25 @@ public class UserInfoManager extends HibernateUtil {
 		return userInfos;
 	}
 	
-	public void activeByUserInfoId(List<String> userInfoIdList, String userType) {
+	public void activeByUserInfoId(List<String> allUserInfoIdList, List<String> availableUserInfoIdList, String userType) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		try {
 			
-			session.createQuery("update UserInfo set active = :active where userType = :userType ")
-					.setParameter("active", Boolean.FALSE.toString().toLowerCase())
-					.setParameter("userType", userType)
-					.executeUpdate();
-			
-			if(userInfoIdList.size()> 0) {
+			if(allUserInfoIdList.size()> 0) {
 				session.createQuery("update UserInfo set active = :active where userType = :userType and userInfoId in (:userInfoIdList) ")
-						.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+						.setParameter("active", Boolean.FALSE.toString().toLowerCase())
 						.setParameter("userType", userType)
-						.setParameterList("userInfoIdList", userInfoIdList.toArray())
+						.setParameterList("userInfoIdList", allUserInfoIdList.toArray())
 						.executeUpdate();
+				
+				if(availableUserInfoIdList.size()> 0) {
+					session.createQuery("update UserInfo set active = :active where userType = :userType and userInfoId in (:userInfoIdList) ")
+							.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+							.setParameter("userType", userType)
+							.setParameterList("userInfoIdList", availableUserInfoIdList.toArray())
+							.executeUpdate();
+				}
 			}
 			
 		} catch (HibernateException e) {
@@ -158,4 +182,179 @@ public class UserInfoManager extends HibernateUtil {
 		return userInfo;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<UserInfo> searchShop(String userType, AdminSearch search) {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<UserInfo> userInfos = null;
+		try {
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("from UserInfo where userType = :userType ");
+			if(!search.getUserName().isEmpty()) {
+				sql.append("and userName like :userName ");
+			}
+			if(!search.getJapaneseName().isEmpty()) {
+				sql.append("and shopInfo.shopNameJp like :japaneseName ");
+			}
+			if(!search.getEnglishName().isEmpty()) {
+				sql.append("and shopInfo.shopNameEn like :englishName ");
+			}
+			Query query = session.createQuery(sql.toString());
+			query.setParameter("userType", userType);
+			if(!search.getUserName().isEmpty()) {
+				query.setParameter("userName", '%'+search.getUserName()+'%');
+			}
+			if(!search.getJapaneseName().isEmpty()) {
+				query.setParameter("japaneseName", '%'+search.getJapaneseName()+'%');
+			}
+			if(!search.getEnglishName().isEmpty()) {
+				query.setParameter("englishName", '%'+search.getEnglishName()+'%');
+			}
+			userInfos = (List<UserInfo>)query.list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return userInfos;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<UserInfo> searchAgent(String userType, AdminSearch search) {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<UserInfo> userInfos = null;
+		try {
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("from UserInfo where userType = :userType ");
+			if(!search.getUserName().isEmpty()) {
+				sql.append("and userName like :userName ");
+			}
+			if(!search.getAgentName().isEmpty()) {
+				sql.append("and agentInfo.agentName like :agentName ");
+			}
+			Query query = session.createQuery(sql.toString());
+			query.setParameter("userType", userType);
+			if(!search.getUserName().isEmpty()) {
+				query.setParameter("userName", '%'+search.getUserName()+'%');
+			}
+			if(!search.getAgentName().isEmpty()) {
+				query.setParameter("agentName", '%'+search.getAgentName()+'%');
+			}
+			userInfos = (List<UserInfo>)query.list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return userInfos;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<UserInfo> searchFreeAgent(String userType, AdminSearch search) {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<UserInfo> userInfos = null;
+		try {
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("from UserInfo where userType = :userType ");
+			if(!search.getUserName().isEmpty()) {
+				sql.append("and userName like :userName ");
+			}
+			if(!search.getNickName().isEmpty()) {
+				sql.append("and freeAgentGirlInfo.nickName like :nickName ");
+			}
+			Query query = session.createQuery(sql.toString());
+			query.setParameter("userType", userType);
+			if(!search.getUserName().isEmpty()) {
+				query.setParameter("userName", '%'+search.getUserName()+'%');
+			}
+			if(!search.getNickName().isEmpty()) {
+				query.setParameter("nickName", '%'+search.getNickName()+'%');
+			}
+			userInfos = (List<UserInfo>)query.list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return userInfos;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<UserInfo> searchClient(String userType, AdminSearch search) {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<UserInfo> userInfos = null;
+		try {
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("from UserInfo where userType = :userType ");
+			if(!search.getUserName().isEmpty()) {
+				sql.append("and userName like :userName ");
+			}
+			if(!search.getNickName().isEmpty()) {
+				sql.append("and clientInfo.nickName like :nickName ");
+			}
+			Query query = session.createQuery(sql.toString());
+			query.setParameter("userType", userType);
+			if(!search.getUserName().isEmpty()) {
+				query.setParameter("userName", '%'+search.getUserName()+'%');
+			}
+			if(!search.getNickName().isEmpty()) {
+				query.setParameter("nickName", '%'+search.getNickName()+'%');
+			}
+			userInfos = (List<UserInfo>)query.list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return userInfos;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<UserInfo> searchEnGirl(String userType, AdminSearch search) {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<UserInfo> userInfos = null;
+		try {
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("from UserInfo where userType = :userType ");
+			if(!search.getUserName().isEmpty()) {
+				sql.append("and userName like :userName ");
+			}
+			if(!search.getNickName().isEmpty()) {
+				sql.append("and enGirlInfo.nickName like :nickName ");
+			}
+			Query query = session.createQuery(sql.toString());
+			query.setParameter("userType", userType);
+			if(!search.getUserName().isEmpty()) {
+				query.setParameter("userName", '%'+search.getUserName()+'%');
+			}
+			if(!search.getNickName().isEmpty()) {
+				query.setParameter("nickName", '%'+search.getNickName()+'%');
+			}
+			userInfos = (List<UserInfo>)query.list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return userInfos;
+	}
 }

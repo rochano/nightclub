@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
@@ -10,7 +11,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Management - Basic Info</title>
+  <title><s:text name="global.management" /> - <s:text name="global.menu_basic_info" /></title>
 
   <%@include file="/common/common_shop_management_header.jsp" %>
   <script src="<s:url value="/assets/library/jquery.form.js"/>"></script>
@@ -186,42 +187,31 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Basic Info
+					<s:text name="global.menu_basic_info" />
 				</h4>
 				<div class="ui centered attached segment active content">
 					<form class="ui form " method="post" action="<s:url value="/management/basicinfo/update"/>" enctype="multipart/form-data" >
 						<div class="ui error message"><s:actionerror cssClass="list" /></div>
 						<div class="two fields">
 							<div class="inline field">
-								<s:textfield name="basicInfo.shopNameJp" label="Japanese shop name"/>
+								<s:textfield name="basicInfo.shopNameJp" key="global.japanese_shop_name" />
 							</div>
 							<div class="inline field">
-								<s:textfield name="basicInfo.shopNameEn" label="English shop name"/>
+								<s:textfield name="basicInfo.shopNameEn" key="global.english_shop_name" />
 							</div>
 						</div>
 						<div class="inline field">
-							<s:if test="#request.locale.language=='th'">
-								<s:select list="categoryInfos"
-									headerKey="" headerValue="-"
-									listKey="categoryInfoId" listValue="categoryNameEn"
-									label="Shop category" 
-									cssClass="ui search dropdown" 
-									name="basicInfo.categoryInfoId">
-								</s:select>
-							</s:if>
-							<s:else>
-								<s:select list="categoryInfos"
-									headerKey="" headerValue="-"
-									listKey="categoryInfoId" listValue="categoryNameJp"
-									label="Shop category" 
-									cssClass="ui search dropdown" 
-									name="basicInfo.categoryInfoId">
-								</s:select>
-							</s:else>
+							<s:select list="categoryInfos"
+								headerKey="" headerValue="-"
+								listKey="categoryInfoId" listValue="categoryNameEn"
+								key="global.shop_category" 
+								cssClass="ui search dropdown" 
+								name="basicInfo.categoryInfoId">
+							</s:select>
 						</div>
 						<div class="two fields">
 							<div class="inline field">
-								<label>Shop logo</label>
+								<label><s:text name="global.logo" /></label>
 								<div class="image ui small">
 									<div id="logoImg">
 										<s:if test="%{basicInfo.logoImg != ''}">
@@ -235,7 +225,7 @@
 										</button> -->
 										<label for="filelogoImg" class="ui basic button">
 											<i class="icon upload"></i>
-										  	Upload
+										  	<s:text name="global.upload" />
 										</label>
 									    <input type="file" id="filelogoImg" style="display:none">
 									</div>
@@ -243,7 +233,7 @@
 								<s:hidden name="shopLogoFileName"></s:hidden>
 							</div>
 							<div class="inline field">
-								<label>Shop image</label>
+								<label><s:text name="global.shop_image" /></label>
 								<div class="image ui small">
 									<div id="shopImg">
 										<s:if test="%{basicInfo.shopImg != ''}">
@@ -257,7 +247,7 @@
 										</button> -->
 										<label for="fileshopImg" class="ui basic button">
 											<i class="icon upload"></i>
-										  	Upload
+										  	<s:text name="global.upload" />
 										</label>
 									    <input type="file" id="fileshopImg" style="display:none">
 									</div>
@@ -267,51 +257,41 @@
 						</div>
 						<h4 class="ui horizontal divider header">
 							<i class="home icon"></i>
-							Other information
+							<s:text name="global.other_information" />
 						</h4>
 						<div class="two fields">
 							<div class="inline field">
-								<s:select list="#{'bkk':'Bangkok'}"
-									label="Province" 
+								<s:select list="#{'bkk':'กรุงเทพมหานคร'}"
+									key="global.province" 
 									cssClass="ui search dropdown" 
 									name="basicInfo.province">
 								</s:select>
 							</div>
 							<div class="inline field">
-								<s:if test="#request.locale.language=='th'">
-									<s:select list="categoryInfo.categoryZones"
-										listKey="primaryKey.zoneInfo.zoneInfoId" listValue="primaryKey.zoneInfo.zoneNameEn"
-										label="Location" 
-										cssClass="ui search dropdown" 
-										name="basicInfo.zoneInfoId">
-									</s:select>
-								</s:if>
-								<s:else>
-									<s:select list="categoryInfo.categoryZones"
-										listKey="primaryKey.zoneInfo.zoneInfoId" listValue="primaryKey.zoneInfo.zoneNameJp"
-										label="Location" 
-										cssClass="ui search dropdown" 
-										name="basicInfo.zoneInfoId">
-									</s:select>
-								</s:else>
+								<s:select list="categoryInfo.categoryZones"
+									listKey="primaryKey.zoneInfo.zoneInfoId" listValue="primaryKey.zoneInfo.zoneNameEn"
+									key="global.location" 
+									cssClass="ui search dropdown" 
+									name="basicInfo.zoneInfoId">
+								</s:select>
 							</div>
 						</div>
 						<div class="two fields">
 							<div class="inline field">
-								<s:textfield name="basicInfo.phone" label="Phone"/>
+								<s:textfield name="basicInfo.phone" key="global.phone"/>
 							</div>
 							<div class="inline field">
-								<s:textfield name="basicInfo.lineId" label="Line ID"/>
+								<s:textfield name="basicInfo.lineId" key="global.line_id"/>
 							</div>
 						</div>
 						<div class="inline field">
-							<s:textfield name="basicInfo.startTime" placeholder="HH:mm" label="Open time" size="6" />
+							<s:textfield name="basicInfo.startTime" placeholder="HH:mm" key="global.open_time" size="6" />
 							<label>-</label>
 							<s:textfield name="basicInfo.endTime" placeholder="HH:mm" size="6" />
 						</div>
 						<h4 class="ui horizontal divider header">
 							<i class="comment icon"></i>
-							Description
+							<s:text name="global.description" />
 						</h4>
 						<div class="inline field">
 							<s:textarea name="basicInfo.description" />
@@ -328,7 +308,7 @@
 						</div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div class="ui small button submit blue">Submit</div>
+								<div class="ui small button submit blue"><s:text name="global.submit" /></div>
 							</div>
 						</div>
 						<s:hidden name="basicInfo.shopInfoId"></s:hidden>

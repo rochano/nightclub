@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -7,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Administrator - Home Slide Image</title>
+  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_home_slide_image" /></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
   <script src="<s:url value="/assets/library/jquery.form.js"/>"></script>
@@ -203,7 +204,7 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Home Slide Image List
+					<s:text name="global.menu_home_slide_image" />
 				</h4>
 				<div class="ui centered grid attached segment active content" id="container">
 					<div class="column one left aligned">
@@ -222,25 +223,27 @@
 							</s:iterator>
 						</s:if>
 						<s:if test="%{homeSlideImages.size eq 0}">
-							<s:text name="global.no_data" />
+							<s:i18n name="global_th">
+								<s:text name="global.no_data" />
+							</s:i18n>
 						</s:if>
 						</div>
 						<div class="ui horizontal divider very basic">
 							<label for="slideImage" class="ui basic button">
 								<i class="icon upload"></i>
-							  	Upload
+							  	<s:text name="global.upload" />
 							</label>
 						<input type="file" id="slideImage" style="display:none">
 						</div>
 						<div class="ui horizontal divider very basic">
 							<form class="ui form " method="post" action="<s:url value="/admin/homeslideimage/update"/>" >
 								<div class="ui right floated small primary submit button">
-									Submit
+									<s:text name="global.submit" />
 								</div>
 							</form>
 						</div>
 						<h4 class="ui horizontal divider header">
-							Preview
+							<s:text name="global.preview" />
 						</h4>
 						<div class="slide-image">
 							<div class="ui centered grid ui">

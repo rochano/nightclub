@@ -47,7 +47,7 @@ public class ZoneInfoAction extends ActionSupport {
 			zoneInfo.setZoneInfoId(UUID.randomUUID().toString().toUpperCase());
 			zoneInfoManager.add(this.zoneInfo);
 			
-			addActionMessage("You have been successfully inserted");
+			addActionMessage(getText("global.message_success_add"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -60,7 +60,7 @@ public class ZoneInfoAction extends ActionSupport {
 		try {
 			zoneInfoManager.update(this.zoneInfo);
 			
-			addActionMessage("You have been successfully updated");
+			addActionMessage(getText("global.message_success_update"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -80,10 +80,10 @@ public class ZoneInfoAction extends ActionSupport {
 		String result = "";
 		if(!zoneInfoManager.isRelatedCategory(getZoneInfoId())) {
 			zoneInfoManager.delete(getZoneInfoId());
-			addActionMessage("You have been successfully deleted");
+			addActionMessage(getText("global.message_success_delete"));
 			result = SUCCESS;
 		} else{
-			addActionError("Delete Failed !!! deleted zone has been related with some category");
+			addActionError(getText("global.message_location_delete_fail"));
 			result = INPUT;
 		}
 		this.zoneInfos = zoneInfoManager.list();

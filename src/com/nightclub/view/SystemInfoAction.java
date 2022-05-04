@@ -59,7 +59,7 @@ public class SystemInfoAction extends ActionSupport implements SessionAware {
 //			systemInfo.setDescription(UploadFileUtils.uploadImageinDescription(systemInfo.getDescription(), sessionMap, userInfo));
 			systemInfoManager.add(this.systemInfo);
 			
-			addActionMessage("You have been successfully inserted");
+			addActionMessage(getText("global.message_success_add"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -89,7 +89,7 @@ public class SystemInfoAction extends ActionSupport implements SessionAware {
 			}
 			systemInfoManager.update(this.systemInfo);
 			
-			addActionMessage("You have been successfully updated");
+			addActionMessage(getText("global.message_success_update"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -121,7 +121,7 @@ public class SystemInfoAction extends ActionSupport implements SessionAware {
 	public String delete() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		systemInfoManager.delete(userInfo.getShopInfoId());
-		addActionMessage("You have been successfully deleted");
+		addActionMessage(getText("global.message_success_delete"));
 		this.systemInfo = systemInfoManager.getSystemInfo(userInfo.getShopInfoId());
 		return SUCCESS;
 	}
@@ -138,7 +138,7 @@ public class SystemInfoAction extends ActionSupport implements SessionAware {
 
 		systemInfoManager.activeByClassType(userInfo.getShopInfoId(), getClassType());
 		this.systemInfo = systemInfoManager.getSystemInfo(userInfo.getShopInfoId());
-		addActionMessage("You have been successfully updated");
+		addActionMessage(getText("global.message_success_update"));
 		return SUCCESS;
 	}
 

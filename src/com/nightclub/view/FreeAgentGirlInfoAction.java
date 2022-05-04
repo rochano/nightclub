@@ -69,7 +69,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.girlInfo = (FreeAgentGirlInfo)girlInfoManager.getGirlInfo(userInfo.getGirlInfoId());
 		sessionMap.put("freeAgentGirlInfo", girlInfo);
-		this.girlServiceInfos = girlInfoManager.getGirlServiceList();
+		this.girlServiceInfos = girlInfoManager.getGirlServiceInfoList();
 		setFormValue(userInfo);
 		this.girlServices = new ArrayList<String>();
 		if (this.girlInfo != null) {
@@ -217,7 +217,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 				}
 			}
 			
-			addActionMessage("You have been successfully updated");
+			addActionMessage(getText("global.message_success_update"));
 			execute();
 			
 			return SUCCESS;
@@ -394,7 +394,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	}
 	
 	private void setFormValue(UserInfo userInfo) {
-		this.girlServiceInfos = girlInfoManager.getGirlServiceList();
+		this.girlServiceInfos = girlInfoManager.getGirlServiceInfoList();
 		this.girlSetting = girlSettingManager.getGirlSetting();
 		this.ageList = makeList(girlSetting.getAgeFrom(), girlSetting.getAgeTo());
 		this.bustSizeList = makeList(girlSetting.getBustSizeFrom(), girlSetting.getBustSizeTo());

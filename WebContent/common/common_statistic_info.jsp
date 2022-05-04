@@ -36,17 +36,17 @@ $(document)
 	</div>
 	<div class="right menu">
 		<div class="ui dropdown item">
-			<s:if test="agentInfo != null">
-			สวัสดี, คุณ<s:property value="agentInfo.agentName" />
+			<s:if test="#session.agentInfo != null">
+			สวัสดี, คุณ<s:property value="#session.agentInfo.agentName" />
 			</s:if>
-			<s:elseif test="freeAgentGirlInfo != null">
-			สวัสดี, คุณ<s:property value="freeAgentGirlInfo.nickName" />
+			<s:elseif test="#session.freeAgentGirlInfo != null">
+			สวัสดี, คุณ<s:property value="#session.freeAgentGirlInfo.nickName" />
 			</s:elseif>
-			<s:elseif test="clientInfo != null">
-			สวัสดี, คุณ<s:property value="clientInfo.nickName" />
+			<s:elseif test="#session.clientInfo != null">
+			สวัสดี, คุณ<s:property value="#session.clientInfo.nickName" />
 			</s:elseif>
-			<s:elseif test="enGirlInfo != null">
-			สวัสดี, คุณ<s:property value="enGirlInfo.nickName" />
+			<s:elseif test="#session.enGirlInfo != null">
+			สวัสดี, คุณ<s:property value="#session.enGirlInfo.nickName" />
 			</s:elseif>
 			<s:else>
 			<div class="ui label blue">
@@ -64,7 +64,7 @@ $(document)
 			</s:else>
 		  	<i class="dropdown icon"></i>
 			<div class="menu">
-				<s:if test="agentInfo != null">
+				<s:if test="#session.agentInfo != null">
 					<a class="ui tiny item" href="<s:url value="/management_agent/agentinfo"/>">
 						<i class="setting icon teal"></i>
 						Agent Info
@@ -75,7 +75,7 @@ $(document)
 					</a>
 					<div class="ui divider"></div>
 				</s:if>
-				<s:elseif test="freeAgentGirlInfo != null">
+				<s:elseif test="#session.freeAgentGirlInfo != null">
 					<a class="ui tiny item" href="<s:url value="/management_free_agent/information"/>">
 						<i class="setting icon teal"></i>
 						Information
@@ -86,7 +86,7 @@ $(document)
 					</a>
 					<div class="ui divider"></div>
 				</s:elseif>
-				<s:elseif test="clientInfo != null">
+				<s:elseif test="#session.clientInfo != null">
 					<a class="ui tiny item" href="<s:url value="/management_client/information"/>">
 						<i class="setting icon teal"></i>
 						Information
@@ -101,7 +101,7 @@ $(document)
 					</a>
 					<div class="ui divider"></div>
 				</s:elseif>
-				<s:elseif test="enGirlInfo != null">
+				<s:elseif test="#session.enGirlInfo != null">
 					<a class="ui tiny item" href="<s:url value="/management_en_girl/information"/>">
 						<i class="setting icon teal"></i>
 						Information

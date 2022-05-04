@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -7,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Administrator - Ads</title>
+  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_ads" /></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
   <script src="<s:url value="/assets/library/jquery.form.js"/>"></script>
@@ -221,15 +222,17 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Search Conditions
+					<s:i18n name="global_th">
+						<s:text name="global.search_condition" />
+					</s:i18n>
 				</h4>
 				<div class="ui left aligned attached segment active content">
 					<form class="ui form" id="searchForm" method="post" action="<s:url value="/admin/ads/search"/>">
 						<div class="inline field">
-							<s:textfield name="adsSearch.title" label="Title"/>
+							<s:textfield name="adsSearch.title" key="global.title"/>
 						</div>
 						<div class="inline fields">
-							<label>Date</label>
+							<label><s:text name="global.date" /></label>
 							<div class="field">
 								<s:textfield name="adsSearch.adsDateFrom" placeholder="DD/MM/YYYY" />
 							</div>
@@ -241,32 +244,32 @@
 						<div class="ui error message"></div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div class="ui small button submit blue">Search</div>
-								<div class="ui small button clear">Clear</div>
+								<div class="ui small button submit blue"><s:text name="global.search" /></div>
+								<div class="ui small button clear"><s:text name="global.clear" /></div>
 							</div>
 						</div>
 					</form>
 				</div>
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Ads List
+					<s:text name="global.menu_ads" />
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div id="addbtn" class="ui small button blue">Add</div>
+								<div id="addbtn" class="ui small button blue"><s:text name="global.add" /></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th>Title</th>
-									<th>Date From</th>
-									<th>Date To</th>
-									<th>Active</th>
-									<th>Operation</th>
+									<th><s:text name="global.title" /></th>
+									<th><s:text name="global.date_from" /></th>
+									<th><s:text name="global.date_to" /></th>
+									<th><s:text name="global.active" /></th>
+									<th><s:text name="global.operation" /></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -310,7 +313,7 @@
 <div class="ui modal">
   <i class="close icon"></i>
   <div class="header">
-    Ads Information
+    <s:text name="global.edit_information" /><s:text name="global.menu_ads" />
   </div>
   <div class="content">
     <form class="ui form" id="infoForm" method="post" action="<s:url value="/admin/ads/update"/>" >
@@ -318,7 +321,7 @@
 			<s:textfield name="adsInfo.title" label="Title"/>
 		</div>
 		<div class="inline fields">
-			<label>Date</label>
+			<label><s:text name="global.date" />:</label>
 			<div class="field">
 				<s:textfield name="adsInfo.adsDateFrom" placeholder="DD/MM/YYYY" />
 			</div>
@@ -329,7 +332,7 @@
 			</div>
 		</div>
 		<div class="inline field">
-			<label>Auto Subscribe</label>
+			<label><s:text name="global.ads_auto_subscribe" />:</label>
 			<div class="ui toggle fitted checkbox">
 				<input type="checkbox" name="autoSubscribe" id="autoSubscribe" 
 				<s:if test="adsInfo.autoSubscribe == 'true'">checked="checked"</s:if>
@@ -339,20 +342,20 @@
 		</div>
 		<div class="inline field">
 			<label></label>
-			<label>Current Range:</label>
+			<label><s:text name="global.ads_current_range" />:</label>
 			<label id="current_range_from"><s:text name="currentRangeFrom" /></label>
 			<label>-</label>
 			<label id="current_range_to"><s:text name="currentRangeTo" /></label>
 		</div>
 		<div class="inline field">
 			<label></label>
-			<label>Next Range:</label>
+			<label><s:text name="global.ads_next_range" />:</label>
 			<label id="next_range_from"><s:text name="nextRangeFrom" /></label>
 			<label>-</label>
 			<label id="next_range_to"><s:text name="nextRangeTo" /></label>
 		</div>
 		<div class="inline field">
-			<label>Active</label>
+			<label><s:text name="global.active" />:</label>
 			<div class="ui toggle fitted checkbox">
 				<input type="checkbox" name="active" 
 				<s:if test="adsInfo.active == 'true'">checked="checked"</s:if>
@@ -361,11 +364,11 @@
 			</div>
 		</div>
 		<div class="inline field">
-			<label>URL</label>
+			<label>URL:</label>
 			<s:textfield name="adsInfo.customUrl" size="50" />
 		</div>
 		<div class="inline field">
-			<label>Ads image</label>
+			<label><s:text name="global.ads_image" />:</label>
 			<div class="image ui small">
 				<div id="adsImg" class="ui leaderboard ad">
 					<s:if test="%{adsInfo.AdsImg != ''}">
@@ -375,7 +378,7 @@
 				<div class="ui horizontal divider very basic">
 					<label for="fileAdsImg" class="ui basic button">
 						<i class="icon upload"></i>
-					  	Upload
+					  	<s:text name="global.upload" />
 					</label>
 				    <input type="file" id="fileAdsImg" style="display:none">
 				</div>
@@ -388,8 +391,8 @@
 	</form>
   </div>
   <div class="actions">
-    <div class="ui approve blue button">Save</div>
-    <div class="ui cancel button">Cancel</div>
+    <div class="ui approve blue button"><s:text name="global.save" /></div>
+    <div class="ui cancel button"><s:text name="global.cancel" /></div>
   </div>
 </div>
 </body>

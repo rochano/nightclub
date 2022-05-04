@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -7,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Management - System</title>
+  <title><s:text name="global.management" /> - <s:text name="global.menu_system" /></title>
 
   <%@include file="/common/common_shop_management_header.jsp" %>
 
@@ -185,7 +186,7 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					System List
+					<s:text name="global.menu_system" />
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
@@ -193,19 +194,19 @@
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th>Class</th>
-									<th>Service</th>
-									<th>Duration</th>
-									<th>Price</th>
-									<th>Active</th>
-									<th>Operation</th>
+									<th><s:text name="global.class" /></th>
+									<th><s:text name="global.service" /></th>
+									<th><s:text name="global.duration" /></th>
+									<th><s:text name="global.price" /></th>
+									<th><s:text name="global.active" /></th>
+									<th><s:text name="global.operation" /></th>
 								</tr>
 							</thead>
 							<tbody>
 								<%-- Normal --%>
 								<tr>
 									<td class="center aligned" rowspan="3">1</td>
-									<td class="center aligned" rowspan="3">Normal</td>
+									<td class="center aligned" rowspan="3"><s:text name="global.normal" /></td>
 									<td class="center aligned">1</td>
 									<td class="center aligned">60</td>
 									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="systemInfo.priceNormal1"/></s:text></td>
@@ -242,7 +243,7 @@
 								<%-- VIP --%>
 								<tr>
 									<td class="center aligned" rowspan="3">2</td>
-									<td class="center aligned" rowspan="3">VIP</td>
+									<td class="center aligned" rowspan="3"><s:text name="global.vip" /></td>
 									<td class="center aligned">1</td>
 									<td class="center aligned">60</td>
 									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="systemInfo.priceVIP1"/></s:text></td>
@@ -282,7 +283,7 @@
 									<th colspan="7">
 										<form id="systemInfoupdateForm" class="ui form " method="post" action="<s:url value="/management/system/systemsupdate"/>" >
 											<div class="ui right floated small primary submit button">
-												Submit
+												<s:text name="global.submit" />
 											</div>
 										</form>
 									</th>
@@ -301,18 +302,24 @@
 <div class="ui modal">
   <i class="close icon"></i>
   <div class="header">
-    System Information
+    <s:text name="global.edit_information" /><s:text name="global.menu_system" />
   </div>
   <div class="content">
     <form class="ui form" id="infoForm" method="post" action="<s:url value="/management/system/update"/>">
 		<div class="inline fields">
-			<label class="label">Class:</label>
+			<label class="label"><s:text name="global.class" />:</label>
 			<div class="disabled inline field">
-				<s:textfield name="classType" readonly="true" disabled="true" />
+				<s:if test="classType == 'Normal'">
+					<s:text name="global.normal" />
+				</s:if>
+				<s:else>
+					<s:text name="global.vip" />
+				</s:else>
+				
 			</div>
 		</div>
 		<div class="inline fields">
-			<label class="label">Service:</label>
+			<label class="label"><s:text name="global.service" />:</label>
 			<div class="disabled inline field">
 				<s:textfield name="service1" size="7" value="1" readonly="true" />
 			</div>
@@ -324,7 +331,7 @@
 			</div>
 		</div>
 		<div class="inline fields">
-			<label class="label">Duration:</label>
+			<label class="label"><s:text name="global.duration" />:</label>
 			<div class="disabled inline field">
 				<s:textfield name="duration1" size="7" value="60" readonly="true" />
 			</div>
@@ -336,7 +343,7 @@
 			</div>
 		</div>
 		<div class="inline fields">
-			<label class="label">Price:</label>
+			<label class="label"><s:text name="global.price" />:</label>
 			<div class="inline field">
 				<s:textfield name="price1" size="7" class="number" value="%{getText('format.integer',{price1})}"/>
 			</div>
@@ -354,8 +361,8 @@
 	</form>
   </div>
   <div class="actions">
-    <div class="ui approve blue button">Save</div>
-    <div class="ui cancel button">Cancel</div>
+    <div class="ui approve blue button"><s:text name="global.save" /></div>
+    <div class="ui cancel button"><s:text name="global.cancel" /></div>
   </div>
 </div>
 </body>

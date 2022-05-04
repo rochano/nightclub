@@ -2,12 +2,14 @@ package com.nightclub.view;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.apache.struts2.interceptor.SessionAware;
+import org.cloudinary.json.JSONObject;
 
 import com.nightclub.controller.AgentGirlInfoManager;
 import com.nightclub.controller.AgentInfoManager;
@@ -172,7 +174,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 			}
 			girlInfoManager.add(this.girlInfo);
 			
-			addActionMessage("You have been successfully inserted");
+			addActionMessage(getText("global.message_success_add"));
 			this.girlInfos = girlInfoManager.list(userInfo.getAgentInfoId());
 			setFormValue(userInfo);
 			
@@ -294,7 +296,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 			this.girlInfo.setUpdatedBy(userInfo.getUserInfoId());
 			girlInfoManager.update(this.girlInfo);
 			
-			addActionMessage("You have been successfully updated");
+			addActionMessage(getText("global.message_success_update"));
 			this.girlInfos = girlInfoManager.list(userInfo.getAgentInfoId());
 			setFormValue(userInfo);
 			
@@ -355,7 +357,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	public String delete() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		girlInfoManager.delete(getGirlInfoId());
-		addActionMessage("You have been successfully deleted");
+		addActionMessage(getText("global.message_success_delete"));
 		this.girlInfos = girlInfoManager.list(userInfo.getAgentInfoId());
 		setFormValue(userInfo);
 		return SUCCESS;
@@ -493,9 +495,19 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 			setAvailablelist(new ArrayList<String>());
 		}
 
-		girlInfoManager.avaiableByGirlInfoId(userInfo.getAgentInfoId(), getAvailablelist());
+		Iterator<String> it = getAvailablelist().iterator();
+		List<String> allGirlInfoIdList = new ArrayList<String>();
+		List<String> availableGirlInfoIdList = new ArrayList<String>();
+		while(it.hasNext()) {
+			JSONObject jsonData = new JSONObject(it.next());
+			allGirlInfoIdList.add(jsonData.getString("id"));
+			if (jsonData.getBoolean("checked")) {
+				availableGirlInfoIdList.add(jsonData.getString("id"));
+			}
+		}
+		girlInfoManager.avaiableByGirlInfoId(allGirlInfoIdList, availableGirlInfoIdList);
 		this.girlInfos = girlInfoManager.list(userInfo.getAgentInfoId());
-		addActionMessage("You have been successfully updated");
+		addActionMessage(getText("global.message_success_update"));
 		setFormValue(userInfo);
 		return SUCCESS;
 	}
@@ -573,7 +585,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	}
 	
 	private void setFormValue(UserInfo userInfo) {
-		this.girlServiceInfos = girlInfoManager.getGirlServiceList();
+		this.girlServiceInfos = girlInfoManager.getGirlServiceInfoList();
 		this.girlSetting = girlSettingManager.getGirlSetting();
 		this.ageList = makeList(girlSetting.getAgeFrom(), girlSetting.getAgeTo());
 		this.bustSizeList = makeList(girlSetting.getBustSizeFrom(), girlSetting.getBustSizeTo());

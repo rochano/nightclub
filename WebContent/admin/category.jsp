@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -7,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Administrator - Category</title>
+  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.shop_category" /></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
 
@@ -222,22 +223,22 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Category List
+					<s:text name="global.shop_category" />
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div id="addbtn" class="ui small button blue">Add</div>
+								<div id="addbtn" class="ui small button blue"><s:text name="global.add" /></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th>Japanese name</th>
-									<th>English name</th>
-									<th>Operation</th>
+									<th><s:text name="global.japanese_name" /></th>
+									<th><s:text name="global.english_name" /></th>
+									<th><s:text name="global.operation" /></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -266,23 +267,23 @@
 <div class="ui modal">
   <i class="close icon"></i>
   <div class="header">
-    Category Information
+    <s:text name="global.edit_information" /><s:text name="global.shop_category" />
   </div>
   <div class="content">
     <form class="ui form" id="infoForm" method="post" action="<s:url value="/admin/category/update"/>">
 		<div class="inline field">
-			<s:textfield name="categoryInfo.categoryNameJp" label="Japanese name" />
+			<s:textfield name="categoryInfo.categoryNameJp" key="global.japanese_name" />
 		</div>
 		<div class="inline field">
-			<s:textfield name="categoryInfo.categoryNameEn" label="English name" />
+			<s:textfield name="categoryInfo.categoryNameEn" key="global.english_name" />
 		</div>
 		<div class="inline fields">
-			<label class="label">Location:</label>
+			<label class="label"><s:text name="global.location" />:</label>
 			<div class="ui left icon input">
 				<div class="ui feed">
 					<div class="event">
 						<div class="ui left icon action input">
-							<s:select name="zonelist" list="zoneInfos" cssClass="ui search dropdown" listKey="zoneInfoId" listValue="zoneNameJp"></s:select>
+							<s:select name="zonelist" list="zoneInfos" cssClass="ui search dropdown" listKey="zoneInfoId" listValue="zoneNameEn"></s:select>
 							<button class="icon ui button" id="add-zone-btn" type="button"><i class="plus icon"></i></button>
 						</div>
 					</div>
@@ -290,7 +291,7 @@
 					<s:iterator value="zonelist" begin="1" var="zone">
 					<div class="event">
 						<div class="ui left icon action input">
-							<s:select value="zone" name="zonelist" list="zoneInfos" cssClass="ui search dropdown" listKey="zoneInfoId" listValue="zoneNameJp"></s:select>
+							<s:select value="zone" name="zonelist" list="zoneInfos" cssClass="ui search dropdown" listKey="zoneInfoId" listValue="zoneNameEn"></s:select>
 							<button class="icon ui button remove-zone-btn" type="button"><i class="minus icon"></i></button>
 						</div>
 					</div>
@@ -301,7 +302,7 @@
 		</div>
 		<h4 class="ui horizontal divider header">
 			<i class="comment icon"></i>
-			Description
+			<s:text name="global.description" />
 		</h4>
 		<div class="inline field">
 			<s:textarea name="categoryInfo.description" />
@@ -312,8 +313,8 @@
 	</form>
   </div>
   <div class="actions">
-    <div class="ui approve blue button">Save</div>
-    <div class="ui cancel button">Cancel</div>
+    <div class="ui approve blue button"><s:text name="global.save" /></div>
+    <div class="ui cancel button"><s:text name="global.cancel" /></div>
   </div>
 </div>
 <script type="text/javascript">

@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -7,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Administrator - How to input</title>
+  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.how_to_input" /></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
 <script type="text/javascript">
@@ -94,14 +95,14 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					How to input
+					<s:text name="global.how_to_input" />
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
 						<form class="ui form " method="post" action="<s:url value="/admin/howtoinput/update"/>" >
 							<h4 class="ui horizontal divider header">
 								<i class="building icon"></i>
-								Shop Service
+								<s:text name="global.menu_shop" />
 							</h4>
 							<div class="inline field">
 								<s:textarea name="homeInfo.howToInputShopService" />
@@ -118,7 +119,7 @@
 							</div>
 							<h4 class="ui horizontal divider header">
 								<i class="users icon"></i>
-								Agent
+								<s:text name="global.menu_agent" />
 							</h4>
 							<div class="inline field">
 								<s:textarea name="homeInfo.howToInputAgent" />
@@ -135,7 +136,7 @@
 							</div>
 							<h4 class="ui horizontal divider header">
 								<i class="heart icon"></i>
-								Free Agent
+								<s:text name="global.menu_free_agent" />
 							</h4>
 							<div class="inline field">
 								<s:textarea name="homeInfo.howToInputFreeAgent" />
@@ -152,7 +153,7 @@
 							</div>
 							<h4 class="ui horizontal divider header">
 								<i class="smile icon"></i>
-								Entertain Girl
+								<s:text name="global.menu_en_girl" />
 							</h4>
 							<div class="inline field">
 								<s:textarea name="homeInfo.howToInputEnGirl" />
@@ -169,7 +170,7 @@
 							</div>
 							<div class="ui right aligned one column grid">
 								<div class="column">
-									<div class="ui small button submit blue">Submit</div>
+									<div class="ui small button submit blue"><s:text name="global.submit" /></div>
 								</div>
 							</div>
 						</form>

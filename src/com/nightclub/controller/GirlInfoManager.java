@@ -345,7 +345,7 @@ public class GirlInfoManager extends HibernateUtil {
 //	}
 
 	@SuppressWarnings("unchecked")
-	public List<GirlServiceInfo> getGirlServiceList() {
+	public List<GirlServiceInfo> getGirlServiceInfoList() {
 		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -652,5 +652,23 @@ public class GirlInfoManager extends HibernateUtil {
 					.setParameter("girlInfoId", girlInfoId)
 					.list();
 		return girlLocations;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GirlService> getGirlServiceList() {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<GirlService> girlServices = null;
+		try {
+			
+			girlServices = (List<GirlService>)session.createQuery("from GirlService").list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return girlServices;
 	}
 }

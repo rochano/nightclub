@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -7,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Management - Girls</title>
+  <title><s:text name="global.management" /> - <s:text name="global.menu_girls" /></title>
 
   <%@include file="/common/common_shop_management_header.jsp" %>
   <script src="<s:url value="/assets/library/jquery.form.js"/>"></script>
@@ -101,6 +102,7 @@
 
 	  $("#addbtn")
 		.on('click', function() {
+			$('.ui.modal .header:first').text("<s:text name="global.add_information" /><s:text name="global.menu_girls" />");
 		  $('#infoForm').find("input[type=text], textarea").val("");
 		  CKEDITOR.instances.girlInfo_description.setData('');
 		  $('#infoForm').find("input[type=radio], input[type=checkbox]").prop('checked', false);
@@ -137,82 +139,14 @@
                   rules: [
                     {
                       type   : 'empty',
-                      prompt : 'Please enter your nick name'
+                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.nick_name" />'
+                    },
+                    {
+                      type   : 'regExp[/^[a-zA-Z0-9 ]+$/]',
+                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.nick_name" /><s:text name="global.message_english_only" />'
                     },
                   ]
                 },
-              /*   girlInfo_category: {
-                    identifier  : 'girlInfo_category',
-                    rules: [
-                      {
-                        type   : 'empty',
-                        prompt : 'Please enter your category'
-                      },
-                    ]
-                  },*/
-                girlInfo_location: {
-                    identifier  : 'girlInfo_location',
-                    rules: [
-                      {
-                        type   : 'empty',
-                        prompt : 'Please enter your location'
-                      },
-                    ]
-                  }, 
-                girlInfo_age: {
-                    identifier  : 'girlInfo_age',
-                    rules: [
-                      {
-                        type   : 'integer',
-                        prompt : 'Please enter a valid age'
-                      },
-                    ]
-                  },
-                girlInfo_bustSize: {
-                    identifier  : 'girlInfo_bustSize',
-                    rules: [
-                      {
-                        type   : 'integer',
-                        prompt : 'Please enter a valid bust size'
-                      },
-                    ]
-                  },
-                girlInfo_waistSize: {
-                    identifier  : 'girlInfo_waistSize',
-                    rules: [
-                      {
-                        type   : 'integer',
-                        prompt : 'Please enter a valid waist size'
-                      },
-                    ]
-                  },
-                  girlInfo_hipSize: {
-                   identifier  : 'girlInfo_hipSize',
-                   rules: [
-                     {
-                       type   : 'integer',
-                       prompt : 'Please enter a valid hip size'
-                     },
-                   ]
-                 },
-                 girlInfo_height: {
-                     identifier  : 'girlInfo_height',
-                     rules: [
-                       {
-                         type   : 'integer',
-                         prompt : 'Please enter a valid height'
-                       },
-                     ]
-                   },
-                girlInfo_weight: {
-                    identifier  : 'girlInfo_weight',
-                    rules: [
-                      {
-                        type   : 'integer',
-                        prompt : 'Please enter a valid weight'
-                      },
-                    ]
-                  },
           },
        })
       ;
@@ -335,8 +269,9 @@
           onSuccess: function() { 
               var form = $(this);
               form.find("[name=availablelist]").remove()
-              $( "input[name=available]:checked", dataTable.fnGetNodes()).each(function(i, item) {
-            	  form.append("<input name='availablelist' value='" + item.value + "' type='hidden' />")
+              $( "input[name=available]", dataTable.fnGetNodes()).each(function(i, item) {
+                  var obj = {id: item.value, checked: item.checked};
+            	  form.append("<input name='availablelist' value='" + JSON.stringify(obj) + "' type='hidden' />")
               })
               return true; 
           }
@@ -386,89 +321,74 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Search Conditions
+					<s:i18n name="global_th">
+						<s:text name="global.search_condition" />
+					</s:i18n>
 				</h4>
 				<div class="ui left aligned attached segment active content">
 					<form class="ui form" id="searchForm" method="post" action="<s:url value="/management_agent/girl/search"/>">
 						<div class="inline field">
-							<s:textfield name="girlSearch.nickName" label="Nick Name "/>
+							<s:textfield name="girlSearch.nickName" key="global.nick_name"/>
 						</div>
 						<div class="accordion">
 							<div class="inline field title">
-								<label class="label">Location :
+								<label class="label"><s:text name="global.location" /> :
 									<i class="dropdown icon"></i>
 								</label>
 							</div>
 							<div class="content">
 								<div class="ui four column grid doubling">
-									<s:if test="#request.locale.language=='th'">
-										<s:iterator value="zoneInfos" status="rowstatus">
-											<div class="column">
-												<div class="field ui checkbox">
-													<input type="checkbox" name="searchGirlLocations" id="searchGirlLocations_<s:property value="#rowstatus.count" />"
-														<s:iterator value="searchGirlLocations" >
-															<s:property value="top" />
-															<s:if test="top == zoneInfoId">checked="checked"</s:if>
-														</s:iterator>
-														value="<s:property value="zoneInfoId" />">
-													<label for="searchGirlLocations_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
-												</div>
+									<s:iterator value="zoneInfos" status="rowstatus">
+										<div class="column">
+											<div class="field ui checkbox">
+												<input type="checkbox" name="searchGirlLocations" id="searchGirlLocations_<s:property value="#rowstatus.count" />"
+													<s:iterator value="searchGirlLocations" >
+														<s:property value="top" />
+														<s:if test="top == zoneInfoId">checked="checked"</s:if>
+													</s:iterator>
+													value="<s:property value="zoneInfoId" />">
+												<label for="searchGirlLocations_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
 											</div>
-										</s:iterator>
-									</s:if>
-									<s:else>
-										<s:iterator value="zoneInfos" status="rowstatus">
-											<div class="column">
-												<div class="field ui checkbox">
-													<input type="checkbox" name="searchGirlLocations" id="searchGirlLocations_<s:property value="#rowstatus.count" />"
-														<s:iterator value="searchGirlLocations" >
-															<s:property value="top" />
-															<s:if test="top == zoneInfoId">checked="checked"</s:if>
-														</s:iterator>
-														value="<s:property value="zoneInfoId" />">
-													<label for="searchGirlLocations_<s:property value="#rowstatus.count" />"><s:property value="zoneNameJp" /></label>
-												</div>
-											</div>
-										</s:iterator>
-									</s:else>
+										</div>
+									</s:iterator>
 								</div>
 							</div>
 						</div>
 						<div class="ui error message"></div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div class="ui small button submit blue">Search</div>
-								<div class="ui small button clear">Clear</div>
+								<div class="ui small button submit blue"><s:text name="global.search" /></div>
+								<div class="ui small button clear"><s:text name="global.clear" /></div>
 							</div>
 						</div>
 					</form>
 				</div>
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Girls List
+					<s:text name="global.search_list" />
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div id="addbtn" class="ui small button blue">Add</div>
+								<div id="addbtn" class="ui small button blue"><s:text name="global.add" /></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable sortable">
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th>Photo</th>
-									<th>Nick Name</th>
-									<th>Age</th>
-									<th>Location</th>
+									<th><s:text name="global.girl_photo" /></th>
+									<th><s:text name="global.nick_name" /></th>
+									<th><s:text name="global.age" /></th>
+									<th><s:text name="global.location" /></th>
 									<th>H</th>
 									<th>W</th>
 									<th>B</th>
 									<th>W</th>
 									<th>H</th>
-									<th>Available</th>
-									<th>Operation</th>
+									<th><s:text name="global.available" /></th>
+									<th><s:text name="global.operation" /></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -481,18 +401,10 @@
 									<td><s:property value="nickName" /></td>
 									<td class="center aligned"><s:property value="age" /></td>
 									<td>
-										<s:if test="#request.locale.language=='th'">
-											<s:iterator value="girlLocations" >
-												<s:property value="primaryKey.zoneInfo.zoneNameEn" />
-												<br />
-											</s:iterator>
-										</s:if>
-										<s:else>
-											<s:iterator value="girlLocations" >
-												<s:property value="primaryKey.zoneInfo.zoneNameJp" />
-												<br />
-											</s:iterator>
-										</s:else>
+										<s:iterator value="girlLocations" >
+											<s:property value="primaryKey.zoneInfo.zoneNameEn" />
+											<br />
+										</s:iterator>
 									</td>
 									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="height"/></s:text></td>
 									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="weight"/></s:text></td>
@@ -508,8 +420,10 @@
 										</div>
 									</td>
 									<td class="center aligned">
-										<a href="<s:url value="/management_agent/girl/edit/%{girlInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
-										<a href="<s:url value="/management_agent/girl/delete/%{girlInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
+										<div class="ui buttons">
+											<a href="<s:url value="/management_agent/girl/edit/%{girlInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
+											<a href="<s:url value="/management_agent/girl/delete/%{girlInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
+										</div>
 									</td>
 								</tr>
 								</s:iterator>
@@ -519,7 +433,7 @@
 									<th colspan="12">
 										<form id="girlsupdateForm" class="ui form " method="post" action="<s:url value="/management_agent/girl/girlsupdate"/>" >
 											<div class="ui right floated small primary submit button">
-												Submit
+												<s:text name="global.submit" />
 											</div>
 										</form>
 									</th>
@@ -538,18 +452,18 @@
 <div class="ui modal">
   <i class="close icon"></i>
   <div class="header">
-    Girl Information
+    <s:text name="global.edit_information" /><s:text name="global.menu_girls" />
   </div>
   <div class="content">
   	<form class="ui form" id="infoForm" method="post" action="<s:url value="/management_agent/girl/update"/>" enctype="multipart/form-data">
     	<div class="inline field">
-			<s:textfield name="girlInfo.nickName" label="Nick Name "/>
+			<s:textfield name="girlInfo.nickName" key="global.nick_name"/>
 		</div>
 		<div class="inline field">
-			<s:select list="ageList" name="girlInfo.age" label="Age " ></s:select>
+			<s:select list="ageList" name="girlInfo.age" key="global.age" ></s:select>
 		</div>
 		<div class="inline fields">
-			<label>Body size :</label>
+			<label><s:text name="global.body_size" /> :</label>
 			<div class="field">
 				<s:select list="bustSizeList" name="girlInfo.bustSize" label="B "></s:select>
 			</div>
@@ -561,7 +475,7 @@
 			</div>
 		</div>
 		<div class="inline fields">
-			<label>H/W :</label>
+			<label><s:text name="global.height_weight" /> :</label>
 			<div class="field">
 				<s:select list="heightList" name="girlInfo.height" label="H "></s:select>
 			</div>
@@ -570,7 +484,7 @@
 			</div>
 		</div>
 		<h4 class="ui horizontal header">
-			In call or Out call :
+			In call/Out call :
 		</h4>
 		<div class="ui four column grid stackable">
 			<div class="column">
@@ -578,7 +492,11 @@
 					<input type="radio" name="girlInfo.incallOutcall" id="girlInfo_gender_incall"
 						<s:if test="girlInfo.incallOutcall == 'incall'">checked="checked"</s:if>
 						 value="incall">
-					<label for="girlInfo_gender_incall"><s:text name="global.incall" /></label>
+					<label for="girlInfo_gender_incall">
+						<s:i18n name="global_th">
+							<s:text name="global.incall" />
+						</s:i18n>
+					</label>
 				</div>
 			</div>
 			<div class="column">
@@ -586,54 +504,41 @@
 					<input type="radio" name="girlInfo.incallOutcall" id="girlInfo_gender_outcall"
 						<s:if test="girlInfo.incallOutcall == 'outcall'">checked="checked"</s:if>
 						 value="outcall">
-					<label for="girlInfo_gender_outcall"><s:text name="global.outcall" /></label>
+					<label for="girlInfo_gender_outcall">
+						<s:i18n name="global_th">
+							<s:text name="global.outcall" />
+						</s:i18n>
+					</label>
 				</div>
 			</div>
 		</div>
 		<br />
 		<div class="ui accordion">
 			<h4 class="title">
-				Location :
+				<s:text name="global.location" /> :
 				<i class="dropdown icon"></i>
 			</h4>
 			<div class="content">
 				<div class="ui four column grid doubling">
-					<s:if test="#request.locale.language=='th'">
-						<s:iterator value="zoneInfos" status="rowstatus">
-							<div class="column">
-								<div class="field ui checkbox">
-									<input type="checkbox" name="girlLocations" id="girlLocations_<s:property value="#rowstatus.count" />"
-										<s:iterator value="girlLocations" >
-											<s:property value="top" />
-											<s:if test="top == zoneInfoId">checked="checked"</s:if>
-										</s:iterator>
-										value="<s:property value="zoneInfoId" />">
-									<label for="girlLocations_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
-								</div>
+					<s:iterator value="zoneInfos" status="rowstatus">
+						<div class="column">
+							<div class="field ui checkbox">
+								<input type="checkbox" name="girlLocations" id="girlLocations_<s:property value="#rowstatus.count" />"
+									<s:iterator value="girlLocations" >
+										<s:property value="top" />
+										<s:if test="top == zoneInfoId">checked="checked"</s:if>
+									</s:iterator>
+									value="<s:property value="zoneInfoId" />">
+								<label for="girlLocations_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
 							</div>
-						</s:iterator>
-					</s:if>
-					<s:else>
-						<s:iterator value="zoneInfos" status="rowstatus">
-							<div class="column">
-								<div class="field ui checkbox">
-									<input type="checkbox" name="girlLocations" id="girlLocations_<s:property value="#rowstatus.count" />"
-										<s:iterator value="girlLocations" >
-											<s:property value="top" />
-											<s:if test="top == zoneInfoId">checked="checked"</s:if>
-										</s:iterator>
-										value="<s:property value="zoneInfoId" />">
-									<label for="girlLocations_<s:property value="#rowstatus.count" />"><s:property value="zoneNameJp" /></label>
-								</div>
-							</div>
-						</s:iterator>
-					</s:else>
+						</div>
+					</s:iterator>
 				</div>
 			</div>
 		</div>
 		<br />
 		<div class="inline field">
-			<s:textfield name="girlInfo.lineId" label="Line "/>
+			<s:textfield name="girlInfo.lineId" key="global.line_id"/>
 		</div>
 		<div class="ui grid five column">
 			<div class="image ui small column">
@@ -649,7 +554,7 @@
 					</button> -->
 					<label for="filePic1" class="ui basic button">
 						<i class="icon upload"></i>
-					  	Upload
+					  	<s:text name="global.upload" />
 					</label>
 					<input type="file" id="filePic1" style="display:none">
 					<s:hidden name="pic1FileName"></s:hidden>
@@ -668,7 +573,7 @@
 					</button> -->
 					<label for="filePic2" class="ui basic button">
 						<i class="icon upload"></i>
-					  	Upload
+					  	<s:text name="global.upload" />
 					</label>
 					<input type="file" id="filePic2" style="display:none">
 					<s:hidden name="pic2FileName"></s:hidden>
@@ -687,7 +592,7 @@
 					</button> -->
 					<label for="filePic3" class="ui basic button">
 						<i class="icon upload"></i>
-					  	Upload
+					  	<s:text name="global.upload" />
 					</label>
 					<input type="file" id="filePic3" style="display:none">
 					<s:hidden name="pic3FileName"></s:hidden>
@@ -706,7 +611,7 @@
 					</button> -->
 					<label for="filePic4" class="ui basic button">
 						<i class="icon upload"></i>
-					  	Upload
+					  	<s:text name="global.upload" />
 					</label>
 					<input type="file" id="filePic4" style="display:none">
 					<s:hidden name="pic4FileName"></s:hidden>
@@ -725,7 +630,7 @@
 					</button> -->
 					<label for="filePic5" class="ui basic button">
 						<i class="icon upload"></i>
-					  	Upload
+					  	<s:text name="global.upload" />
 					</label>
 					<input type="file" id="filePic5" style="display:none">
 					<s:hidden name="pic5FileName"></s:hidden>
@@ -734,13 +639,13 @@
 		</div>
 		<h4 class="ui horizontal divider header">
 			<i class="comment icon"></i>
-			Description
+			<s:text name="global.description" />
 		</h4>
 		<div class="inline field">
 			<s:textarea name="girlInfo.description" />
 		</div>
 		<h4 class="ui horizontal header">
-			Gender
+			<s:text name="global.gender" />
 		</h4>
 		<div class="ui four column grid stackable">
 			<div class="column">
@@ -748,7 +653,11 @@
 					<input type="radio" name="girlInfo.gender" id="girlInfo_gender_Straight"
 						<s:if test="girlInfo.gender == 'Straight'">checked="checked"</s:if>
 						 value="Straight">
-					<label for="girlInfo_gender_Straight">หญิงแท้</label>
+					<label for="girlInfo_gender_Straight">
+						<s:i18n name="global_th">
+							<s:text name="global.gender_straight" />
+						</s:i18n>
+					</label>
 				</div>
 			</div>
 			<div class="column">
@@ -756,14 +665,18 @@
 					<input type="radio" name="girlInfo.gender" id="girlInfo_gender_Transgender" 
 						<s:if test="girlInfo.gender == 'Transgender'">checked="checked"</s:if>
 						 value="Transgender">
-					<label for="girlInfo_gender_Transgender">สาวสองแปลง</label>
+					<label for="girlInfo_gender_Transgender">
+						<s:i18n name="global_th">
+							<s:text name="global.gender_transgender" />
+						</s:i18n>
+					</label>
 				</div>
 			</div>
 		</div>
 		<br />
 		<div class="ui accordion">
 			<h4 class="title">
-				Service
+				<s:text name="global.service" />
 				<i class="dropdown icon"></i>
 			</h4>
 			<div class="content">
@@ -785,7 +698,7 @@
 			</div>
 		</div>
 		<h4 class="ui horizontal header">
-			Price List
+			<s:text name="global.price" />
 		</h4>
 		<div class="column one left aligned">
 			<table class="ui table celled compact striped unstackable sortable">
@@ -909,8 +822,8 @@
 	<%@include file="/common/common_upload_file.jsp" %>
   </div>
   <div class="actions">
-    <div class="ui approve blue button">Save</div>
-    <div class="ui cancel button">Cancel</div>
+    <div class="ui approve blue button"><s:text name="global.save" /></div>
+    <div class="ui cancel button"><s:text name="global.cancel" /></div>
   </div>
 </div>
 <script type="text/javascript">

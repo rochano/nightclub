@@ -10,7 +10,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Management - Basic Info</title>
+  <title><s:text name="global.management" /> - <s:text name="global.menu_home" /></title>
 
   <%@include file="/common/common_shop_management_header.jsp" %>
   <script src="<s:url value="/assets/library/jquery.form.js"/>"></script>
@@ -117,28 +117,28 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Basic Info
+					<s:text name="global.menu_basic_info" />
 				</h4>
 				<div class="ui centered attached segment active content">
 					<form class="ui form " method="post" action="<s:url value="/management_client/information/update"/>" enctype="multipart/form-data" >
 						<div class="ui error message"><s:actionerror cssClass="list" /></div>
 						<div class="two fields">
 							<div class="inline field">
-								<s:textfield name="clientInfo.nickName" label="Nick Name"/>
+								<s:textfield name="clientInfo.nickName" key="global.nick_name"/>
 							</div>
 						</div>
 						<div class="inline field">
-							<s:textfield name="clientInfo.email" label="Email"/>
+							<s:textfield name="clientInfo.email" key="global.email"/>
 						</div>
 						<div class="inline field">
-							<s:textfield name="clientInfo.mobile" label="Mobile"/>
+							<s:textfield name="clientInfo.mobile" key="global.mobile"/>
 						</div>
 						<div class="inline field">
-							<s:select list="ageList" name="clientInfo.age" label="Age " ></s:select>
+							<s:select list="ageList" name="clientInfo.age" key="global.age" ></s:select>
 						</div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div class="ui small button submit blue">Submit</div>
+								<div class="ui small button submit blue"><s:text name="global.submit" /></div>
 							</div>
 						</div>
 						<s:hidden name="clientInfo.clientInfoId"></s:hidden>

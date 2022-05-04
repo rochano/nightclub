@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -7,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Administrator - Agent</title>
+  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_agent" /></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
 
@@ -67,8 +68,9 @@
           onSuccess: function() { 
               var form = $(this);
               form.find("[name=activelist]").remove()
-              $( "input[name=active]:checked", dataTable.fnGetNodes()).each(function(i, item) {
-            	  form.append("<input name='activelist' value='" + item.value + "' type='hidden' />")
+              $( "input[name=active]", dataTable.fnGetNodes()).each(function(i, item) {
+                  var obj = {id: item.value, checked: item.checked};
+            	  form.append("<input name='activelist' value='" + JSON.stringify(obj) + "' type='hidden' />")
               })
               return true; 
           }
@@ -108,7 +110,7 @@
 	              rules: [
 	                {
 	                  type   : 'empty',
-	                  prompt : 'Please enter valid date from'
+	                  prompt : '<s:text name="global.message_please_input" /><s:text name="global.valid_date_from" />'
 	                },
 	              ]
 	            },
@@ -117,12 +119,17 @@
 	              rules: [
 	                {
 	                  type   : 'empty',
-	                  prompt : 'Please enter valid date to'
+	                  prompt : '<s:text name="global.message_please_input" /><s:text name="global.valid_date_to" />'
 	                },
 	              ]
 	            }
           ,},
        })
+      ;
+	  $('#searchForm.ui.form')
+      .form({
+          fields: {}
+      })
       ;
     })
   ;
@@ -162,7 +169,30 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Agent List
+					<s:i18n name="global_th">
+						<s:text name="global.search_condition" />
+					</s:i18n>
+				</h4>
+				<div class="ui left aligned attached segment active content">
+					<form class="ui form" id="searchForm" method="post" action="<s:url value="/admin/agent/search"/>">
+						<div class="inline field">
+							<s:textfield name="search.userName" key="global.username"/>
+						</div>
+						<div class="inline field">
+							<s:textfield name="search.agentName" key="global.agent_name"/>
+						</div>
+						<div class="ui error message"></div>
+						<div class="ui right aligned one column grid">
+							<div class="column">
+								<div class="ui small button submit blue"><s:text name="global.search" /></div>
+								<div class="ui small button clear"><s:text name="global.clear" /></div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<h4 class="ui top attached header inverted active title">
+					<i class="dropdown icon"></i>
+					<s:text name="global.menu_agent" />
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
@@ -170,13 +200,13 @@
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th>Photo</th>
-									<th>Username</th>
-									<th>Agent name</th>
-									<th>Valid date from</th>
-									<th>Valid date to</th>
-									<th>Active</th>
-									<th>Operation</th>
+									<th><s:text name="global.logo" /></th>
+									<th><s:text name="global.username" /></th>
+									<th><s:text name="global.agent_name" /></th>
+									<th><s:text name="global.valid_date_from" /></th>
+									<th><s:text name="global.valid_date_to" /></th>
+									<th><s:text name="global.active" /></th>
+									<th><s:text name="global.operation" /></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -199,17 +229,20 @@
 										</div>
 									</td>
 									<td class="center aligned">
-										<a href="<s:url value="/admin/agent/edit/%{userInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
+										<div class="ui buttons">
+											<a href="<s:url value="/admin/agent/edit/%{userInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
+											<a href="<s:url value="/admin/agent/delete/%{userInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>
+										</div>
 									</td>
 								</tr>
 								</s:iterator>
 							</tbody>
 							<tfoot class="full-width">
 								<tr>
-									<th colspan="7">
+									<th colspan="8">
 										<form class="ui form " id="activeForm" method="post" action="<s:url value="/admin/agent/active"/>" >
 											<div class="ui right floated small primary submit button">
-												Submit
+												<s:text name="global.submit" />
 											</div>
 										</form>
 									</th>
@@ -229,18 +262,18 @@
 <div class="ui modal">
   <i class="close icon"></i>
   <div class="header">
-    Agent Information
+    <s:text name="global.edit_information" /><s:text name="global.menu_agent" />
   </div>
   <div class="content">
     <form class="ui form" id="infoForm" method="post" action="<s:url value="/admin/agent/update"/>" >
 		<div class="inline fields">
-			<label>Agent name</label>
+			<label><s:text name="global.agent_name" /></label>
 			<div class="field disabled">
 				<s:textfield name="userInfo.agentInfo.agentName" disabled="true" />
 			</div>
 		</div>
 		<div class="inline fields">
-			<label>Valid Date</label>
+			<label><s:text name="global.valid_date" /></label>
 			<div class="field">
 				<s:textfield name="userInfo.validDateFrom" placeholder="DD/MM/YYYY" />
 			</div>
@@ -254,8 +287,8 @@
 	</form>
   </div>
   <div class="actions">
-    <div class="ui approve blue button">Save</div>
-    <div class="ui cancel button">Cancel</div>
+    <div class="ui approve blue button"><s:text name="global.save" /></div>
+    <div class="ui cancel button"><s:text name="global.cancel" /></div>
   </div>
 </div>
 </body>

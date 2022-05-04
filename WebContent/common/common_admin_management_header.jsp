@@ -82,6 +82,9 @@
   		margin-right: 0!important;
   	}
  }
+ .label {
+    font-style: normal;
+}
   </style>
   <script>
   $(document)
@@ -99,11 +102,11 @@
   		"ordering":  false,
   		"dom": '<"ui grid"<"column right floated right aligned"l>><"ui grid"<" one column overflow"t>><"ui grid"<"left aligned eight wide column"i><"right floated eight wide column"p>>',
   		"language":{
-  		    "lengthMenu": "Number of items to show _MENU_",
-  		    "zeroRecords": "No matching items found",
-  		    "infoEmpty": "Showing 0 to 0 of 0 items",
-  		    "info": "Showing _START_ to _END_ of _TOTAL_ items",
-  		    "infoFiltered": "(filtered from _MAX_ total items)"
+  		    "lengthMenu": "<s:text name="global.length_menu" />",
+  		    "zeroRecords": "<s:text name="global.zero_records" />",
+  		    "infoEmpty": "<s:text name="global.info_empty" />",
+  		    "info": "<s:text name="global.info" />",
+  		    "infoFiltered": "<s:text name="global.info_filtered" />"
   		},
   		"pagingType": "numbers",
   		"drawCallback": function() {

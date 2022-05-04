@@ -104,7 +104,7 @@ public class AgentInfoAction extends ActionSupport implements SessionAware {
 			}
 		}
 		
-		addActionMessage("You have been successfully updated");
+		addActionMessage(getText("global.message_success_update"));
 		
 		this.execute();
 		

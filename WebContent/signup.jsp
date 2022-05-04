@@ -166,22 +166,13 @@
 								<div class="field">
 									<div class="ui left icon input">
 										<div class="ui radio checkbox">
-											<input type="radio" name="chkUserType" id="userType_4"
-												checked value="4">
-											<label for="userType_4">ลูกค้าที่ต้องการค้นหาข้อมูล</label>
-										</div>
-									</div>
-								</div>
-								<div class="field">
-									<div class="ui left icon input">
-										<div class="ui radio checkbox">
 											<input type="radio" name="chkUserType" id="userType_list"
-												value="list">
+												checked value="list">
 											<label for="userType_list">ลูกค้าที่ต้องการโพสต์ข้อมูล</label>
 										</div>
 									</div>
 								</div>
-								<div class="field disabled">
+								<div class="field">
 									<div class="ui left icon input">
 										<s:select list="#{'1':getText('global.main_menu_service_shop'), 
 														'2':getText('global.main_menu_agents'), 
@@ -189,6 +180,15 @@
 														'5':getText('global.main_menu_en_girls')}"
 											name="userType">
 										</s:select>
+									</div>
+								</div>
+								<div class="field">
+									<div class="ui left icon input">
+										<div class="ui radio checkbox">
+											<input type="radio" name="chkUserType" id="userType_4" disabled="disabled"
+												value="4">
+											<label for="userType_4">ลูกค้าที่ต้องการค้นหาข้อมูล</label>
+										</div>
 									</div>
 								</div>
 							</div>

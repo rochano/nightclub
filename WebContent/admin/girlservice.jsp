@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -7,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Administrator - Girl Service</title>
+  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_girl_service" /></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
 
@@ -157,24 +158,32 @@
 					</div>
 				</div>
 			</s:if>
+			<s:if test="hasActionErrors()">
+				<div class="ui error message">
+					<i class="close icon"></i>
+					<div class="header">
+						<s:actionerror cssClass="list" />
+					</div>
+				</div>
+			</s:if>
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Girl Service List
+					<s:text name="global.menu_girl_service" />
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div id="addbtn" class="ui small button blue">Add</div>
+								<div id="addbtn" class="ui small button blue"><s:text name="global.add" /></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th>Service name</th>
-									<th width="20%">Operation</th>
+									<th><s:text name="global.service_name" /></th>
+									<th width="20%"><s:text name="global.operation" /></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -204,7 +213,7 @@
 									<th colspan="3">
 										<form class="ui form " method="post" action="<s:url value="/admin/girlservice/update"/>" >
 										<div class="ui right floated small primary submit button">
-											Submit
+											<s:text name="global.submit" />
 										</div>
 										</form>
 									</th>

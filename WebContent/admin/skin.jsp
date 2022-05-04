@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -7,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Administrator - Skin</title>
+  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.skin" /></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
 
@@ -143,42 +144,44 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Search Conditions
+					<s:i18n name="global_th">
+						<s:text name="global.search_condition" />
+					</s:i18n>
 				</h4>
 				<div class="ui left aligned attached segment active content">
 					<form class="ui form" id="searchForm" method="post" action="<s:url value="/admin/skin/search"/>">
 						<div class="inline field">
-							<s:textfield name="skinSearch.skinNameJp" label="Japanese skin name"/>
+							<s:textfield name="skinSearch.skinNameJp" key="global.japanese_name"/>
 						</div>
 						<div class="inline field">
-							<s:textfield name="skinSearch.skinNameEn" label="English skin name"/>
+							<s:textfield name="skinSearch.skinNameEn" key="global.english_name"/>
 						</div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div class="ui small button submit blue">Search</div>
-								<div class="ui small button clear">Clear</div>
+								<div class="ui small button submit blue"><s:text name="global.search" /></div>
+								<div class="ui small button clear"><s:text name="global.clear" /></div>
 							</div>
 						</div>
 					</form>
 				</div>
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Skin List
+					<s:text name="global.skin" />
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div id="addbtn" class="ui small button blue">Add</div>
+								<div id="addbtn" class="ui small button blue"><s:text name="global.add" /></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th>Japanese skin name</th>
-									<th>English skin name</th>
-									<th>Operation</th>
+									<th><s:text name="global.japanese_name" /></th>
+									<th><s:text name="global.english_name" /></th>
+									<th><s:text name="global.operation" /></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -188,8 +191,10 @@
 									<td><s:property value="skinNameJp" /></td>
 									<td><s:property value="skinNameEn" /></td>
 									<td class="center aligned">
-										<a href="<s:url value="/admin/skin/edit/%{skinInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
-										<a href="<s:url value="/admin/skin/delete/%{skinInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
+										<div class="ui buttons">
+											<a href="<s:url value="/admin/skin/edit/%{skinInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
+											<a href="<s:url value="/admin/skin/delete/%{skinInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
+										</div>
 									</td>
 								</tr>
 								</s:iterator>
@@ -207,15 +212,15 @@
 <div class="ui modal">
   <i class="close icon"></i>
   <div class="header">
-    Skin Information
+    <s:text name="global.edit_information" /><s:text name="global.skin" />
   </div>
   <div class="content">
     <form class="ui form" id="infoForm" method="post" action="<s:url value="/admin/skin/update"/>">
 		<div class="inline field">
-			<s:textfield name="skinInfo.skinNameJp" label="Japanese skin name" />
+			<s:textfield name="skinInfo.skinNameJp" key="global.japanese_name" />
 		</div>
 		<div class="inline field">
-			<s:textfield name="skinInfo.skinNameEn" label="English skin name" />
+			<s:textfield name="skinInfo.skinNameEn" key="global.english_name" />
 		</div>
 		<s:hidden name="action" value="update"></s:hidden>
 		<s:hidden name="skinInfo.skinInfoId"></s:hidden>
@@ -223,8 +228,8 @@
 	</form>
   </div>
   <div class="actions">
-    <div class="ui approve blue button">Save</div>
-    <div class="ui cancel button">Cancel</div>
+    <div class="ui approve blue button"><s:text name="global.save" /></div>
+    <div class="ui cancel button"><s:text name="global.cancel" /></div>
   </div>
 </div>
   

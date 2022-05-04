@@ -262,21 +262,23 @@ public class ShopGirlInfoManager extends GirlInfoManager {
 		return girlInfo;
 	}
 
-	public void avaiableByGirlInfoId(String shopInfoId, List<String> girlInfoIdList) {
+	public void avaiableByGirlInfoId(List<String> allGirlInfoIdList, List<String> availableGirlInfoIdList) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		try {
 			
-			session.createQuery("update ShopGirlInfo set available = :available where shopInfoId = :shopInfoId ")
-					.setParameter("available", Boolean.FALSE.toString().toLowerCase())
-					.setParameter("shopInfoId", shopInfoId)
-					.executeUpdate();
-			
-			if(girlInfoIdList.size()> 0) {
+			if(allGirlInfoIdList.size()> 0) {
 				session.createQuery("update ShopGirlInfo set available = :available where girlInfoId in (:girlInfoIdList) ")
-						.setParameter("available", Boolean.TRUE.toString().toLowerCase())
-						.setParameterList("girlInfoIdList", girlInfoIdList.toArray())
+						.setParameter("available", Boolean.FALSE.toString().toLowerCase())
+						.setParameterList("girlInfoIdList", allGirlInfoIdList.toArray())
 						.executeUpdate();
+				
+				if(availableGirlInfoIdList.size()> 0) {
+					session.createQuery("update ShopGirlInfo set available = :available where girlInfoId in (:girlInfoIdList) ")
+							.setParameter("available", Boolean.TRUE.toString().toLowerCase())
+							.setParameterList("girlInfoIdList", availableGirlInfoIdList.toArray())
+							.executeUpdate();
+				}
 			}
 			
 		} catch (HibernateException e) {

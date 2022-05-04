@@ -661,6 +661,17 @@
 			<result name="success">/admin/shop.jsp</result>
 		</action>
 		
+		<action name="shop/delete/*"
+			class="com.nightclub.view.AdminInfoAction" method="userdelete">
+			<param name="menu">shop</param>
+			<param name="userInfoId">{1}</param>
+			<param name="userType">1</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/shop.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/shop.jsp</result>
+		</action>
+		
 		<action name="agent"
 			class="com.nightclub.view.AdminInfoAction" method="userlist">
 			<param name="menu">agent</param>
@@ -682,6 +693,17 @@
 		
 		<action name="agent/edit/*"
 			class="com.nightclub.view.AdminInfoAction" method="useredit">
+			<param name="menu">agent</param>
+			<param name="userInfoId">{1}</param>
+			<param name="userType">2</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/agent.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/agent.jsp</result>
+		</action>
+		
+		<action name="agent/delete/*"
+			class="com.nightclub.view.AdminInfoAction" method="userdelete">
 			<param name="menu">agent</param>
 			<param name="userInfoId">{1}</param>
 			<param name="userType">2</param>
@@ -721,6 +743,17 @@
 			<result name="success">/admin/freeagent.jsp</result>
 		</action>
 		
+		<action name="freeagent/delete/*"
+			class="com.nightclub.view.AdminInfoAction" method="userdelete">
+			<param name="menu">freeagent</param>
+			<param name="userInfoId">{1}</param>
+			<param name="userType">3</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/freeagent.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/freeagent.jsp</result>
+		</action>
+		
 		<action name="client"
 			class="com.nightclub.view.AdminInfoAction" method="userlist">
 			<param name="menu">client</param>
@@ -751,6 +784,17 @@
 			<result name="success">/admin/client.jsp</result>
 		</action>
 		
+		<action name="client/delete/*"
+			class="com.nightclub.view.AdminInfoAction" method="userdelete">
+			<param name="menu">client</param>
+			<param name="userInfoId">{1}</param>
+			<param name="userType">4</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/client.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/client.jsp</result>
+		</action>
+		
 		<action name="engirl"
 			class="com.nightclub.view.AdminInfoAction" method="userlist">
 			<param name="menu">engirl</param>
@@ -772,6 +816,17 @@
 		
 		<action name="engirl/edit/*"
 			class="com.nightclub.view.AdminInfoAction" method="useredit">
+			<param name="menu">engirl</param>
+			<param name="userInfoId">{1}</param>
+			<param name="userType">5</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/engirl.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/engirl.jsp</result>
+		</action>
+		
+		<action name="engirl/delete/*"
+			class="com.nightclub.view.AdminInfoAction" method="userdelete">
 			<param name="menu">engirl</param>
 			<param name="userInfoId">{1}</param>
 			<param name="userType">5</param>

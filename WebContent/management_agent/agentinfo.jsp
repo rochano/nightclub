@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
@@ -10,7 +11,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Management - Basic Info</title>
+  <title><s:text name="global.management" /> - <s:text name="global.menu_agent_info" /></title>
 
   <%@include file="/common/common_shop_management_header.jsp" %>
   <script src="<s:url value="/assets/library/jquery.form.js"/>"></script>
@@ -137,17 +138,17 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Basic Info
+					<s:text name="global.menu_agent_info" />
 				</h4>
 				<div class="ui centered attached segment active content">
 					<form class="ui form " method="post" action="<s:url value="/management_agent/agentinfo/update"/>" enctype="multipart/form-data" >
 						<div class="ui error message"><s:actionerror cssClass="list" /></div>
 						<div class="inline field">
-							<s:textfield name="agentInfo.agentName" label="Agent name"/>
+							<s:textfield name="agentInfo.agentName" key="global.agent_name"/>
 						</div>
 						<div class="two fields">
 							<div class="inline field">
-								<label>Agent logo</label>
+								<label><s:text name="global.logo" /></label>
 								<div class="image ui small">
 									<div id="logoImg">
 										<s:if test="%{agentInfo.logoImg != ''}">
@@ -161,7 +162,7 @@
 										</button> -->
 										<label for="filelogoImg" class="ui basic button">
 											<i class="icon upload"></i>
-										  	Upload
+										  	<s:text name="global.upload" />
 										</label>
 									    <input type="file" id="filelogoImg" style="display:none">
 									</div>
@@ -171,7 +172,7 @@
 						</div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div class="ui small button submit blue">Submit</div>
+								<div class="ui small button submit blue"><s:text name="global.submit" /></div>
 							</div>
 						</div>
 						<s:hidden name="agentInfo.agentInfoId"></s:hidden>

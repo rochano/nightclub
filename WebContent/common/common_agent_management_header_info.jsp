@@ -2,12 +2,12 @@
 <div class="ui fixed top menu">
 	<div class="left menu">
 		<div class="header item">
-			Agent management
+			<s:text name="global.management" />
 		</div>
 	</div>
 	<div class="right menu">
 		<div class="ui dropdown item">
-			Logged in as&nbsp;&nbsp;
+			<s:text name="global.logged_in_as" />&nbsp;&nbsp;
 			<label class="ui large">
 				<s:if test="#session.agentInfo != null">
 					<s:property value="#session.agentInfo.agentName" />
@@ -19,13 +19,13 @@
 			<i class="dropdown icon"></i>
 			<div class="menu">
 				<div class="item">
-					<a class="ui tiny" href="<s:url value="/management_agent/howtoinput"/>"><i class="file outline icon"></i>How to input</a>
+					<a class="ui tiny" href="<s:url value="/management_agent/howtoinput"/>"><i class="file outline icon"></i><s:text name="global.how_to_input" /></a>
 				</div>
 				<div class="item">
-					<a class="ui tiny" href="<s:url value="/management_agent/changepassword"/>"><i class="edit icon"></i>Change password</a>
+					<a class="ui tiny" href="<s:url value="/management_agent/changepassword"/>"><i class="edit icon"></i><s:text name="global.change_password" /></a>
 				</div>
 				<div class="item">
-					<a class="ui tiny" href="<s:url value="/logout"/>"><i class="sign out icon"></i>Logout</a>
+					<a class="ui tiny" href="<s:url value="/logout"/>"><i class="sign out icon"></i><s:text name="global.log_out" /></a>
 				</div>
 			</div>
 		</div>

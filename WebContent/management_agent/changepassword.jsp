@@ -10,7 +10,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Management - Change Password</title>
+  <title><s:text name="global.management" /> - <s:text name="global.change_password" /></title>
 
   <%@include file="/common/common_shop_management_header.jsp" %>
 
@@ -49,11 +49,7 @@
               rules: [
                 {
                   type   : 'empty',
-                  prompt : 'Please enter your old password.'
-                },
-                {
-                  type   : 'length[6]',
-                  prompt : 'Your password must be at least 6 characters.'
+                  prompt : '<s:text name="global.message_please_input" /><s:text name="global.old_password" />'
                 }
               ]
             },
@@ -62,11 +58,11 @@
               rules: [
                 {
                   type   : 'empty',
-                  prompt : 'Please enter your new password.'
+                  prompt : '<s:text name="global.message_please_input" /><s:text name="global.new_password" />'
                 },
                 {
                   type   : 'length[6]',
-                  prompt : 'Your password must be at least 6 characters.'
+                  prompt : '<s:text name="global.new_password" /><s:text name="global.message_valid_length" ><s:param value="6" /></s:text>'
                 }
               ]
             },
@@ -75,11 +71,11 @@
                 rules: [
                   {
                     type   : 'empty',
-                    prompt : 'Please enter your confirm password.'
+                    prompt : '<s:text name="global.message_please_input" /><s:text name="global.confirm_password" />'
                   },
                   {
-                    type   : 'length[6]',
-                    prompt : 'Your password must be at least 6 characters.'
+                    type   : 'match[password]',
+                    prompt : '<s:text name="global.confirm_password" /><s:text name="global.message_match_new_password" />'
                   }
                 ]
              }
@@ -136,7 +132,7 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Change password
+					<s:text name="global.change_password" />
 				</h4>
 				<div class="ui centered attached segment active content">
 					<form class="ui form" method="post" action="<s:url value="/management_agent/changepassword/update"/>">
@@ -149,17 +145,17 @@
 							</s:if>
 						</div>
 						<div class="required inline field">
-							<s:password name="oldPassword" label="Old password"/>
+							<s:password name="oldPassword" key="global.old_password"/>
 						</div>
 						<div class="required inline field">
-							<s:password name="password" label="New Password"/>
+							<s:password name="password" key="global.new_password"/>
 						</div>
 						<div class="required inline field">
-							<s:password name="confirmPassword" label="Confirm Password"/>
+							<s:password name="confirmPassword" key="global.confirm_password"/>
 						</div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div class="ui small button submit blue">Submit</div>
+								<div class="ui small button submit blue"><s:text name="global.submit" /></div>
 							</div>
 						</div>
 					</form>

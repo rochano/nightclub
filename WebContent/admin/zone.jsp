@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -7,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Administrator - Zone</title>
+  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.location" /></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
 
@@ -143,42 +144,44 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Search Conditions
+					<s:i18n name="global_th">
+						<s:text name="global.search_condition" />
+					</s:i18n>
 				</h4>
 				<div class="ui left aligned attached segment active content">
 					<form class="ui form" id="searchForm" method="post" action="<s:url value="/admin/zone/search"/>">
 						<div class="inline field">
-							<s:textfield name="zoneSearch.zoneNameJp" label="Japanese zone name"/>
+							<s:textfield name="zoneSearch.zoneNameJp" key="global.japanese_location_name"/>
 						</div>
 						<div class="inline field">
-							<s:textfield name="zoneSearch.zoneNameEn" label="English zone name"/>
+							<s:textfield name="zoneSearch.zoneNameEn" key="global.english_location_name"/>
 						</div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div class="ui small button submit blue">Search</div>
-								<div class="ui small button clear">Clear</div>
+								<div class="ui small button submit blue"><s:text name="global.search" /></div>
+								<div class="ui small button clear"><s:text name="global.clear" /></div>
 							</div>
 						</div>
 					</form>
 				</div>
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					Location List
+					<s:text name="global.location" />
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div id="addbtn" class="ui small button blue">Add</div>
+								<div id="addbtn" class="ui small button blue"><s:text name="global.add" /></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th>Japanese location name</th>
-									<th>English location name</th>
-									<th>Operation</th>
+									<th><s:text name="global.japanese_location_name" /></th>
+									<th><s:text name="global.english_location_name" /></th>
+									<th><s:text name="global.operation" /></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -207,20 +210,15 @@
 <div class="ui modal">
   <i class="close icon"></i>
   <div class="header">
-    Location Information
+    <s:text name="global.edit_information" /><s:text name="global.location" />
   </div>
   <div class="content">
     <form class="ui form" id="infoForm" method="post" action="<s:url value="/admin/zone/update"/>">
 		<div class="inline field">
-			<s:textfield name="zoneInfo.zoneNameJp" label="Japanese zone name" />
+			<s:textfield name="zoneInfo.zoneNameJp" key="global.japanese_location_name" />
 		</div>
 		<div class="inline field">
-			<s:textfield name="zoneInfo.zoneNameEn" label="English zone name" />
-		</div>
-		<div class="inline field">
-			<label>Custom URL:</label>
-			<div class="ui checkbox"><s:checkbox name="zoneInfo.chkCustomUrl" label="" /></div>
-			<s:textfield name="zoneInfo.customUrl" size="50" />
+			<s:textfield name="zoneInfo.zoneNameEn" key="global.english_location_name" />
 		</div>
 		<s:hidden name="action" value="update"></s:hidden>
 		<s:hidden name="zoneInfo.zoneInfoId"></s:hidden>
@@ -228,8 +226,8 @@
 	</form>
   </div>
   <div class="actions">
-    <div class="ui approve blue button">Save</div>
-    <div class="ui cancel button">Cancel</div>
+    <div class="ui approve blue button"><s:text name="global.save" /></div>
+    <div class="ui cancel button"><s:text name="global.cancel" /></div>
   </div>
 </div>
   
