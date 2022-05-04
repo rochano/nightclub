@@ -38,6 +38,9 @@
   	.ui.menu.toc:not(.dataTables_paginate) { 
   		display: block;
   	}
+  	.article {
+    	margin-bottom: 50px;
+    }
   }
   .ui.items>.item {
   	margin: 0;
