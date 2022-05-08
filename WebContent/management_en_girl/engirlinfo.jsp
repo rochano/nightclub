@@ -78,6 +78,15 @@
                     },
                   ]
                 },
+              girlInfo_price: {
+                  identifier  : 'girlInfo_price',
+                  rules: [
+                     {
+                      type   : 'regExp[/(^[0-9]{1,3}(,[0-9]{3})*$)|^$/]',
+                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.price" /><s:text name="global.message_correctly" />'
+                     },
+                  ]
+                },
      	   },
      	  onFailure: function() {
      		  window.scrollTo(0,0);
@@ -281,7 +290,6 @@
 						</div>
 						<div class="inline field">
 							<s:select list="skinInfos"
-								headerKey="" headerValue="-"
 								listKey="skinInfoId" listValue="skinNameEn"
 								key="global.skin" 
 								cssClass="ui search dropdown" 

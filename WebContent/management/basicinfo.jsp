@@ -202,7 +202,6 @@
 						</div>
 						<div class="inline field">
 							<s:select list="categoryInfos"
-								headerKey="" headerValue="-"
 								listKey="categoryInfoId" listValue="categoryNameEn"
 								key="global.shop_category" 
 								cssClass="ui search dropdown" 

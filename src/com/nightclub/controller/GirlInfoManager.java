@@ -290,8 +290,10 @@ public class GirlInfoManager extends HibernateUtil {
 			
 			girlInfo = (GirlInfo)session.createQuery("from GirlInfo where girlInfoId = :girlInfoId ")
 					.setParameter("girlInfoId", girlInfoId).uniqueResult();
-			girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
-			girlInfo.setGirlLocations(girlLocations);
+			if (girlInfo != null) {
+				girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+				girlInfo.setGirlLocations(girlLocations);
+			}
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();

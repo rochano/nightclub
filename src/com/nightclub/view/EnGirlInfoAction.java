@@ -80,6 +80,9 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 			}
 		}
 		sessionMap.put("enGirlInfo", girlInfo);
+		if (this.girlInfo == null) {
+			this.girlInfo = new EnGirlInfo();
+		}
 
 		return SUCCESS;
 	}
@@ -165,7 +168,7 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 	            this.girlInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.girlInfo.getDescription(), sessionMap, userInfo));
 	            this.girlInfo.getGirlLocations().clear();
 	            GirlLocation girlLocation;
-	            for(String zoneInfoId : this.girlLocations) {
+	            for(String zoneInfoId : this.getGirlLocations()) {
 	            	ZoneInfo zoneInfo = new ZoneInfo();
 	            	zoneInfo.setZoneInfoId(zoneInfoId);
 
@@ -378,6 +381,9 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 	}
 
 	public List<String> getGirlLocations() {
+		if (girlLocations == null) {
+			return new ArrayList<String>();
+		}
 		return girlLocations;
 	}
 

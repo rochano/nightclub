@@ -147,6 +147,51 @@
                     },
                   ]
                 },
+              girlInfo_price40Mins: {
+                  identifier  : 'girlInfo_price40Mins',
+                  rules: [
+                     {
+                      type   : 'regExp[/(^[0-9]{1,3}(,[0-9]{3})*$)|^$/]',
+                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.price40Mins" /><s:text name="global.message_correctly" />'
+                     },
+                  ]
+                },
+              girlInfo_price60Mins: {
+                  identifier  : 'girlInfo_price60Mins',
+                  rules: [
+                     {
+                      type   : 'regExp[/(^[0-9]{1,3}(,[0-9]{3})*$)|^$/]',
+                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.price60Mins" /><s:text name="global.message_correctly" />'
+                     },
+                  ]
+                },
+              girlInfo_price90Mins: {
+                  identifier  : 'girlInfo_price90Mins',
+                  rules: [
+                     {
+                      type   : 'regExp[/(^[0-9]{1,3}(,[0-9]{3})*$)|^$/]',
+                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.price90Mins" /><s:text name="global.message_correctly" />'
+                     },
+                  ]
+                },
+              girlInfo_price120Mins: {
+                  identifier  : 'girlInfo_price120Mins',
+                  rules: [
+                     {
+                      type   : 'regExp[/(^[0-9]{1,3}(,[0-9]{3})*$)|^$/]',
+                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.price120Mins" /><s:text name="global.message_correctly" />'
+                     },
+                  ]
+                },
+             girlInfo_price6Hrs: {
+                 identifier  : 'girlInfo_price6Hrs',
+                 rules: [
+                    {
+                     type   : 'regExp[/(^[0-9]{1,3}(,[0-9]{3})*$)|^$/]',
+                     prompt : '<s:text name="global.message_please_input" /><s:text name="global.price6Hrs" /><s:text name="global.message_correctly" />'
+                    },
+                 ]
+               },
           },
        })
       ;
@@ -724,7 +769,7 @@
 							<label for="girlInfo_chk40Mins">40 นาที</label>
 						</td>
 						<td>
-							<input type="text" name="girlInfo.price40Mins" size="7" class="number" 
+							<input type="text" name="girlInfo.price40Mins" size="7" class="number" id="girlInfo_price40Mins"
 								value="<s:text name="format.integer"><s:param name="value" value="girlInfo.price40Mins"/></s:text>" />
 						</td>
 						<td>
@@ -744,7 +789,7 @@
 							<label for="girlInfo_chk60Mins">60 นาที</label>
 						</td>
 						<td>
-							<input type="text" name="girlInfo.price60Mins" size="7" class="number" 
+							<input type="text" name="girlInfo.price60Mins" size="7" class="number" id="girlInfo_price60Mins" 
 								value="<s:text name="format.integer"><s:param name="value" value="girlInfo.price60Mins"/></s:text>" />
 						</td>
 						<td>
@@ -764,7 +809,7 @@
 							<label for="girlInfo_chk90Mins">90 นาที</label>
 						</td>
 						<td>
-							<input type="text" name="girlInfo.price90Mins" size="7" class="number" 
+							<input type="text" name="girlInfo.price90Mins" size="7" class="number" id="girlInfo_price90Mins"
 								value="<s:text name="format.integer"><s:param name="value" value="girlInfo.price90Mins"/></s:text>" />
 						</td>
 						<td>
@@ -784,7 +829,7 @@
 							<label for="girlInfo_chk120Mins">120 นาที</label>
 						</td>
 						<td>
-							<input type="text" name="girlInfo.price120Mins" size="7" class="number" 
+							<input type="text" name="girlInfo.price120Mins" size="7" class="number" id="girlInfo_price120Mins" 
 								value="<s:text name="format.integer"><s:param name="value" value="girlInfo.price120Mins"/></s:text>" />
 						</td>
 						<td>
@@ -804,7 +849,7 @@
 							<label for="girlInfo_chk6Hrs">ค้างคืน(6ชม.)</label>
 						</td>
 						<td>
-							<input type="text" name="girlInfo.price6Hrs" size="7" class="number" 
+							<input type="text" name="girlInfo.price6Hrs" size="7" class="number" id="girlInfo_price6Hrs" 
 								value="<s:text name="format.integer"><s:param name="value" value="girlInfo.price6Hrs"/></s:text>" />
 						</td>
 						<td>

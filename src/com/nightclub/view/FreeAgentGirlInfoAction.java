@@ -89,6 +89,9 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 				}
 			}
 		}
+		if (this.girlInfo == null) {
+			this.girlInfo = new FreeAgentGirlInfo();
+		}
 
 		return SUCCESS;
 	}
@@ -185,7 +188,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 				}
 	            this.girlInfo.getGirlLocations().clear();
 	            GirlLocation girlLocation;
-	            for(String zoneInfoId : this.girlLocations) {
+	            for(String zoneInfoId : this.getGirlLocations()) {
 	            	ZoneInfo zoneInfo = new ZoneInfo();
 	            	zoneInfo.setZoneInfoId(zoneInfoId);
 
@@ -406,6 +409,9 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	}
 
 	public List<String> getGirlLocations() {
+		if (girlLocations == null) {
+			return new ArrayList<String>();
+		}
 		return girlLocations;
 	}
 
