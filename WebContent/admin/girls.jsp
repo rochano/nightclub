@@ -166,7 +166,7 @@
 						</div>
 						<s:i18n name="global_th">
 							<div class="inline field">
-								<label>&nbsp;</label>
+								<label><s:text name="global.type" />:</label>
 								<div class="ui checkbox">
 									<input type="checkbox" name="girlSearch.chkCategory" id="girlSearch_chkCategory"
 										<s:if test="girlSearch.chkCategory == 'true'">checked="checked"</s:if>
