@@ -226,7 +226,12 @@
 									<td><s:property value="shopInfo.shopNameJp" /></td>
 									<td><s:property value="shopInfo.shopNameEn" /></td>
 									<td><s:property value="shopInfo.categoryInfo.categoryNameEn" /></td>
-									<td><s:property value="shopInfo.zoneInfo.zoneNameEn" /></td>
+									<td>
+										<s:iterator value="shopInfo.shopLocations" >
+											<s:property value="primaryKey.zoneInfo.zoneNameEn" />
+											<br />
+										</s:iterator>
+									</td>
 									<td class="center aligned"><s:date name="validDateFrom" format="dd/MM/yyyy" /></td>
 									<td class="center aligned"><s:date name="validDateTo" format="dd/MM/yyyy" /></td>
 									<td class="center aligned">

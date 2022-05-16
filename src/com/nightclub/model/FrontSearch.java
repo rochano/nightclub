@@ -17,6 +17,7 @@ public class FrontSearch implements Serializable {
 	private List<String> zoneInfos;
 	private String chkIncallOutcall;
 	private String incallOutcall;
+	private String nickName;
 
 	public String getChkCategory() {
 		return chkCategory;
@@ -77,6 +78,12 @@ public class FrontSearch implements Serializable {
 	}
 	public void setIncallOutcall(String incallOutcall) {
 		this.incallOutcall = incallOutcall;
+	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 	
 }

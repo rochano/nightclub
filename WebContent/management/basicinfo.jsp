@@ -258,23 +258,30 @@
 							<i class="home icon"></i>
 							<s:text name="global.other_information" />
 						</h4>
-						<div class="two fields">
-							<div class="inline field">
-								<s:select list="#{'bkk':'กรุงเทพมหานคร'}"
-									key="global.province" 
-									cssClass="ui search dropdown" 
-									name="basicInfo.province">
-								</s:select>
-							</div>
-							<div class="inline field">
-								<s:select list="categoryInfo.categoryZones"
-									listKey="primaryKey.zoneInfo.zoneInfoId" listValue="primaryKey.zoneInfo.zoneNameEn"
-									key="global.location" 
-									cssClass="ui search dropdown" 
-									name="basicInfo.zoneInfoId">
-								</s:select>
+						<div class="accordion">
+							<h4 class="title">
+								<s:text name="global.location" /> :
+								<i class="dropdown icon"></i>
+							</h4>
+							<div class="content">
+								<div class="ui four column grid doubling">
+									<s:iterator value="zoneInfos" status="rowstatus">
+										<div class="column">
+											<div class="field ui checkbox">
+												<input type="checkbox" name="shopLocations" id="shopLocations_<s:property value="#rowstatus.count" />"
+													<s:iterator value="shopLocations" >
+														<s:property value="top" />
+														<s:if test="top == zoneInfoId">checked="checked"</s:if>
+													</s:iterator>
+													value="<s:property value="zoneInfoId" />">
+												<label for="shopLocations_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
+											</div>
+										</div>
+									</s:iterator>
+								</div>
 							</div>
 						</div>
+						<br />
 						<div class="two fields">
 							<div class="inline field">
 								<s:textfield name="basicInfo.phone" key="global.phone"/>

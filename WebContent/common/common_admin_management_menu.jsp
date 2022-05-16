@@ -6,6 +6,7 @@
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('freeagent')}">active</s:if>" href="<s:url value="/admin/freeagent"/>"><i class="heart icon"></i><s:text name="global.menu_free_agent" /></a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('client')}">active</s:if>" href="<s:url value="/admin/client"/>"><i class="user icon"></i><s:text name="global.menu_client" /></a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('engirl')}">active</s:if>" href="<s:url value="/admin/engirl"/>"><i class="smile icon"></i><s:text name="global.menu_en_girl" /></a>
+	<a class="item <s:if test="%{menu.equalsIgnoreCase('girls')}">active</s:if>" href="<s:url value="/admin/girls"/>"><i class="heart icon"></i><s:text name="global.menu_girls" /></a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('zone')}">active</s:if>" href="<s:url value="/admin/zone"/>"><i class="compass icon"></i><s:text name="global.location" /></a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('category')}">active</s:if>" href="<s:url value="/admin/category"/>"><i class="book icon"></i><s:text name="global.shop_category" /></a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('ads')}">active</s:if>" href="<s:url value="/admin/ads"/>"><i class="announcement icon"></i><s:text name="global.menu_ads" /></a>

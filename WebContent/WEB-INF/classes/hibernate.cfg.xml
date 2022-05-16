@@ -74,6 +74,8 @@
 		<mapping class="com.nightclub.model.HomeSlideImage" />
 		<mapping class="com.nightclub.model.GirlLocation" />
 		<mapping class="com.nightclub.model.GirlLocationId" />
+		<mapping class="com.nightclub.model.ShopLocation" />
+		<mapping class="com.nightclub.model.ShopLocationId" />
 
 	</session-factory>
 

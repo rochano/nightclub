@@ -33,6 +33,13 @@ public class ShopGirlInfo extends GirlInfo {
 	public BasicInfo getBasicInfo() {
 		return basicInfo;
 	}
+	@Column(name="line_id", insertable=false, updatable=false)
+	public String getLineId() {
+		if (basicInfo == null) {
+			return "";
+		}
+		return basicInfo.getLineId();
+	}
 	public void setShopInfoId(String shopInfoId) {
 		this.shopInfoId = shopInfoId;
 	}

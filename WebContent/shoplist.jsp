@@ -88,7 +88,7 @@
 								<th rowspan="2"><s:text name="global.shop_list_header_all_stuff" /></th>
 							</tr>
 							<tr>
-								<th><s:text name="global.shop_list_header_address" /></th>
+								<th width="30%"><s:text name="global.shop_list_header_address" /></th>
 								<th><s:text name="global.shop_list_header_service_time" /></th>
 								<th><s:text name="global.shop_list_header_time" /></th>
 							</tr>
@@ -139,16 +139,23 @@
 								<td rowspan="2"><a href="<s:property value="%{#url + #girls}"/>" <s:property value="%{target}"/> class="ui">All Stuff</a></td>
 							</tr>
 							<tr>
-								<td>
+								<td style="padding-top: 5px;">
+									<i class="marker icon"></i>
 									<a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui header tiny">
-										<s:if test="zoneInfo != null">
-											<s:if test="#request.locale.language=='th'">
-												<s:text name="zoneInfo.zoneNameEn" />
-											</s:if>
-											<s:else>
-												<s:text name="zoneInfo.zoneNameJp" />
-											</s:else>
+										<s:if test="#request.locale.language=='th'">
+											<s:iterator value="shopLocations" >
+												<div class="ui medium label black">
+													<s:property value="primaryKey.zoneInfo.zoneNameEn" />
+												</div>
+											</s:iterator>
 										</s:if>
+										<s:else>
+											<s:iterator value="shopLocations" >
+												<div class="ui medium label black">
+													<s:property value="primaryKey.zoneInfo.zoneNameJp" />
+												</div>
+											</s:iterator>
+										</s:else>
 									</a>
 								</td>
 								<td>60分</td>

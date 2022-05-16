@@ -836,6 +836,23 @@
 			<result name="success">/admin/engirl.jsp</result>
 		</action>
 		
+		<action name="girls"
+			class="com.nightclub.view.AdminInfoAction" method="girllist">
+			<param name="menu">girls</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">girls.jsp</result>
+		</action>
+		
+		<action name="girls/*"
+			class="com.nightclub.view.AdminInfoAction" method="girl{1}">
+			<param name="menu">girls</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/girls.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/girls.jsp</result>
+		</action>
+
 	    <action name="zone"
 			class="com.nightclub.view.ZoneInfoAction" method="execute">
 			<param name="menu">zone</param>

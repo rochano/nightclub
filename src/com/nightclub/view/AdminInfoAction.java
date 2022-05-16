@@ -13,18 +13,28 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.cloudinary.json.JSONObject;
 
 import com.nightclub.common.IConstants;
+import com.nightclub.controller.AgentInfoManager;
+import com.nightclub.controller.BasicInfoManager;
+import com.nightclub.controller.CategoryInfoManager;
 import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.GirlSettingManager;
 import com.nightclub.controller.HomeInfoManager;
 import com.nightclub.controller.HomeSlideImageManager;
 import com.nightclub.controller.UserInfoManager;
+import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.AdminSearch;
+import com.nightclub.model.AgentInfo;
+import com.nightclub.model.BasicInfo;
+import com.nightclub.model.CategoryInfo;
+import com.nightclub.model.FrontSearch;
+import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
 import com.nightclub.model.GirlSetting;
 import com.nightclub.model.HomeInfo;
 import com.nightclub.model.HomeSlideImage;
 import com.nightclub.model.UserInfo;
+import com.nightclub.model.ZoneInfo;
 import com.nightclub.util.UploadFileUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -48,12 +58,22 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private UserInfo userInfo;
 	private String userType;
 	private AdminSearch search;
+	private List<GirlInfo> girlInfos;
+	private FrontSearch girlSearch;
+	private List<String> allsamelist;
+	private List<ZoneInfo> zoneInfos;
+	private List<CategoryInfo> categoryInfos;
+	private List<AgentInfo> agentInfos;
 	
 	private HomeInfoManager homeInfoManager;
 	private HomeSlideImageManager homeSlideImageManager;
 	private GirlInfoManager girlInfoManager;
 	private GirlSettingManager girlSettingManager;
 	private UserInfoManager userInfoManager;
+	private ZoneInfoManager zoneInfoManager;
+	private CategoryInfoManager categoryInfoManager;
+	private AgentInfoManager agentInfoManager;
+	private BasicInfoManager basicInfoManager;
 
 	public AdminInfoAction() {
 		homeInfoManager = new HomeInfoManager();
@@ -61,6 +81,10 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		girlSettingManager = new GirlSettingManager();
 		userInfoManager = new UserInfoManager();
 		homeSlideImageManager = new HomeSlideImageManager();
+		zoneInfoManager = new ZoneInfoManager();
+		categoryInfoManager = new CategoryInfoManager();
+		agentInfoManager = new AgentInfoManager();
+		basicInfoManager = new BasicInfoManager();
 	}
 	
 	public String execute() {
@@ -136,6 +160,12 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	
 	public String userlist() {
 		this.userInfos = userInfoManager.list(getUserType());
+		if(IConstants.USER_TYPE_SHOP.equals(userType)) {
+			for(UserInfo userInfo : userInfos) {
+				if (userInfo.getShopInfoId() == null) continue;
+				userInfo.getShopInfo().setShopLocations(basicInfoManager.getShopLocationListByShopInfoId(userInfo.getShopInfoId()));
+			}
+		}
 		
 		return SUCCESS;
 	}
@@ -158,6 +188,12 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		}
 		userInfoManager.activeByUserInfoId(allUserInfoIdList, availableUserInfoIdList, getUserType());
 		this.userInfos = userInfoManager.list(getUserType());
+		if(IConstants.USER_TYPE_SHOP.equals(userType)) {
+			for(UserInfo userInfo : userInfos) {
+				if (userInfo.getShopInfoId() == null) continue;
+				userInfo.getShopInfo().setShopLocations(basicInfoManager.getShopLocationListByShopInfoId(userInfo.getShopInfoId()));
+			}
+		}
 		addActionMessage(getText("global.message_success_update"));
 		return SUCCESS;
 	}
@@ -166,6 +202,12 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		this.userInfos = userInfoManager.list(getUserType());
 		this.userInfo = userInfoManager.getUserByUserInfoId(getUserInfoId());
 		this.showInfo = true;
+		if(IConstants.USER_TYPE_SHOP.equals(userType)) {
+			for(UserInfo userInfo : userInfos) {
+				if (userInfo.getShopInfoId() == null) continue;
+				userInfo.getShopInfo().setShopLocations(basicInfoManager.getShopLocationListByShopInfoId(userInfo.getShopInfoId()));
+			}
+		}
 		
 		return SUCCESS;
 	}
@@ -177,6 +219,12 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		userInfoManager.update(userInfo_);
 		addActionMessage(getText("global.message_success_update"));
 		this.userInfos = userInfoManager.list(getUserType());
+		if(IConstants.USER_TYPE_SHOP.equals(userType)) {
+			for(UserInfo userInfo : userInfos) {
+				if (userInfo.getShopInfoId() == null) continue;
+				userInfo.getShopInfo().setShopLocations(basicInfoManager.getShopLocationListByShopInfoId(userInfo.getShopInfoId()));
+			}
+		}
 		
 		return SUCCESS;
 	}
@@ -185,6 +233,12 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		userInfoManager.deleteByUserInfoId(getUserInfoId());
 		addActionMessage(getText("global.message_success_delete"));
 		this.userInfos = userInfoManager.list(getUserType());
+		if(IConstants.USER_TYPE_SHOP.equals(userType)) {
+			for(UserInfo userInfo : userInfos) {
+				if (userInfo.getShopInfoId() == null) continue;
+				userInfo.getShopInfo().setShopLocations(basicInfoManager.getShopLocationListByShopInfoId(userInfo.getShopInfoId()));
+			}
+		}
 		
 		return SUCCESS;
 	}
@@ -193,6 +247,10 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		// shop
 		if(IConstants.USER_TYPE_SHOP.equals(userType)) {
 			this.userInfos = userInfoManager.searchShop(getUserType(), getSearch());
+			for(UserInfo userInfo : userInfos) {
+				if (userInfo.getShopInfoId() == null) continue;
+				userInfo.getShopInfo().setShopLocations(basicInfoManager.getShopLocationListByShopInfoId(userInfo.getShopInfoId()));
+			}
 		// agent
 		} else if(IConstants.USER_TYPE_AGENT.equals(userType)) {
 			this.userInfos = userInfoManager.searchAgent(getUserType(), getSearch());
@@ -222,23 +280,47 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		}
 		BigInteger orderNo = BigInteger.ONE;
 		setGirlServicInfoList(new ArrayList<GirlServiceInfo>());
-		for(String girlServiceName : getGirlservicenamelist()) {
+		List<String> girlServiceInfoIdList = new ArrayList<String>();
+		Iterator<String> it = getGirlservicenamelist().iterator();
+		while(it.hasNext()) {
+			JSONObject jsonData = new JSONObject(it.next());
 			GirlServiceInfo girlServiceInfo = new GirlServiceInfo();
-			girlServiceInfo.setGirlServiceInfoId(UUID.randomUUID().toString().toUpperCase());
-			girlServiceInfo.setGirlServiceName(girlServiceName);
+			String girlServiceInfoId = jsonData.getString("girlServiceInfoId");
+			if (girlServiceInfoId.isEmpty()) {
+				girlServiceInfo.setGirlServiceInfoId(UUID.randomUUID().toString().toUpperCase());
+			} else {
+				girlServiceInfo.setGirlServiceInfoId(girlServiceInfoId);
+			}
+			girlServiceInfo.setGirlServiceName(jsonData.getString("girlServiceName"));
+			girlServiceInfo.setGirlServiceNameJp(jsonData.getString("girlServiceNameJp"));
 			girlServiceInfo.setOrderNo(orderNo);
 			orderNo = orderNo.add(BigInteger.ONE);
 			getGirlServicInfoList().add(girlServiceInfo);
+			girlServiceInfoIdList.add(girlServiceInfo.getGirlServiceInfoId());
 		}
 
 		List<GirlService> girlServices = girlInfoManager.getGirlServiceList();
 		if(girlServices.size() > 0) {
-			addActionError(getText("global.message_girl_service_update_fail"));
-			return INPUT;
+			Iterator<GirlService> itInUseed = girlServices.iterator();
+			boolean bIsDeleteInUsed = false;
+			// check if delete in used girl service
+			while(itInUseed.hasNext()) {
+				GirlService girlService = itInUseed.next();
+				String girlServiceInfoId = girlService.getPrimaryKey().getGirlServiceInfo().getGirlServiceInfoId();
+				if (!girlServiceInfoIdList.contains(girlServiceInfoId)) {
+					bIsDeleteInUsed = true;
+					break;
+				}
+			}
+			if (bIsDeleteInUsed) {
+				addActionError(getText("global.message_girl_service_update_fail"));
+				this.girlServicInfoList = girlInfoManager.getGirlServiceInfoList();
+				return INPUT;
+			}
 		}
-		girlInfoManager.updateGirlServiceInfo(getGirlServicInfoList());
+		girlInfoManager.updateGirlServiceInfo(getGirlServicInfoList(), girlServiceInfoIdList);
 		addActionMessage(getText("global.message_success_update"));
-		return SUCCESS;
+		return girlservice();
 	}
 
 	public String girlsetting() {
@@ -349,6 +431,45 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			e.printStackTrace();
 			return INPUT;
 		}
+	}
+	
+	public String girllist() {
+		this.girlInfos = girlInfoManager.search(new FrontSearch());
+		this.zoneInfos = zoneInfoManager.list();
+		this.categoryInfos = categoryInfoManager.list();
+		this.agentInfos = agentInfoManager.list();
+		
+		return SUCCESS;
+	}
+	
+	public String girlupdate() {
+		
+		if(getAllsamelist() == null) {
+			setAllsamelist(new ArrayList<String>());
+		}
+
+		Iterator<String> it = getAllsamelist().iterator();
+		List<String> allGirlInfoIdList = new ArrayList<String>();
+		List<String> allSameGirlInfoIdList = new ArrayList<String>();
+		while(it.hasNext()) {
+			JSONObject jsonData = new JSONObject(it.next());
+			allGirlInfoIdList.add(jsonData.getString("id"));
+			if (jsonData.getBoolean("checked")) {
+				allSameGirlInfoIdList.add(jsonData.getString("id"));
+			}
+		}
+		girlInfoManager.allSameByGirlInfoId(allGirlInfoIdList, allSameGirlInfoIdList);
+		addActionMessage(getText("global.message_success_update"));
+		return girllist();
+	}
+	
+	public String girlsearch() {
+		this.girlInfos = girlInfoManager.search(getGirlSearch());
+		this.zoneInfos = zoneInfoManager.list();
+		this.categoryInfos = categoryInfoManager.list();
+		this.agentInfos = agentInfoManager.list();
+		
+		return SUCCESS;
 	}
 	
 	public String getMenu() {
@@ -474,6 +595,54 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 
 	public void setSearch(AdminSearch search) {
 		this.search = search;
+	}
+
+	public List<GirlInfo> getGirlInfos() {
+		return girlInfos;
+	}
+
+	public FrontSearch getGirlSearch() {
+		return girlSearch;
+	}
+
+	public List<String> getAllsamelist() {
+		return allsamelist;
+	}
+
+	public void setGirlInfos(List<GirlInfo> girlInfos) {
+		this.girlInfos = girlInfos;
+	}
+
+	public void setGirlSearch(FrontSearch girlSearch) {
+		this.girlSearch = girlSearch;
+	}
+
+	public void setAllsamelist(List<String> allsamelist) {
+		this.allsamelist = allsamelist;
+	}
+
+	public List<ZoneInfo> getZoneInfos() {
+		return zoneInfos;
+	}
+
+	public void setZoneInfos(List<ZoneInfo> zoneInfos) {
+		this.zoneInfos = zoneInfos;
+	}
+
+	public List<CategoryInfo> getCategoryInfos() {
+		return categoryInfos;
+	}
+
+	public List<AgentInfo> getAgentInfos() {
+		return agentInfos;
+	}
+
+	public void setCategoryInfos(List<CategoryInfo> categoryInfos) {
+		this.categoryInfos = categoryInfos;
+	}
+
+	public void setAgentInfos(List<AgentInfo> agentInfos) {
+		this.agentInfos = agentInfos;
 	}
 
 

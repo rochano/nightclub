@@ -8,7 +8,8 @@
 			<a href="<s:url value="/admin/agent"/>"><span><s:text name="global.menu_agent" /></span></a> | 
 			<a href="<s:url value="/admin/freeagent"/>"><span><s:text name="global.menu_free_agent" /></span></a> | 
 			<a href="<s:url value="/admin/client"/>"><span><s:text name="global.menu_client" /></span></a> | 
-			<a href="<s:url value="/admin/engirl"/>"><span><s:text name="global.menu_en_girl" /></span></a> | 
+			<a href="<s:url value="/admin/engirl"/>"><span><s:text name="global.menu_en_girl" /></span></a> |
+			<a href="<s:url value="/admin/girls"/>"><span><s:text name="global.menu_girls" /></span></a> | 
 			<a href="<s:url value="/admin/zone"/>"><span><s:text name="global.location" /></span></a> | 
 			<a href="<s:url value="/admin/category"/>"><span><s:text name="global.shop_category" /></span></a> | 
 			<a href="<s:url value="/admin/ads"/>"><span><s:text name="global.menu_ads" /></span></a> | 

@@ -149,7 +149,9 @@
 										<span class="right floated">
 											<s:text name="format.integer"><s:param name="value" value="price"/></s:text>
 										</span>
-										ตรงปก
+										<s:if test="allSame == 'true'">
+											<s:text name="global.all_same" />
+										</s:if>
 									</div>
 									<div class="content left aligned">
 										<a class="ui header " href="<s:url value="/girl/%{girlInfoId}"/>"><s:property value="nickName" /></a>

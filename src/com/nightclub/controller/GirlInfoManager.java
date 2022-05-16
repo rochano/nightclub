@@ -66,6 +66,8 @@ public class GirlInfoManager extends HibernateUtil {
 		session.beginTransaction();
 		GirlInfo girlInfo = (GirlInfo) session.load(GirlInfo.class, girlInfoId);
 		if(null != girlInfo) {
+			deleteGirlLocationInfo(girlInfo.getGirlInfoId());
+			deleteGirlServiceInfo(girlInfo.getGirlInfoId());
 			session.delete(girlInfo);
 		}
 		session.getTransaction().commit();
@@ -355,6 +357,16 @@ public class GirlInfoManager extends HibernateUtil {
 		try {
 			
 			girlServiceInfos = (List<GirlServiceInfo>)session.createQuery("from GirlServiceInfo order by orderNo").list();
+			if(girlServiceInfos != null) {
+				for(GirlServiceInfo girlServiceInfo : girlServiceInfos) {
+					List<GirlService> girlServices = (List<GirlService>)session
+						.createQuery("from GirlService gs " + 
+						"where gs.primaryKey.girlServiceInfo.girlServiceInfoId = :girlServiceInfoId ")
+						.setParameter("girlServiceInfoId", girlServiceInfo.getGirlServiceInfoId())
+						.list();
+					girlServiceInfo.setGirlServiceList(girlServices);
+				}
+			}
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -364,12 +376,14 @@ public class GirlInfoManager extends HibernateUtil {
 		return girlServiceInfos;
 	}
 
-	public void updateGirlServiceInfo(List<GirlServiceInfo> girlServiceInfos) {
+	public void updateGirlServiceInfo(List<GirlServiceInfo> girlServiceInfos, List<String> girlServiceInfoIdList) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		session.createQuery("delete from GirlServiceInfo ").executeUpdate();
+		session.createQuery("delete from GirlServiceInfo where girlServiceInfoId not in (:girlServiceInfoIdList) ")
+			.setParameterList("girlServiceInfoIdList", girlServiceInfoIdList.toArray())
+			.executeUpdate();
 		for(GirlServiceInfo girlServiceInfo : girlServiceInfos) {
-			session.save(girlServiceInfo);
+			session.saveOrUpdate(girlServiceInfo);
 		}
 		session.getTransaction().commit();
 	}
@@ -382,7 +396,9 @@ public class GirlInfoManager extends HibernateUtil {
 		List<GirlService> girlServices = null;
 		try {
 			
-			girlServices = (List<GirlService>)session.createQuery("from GirlService gs where gs.primaryKey.freeAgentGirlInfo.girlInfoId = :girlInfoId")
+			girlServices = (List<GirlService>)session.createQuery(
+					"from GirlService gs where gs.primaryKey.freeAgentGirlInfo.girlInfoId = :girlInfoId " +
+					"order by gs.primaryKey.girlServiceInfo.orderNo ")
 					.setParameter("girlInfoId", girlInfoId)
 					.list();
 			
@@ -405,13 +421,15 @@ public class GirlInfoManager extends HibernateUtil {
 			girlInfos = (List<GirlInfo>)session.createQuery("select girlInfo from GirlInfo girlInfo, UserInfo userInfo " +
 					"where ((DTYPE = 'ShopGirlInfo' and girlInfo.shopInfoId = userInfo.shopInfoId and girlInfo.available = :availableShopGirlInfo) " +
 					"or (DTYPE = 'AgentGirlInfo' and girlInfo.agentInfoId = userInfo.agentInfoId and girlInfo.available = :availableAgentGirlInfo) " +
-					"or (DTYPE = 'FreeAgentGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId)) " +
-					"or (DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId)) ")
+					"or (DTYPE = 'FreeAgentGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId) " +
+					"or (DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId)) " + 
+					"and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg")
 //					"and userInfo.active = :active " +
 //					"and current_date between userInfo.validDateFrom and userInfo.validDateTo"
 					.setParameter("availableShopGirlInfo", Boolean.TRUE.toString().toLowerCase())
 					.setParameter("availableAgentGirlInfo", Boolean.TRUE.toString().toLowerCase())
 //					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+					.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase())
 					.list();
 			
 		} catch (HibernateException e) {
@@ -434,14 +452,16 @@ public class GirlInfoManager extends HibernateUtil {
 					"where girlInfo.zoneInfo.zoneInfoId = :zoneInfoId " +
 					"and ((DTYPE = 'ShopGirlInfo' and girlInfo.shopInfoId = userInfo.shopInfoId and girlInfo.available = :availableShopGirlInfo) " +
 					"or (DTYPE = 'AgentGirlInfo' and girlInfo.agentInfoId = userInfo.agentInfoId and girlInfo.available = :availableAgentGirlInfo) " +
-					"or (DTYPE = 'FreeAgentGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId)) " +
-					"or (DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId)) ")
+					"or (DTYPE = 'FreeAgentGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId) " +
+					"or (DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId)) " + 
+					"and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg")
 //					"and userInfo.active = :active " +
 //					"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
 					.setParameter("zoneInfoId", zoneInfoId)
 					.setParameter("availableShopGirlInfo", Boolean.TRUE.toString().toLowerCase())
 					.setParameter("availableAgentGirlInfo", Boolean.TRUE.toString().toLowerCase())
 //					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+					.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase())
 					.list();
 			
 		} catch (HibernateException e) {
@@ -467,11 +487,32 @@ public class GirlInfoManager extends HibernateUtil {
 			GirlInfo girlInfo;
 			List<GirlLocation> girlLocations;
 			Query query;
+			boolean uncheckAll = false;
+			boolean chkCategoey = false;
+			boolean chkAgents = false;
+			boolean chkFreeAgents = false;
+			boolean chkEnGirls = false;
 			if (frontSearch.getChkCategory() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkCategory())) {
+				chkCategoey = true;
+			}
+			if (frontSearch.getChkAgents() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkAgents())) {
+				chkAgents = true;
+			}
+			if (frontSearch.getChkFreeAgents() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkFreeAgents())) {
+				chkFreeAgents = true;
+			}
+			if (frontSearch.getChkEnGirls() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkEnGirls())) {
+				chkEnGirls = true;
+			}
+			if (chkCategoey == false && chkAgents == false && chkFreeAgents == false && chkEnGirls == false) {
+				uncheckAll = true;
+			}
+			
+			if (chkCategoey || uncheckAll) {
 				sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo, BasicInfo basicInfo ";
 				sql += "where DTYPE = 'ShopGirlInfo' and girlInfo.shopInfoId = userInfo.shopInfoId and girlInfo.available = :availableShopGirlInfo ";
 				sql += "and girlInfo.shopInfoId = basicInfo.shopInfoId ";
-				if (!frontSearch.getCategoryInfoId().isEmpty()) {
+				if (frontSearch.getCategoryInfoId() != null && !frontSearch.getCategoryInfoId().isEmpty()) {
 					sql += " and basicInfo.categoryInfoId = :categoryInfoId ";
 				}
 				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
@@ -483,11 +524,15 @@ public class GirlInfoManager extends HibernateUtil {
 					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
 				}
 				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-					sql += " and girlInfo.incallOutcall = :incallOutcall ";
+					sql += " and girlInfo." + frontSearch.getIncallOutcall() + " = :incallOutcall ";
 				}
+				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
+					sql += " and girlInfo.nickName like :nickName ";
+				}
+				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
 				query = session.createQuery(sql.toString());
 				query = query.setParameter("availableShopGirlInfo", Boolean.TRUE.toString().toLowerCase());
-				if (!frontSearch.getCategoryInfoId().isEmpty()) {
+				if (frontSearch.getCategoryInfoId() != null && !frontSearch.getCategoryInfoId().isEmpty()) {
 					query = query.setParameter("categoryInfoId", frontSearch.getCategoryInfoId());
 				}
 				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
@@ -497,8 +542,12 @@ public class GirlInfoManager extends HibernateUtil {
 					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
 				}
 				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-					query = query.setParameter("incallOutcall", frontSearch.getIncallOutcall());
+					query = query.setParameter("incallOutcall", Boolean.TRUE.toString().toLowerCase());
 				}
+				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
+					query = query.setParameter("nickName", "%" + frontSearch.getNickName() + "%");
+				}
+				query = query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
 				shopGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = shopGirlInfoList.iterator();
 				while(it.hasNext()) {
@@ -509,10 +558,10 @@ public class GirlInfoManager extends HibernateUtil {
 				girlInfos.addAll(shopGirlInfoList);
 			}
 
-			if (frontSearch.getChkAgents() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkAgents())) {
+			if (chkAgents || uncheckAll) {
 				sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo ";
 				sql += "where DTYPE = 'AgentGirlInfo' and girlInfo.agentInfoId = userInfo.agentInfoId and girlInfo.available = :availableAgentGirlInfo ";
-				if (!frontSearch.getAgentInfoId().isEmpty()) {
+				if (frontSearch.getAgentInfoId() != null && !frontSearch.getAgentInfoId().isEmpty()) {
 					sql += " and girlInfo.agentInfoId = :agentInfoId ";
 				}
 				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
@@ -524,8 +573,12 @@ public class GirlInfoManager extends HibernateUtil {
 					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
 				}
 				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-					sql += " and girlInfo.incallOutcall = :incallOutcall ";
+					sql += " and girlInfo." + frontSearch.getIncallOutcall() + " = :incallOutcall ";
 				}
+				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
+					sql += " and girlInfo.nickName like :nickName ";
+				}
+				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
 				query = session.createQuery(sql.toString());
 				query = query.setParameter("availableAgentGirlInfo", Boolean.TRUE.toString().toLowerCase());
 				if (frontSearch.getChkAgents() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkAgents())) {
@@ -540,8 +593,12 @@ public class GirlInfoManager extends HibernateUtil {
 					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
 				}
 				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-					query = query.setParameter("incallOutcall", frontSearch.getIncallOutcall());
+					query = query.setParameter("incallOutcall", Boolean.TRUE.toString().toLowerCase());
 				}
+				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
+					query = query.setParameter("nickName", "%" + frontSearch.getNickName() + "%");
+				}
+				query = query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
 				agentGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = agentGirlInfoList.iterator();
 				while(it.hasNext()) {
@@ -552,7 +609,7 @@ public class GirlInfoManager extends HibernateUtil {
 				girlInfos.addAll(agentGirlInfoList);
 			}
 			
-			if (frontSearch.getChkFreeAgents() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkFreeAgents())) {
+			if (chkFreeAgents || uncheckAll) {
 				sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo ";
 				sql += "where DTYPE = 'FreeAgentGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId ";
 				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
@@ -564,8 +621,12 @@ public class GirlInfoManager extends HibernateUtil {
 					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
 				}
 				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-					sql += " and girlInfo.incallOutcall = :incallOutcall ";
+					sql += " and girlInfo." + frontSearch.getIncallOutcall() + " = :incallOutcall ";
 				}
+				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
+					sql += " and girlInfo.nickName like :nickName ";
+				}
+				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
 				query = session.createQuery(sql.toString());
 				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
 					query = query.setParameter("gender", frontSearch.getGender());
@@ -574,8 +635,12 @@ public class GirlInfoManager extends HibernateUtil {
 					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
 				}
 				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-					query = query.setParameter("incallOutcall", frontSearch.getIncallOutcall());
+					query = query.setParameter("incallOutcall", Boolean.TRUE.toString().toLowerCase());
 				}
+				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
+					query = query.setParameter("nickName", "%" + frontSearch.getNickName() + "%");
+				}
+				query = query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
 				freeAgentGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = freeAgentGirlInfoList.iterator();
 				while(it.hasNext()) {
@@ -586,7 +651,7 @@ public class GirlInfoManager extends HibernateUtil {
 				girlInfos.addAll(freeAgentGirlInfoList);
 			}
 
-			if (frontSearch.getChkEnGirls() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkEnGirls())) {
+			if (chkEnGirls || uncheckAll) {
 				sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo ";
 				sql += "where DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId ";
 				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
@@ -598,8 +663,12 @@ public class GirlInfoManager extends HibernateUtil {
 					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
 				}
 				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-					sql += " and girlInfo.incallOutcall = :incallOutcall ";
+					sql += " and girlInfo." + frontSearch.getIncallOutcall() + " = :incallOutcall ";
 				}
+				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
+					sql += " and girlInfo.nickName like :nickName ";
+				}
+				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
 				query = session.createQuery(sql.toString());
 				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
 					query = query.setParameter("gender", frontSearch.getGender());
@@ -608,8 +677,12 @@ public class GirlInfoManager extends HibernateUtil {
 					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
 				}
 				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-					query = query.setParameter("incallOutcall", frontSearch.getIncallOutcall());
+					query = query.setParameter("incallOutcall", Boolean.TRUE.toString().toLowerCase());
 				}
+				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
+					query = query.setParameter("nickName", "%" + frontSearch.getNickName() + "%");
+				}
+				query = query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
 				enGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = enGirlInfoList.iterator();
 				while(it.hasNext()) {
@@ -672,5 +745,31 @@ public class GirlInfoManager extends HibernateUtil {
 		}
 		session.getTransaction().commit();
 		return girlServices;
+	}
+
+	public void allSameByGirlInfoId(List<String> allGirlInfoIdList, List<String> allSameGirlInfoIdList) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			
+			if(allGirlInfoIdList.size()> 0) {
+				session.createQuery("update GirlInfo set allSame = :allSame where girlInfoId in (:girlInfoIdList) ")
+						.setParameter("allSame", Boolean.FALSE.toString().toLowerCase())
+						.setParameterList("girlInfoIdList", allGirlInfoIdList.toArray())
+						.executeUpdate();
+				
+				if(allSameGirlInfoIdList.size()> 0) {
+					session.createQuery("update GirlInfo set allSame = :allSame where girlInfoId in (:girlInfoIdList) ")
+							.setParameter("allSame", Boolean.TRUE.toString().toLowerCase())
+							.setParameterList("girlInfoIdList", allSameGirlInfoIdList.toArray())
+							.executeUpdate();
+				}
+			}
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
 	}
 }

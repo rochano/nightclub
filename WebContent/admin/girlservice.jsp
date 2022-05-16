@@ -68,8 +68,14 @@
           onSuccess: function() { 
               var form = $(this);
               form.find("[name=girlservicenamelist]").remove()
-              $( "input[name=girlServiceName]", dataTable.fnGetNodes()).each(function(i, item) {
-            	  form.append("<input name='girlservicenamelist' value='" + item.value + "' type='hidden' />")
+              $(dataTable.fnGetNodes()).map(function(i, o) {
+            	  var tr = $(o);
+            	  var obj = {
+                      girlServiceInfoId: tr.find("input[name=girlServiceInfoId]").val(),
+                      girlServiceName: tr.find("input[name=girlServiceName]").val(),
+                      girlServiceNameJp: tr.find("input[name=girlServiceNameJp]").val()
+                  };
+            	  form.append("<input name='girlservicenamelist' value='" + JSON.stringify(obj) + "' type='hidden' />")
               })
               return true; 
           }
@@ -80,49 +86,76 @@
 		.on('click', function() {
 			var giCount = dataTable.fnGetData().length;
 			dataTable.fnAddData( [
-			                  		'<div class="center aligned">' + (++giCount) + '</div>',
+			                  		'<div class="center aligned">' + (++giCount) + '<input type="hidden" name="girlServiceInfoId" /></div>',
 			                		'<div class="ui fluid icon input"><input type="text" name="girlServiceName" /></div>',
+			                		'<div class="ui fluid icon input"><input type="text" name="girlServiceNameJp" /></div>',
 			                		'<div class="center aligned">'
 										+ '<button type="button" class="insertbtn ui icon button small blue"><i class="ui icon add"></i></button>'
 										+ '<button type="button" class="removebtn ui icon button small red"><i class="ui icon delete"></i></button>'
 										+ '</div>'] );
+			dataTable.fnPageChange('last');
+			$("input[name=girlServiceName]").focus();
       });
     })
   ;
   $('.removebtn').live('click', function () {
+	  var currentPage = dataTable.api().page();
 	  dataTable.fnDeleteRow($(this).parents("tr:first"));
-	  console.log(dataTable.fnGetNodes())
 	  $(dataTable.fnGetNodes()).each(function(i, o) {
-		  $(this).find("td:first div").html(++i);
+		  $(this).find("td:first div span").html(++i);
 	  });
+	  dataTable.fnPageChange(currentPage);
 	} );
   $('.insertbtn').live('click', function () {
-	  var rowindex = $(this).parents("tr:first").index();
+	  var rowIndexCurrentPage = $(this).parents("tr:first").index();
 	  var giCount = dataTable.fnGetData().length;
+	  var currentPage = dataTable.api().page();
+	  var displayLength = dataTable.fnSettings()._iDisplayLength;
+	  var rowindex = rowIndexCurrentPage + (displayLength * currentPage);
 	  dataTable.fnAddData( [
-	                  		'<div class="center aligned">' + (++giCount) + '</div>',
+	                  		'<div class="center aligned"><span>' + (++giCount) + '</span><input type="hidden" name="girlServiceInfoId" /></div>',
 	                		'<div class="ui fluid icon input"><input type="text" name="girlServiceName" /></div>',
+	                		'<div class="ui fluid icon input"><input type="text" name="girlServiceNameJp" /></div>',
 	                		'<div class="center aligned">'
 								+ '<button type="button" class="insertbtn ui icon button small blue"><i class="ui icon add"></i></button>'
 								+ '<button type="button" class="removebtn ui icon button small red"><i class="ui icon delete"></i></button>'
 								+ '</div>'] );
-	  var shiftContent;
-	  var currentContent;
+	  var shiftContent = {};
+	  var currentContent = {};
 	  $(dataTable.fnGetNodes()).map(function(i, o) {
 		  var rowno = i+1
 		  var tr = $(o)
-		  tr.find("td:first div").html(rowno);
+		  tr.find("td:first div span").html(rowno);
 		  // clear value inserted row
 		  if (i == rowindex) {
-			  shiftContent = tr.find("td:eq(1) input").val();
-			  tr.find("td:eq(1) input").val("");
+			  shiftContent = {
+				girlServiceInfoId: tr.find("input[name=girlServiceInfoId]").val(),
+				girlServiceName: tr.find("input[name=girlServiceName]").val(),
+				girlServiceNameJp: tr.find("input[name=girlServiceNameJp]").val(),
+				disabled : tr.find("button.removebtn").hasClass("disabled")
+			  };
+			  tr.find("td input").val("");
+			  tr.find("button.removebtn").removeClass("disabled");
 		  // shift data to next row
 		  } else if (i > rowindex) {
-			  currentContent = tr.find("td:eq(1) input").val();
-			  tr.find("td:eq(1) input").val(shiftContent);
+			  currentContent = {
+				girlServiceInfoId: tr.find("input[name=girlServiceInfoId]").val(),
+				girlServiceName: tr.find("input[name=girlServiceName]").val(),
+				girlServiceNameJp: tr.find("input[name=girlServiceNameJp]").val(),
+				disabled : tr.find("button.removebtn").hasClass("disabled")
+			  };
+			  tr.find("input[name=girlServiceInfoId]").val(shiftContent.girlServiceInfoId);
+			  tr.find("input[name=girlServiceName]").val(shiftContent.girlServiceName);
+			  tr.find("input[name=girlServiceNameJp]").val(shiftContent.girlServiceNameJp);
+			  tr.find("button.removebtn").removeClass("disabled");
+			  if (shiftContent.disabled) {
+				  tr.find("button.removebtn").addClass("disabled");
+			  }
 			  shiftContent = currentContent;
 		  }
 	  });
+	  dataTable.fnPageChange(currentPage);
+	  $("input[name=girlServiceName]:eq(" + rowIndexCurrentPage + ")").focus();
 	} );
 	
   </script>
@@ -183,6 +216,7 @@
 								<tr>
 									<th>#</th>
 									<th><s:text name="global.service_name" /></th>
+									<th><s:text name="global.service_name_jp" /></th>
 									<th width="20%"><s:text name="global.operation" /></th>
 								</tr>
 							</thead>
@@ -191,7 +225,8 @@
 								<tr>
 									<td>
 										<div class="center aligned">
-											<s:property value="#status.count" />
+											<span><s:property value="#status.count" /></span>
+											<input type="hidden" name="girlServiceInfoId" value="<s:property value="girlServiceInfoId" />" />
 										</div>
 									</td>
 									<td>
@@ -200,9 +235,17 @@
 										</div>
 									</td>
 									<td>
+										<div class="ui fluid icon input">
+											<input type="text" name="girlServiceNameJp" value="<s:property value="girlServiceNameJp" />" />
+										</div>
+									</td>
+									<td>
 										<div class="center aligned">
 											<button type="button" class="insertbtn ui icon button small blue"><i class="ui icon add"></i></button>
-											<button type="button" class="removebtn ui icon button small red"><i class="ui icon delete"></i></button>
+											<button type="button" class="removebtn ui icon button small red 
+												<s:if test="girlServiceList.size() > 0 ">disabled</s:if>">
+												<i class="ui icon delete"></i>
+											</button>
 										</div>
 									</td>
 								</tr>
@@ -210,7 +253,7 @@
 							</tbody>
 							<tfoot class="full-width">
 								<tr>
-									<th colspan="3">
+									<th colspan="4">
 										<form class="ui form " method="post" action="<s:url value="/admin/girlservice/update"/>" >
 										<div class="ui right floated small primary submit button">
 											<s:text name="global.submit" />

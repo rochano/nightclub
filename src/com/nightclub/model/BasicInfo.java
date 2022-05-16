@@ -1,22 +1,20 @@
 package com.nightclub.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.hibernate.annotations.Where;
-import org.hibernate.annotations.WhereJoinTable;
 import org.hibernate.validator.Length;
 
 @Entity
@@ -57,6 +55,9 @@ public class BasicInfo implements Serializable {
 	private ZoneInfo zoneInfo;
 	private MapInfo mapInfo;
 	private SystemInfo systemInfo;
+	private UserInfo userInfo;
+	
+	private List<ShopLocation> shopLocations = new ArrayList<ShopLocation>();
 	
 	public BasicInfo() {}
 	
@@ -224,6 +225,17 @@ public class BasicInfo implements Serializable {
 	public SystemInfo getSystemInfo() {
 		return systemInfo;
 	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="shop_info_id", insertable=false, updatable=false)
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
+	@OneToMany(mappedBy = "primaryKey.basicInfo",
+            cascade = CascadeType.ALL)
+	public List<ShopLocation> getShopLocations() {
+		return shopLocations;
+	}
 	public void setShopInfoId(String shopInfoId) {
 		this.shopInfoId = shopInfoId;
 	}
@@ -317,7 +329,13 @@ public class BasicInfo implements Serializable {
 	public void setLineId(String lineId) {
 		this.lineId = lineId;
 	}
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
+	}
 	public BasicInfo clone() {
 		return new BasicInfo(this);
+	}
+	public void setShopLocations(List<ShopLocation> shopLocations) {
+		this.shopLocations = shopLocations;
 	}
 }

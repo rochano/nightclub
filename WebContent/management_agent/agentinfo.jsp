@@ -170,6 +170,9 @@
 								<s:hidden name="agentLogoFileName"></s:hidden>
 							</div>
 						</div>
+						<div class="inline field">
+							<s:textfield name="agentInfo.lineId" key="global.line_id"/>
+						</div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
 								<div class="ui small button submit blue"><s:text name="global.submit" /></div>

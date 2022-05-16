@@ -165,9 +165,11 @@ public class AgentGirlInfoManager extends GirlInfoManager {
 							"where agentGirlInfo.agentInfoId = userInfo.agentInfoId " +
 //							"and userInfo.active = :active " +
 //							"and current_date between userInfo.validDateFrom and userInfo.validDateTo " +
-							"and agentGirlInfo.available = :available ")
+							"and agentGirlInfo.available = :available " + 
+							"and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg")
 //							.setParameter("active", Boolean.TRUE.toString().toLowerCase())
 							.setParameter("available", Boolean.TRUE.toString().toLowerCase())
+							.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase())
 							.list();
 			Iterator it = girlInfos.iterator();
 			while(it.hasNext()) {

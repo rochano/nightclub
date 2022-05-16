@@ -73,10 +73,12 @@ public class FreeAgentGirlInfoManager extends GirlInfoManager {
 			
 			girlInfos = (List<GirlInfo>)session.createQuery("select freeAgentGirlInfo from FreeAgentGirlInfo freeAgentGirlInfo, UserInfo userInfo " +
 					"where DTYPE = 'FreeAgentGirlInfo' " +
-					"and freeAgentGirlInfo.girlInfoId = userInfo.girlInfoId ")
+					"and freeAgentGirlInfo.girlInfoId = userInfo.girlInfoId " + 
+					"and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg")
 //					"and userInfo.active = :active " +
 //					"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
 //					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+					.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase())
 					.list();
 			Iterator it = girlInfos.iterator();
 			while(it.hasNext()) {

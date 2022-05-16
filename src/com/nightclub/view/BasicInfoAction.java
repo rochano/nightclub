@@ -1,5 +1,6 @@
 package com.nightclub.view;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -10,9 +11,13 @@ import org.apache.struts2.interceptor.SessionAware;
 import com.nightclub.controller.BasicInfoManager;
 import com.nightclub.controller.CategoryInfoManager;
 import com.nightclub.controller.UserInfoManager;
+import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.BasicInfo;
 import com.nightclub.model.CategoryInfo;
+import com.nightclub.model.GirlLocation;
+import com.nightclub.model.ShopLocation;
 import com.nightclub.model.UserInfo;
+import com.nightclub.model.ZoneInfo;
 import com.nightclub.util.UploadFileUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -34,13 +39,17 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
 	private BasicInfoManager basicInfoManager;
 	private UserInfoManager userInfoManager;
 	private CategoryInfoManager categoryInfoManager;
+	private ZoneInfoManager zoneInfoManager;
 	
 	private List<BasicInfo> basicInfos;
+	private List<ZoneInfo> zoneInfos;
+	private List<String> shopLocations;
 
 	public BasicInfoAction() {
 		basicInfoManager = new BasicInfoManager();
 		userInfoManager = new UserInfoManager();
 		categoryInfoManager = new CategoryInfoManager();
+		zoneInfoManager = new ZoneInfoManager();
 	}
 
 	public String execute() {
@@ -58,6 +67,14 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
 		
 		if(this.categoryInfo == null) {
 			this.categoryInfo = categoryInfoManager.getCategoryInfo(this.categoryInfos.get(0).getCategoryInfoId());
+		}
+		this.zoneInfos = zoneInfoManager.list();
+		this.shopLocations = new ArrayList<String>();
+		List<ShopLocation> shopLocations = basicInfoManager.getShopLocationListByShopInfoId(userInfo.getShopInfoId());
+		if(shopLocations != null) {
+			for(ShopLocation shopLocation : shopLocations) {
+				this.shopLocations.add(shopLocation.getZoneInfo().getZoneInfoId());
+			}
 		}
 		
 		return SUCCESS;
@@ -118,7 +135,19 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
             }
             
             this.basicInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.basicInfo.getDescription(), sessionMap, userInfo));
-                        
+
+            this.basicInfo.getShopLocations().clear();
+            ShopLocation shopLocation;
+            for(String zoneInfoId : this.shopLocations) {
+            	ZoneInfo zoneInfo = new ZoneInfo();
+            	zoneInfo.setZoneInfoId(zoneInfoId);
+
+            	shopLocation = new ShopLocation();
+            	shopLocation.setZoneInfo(zoneInfo);
+            	shopLocation.setBasicInfo(this.basicInfo);
+				this.basicInfo.getShopLocations().add(shopLocation);
+			}
+            
         } catch (Exception e) {
             e.printStackTrace();
             addActionError(e.getMessage());
@@ -230,6 +259,22 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
 
 	public void setBasicInfos(List<BasicInfo> basicInfos) {
 		this.basicInfos = basicInfos;
+	}
+
+	public List<ZoneInfo> getZoneInfos() {
+		return zoneInfos;
+	}
+
+	public List<String> getShopLocations() {
+		return shopLocations;
+	}
+
+	public void setZoneInfos(List<ZoneInfo> zoneInfos) {
+		this.zoneInfos = zoneInfos;
+	}
+
+	public void setShopLocations(List<String> shopLocations) {
+		this.shopLocations = shopLocations;
 	}
 
 }

@@ -472,6 +472,7 @@
 						<s:hidden name="action" value="update"></s:hidden>
 						<s:hidden name="girlInfo.girlInfoId"></s:hidden>
 						<s:hidden name="girlInfo.available"></s:hidden>
+						<s:hidden name="girlInfo.allSame"></s:hidden>
 						<div class="ui error message"></div>
 					</form>
 				</div>

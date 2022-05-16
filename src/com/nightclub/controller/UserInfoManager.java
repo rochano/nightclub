@@ -9,7 +9,6 @@ import org.hibernate.Query;
 import org.hibernate.classic.Session;
 
 import com.nightclub.model.AdminSearch;
-import com.nightclub.model.GirlInfo;
 import com.nightclub.model.UserInfo;
 
 public class UserInfoManager extends HibernateUtil {
@@ -69,9 +68,11 @@ public class UserInfoManager extends HibernateUtil {
 			userInfo = (UserInfo)session
 					.createQuery("from UserInfo " + 
 						"where (username = :username or phone = :username) " + 
-						"and password = :password ")
+						"and password = :password " + 
+						"and COALESCE(deleteFlg, :deleteFlg) = :deleteFlg ")
 					.setParameter("username", username)
 					.setParameter("password", password)
+					.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase())
 					.uniqueResult();
 			
 		} catch (HibernateException e) {
@@ -104,8 +105,8 @@ public class UserInfoManager extends HibernateUtil {
 		session.beginTransaction();
 		try {
 			
-			session.createQuery("update UserInfo set delete_flg = :delete_flg where userInfoId = :userInfoId ")
-					.setParameter("delete_flg", Boolean.TRUE.toString().toLowerCase())
+			session.createQuery("update UserInfo set deleteFlg = :deleteFlg where userInfoId = :userInfoId ")
+					.setParameter("deleteFlg", Boolean.TRUE.toString().toLowerCase())
 					.setParameter("userInfoId", userInfoId)
 					.executeUpdate();
 			
@@ -124,9 +125,9 @@ public class UserInfoManager extends HibernateUtil {
 		List<UserInfo> userInfos = null;
 		try {
 			
-			userInfos = (List<UserInfo>)session.createQuery("from UserInfo where userType = :userType and COALESCE(delete_flg, :delete_flg) = :delete_flg ")
+			userInfos = (List<UserInfo>)session.createQuery("from UserInfo where userType = :userType and COALESCE(deleteFlg, :deleteFlg) = :deleteFlg ")
 					.setParameter("userType", userType)
-					.setParameter("delete_flg", Boolean.FALSE.toString().toLowerCase())
+					.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase())
 					.list();
 			
 		} catch (HibernateException e) {
@@ -191,7 +192,8 @@ public class UserInfoManager extends HibernateUtil {
 		try {
 			
 			StringBuffer sql = new StringBuffer();
-			sql.append("from UserInfo where userType = :userType ");
+			sql.append("from UserInfo where userType = :userType "
+			+ "and COALESCE(deleteFlg, :deleteFlg) = :deleteFlg ");
 			if(!search.getUserName().isEmpty()) {
 				sql.append("and userName like :userName ");
 			}
@@ -203,6 +205,7 @@ public class UserInfoManager extends HibernateUtil {
 			}
 			Query query = session.createQuery(sql.toString());
 			query.setParameter("userType", userType);
+			query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
 			if(!search.getUserName().isEmpty()) {
 				query.setParameter("userName", '%'+search.getUserName()+'%');
 			}
@@ -231,7 +234,7 @@ public class UserInfoManager extends HibernateUtil {
 		try {
 			
 			StringBuffer sql = new StringBuffer();
-			sql.append("from UserInfo where userType = :userType ");
+			sql.append("from UserInfo where userType = :userType and COALESCE(deleteFlg, :deleteFlg) = :deleteFlg ");
 			if(!search.getUserName().isEmpty()) {
 				sql.append("and userName like :userName ");
 			}
@@ -240,6 +243,7 @@ public class UserInfoManager extends HibernateUtil {
 			}
 			Query query = session.createQuery(sql.toString());
 			query.setParameter("userType", userType);
+			query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
 			if(!search.getUserName().isEmpty()) {
 				query.setParameter("userName", '%'+search.getUserName()+'%');
 			}
@@ -265,7 +269,7 @@ public class UserInfoManager extends HibernateUtil {
 		try {
 			
 			StringBuffer sql = new StringBuffer();
-			sql.append("from UserInfo where userType = :userType ");
+			sql.append("from UserInfo where userType = :userType and COALESCE(deleteFlg, :deleteFlg) = :deleteFlg ");
 			if(!search.getUserName().isEmpty()) {
 				sql.append("and userName like :userName ");
 			}
@@ -274,6 +278,7 @@ public class UserInfoManager extends HibernateUtil {
 			}
 			Query query = session.createQuery(sql.toString());
 			query.setParameter("userType", userType);
+			query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
 			if(!search.getUserName().isEmpty()) {
 				query.setParameter("userName", '%'+search.getUserName()+'%');
 			}
@@ -299,7 +304,7 @@ public class UserInfoManager extends HibernateUtil {
 		try {
 			
 			StringBuffer sql = new StringBuffer();
-			sql.append("from UserInfo where userType = :userType ");
+			sql.append("from UserInfo where userType = :userType and COALESCE(deleteFlg, :deleteFlg) = :deleteFlg ");
 			if(!search.getUserName().isEmpty()) {
 				sql.append("and userName like :userName ");
 			}
@@ -308,6 +313,7 @@ public class UserInfoManager extends HibernateUtil {
 			}
 			Query query = session.createQuery(sql.toString());
 			query.setParameter("userType", userType);
+			query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
 			if(!search.getUserName().isEmpty()) {
 				query.setParameter("userName", '%'+search.getUserName()+'%');
 			}
@@ -333,7 +339,7 @@ public class UserInfoManager extends HibernateUtil {
 		try {
 			
 			StringBuffer sql = new StringBuffer();
-			sql.append("from UserInfo where userType = :userType ");
+			sql.append("from UserInfo where userType = :userType and COALESCE(deleteFlg, :deleteFlg) = :deleteFlg ");
 			if(!search.getUserName().isEmpty()) {
 				sql.append("and userName like :userName ");
 			}
@@ -342,6 +348,7 @@ public class UserInfoManager extends HibernateUtil {
 			}
 			Query query = session.createQuery(sql.toString());
 			query.setParameter("userType", userType);
+			query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
 			if(!search.getUserName().isEmpty()) {
 				query.setParameter("userName", '%'+search.getUserName()+'%');
 			}

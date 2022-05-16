@@ -1,7 +1,6 @@
 package com.nightclub.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -19,7 +18,6 @@ import org.hibernate.annotations.NotFoundAction;
 @Table(name="free_agent_girl_info")
 public class FreeAgentGirlInfo extends GirlInfo {
 	private static final long serialVersionUID = -1930927867933854705L;
-	private String lineId;
 	private String gender;
 	private List<GirlService> girlServices = new ArrayList<GirlService>();
 	private String chk40Mins;
@@ -33,12 +31,9 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	private String chk6Hrs;
 	private Double price6Hrs;
 	private UserInfo userInfo;
-	private String incallOutcall;
+	private String incall;
+	private String outcall;
 	
-	@Column(name="line_id")
-	public String getLineId() {
-		return lineId;
-	}
 	@Column(name="gender")
 	public String getGender() {
 		return gender;
@@ -114,12 +109,13 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	public UserInfo getUserInfo() {
 		return userInfo;
 	}
-	@Column(name="incall_outcall")
-	public String getIncallOutcall() {
-		return incallOutcall;
+	@Column(name="incall")
+	public String getIncall() {
+		return incall;
 	}
-	public void setLineId(String lineId) {
-		this.lineId = lineId;
+	@Column(name="outcall")
+	public String getOutcall() {
+		return outcall;
 	}
 	public void setGender(String gender) {
 		this.gender = gender;
@@ -160,7 +156,10 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
-	public void setIncallOutcall(String incallOutcall) {
-		this.incallOutcall = incallOutcall;
+	public void setIncall(String incall) {
+		this.incall = incall;
+	}
+	public void setOutcall(String outcall) {
+		this.outcall = outcall;
 	}
 }

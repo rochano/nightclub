@@ -22,6 +22,13 @@ public class AgentGirlInfo extends FreeAgentGirlInfo {
 	public AgentInfo getAgentInfo() {
 		return agentInfo;
 	}
+	@Column(name="line_id", insertable=false, updatable=false)
+	public String getLineId() {
+		if (agentInfo == null) { 
+			return "";
+		}
+		return agentInfo.getLineId();
+	}
 	public void setAgentInfoId(String agentInfoId) {
 		this.agentInfoId = agentInfoId;
 	}

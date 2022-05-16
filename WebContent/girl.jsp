@@ -306,6 +306,28 @@
 														</tr>
 													</s:if>
 												</s:if>
+												<s:elseif test="%{girlInfo.shopInfoId != null}">
+													<s:if test="%{girlInfo.basicInfo.userInfo.active  == 'true'}">
+														<tr>
+															<td class="right aligned"><p>Line</p></td>
+															<td class="center aligned one wide"><p>:</p></td>
+															<td>
+																<s:if test="%{clientInfo != null}">
+																	<s:if test="%{clientInfo.userInfo.active  == 'true'}">
+																		<p><s:property value="girlInfo.lineId" /></p>
+																	</s:if>
+																	<s:else>
+																		<p>[รอตรวจสอบข้อมูลลูกค้า]</p>
+																	</s:else>
+																</s:if>
+																<s:else>
+																	<p>[คลิกเพื่อดูข้อมูล]</p>
+																	<p>[<a href="<s:url value="/signup"/>">กรุณาสมัครสมาชิก</a> หรือ <a href="<s:url value="/login"/>">เข้าสู่ระบบ</a>]</p>
+																</s:else>
+															</td>
+														</tr>
+													</s:if>
+												</s:elseif>
 												<s:else>
 													<s:if test="%{girlInfo.userInfo.active  == 'true'}">
 														<tr>
@@ -394,7 +416,12 @@
 											<s:iterator value="girlServices" status="rowstatus">
 												<div class="column left aligned">
 													<i class="ui check square icon green"></i>
-													<s:property value="primaryKey.girlServiceInfo.girlServiceName" />
+													<s:if test="#request.locale.language=='th'">
+														<s:property value="primaryKey.girlServiceInfo.girlServiceName" />
+													</s:if>
+													<s:else>
+														<s:property value="primaryKey.girlServiceInfo.girlServiceNameJp" />
+													</s:else>
 												</div>
 											</s:iterator>
 										</div>

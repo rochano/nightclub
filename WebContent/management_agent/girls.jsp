@@ -533,11 +533,11 @@
 		</h4>
 		<div class="ui four column grid stackable">
 			<div class="column">
-				<div class="ui radio checkbox">
-					<input type="radio" name="girlInfo.incallOutcall" id="girlInfo_gender_incall"
-						<s:if test="girlInfo.incallOutcall == 'incall'">checked="checked"</s:if>
-						 value="incall">
-					<label for="girlInfo_gender_incall">
+				<div class="ui checkbox">
+					<input type="checkbox" name="girlInfo.incall" id="girlInfo_incall"
+						<s:if test="girlInfo.incall == 'true'">checked="checked"</s:if>
+						 value="true">
+					<label for="girlInfo_incall">
 						<s:i18n name="global_th">
 							<s:text name="global.incall" />
 						</s:i18n>
@@ -545,11 +545,11 @@
 				</div>
 			</div>
 			<div class="column">
-				<div class="ui radio checkbox">
-					<input type="radio" name="girlInfo.incallOutcall" id="girlInfo_gender_outcall"
-						<s:if test="girlInfo.incallOutcall == 'outcall'">checked="checked"</s:if>
-						 value="outcall">
-					<label for="girlInfo_gender_outcall">
+				<div class="ui checkbox">
+					<input type="checkbox" name="girlInfo.outcall" id="girlInfo_outcall"
+						<s:if test="girlInfo.outcall == 'true'">checked="checked"</s:if>
+						 value="true">
+					<label for="girlInfo_outcall">
 						<s:i18n name="global_th">
 							<s:text name="global.outcall" />
 						</s:i18n>
@@ -582,9 +582,6 @@
 			</div>
 		</div>
 		<br />
-		<div class="inline field">
-			<s:textfield name="girlInfo.lineId" key="global.line_id"/>
-		</div>
 		<div class="ui grid five column">
 			<div class="image ui small column">
 				<div id="pic1">
@@ -862,6 +859,7 @@
 		<s:hidden name="action" value="update"></s:hidden>
 		<s:hidden name="girlInfo.girlInfoId"></s:hidden>
 		<s:hidden name="girlInfo.available"></s:hidden>
+		<s:hidden name="girlInfo.allSame"></s:hidden>
 		<div class="ui error message"></div>
 	</form>
 	<%@include file="/common/common_upload_file.jsp" %>

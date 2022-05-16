@@ -30,6 +30,7 @@ import com.nightclub.model.GirlService;
 import com.nightclub.model.HomeInfo;
 import com.nightclub.model.HomeSlideImage;
 import com.nightclub.model.NewsInfo;
+import com.nightclub.model.ShopGirlInfo;
 import com.nightclub.model.UserInfo;
 import com.nightclub.model.ZoneInfo;
 
@@ -189,8 +190,11 @@ public class FrontEndAction extends CommonAction {
 				UserInfo userInfo = userInfoManager.getUserByColumnName("girlInfoId", this.girlInfo.getGirlInfoId());
 				userInfo = validateUser(userInfo);
 				((EnGirlInfo)this.girlInfo).setUserInfo(userInfo);
+			} else if (this.girlInfo instanceof ShopGirlInfo) {
+				UserInfo userInfo = userInfoManager.getUserByColumnName("shopInfoId", ((ShopGirlInfo) this.girlInfo).getShopInfoId());
+				userInfo = validateUser(userInfo);
+				((ShopGirlInfo) this.girlInfo).getBasicInfo().setUserInfo(userInfo);
 			}
-			
 		}
 		this.girlServices = girlInfoManager.getGirlServiceListByGirlInfoId(this.girlInfo.getGirlInfoId());
 		return SUCCESS;

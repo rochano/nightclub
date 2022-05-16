@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -39,6 +38,8 @@ public class GirlInfo extends BaseModel implements Serializable{
 	private String pic4;
 	private String pic5;
 	private String available;
+	private String allSame;
+	private String lineId;
 	
 //	private ZoneInfo zoneInfo;
 	
@@ -139,6 +140,17 @@ public class GirlInfo extends BaseModel implements Serializable{
 	public List<GirlLocation> getGirlLocations() {
 		return girlLocations;
 	}
+	@Column(name="all_same")
+	public String getAllSame() {
+		return allSame;
+	}
+	@Column(name="line_id")
+	public String getLineId() {
+		if (lineId == null) {
+			return "";
+		}
+		return lineId;
+	}
 	public void setGirlInfoId(String girlInfoId) {
 		this.girlInfoId = girlInfoId;
 	}
@@ -214,5 +226,10 @@ public class GirlInfo extends BaseModel implements Serializable{
 	public void setGirlLocations(List<GirlLocation> girlLocations) {
 		this.girlLocations = girlLocations;
 	}
-	
+	public void setAllSame(String allSame) {
+		this.allSame = allSame;
+	}
+	public void setLineId(String lineId) {
+		this.lineId = lineId;
+	}
 }
