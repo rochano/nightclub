@@ -24,7 +24,6 @@ import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.AdminSearch;
 import com.nightclub.model.AgentInfo;
-import com.nightclub.model.BasicInfo;
 import com.nightclub.model.CategoryInfo;
 import com.nightclub.model.FrontSearch;
 import com.nightclub.model.GirlInfo;

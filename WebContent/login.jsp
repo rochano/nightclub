@@ -30,6 +30,10 @@
     .ui.stackable.grid .ui.vertical.divider {
     	margin: auto;
     }
+    #togglePassword {
+	    pointer-events: all;
+	    cursor: pointer;
+	}
   </style>
   <script>
   $(document)
@@ -91,6 +95,21 @@
         }
       })
     ;
+
+      $('#togglePassword')
+      .on('click', function() {
+    	var password = $("#password")[0];
+        if(password.getAttribute('type') == "password") {
+        	password.setAttribute('type', "text");
+        	$(this).removeClass("fa-eye-slash");
+        	$(this).addClass("fa-eye");
+        } else {
+        	password.setAttribute('type', "password");
+        	$(this).addClass("fa-eye-slash");
+        	$(this).removeClass("fa-eye");
+        }
+      })
+    ;
     })
   ;
   </script>
@@ -128,16 +147,15 @@
 						<div class="ui segment basic">
 							<div class="field">
 								<label>Username or phone number</label>
-								<div class="ui left icon input">
-									<i class="user icon"></i>
+								<div class="ui input">
 									<s:textfield name="username" placeholder="Username or phone number" />  
 								</div>
 							</div>
 							<div class="field">
 								<label>Password</label>
-								<div class="ui left icon input">
-									<i class="lock icon"></i>
-									<s:password name="password" placeholder="Password" />  
+								<div class="ui icon input">
+									<i class="fa-eye-slash icon" id="togglePassword"></i>
+									<s:password name="password" placeholder="Password" />
 								</div>
 							</div>
 							<div class="field">
@@ -178,15 +196,15 @@
 						<div class="ui error message"><s:actionerror cssClass="list" /></div>
 					</form>
 				</div>
-				<div class="ui vertical divider inverted">
-					Or
-				</div>
 				<div class="center aligned column">
 					<a class="ui big green labeled icon button" href="<s:url value="/signup"/>">
 						<i class="signup icon"></i>
 						Sign Up
 					</a>
 	    		</div>
+			</div>
+			<div class="ui vertical divider inverted">
+				Or
 			</div>
 		</div>
 	</div>

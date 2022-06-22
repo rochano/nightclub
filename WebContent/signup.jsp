@@ -27,6 +27,10 @@
     .ui.form .field > label {
     	text-align: left;
     }
+    #togglePassword {
+	    pointer-events: all;
+	    cursor: pointer;
+	}
   </style>
   <script>
   $(document)
@@ -106,6 +110,21 @@
         }
       })
     ;
+
+      $('#togglePassword')
+      .on('click', function() {
+    	var password = $("#password")[0];
+        if(password.getAttribute('type') == "password") {
+        	password.setAttribute('type', "text");
+        	$(this).removeClass("fa-eye-slash");
+        	$(this).addClass("fa-eye");
+        } else {
+        	password.setAttribute('type', "password");
+        	$(this).addClass("fa-eye-slash");
+        	$(this).removeClass("fa-eye");
+        }
+      })
+    ;
     })
   ;
   </script>
@@ -133,28 +152,26 @@
 				<div class="ui segment basic">
 					<div class="field">
 						<label>Username</label>
-						<div class="ui left icon input">
-							<i class="user icon"></i>
+						<div class="ui input">
 							<s:textfield name="username" placeholder="Username" />
 						</div>
 					</div>
 					<div class="field">
 						<label>Phone number</label>
-						<div class="ui left icon input">
-							<i class="phone icon"></i>
+						<div class="ui input">
 							<s:textfield name="phone" placeholder="Phone number" />
 						</div>
 					</div>
 					<div class="field">
 						<label>Password</label>
-						<div class="ui left icon input">
-							<i class="lock icon"></i>
+						<div class="ui icon input">
+							<i class="fa-eye-slash icon" id="togglePassword"></i>
 							<s:password name="password" placeholder="Password" />  
 						</div>
 					</div>
 					<div class="field">
 						<label>Confirm Password</label>
-						<div class="ui left icon input">
+						<div class="ui icon input">
 							<i class="lock icon"></i>
 							<s:password name="confirmpassword" placeholder="Confirm Password" />  
 						</div>

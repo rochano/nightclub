@@ -357,14 +357,26 @@
 												<s:else>outline</s:else>
 												icon"></i>
 										</a>
-										<a href="<s:url value="/girl/%{girlInfoId}"/>" >
-											<s:if test="pic1 != null">
-												<img class="image ui centered" src="<s:property value="pic1" />">
-											</s:if>
-											<s:else>
-												<img class="image ui centered" src="<s:url value="/assets/images/wireframe/square-image.png" />">
-											</s:else>
-										</a>
+										<s:if test="%{shopInfoId != null}">
+											<a href="<s:url value="/shop/%{shopInfoId}/girls/%{girlInfoId}"/>" target="_blank" >
+												<s:if test="pic1 != null">
+													<img class="image ui centered" src="<s:property value="pic1" />">
+												</s:if>
+												<s:else>
+													<img class="image ui centered" src="<s:url value="/assets/images/wireframe/square-image.png" />">
+												</s:else>
+											</a>
+										</s:if>
+										<s:else>
+											<a href="<s:url value="/girl/%{girlInfoId}"/>" >
+												<s:if test="pic1 != null">
+													<img class="image ui centered" src="<s:property value="pic1" />">
+												</s:if>
+												<s:else>
+													<img class="image ui centered" src="<s:url value="/assets/images/wireframe/square-image.png" />">
+												</s:else>
+											</a>
+										</s:else>
 									</div>
 									<div class="content left aligned label pink circular ui">
 										<span class="right floated">
@@ -395,7 +407,12 @@
 										</s:if>
 									</div>
 									<div class="content left aligned">
-										<a class="ui header " href="<s:url value="/girl/%{girlInfoId}"/>"><s:property value="nickName" /></a>
+										<s:if test="%{shopInfoId != null}">
+											<a href="<s:url value="/shop/%{shopInfoId}/girls/%{girlInfoId}"/>" target="_blank" ><s:property value="nickName" /></a>
+										</s:if>
+										<s:else>
+											<a class="ui header " href="<s:url value="/girl/%{girlInfoId}"/>"><s:property value="nickName" /></a>
+										</s:else>
 										<div class="description">
 											<s:if test="%{type != null}" >
 												<s:text name="global.job" /> : 

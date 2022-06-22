@@ -26,6 +26,9 @@
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/statistic.css"/>">
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/card.css"/>">
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/statistic.css"/>">
+  <link rel="stylesheet" type="text/css" href="<s:url value="/assets/fontawesome/css/solid.min.css"/>">
+  <link rel="stylesheet" type="text/css" href="<s:url value="/assets/fontawesome/css/fontawesome.min.css"/>">
+  <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/calendar.css"/>">
 <sj:head />
 
   <!--- Example Libs -->
@@ -48,3 +51,4 @@
   <script type="text/javascript" src="<s:url value="/assets/library/jquery.plugin.min.js"/>"></script>
   <script type="text/javascript" src="<s:url value="/assets/library/jquery.timeentry.min.js"/>"></script>
   <script type="text/javascript" src="<s:url value="/assets/library/jquery.dateentry.min.js"/>"></script>
+  <script type="text/javascript" src="<s:url value="/Semantic-UI-master/dist/components/calendar.js"/>"></script>

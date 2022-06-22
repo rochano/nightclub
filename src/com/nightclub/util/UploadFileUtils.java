@@ -60,6 +60,16 @@ public class UploadFileUtils {
 			log_.info("uploadResult >> " + uploadResult.toString());
 			fileName = uploadResult.get("url").toString();
 			fileToCreate.delete();
+			String pattern = "(v[0-9]*/)([0-9|A-Z|-]*/[a-z0-9]*)";
+			String publicId = "";
+			// Create a Pattern object
+			Pattern r = Pattern.compile(pattern);
+			// Now create matcher object.
+			Matcher m = r.matcher(fileName);
+			if (m.find( )) {
+				publicId = m.group(2);
+			}
+			log_.info("publicId >> " + publicId);
     	}
 		return fileName;
 	}
@@ -80,5 +90,26 @@ public class UploadFileUtils {
         }
         
         return description;
+	}
+	
+	public static void deleteImageApi(String originFileName) throws IOException {
+		String fileName = originFileName;
+		String pattern = "(v[0-9]*/)([0-9|A-Z|-]*/[a-z0-9]*)";
+		String publicId = "";
+		// Create a Pattern object
+		Pattern r = Pattern.compile(pattern);
+		// Now create matcher object.
+		Matcher m = r.matcher(fileName);
+		if (m.find( )) {
+			publicId = m.group(2);
+		}
+		log_.info("publicId >> " + publicId);
+		
+		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+				  "cloud_name", "diladfres",
+				  "api_key", "486787566588465",
+				  "api_secret", "ltE8fUE2mSc2HCpydAW5kqmriGA"));
+		Map param = new HashMap();
+		Map uploadResult = cloudinary.uploader().destroy(publicId, param);
 	}
 }

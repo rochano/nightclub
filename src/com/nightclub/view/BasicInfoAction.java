@@ -32,6 +32,8 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
 	private String menu;
     private String shopLogoFileName;
     private String shopImageFileName;
+    private String shopLogoFileNameDelete;
+    private String shopImageFileNameDelete;
     
     private List<CategoryInfo> categoryInfos;
     private CategoryInfo categoryInfo;
@@ -115,6 +117,13 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
 	            this.basicInfo.setLogoImg(this.shopLogoFileName);
             }
             
+            if(!getShopLogoFileNameDelete().isEmpty()) {
+            	if(this.basicInfo.getLogoImg() != null && !this.basicInfo.getLogoImg().isEmpty()) {
+            		UploadFileUtils.deleteImageApi(this.basicInfo.getLogoImg());
+            		this.basicInfo.setLogoImg("");
+            	}
+            }
+            
             if(!getShopImageFileName().isEmpty()) {
             	this.shopImageFileName = UploadFileUtils.uploadImageApi(getShopImageFileName(), sessionMap, userInfo);
 //            	String fileName = this.shopImageFileName;
@@ -132,6 +141,13 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
 //            	FileModel fileModel = (FileModel) sessionMap.get(fileName);
 //            	FileUtils.writeByteArrayToFile(fileToCreate, fileModel.getImageInBytes());
 	            this.basicInfo.setShopImg(this.shopImageFileName);
+            }
+            
+            if(!getShopImageFileNameDelete().isEmpty()) {
+            	if(this.basicInfo.getShopImg() != null && !this.basicInfo.getShopImg().isEmpty()) {
+            		UploadFileUtils.deleteImageApi(this.basicInfo.getShopImg());
+            		this.basicInfo.setShopImg("");
+            	}
             }
             
             this.basicInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.basicInfo.getDescription(), sessionMap, userInfo));
@@ -275,6 +291,22 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
 
 	public void setShopLocations(List<String> shopLocations) {
 		this.shopLocations = shopLocations;
+	}
+
+	public String getShopLogoFileNameDelete() {
+		return shopLogoFileNameDelete;
+	}
+
+	public String getShopImageFileNameDelete() {
+		return shopImageFileNameDelete;
+	}
+
+	public void setShopLogoFileNameDelete(String shopLogoFileNameDelete) {
+		this.shopLogoFileNameDelete = shopLogoFileNameDelete;
+	}
+
+	public void setShopImageFileNameDelete(String shopImageFileNameDelete) {
+		this.shopImageFileNameDelete = shopImageFileNameDelete;
 	}
 
 }

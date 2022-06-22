@@ -76,6 +76,7 @@
 		<mapping class="com.nightclub.model.GirlLocationId" />
 		<mapping class="com.nightclub.model.ShopLocation" />
 		<mapping class="com.nightclub.model.ShopLocationId" />
+		<mapping class="com.nightclub.model.ReserveInfo" />
 
 	</session-factory>
 

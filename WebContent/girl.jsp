@@ -290,7 +290,7 @@
 															<td class="right aligned"><p>Line</p></td>
 															<td class="center aligned one wide"><p>:</p></td>
 															<td>
-																<s:if test="%{clientInfo != null}">
+																<%-- <s:if test="%{clientInfo != null}">
 																	<s:if test="%{clientInfo.userInfo.active  == 'true'}">
 																		<p><s:property value="girlInfo.lineId" /></p>
 																	</s:if>
@@ -301,7 +301,8 @@
 																<s:else>
 																	<p>[คลิกเพื่อดูข้อมูล]</p>
 																	<p>[<a href="<s:url value="/signup"/>">กรุณาสมัครสมาชิก</a> หรือ <a href="<s:url value="/login"/>">เข้าสู่ระบบ</a>]</p>
-																</s:else>
+																</s:else> --%>
+																<p><s:property value="girlInfo.lineId" /></p>
 															</td>
 														</tr>
 													</s:if>
@@ -312,7 +313,7 @@
 															<td class="right aligned"><p>Line</p></td>
 															<td class="center aligned one wide"><p>:</p></td>
 															<td>
-																<s:if test="%{clientInfo != null}">
+																<%-- <s:if test="%{clientInfo != null}">
 																	<s:if test="%{clientInfo.userInfo.active  == 'true'}">
 																		<p><s:property value="girlInfo.lineId" /></p>
 																	</s:if>
@@ -323,7 +324,8 @@
 																<s:else>
 																	<p>[คลิกเพื่อดูข้อมูล]</p>
 																	<p>[<a href="<s:url value="/signup"/>">กรุณาสมัครสมาชิก</a> หรือ <a href="<s:url value="/login"/>">เข้าสู่ระบบ</a>]</p>
-																</s:else>
+																</s:else> --%>
+																<p><s:property value="girlInfo.lineId" /></p>
 															</td>
 														</tr>
 													</s:if>
@@ -334,7 +336,7 @@
 															<td class="right aligned"><p>Line</p></td>
 															<td class="center aligned one wide"><p>:</p></td>
 															<td>
-																<s:if test="%{clientInfo != null}">
+																<%-- <s:if test="%{clientInfo != null}">
 																	<s:if test="%{clientInfo.userInfo.active  == 'true'}">
 																		<p><s:property value="girlInfo.lineId" /></p>
 																	</s:if>
@@ -345,7 +347,8 @@
 																<s:else>
 																	<p>[คลิกเพื่อดูข้อมูล]</p>
 																	<p>[<a href="<s:url value="/signup"/>">กรุณาสมัครสมาชิก</a> หรือ <a href="<s:url value="/login"/>">เข้าสู่ระบบ</a>]</p>
-																</s:else>
+																</s:else> --%>
+																<p><s:property value="girlInfo.lineId" /></p>
 															</td>
 														</tr>
 													</s:if>

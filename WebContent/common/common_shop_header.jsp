@@ -2,7 +2,10 @@
   
    <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/semantic.min.css"/>">
    <%@include file="/common/common_include_header.jsp" %>
- 
+   
+   <link rel="stylesheet" type="text/css" href="<s:url value="/slick/slick.css"/>"/> 
+   <link rel="stylesheet" type="text/css" href="<s:url value="/slick/slick-theme.css"/>"/>
+   <script type="text/javascript" src="<s:url value="/slick/slick.min.js"/>"></script>
   <style>
    body {
    	padding: 1em;
@@ -68,8 +71,10 @@
   	background: #1B1C1D;
   }
   .ui.table tr th, .ui.structured.celled.table tr th,
-  .ui.sortable.table thead th {
+  .ui.sortable.table thead th,
+  .ui.table > thead > tr > th {
     background: #333333;
+    color: #FFFFFF;
   }
   .ui.segment {
     background: rgba(27, 26, 26, 0.42);
@@ -83,6 +88,15 @@
   }
   .centered {
   	text-align: center;
+  }
+  .ui.menu .dropdown.item .menu {
+    background: rgba(27,27,27,1);
+  }
+  .ui.menu .ui.dropdown .menu>.item {
+    color: #FFF !important;
+  }
+  .ui.menu .ui.dropdown .menu>.item:hover {
+  	color: #FFF !important;
   }
   </style>
   <script>
@@ -134,6 +148,11 @@
     	        select.dropdown();
     	    }
     	  });
+      $('.single-item').slick({
+    	  autoplay: true,
+    	  autoplaySpeed: 3000,
+    	  arrows: true
+      });
     })
   ;
   </script>

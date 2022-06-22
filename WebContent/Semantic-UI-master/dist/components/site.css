@@ -1,9 +1,8 @@
 /*!
- * # Semantic UI 2.1.6 - Site
- * http://github.com/semantic-org/semantic-ui/
+ * # Fomantic-UI 2.8.8 - Site
+ * http://github.com/fomantic/Fomantic-UI/
  *
  *
- * Copyright 2015 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -14,7 +13,7 @@
              Page
 *******************************/
 
-@import url('https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400%3B0,700%3B1,400%3B1,700&subset=latin&display=swap');
 html,
 body {
   height: 100%;
@@ -23,17 +22,15 @@ html {
   font-size: 14px;
 }
 body {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   overflow-x: hidden;
   min-width: 320px;
   background: #373534 url(../../../assets/images/subtle_carbon.png) repeat fixed;
   font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-size: 14px;
   line-height: 1.4285em;
-  line-height: 20px;
-  color: #444444;
-  font-smoothing: antialiased;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 
@@ -47,23 +44,23 @@ h3,
 h4,
 h5 {
   font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  line-height: 1.2857em;
-  margin: calc(2rem -  0.14285em ) 0em 1rem;
+  line-height: 1.28571429em;
+  margin: calc(2rem - 0.1428571428571429em) 0 1rem;
   font-weight: bold;
-  padding: 0em;
+  padding: 0;
 }
 h1 {
   min-height: 1rem;
   font-size: 2rem;
 }
 h2 {
-  font-size: 1.714rem;
+  font-size: 1.71428571rem;
 }
 h3 {
-  font-size: 1.28rem;
+  font-size: 1.28571429rem;
 }
 h4 {
-  font-size: 1.071rem;
+  font-size: 1.07142857rem;
 }
 h5 {
   font-size: 1rem;
@@ -73,14 +70,14 @@ h2:first-child,
 h3:first-child,
 h4:first-child,
 h5:first-child {
-  margin-top: 0em;
+  margin-top: 0;
 }
 h1:last-child,
 h2:last-child,
 h3:last-child,
 h4:last-child,
 h5:last-child {
-  margin-bottom: 0em;
+  margin-bottom: 0;
 }
 
 
@@ -89,14 +86,14 @@ h5:last-child {
 *******************************/
 
 p {
-  margin: 0em 0em 1em;
+  margin: 0 0 1em;
   line-height: 1.4285em;
 }
 p:first-child {
-  margin-top: 0em;
+  margin-top: 0;
 }
 p:last-child {
-  margin-bottom: 0em;
+  margin-bottom: 0;
 }
 
 /*-------------------
@@ -114,21 +111,27 @@ a:hover {
 
 
 /*******************************
+         Scrollbars
+*******************************/
+
+
+
+/*******************************
           Highlighting
 *******************************/
 
 
 /* Site */
 ::-webkit-selection {
-  background-color: #545454;
+  background-color: #CCE2FF;
   color: rgba(0, 0, 0, 0.87);
 }
 ::-moz-selection {
-  background-color: #545454;
+  background-color: #CCE2FF;
   color: rgba(0, 0, 0, 0.87);
 }
 ::selection {
-  background-color: #545454;
+  background-color: #CCE2FF;
   color: rgba(0, 0, 0, 0.87);
 }
 
@@ -147,6 +150,44 @@ textarea::selection,
 input::selection {
   background-color: rgba(100, 100, 100, 0.4);
   color: rgba(0, 0, 0, 0.87);
+}
+
+/* Force Simple Scrollbars */
+body ::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+}
+body ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+}
+body ::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.25);
+  -webkit-transition: color 0.2s ease;
+  transition: color 0.2s ease;
+}
+body ::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0, 0, 0, 0.15);
+}
+body ::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 135, 139, 0.8);
+}
+
+/* Inverted UI */
+body .ui.inverted:not(.dimmer)::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+body .ui.inverted:not(.dimmer)::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+}
+body .ui.inverted:not(.dimmer)::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(255, 255, 255, 0.15);
+}
+body .ui.inverted:not(.dimmer)::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
 }
 
 

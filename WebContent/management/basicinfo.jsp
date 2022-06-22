@@ -122,6 +122,7 @@
 				var image = "<img src='" + filePath + fileName + "' />";
 				$("#logoImg").html(image);
 				$('#shopLogoFileName').val(fileName);
+				$('#shopLogoFileNameDelete').val("");
 	        	console.log('success');
 	        },
 	        error:function(error){
@@ -142,11 +143,22 @@
 				var image = "<img src='" + filePath + fileName + "' />";
 				$("#shopImg").html(image);
 				$('#shopImageFileName').val(fileName);
+				$('#shopImageFileNameDelete').val("");
 	        	console.log('success');
 	        },
 	        error:function(error){
 	        	console.log(error);
 	        }
+		});
+		$('#filelogoImgDelete').click(function() {
+			$("#logoImg").html("");
+			$('#shopLogoFileName').val("");
+			$('#shopLogoFileNameDelete').val("true");
+		});
+		$('#fileshopImgDelete').click(function() {
+			$("#shopImg").html("");
+			$('#shopImageFileName').val("");
+			$('#shopImageFileNameDelete').val("true");
 		});
     })
   ;
@@ -227,9 +239,14 @@
 										  	<s:text name="global.upload" />
 										</label>
 									    <input type="file" id="filelogoImg" style="display:none">
+									    <label class="ui basic button" id="filelogoImgDelete">
+											<i class="icon window close outline"></i>
+										  	<s:text name="global.delete" />
+										</label>
 									</div>
 								</div>
 								<s:hidden name="shopLogoFileName"></s:hidden>
+								<s:hidden name="shopLogoFileNameDelete"></s:hidden>
 							</div>
 							<div class="inline field">
 								<label><s:text name="global.shop_image" /></label>
@@ -249,21 +266,25 @@
 										  	<s:text name="global.upload" />
 										</label>
 									    <input type="file" id="fileshopImg" style="display:none">
+									    <label class="ui basic button" id="fileshopImgDelete">
+											<i class="icon window close outline"></i>
+										  	<s:text name="global.delete" />
+										</label>
 									</div>
 								</div>
 								<s:hidden name="shopImageFileName"></s:hidden>
+								<s:hidden name="shopImageFileNameDelete"></s:hidden>
 							</div>
 						</div>
 						<h4 class="ui horizontal divider header">
 							<i class="home icon"></i>
 							<s:text name="global.other_information" />
 						</h4>
-						<div class="accordion">
-							<h4 class="title">
+						<div class="">
+							<h4 class="">
 								<s:text name="global.location" /> :
-								<i class="dropdown icon"></i>
 							</h4>
-							<div class="content">
+							<div class="">
 								<div class="ui four column grid doubling">
 									<s:iterator value="zoneInfos" status="rowstatus">
 										<div class="column">

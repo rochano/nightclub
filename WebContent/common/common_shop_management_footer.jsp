@@ -5,7 +5,8 @@
 			<a href="<s:url value="/management"/>"><span><s:text name="global.menu_home" /></span></a> |
 			<a href="<s:url value="/management/basicinfo"/>"><span><s:text name="global.menu_basic_info" /></span></a> |
 			<a href="<s:url value="/management/girls"/>"><span><s:text name="global.menu_girls" /></span></a> |
-			<a href="<s:url value="/management/system"/>"><span><s:text name="global.menu_system" /></span></a>
+			<a href="<s:url value="/management/system"/>"><span><s:text name="global.menu_system" /></span></a> |
+			<a href="<s:url value="/management/reserve"/>"><span><s:text name="global.menu_reserve" /></span></a>
 		</p></div>
 		<p class="copy">COPYRIGHT(C) ALL RIGHTS RESERVED.</p>
 	</div>

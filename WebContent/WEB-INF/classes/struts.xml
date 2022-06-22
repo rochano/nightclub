@@ -183,6 +183,38 @@
 			<param name="favourite">{2}</param>
 			<result type="json" />
 		</action>
+		
+		<action name="girlReserveJson/*/*"
+			class="com.nightclub.view.ShopInfoAction" method="girlReserveInfo">
+			<param name="girlInfoId">{1}</param>
+			<param name="lookupDate">{2}</param>
+			<result type="json" />
+		</action>
+
+		<action name="girlAvailableJson/*/*/*"
+			class="com.nightclub.view.ShopInfoAction" method="girlAvailable">
+			<param name="girlInfoId">{1}</param>
+			<param name="lookupDate">{2}</param>
+			<param name="reserveInfoId">{3}</param>
+			<result type="json" />
+		</action>
+		
+		<action name="girlReserveExecuteJson"
+			class="com.nightclub.view.ShopInfoAction" method="girlReserveExecute">
+			<result type="json" />
+		</action>
+		
+		<action name="girlReserveDeleteJson/*"
+			class="com.nightclub.view.ShopInfoAction" method="girlReserveDelete">
+			<param name="reserveInfoId">{1}</param>
+			<result type="json" />
+		</action>
+		
+		<action name="girlReserveShopJson/*"
+			class="com.nightclub.view.ShopReserveInfoAction" method="girlReserveInfo">
+			<param name="lookupDate">{1}</param>
+			<result type="json" />
+		</action>
     </package>
 	
 	<package name="shop" extends="struts-default" namespace="/shop">
@@ -557,6 +589,49 @@
 			<interceptor-ref name="myStack" />
 			<result name="login" type="redirect">/login</result>
 			<result name="success">/management/how_to_input.jsp</result>
+		</action>
+		
+		<action name="reserve"
+			class="com.nightclub.view.ShopReserveInfoAction" method="execute">
+			<param name="menu">reserve</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">reserve.jsp</result>
+		</action>
+		
+		<action name="reserve/*"
+			class="com.nightclub.view.ShopReserveInfoAction" method="{1}">
+			<param name="menu">reserve</param>
+			<interceptor-ref name="myStack" />
+		    <result name="input">reserve.jsp</result>
+			<result name="login" type="redirect">/login</result>
+			<result name="success" >/management/reserve.jsp</result>
+		</action>
+		
+		<action name="reserve/edit/*"
+			class="com.nightclub.view.ShopReserveInfoAction" method="edit">
+			<param name="menu">reserve</param>
+			<param name="reserveInfoId">{1}</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success" >/management/reserve.jsp</result>
+		</action>
+		
+		<action name="reserve/delete/*"
+			class="com.nightclub.view.ShopReserveInfoAction" method="delete">
+			<param name="menu">reserve</param>
+			<param name="reserveInfoId">{1}</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success" type="redirect">reserve</result>
+		</action>
+		
+		<action name="reserve/search"
+			class="com.nightclub.view.ShopReserveInfoAction" method="search">
+			<param name="menu">reserve</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management/reserve.jsp</result>
 		</action>
 	</package>
 	<package name="admin" extends="struts-default" namespace="/admin">
