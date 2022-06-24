@@ -34,6 +34,9 @@
 	    pointer-events: all;
 	    cursor: pointer;
 	}
+	.ui.grid > .column + .divider {
+		left: 50%;
+	}
   </style>
   <script>
   $(document)
@@ -196,15 +199,15 @@
 						<div class="ui error message"><s:actionerror cssClass="list" /></div>
 					</form>
 				</div>
+				<div class="ui vertical divider inverted">
+					Or
+				</div>
 				<div class="center aligned column">
 					<a class="ui big green labeled icon button" href="<s:url value="/signup"/>">
 						<i class="signup icon"></i>
 						Sign Up
 					</a>
 	    		</div>
-			</div>
-			<div class="ui vertical divider inverted">
-				Or
 			</div>
 		</div>
 	</div>
