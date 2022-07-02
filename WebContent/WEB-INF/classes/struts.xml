@@ -373,6 +373,21 @@
 			<result name="success">/management/basicinfo.jsp</result>
 		</action>
 		
+		<action name="basicinfo/lineTokenCallback"
+			class="com.nightclub.view.BasicInfoAction" method="lineTokenCallback">
+			<param name="menu">basicinfo</param>
+			<interceptor-ref name="myStack" />
+			<!-- <interceptor-ref name="fileUpload">
+		        <param name="maximumSize">2097152</param>
+		        <param name="allowedTypes">
+		            image/png,image/gif,image/jpeg,image/pjpeg
+		        </param>
+		    </interceptor-ref> -->
+		    <result name="input">/management/line_token_callback.jsp</result>
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management/line_token_callback.jsp</result>
+		</action>
+		
 		<action name="changepassword"
 			class="com.nightclub.view.UserInfoAction" method="execute">
 			<param name="menu">changepassword</param>
@@ -1215,6 +1230,23 @@
 		    <result name="input">/admin/how_to_input.jsp</result>
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/how_to_input.jsp</result>
+		</action>
+		
+		<action name="linenotify"
+			class="com.nightclub.view.AdminInfoAction" method="lineNotify">
+			<param name="menu">linenotify</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">line_notify.jsp</result>
+		</action>
+		
+		<action name="lineNotify/*"
+			class="com.nightclub.view.AdminInfoAction" method="lineNotify{1}">
+			<param name="menu">linenotify</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/line_notify.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/line_notify.jsp</result>
 		</action>
 	</package>
 

@@ -31,6 +31,10 @@ public class BasicInfo implements Serializable {
 	private String zoneInfoId;
 	private String logoImg;
 	private String shopImg;
+	private String shopImg2;
+	private String shopImg3;
+	private String shopImg4;
+	private String shopImg5;
 //	private String address;
 	private String province;
 //	private String postcode;
@@ -50,6 +54,7 @@ public class BasicInfo implements Serializable {
 //	private String chkCustomUrl;
 //	private String customUrl;
 	private String lineId;
+	private String lineToken;
 	
 	private CategoryInfo categoryInfo;
 	private ZoneInfo zoneInfo;
@@ -119,11 +124,45 @@ public class BasicInfo implements Serializable {
 	}
 	@Column(name="logo_img")
 	public String getLogoImg() {
+		if (logoImg == null){
+			return "";
+		}
 		return logoImg;
 	}
 	@Column(name="shop_img")
 	public String getShopImg() {
+		if (shopImg == null){
+			return "";
+		}
 		return shopImg;
+	}
+	@Column(name="shop_img2")
+	public String getShopImg2() {
+		if (shopImg2 == null){
+			return "";
+		}
+		return shopImg2;
+	}
+	@Column(name="shop_img3")
+	public String getShopImg3() {
+		if (shopImg3 == null){
+			return "";
+		}
+		return shopImg3;
+	}
+	@Column(name="shop_img4")
+	public String getShopImg4() {
+		if (shopImg4 == null){
+			return "";
+		}
+		return shopImg4;
+	}
+	@Column(name="shop_img5")
+	public String getShopImg5() {
+		if (shopImg5 == null){
+			return "";
+		}
+		return shopImg5;
 	}
 //	@Column(name="address")
 //	public String getAddress() {
@@ -337,5 +376,29 @@ public class BasicInfo implements Serializable {
 	}
 	public void setShopLocations(List<ShopLocation> shopLocations) {
 		this.shopLocations = shopLocations;
+	}
+
+	public void setShopImg2(String shopImg2) {
+		this.shopImg2 = shopImg2;
+	}
+
+	public void setShopImg3(String shopImg3) {
+		this.shopImg3 = shopImg3;
+	}
+
+	public void setShopImg4(String shopImg4) {
+		this.shopImg4 = shopImg4;
+	}
+
+	public void setShopImg5(String shopImg5) {
+		this.shopImg5 = shopImg5;
+	}
+
+	public String getLineToken() {
+		return lineToken;
+	}
+
+	public void setLineToken(String lineToken) {
+		this.lineToken = lineToken;
 	}
 }

@@ -16,4 +16,5 @@
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('contact')}">active</s:if>" href="<s:url value="/admin/contact"/>"><i class="phone icon"></i><s:text name="global.menu_contact" /></a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('skin')}">active</s:if>" href="<s:url value="/admin/skin"/>"><i class="adjust icon"></i><s:text name="global.skin" /></a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('howtoinput')}">active</s:if>" href="<s:url value="/admin/howtoinput"/>"><i class="file outline icon"></i><s:text name="global.how_to_input" /></a>
+	<a class="item <s:if test="%{menu.equalsIgnoreCase('linenotify')}">active</s:if>" href="<s:url value="/admin/linenotify"/>"><i class="announcement icon"></i><s:text name="global.menu_line_notify" /></a>
 	

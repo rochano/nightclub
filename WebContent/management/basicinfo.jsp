@@ -1,3 +1,4 @@
+<%@page import="com.nightclub.common.IConstants"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -119,8 +120,11 @@
 				console.log(response.fileName);
 		        var fileName = response.fileName;
 				var filePath = response.path;
-				var image = "<img src='" + filePath + fileName + "' />";
-				$("#logoImg").html(image);
+				var iconDelete = '<a class="ui right corner label link filelogoImgDelete">'
+					+ '<i class="window close outline icon"></i>'
+					+ '</a>';
+				var image = "<img class='image ui small centered' src='" + filePath + fileName + "' />";
+				$("#logoImg").html(iconDelete + image);
 				$('#shopLogoFileName').val(fileName);
 				$('#shopLogoFileNameDelete').val("");
 	        	console.log('success');
@@ -140,8 +144,11 @@
 				console.log(response.fileName);
 		        var fileName = response.fileName;
 				var filePath = response.path;
-				var image = "<img src='" + filePath + fileName + "' />";
-				$("#shopImg").html(image);
+				var iconDelete = '<a class="ui right corner label link fileshopImgDelete">'
+					+ '<i class="window close outline icon"></i>'
+					+ '</a>';
+				var image = "<img class='image ui small centered' src='" + filePath + fileName + "' />";
+				$("#shopImg").html(iconDelete + image);
 				$('#shopImageFileName').val(fileName);
 				$('#shopImageFileNameDelete').val("");
 	        	console.log('success');
@@ -150,18 +157,134 @@
 	        	console.log(error);
 	        }
 		});
-		$('#filelogoImgDelete').click(function() {
-			$("#logoImg").html("");
-			$('#shopLogoFileName').val("");
-			$('#shopLogoFileNameDelete').val("true");
+      $('#fileshopImg2').fileupload({
+			url: '<s:url value="/UploadFileServlet"/>',
+			dataType: 'json',
+			add: function (e, data) {
+				data.submit();
+			},
+	        success:function(response,status) {
+		        console.log(arguments)
+				console.log(response.fileName);
+		        var fileName = response.fileName;
+				var filePath = response.path;
+				var iconDelete = '<a class="ui right corner label link fileshopImg2Delete">'
+					+ '<i class="window close outline icon"></i>'
+					+ '</a>';
+				var image = "<img class='image ui small centered' src='" + filePath + fileName + "' />";
+				$("#shopImg2").html(iconDelete + image);
+				$('#shopImage2FileName').val(fileName);
+				$('#shopImage2FileNameDelete').val("");
+	        	console.log('success');
+	        },
+	        error:function(error){
+	        	console.log(error);
+	        }
 		});
-		$('#fileshopImgDelete').click(function() {
-			$("#shopImg").html("");
-			$('#shopImageFileName').val("");
-			$('#shopImageFileNameDelete').val("true");
+      $('#fileshopImg3').fileupload({
+			url: '<s:url value="/UploadFileServlet"/>',
+			dataType: 'json',
+			add: function (e, data) {
+				data.submit();
+			},
+	        success:function(response,status) {
+		        console.log(arguments)
+				console.log(response.fileName);
+		        var fileName = response.fileName;
+				var filePath = response.path;
+				var iconDelete = '<a class="ui right corner label link fileshopImg3Delete">'
+					+ '<i class="window close outline icon"></i>'
+					+ '</a>';
+				var image = "<img class='image ui small centered' src='" + filePath + fileName + "' />";
+				$("#shopImg3").html(iconDelete + image);
+				$('#shopImage3FileName').val(fileName);
+				$('#shopImage3FileNameDelete').val("");
+	        	console.log('success');
+	        },
+	        error:function(error){
+	        	console.log(error);
+	        }
+		});
+      $('#fileshopImg4').fileupload({
+			url: '<s:url value="/UploadFileServlet"/>',
+			dataType: 'json',
+			add: function (e, data) {
+				data.submit();
+			},
+	        success:function(response,status) {
+		        console.log(arguments)
+				console.log(response.fileName);
+		        var fileName = response.fileName;
+				var filePath = response.path;
+				var iconDelete = '<a class="ui right corner label link fileshopImg4Delete">'
+					+ '<i class="window close outline icon"></i>'
+					+ '</a>';
+				var image = "<img class='image ui small centered' src='" + filePath + fileName + "' />";
+				$("#shopImg4").html(iconDelete + image);
+				$('#shopImage4FileName').val(fileName);
+				$('#shopImage4FileNameDelete').val("");
+	        	console.log('success');
+	        },
+	        error:function(error){
+	        	console.log(error);
+	        }
+		});
+      $('#fileshopImg5').fileupload({
+			url: '<s:url value="/UploadFileServlet"/>',
+			dataType: 'json',
+			add: function (e, data) {
+				data.submit();
+			},
+	        success:function(response,status) {
+		        console.log(arguments)
+				console.log(response.fileName);
+		        var fileName = response.fileName;
+				var filePath = response.path;
+				var iconDelete = '<a class="ui right corner label link fileshopImg5Delete">'
+					+ '<i class="window close outline icon"></i>'
+					+ '</a>';
+				var image = "<img class='image ui small centered' src='" + filePath + fileName + "' />";
+				$("#shopImg5").html(iconDelete + image);
+				$('#shopImage5FileName').val(fileName);
+				$('#shopImage5FileNameDelete').val("");
+	        	console.log('success');
+	        },
+	        error:function(error){
+	        	console.log(error);
+	        }
 		});
     })
   ;
+  	$('.filelogoImgDelete').live('click', function() {
+		$("#logoImg").html("");
+		$('#shopLogoFileName').val("");
+		$('#shopLogoFileNameDelete').val("true");
+	});
+	$('.fileshopImgDelete').live('click', function() {
+		$("#shopImg").html("");
+		$('#shopImageFileName').val("");
+		$('#shopImageFileNameDelete').val("true");
+	});
+	$('.fileshopImg2Delete').live('click', function() {
+		$("#shopImg2").html("");
+		$('#shopImage2FileName').val("");
+		$('#shopImage2FileNameDelete').val("true");
+	});
+	$('.fileshopImg3Delete').live('click', function() {
+		$("#shopImg3").html("");
+		$('#shopImage3FileName').val("");
+		$('#shopImage3FileNameDelete').val("true");
+	});
+	$('.fileshopImg4Delete').live('click', function() {
+		$("#shopImg4").html("");
+		$('#shopImage4FileName').val("");
+		$('#shopImage4FileNameDelete').val("true");
+	});
+	$('.fileshopImg5Delete').live('click', function() {
+		$("#shopImg5").html("");
+		$('#shopImage5FileName').val("");
+		$('#shopImage5FileNameDelete').val("true");
+	});
   </script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/ckeditor/ckeditor.js"></script>
 </head>
@@ -189,7 +312,7 @@
 		  		<a class="toc item"><i class="sidebar icon"></i></a>
 		  	</div>
 			<s:if test="hasActionMessages()">
-				<div class="ui success message green inverted">
+				<div class="ui success message green">
 					<i class="close icon"></i>
 					<div class="header">
 						<s:actionmessage cssClass="list" />
@@ -220,12 +343,15 @@
 								name="basicInfo.categoryInfoId">
 							</s:select>
 						</div>
-						<div class="two fields">
+						<div class="fields">
 							<div class="inline field">
 								<label><s:text name="global.logo" /></label>
 								<div class="image ui small">
-									<div id="logoImg">
+									<div id="logoImg" class="image ui centered corner labeled">
 										<s:if test="%{basicInfo.logoImg != ''}">
+											<a class="ui right corner label link filelogoImgDelete">
+												<i class="window close outline icon"></i>
+											</a>
 											<img class="ui image centered small" src="<s:property value="basicInfo.logoImg" />">
 										</s:if>
 									</div>
@@ -239,41 +365,112 @@
 										  	<s:text name="global.upload" />
 										</label>
 									    <input type="file" id="filelogoImg" style="display:none">
-									    <label class="ui basic button" id="filelogoImgDelete">
-											<i class="icon window close outline"></i>
-										  	<s:text name="global.delete" />
-										</label>
 									</div>
 								</div>
 								<s:hidden name="shopLogoFileName"></s:hidden>
 								<s:hidden name="shopLogoFileNameDelete"></s:hidden>
 							</div>
-							<div class="inline field">
+						</div>
+						<div class="fields">
+							<div class="inline five field">
 								<label><s:text name="global.shop_image" /></label>
-								<div class="image ui small">
-									<div id="shopImg">
-										<s:if test="%{basicInfo.shopImg != ''}">
-											<img class="ui image centered small" src="<s:property value="basicInfo.shopImg" />">
-										</s:if>
+								<div class="ui grid five column">
+									<div class="image ui small column">
+										<div id="shopImg" class="image ui centered corner labeled">
+											<s:if test="%{basicInfo.shopImg != ''}">
+												<a class="ui right corner label link fileshopImgDelete">
+													<i class="window close outline icon"></i>
+												</a>
+												<img class="image ui small centered" src="<s:property value="basicInfo.shopImg" />">
+											</s:if>
+										</div>
+										<div class="ui horizontal divider very basic">
+											<label for="fileshopImg" class="ui basic button">
+												<i class="icon upload"></i>
+											  	<s:text name="global.upload" />
+											</label>
+											<input type="file" id="fileshopImg" style="display:none">
+											<s:hidden name="shopImageFileName"></s:hidden>
+											<s:hidden name="shopImageFileNameDelete"></s:hidden>
+										</div>
 									</div>
-									<div class="ui horizontal divider very basic">
-										<!-- <button type="button" class="ui basic button" onclick="BrowseServer('Images:/','shopImg')">
-											  <i class="icon upload"></i>
-											  Upload
-										</button> -->
-										<label for="fileshopImg" class="ui basic button">
-											<i class="icon upload"></i>
-										  	<s:text name="global.upload" />
-										</label>
-									    <input type="file" id="fileshopImg" style="display:none">
-									    <label class="ui basic button" id="fileshopImgDelete">
-											<i class="icon window close outline"></i>
-										  	<s:text name="global.delete" />
-										</label>
+									<div class="image ui small column">
+										<div id="shopImg2" class="image ui centered corner labeled">
+											<s:if test="%{basicInfo.shopImg2 != ''}">
+												<a class="ui right corner label link fileshopImg2Delete">
+													<i class="window close outline icon"></i>
+												</a>
+												<img class="image ui small centered" src="<s:property value="basicInfo.shopImg2" />">
+											</s:if>
+										</div>
+										<div class="ui horizontal divider very basic">
+											<label for="fileshopImg2" class="ui basic button">
+												<i class="icon upload"></i>
+											  	<s:text name="global.upload" />
+											</label>
+											<input type="file" id="fileshopImg2" style="display:none">
+											<s:hidden name="shopImage2FileName"></s:hidden>
+											<s:hidden name="shopImage2FileNameDelete"></s:hidden>
+										</div>
+									</div>
+									<div class="image ui small column">
+										<div id="shopImg3" class="image ui centered corner labeled">
+											<s:if test="%{basicInfo.shopImg3 != ''}">
+												<a class="ui right corner label link fileshopImg3Delete">
+													<i class="window close outline icon"></i>
+												</a>
+												<img class="image ui small centered" src="<s:property value="basicInfo.shopImg3" />">
+											</s:if>
+										</div>
+										<div class="ui horizontal divider very basic">
+											<label for="fileshopImg3" class="ui basic button">
+												<i class="icon upload"></i>
+											  	<s:text name="global.upload" />
+											</label>
+											<input type="file" id="fileshopImg3" style="display:none">
+											<s:hidden name="shopImage3FileName"></s:hidden>
+											<s:hidden name="shopImage3FileNameDelete"></s:hidden>
+										</div>
+									</div>
+									<div class="image ui small column">
+										<div id="shopImg4" class="image ui centered corner labeled">
+											<s:if test="%{basicInfo.shopImg4 != ''}">
+												<a class="ui right corner label link fileshopImg4Delete">
+													<i class="window close outline icon"></i>
+												</a>
+												<img class="image ui small centered" src="<s:property value="basicInfo.shopImg4" />">
+											</s:if>
+										</div>
+										<div class="ui horizontal divider very basic">
+											<label for="fileshopImg4" class="ui basic button">
+												<i class="icon upload"></i>
+											  	<s:text name="global.upload" />
+											</label>
+											<input type="file" id="fileshopImg4" style="display:none">
+											<s:hidden name="shopImage4FileName"></s:hidden>
+											<s:hidden name="shopImage4FileNameDelete"></s:hidden>
+										</div>
+									</div>
+									<div class="image ui small column">
+										<div id="shopImg5" class="image ui centered corner labeled">
+											<s:if test="%{basicInfo.shopImg5 != ''}">
+												<a class="ui right corner label link fileshopImg5Delete">
+													<i class="window close outline icon"></i>
+												</a>
+												<img class="image ui small centered" src="<s:property value="basicInfo.shopImg5" />">
+											</s:if>
+										</div>
+										<div class="ui horizontal divider very basic">
+											<label for="fileshopImg5" class="ui basic button">
+												<i class="icon upload"></i>
+											  	<s:text name="global.upload" />
+											</label>
+											<input type="file" id="fileshopImg5" style="display:none">
+											<s:hidden name="shopImage5FileName"></s:hidden>
+											<s:hidden name="shopImage5FileNameDelete"></s:hidden>
+										</div>
 									</div>
 								</div>
-								<s:hidden name="shopImageFileName"></s:hidden>
-								<s:hidden name="shopImageFileNameDelete"></s:hidden>
 							</div>
 						</div>
 						<h4 class="ui horizontal divider header">
@@ -316,6 +513,18 @@
 							<label>-</label>
 							<s:textfield name="basicInfo.endTime" placeholder="HH:mm" size="6" />
 						</div>
+						<s:if test="homeInfo.lineNotifyActive == 'true'">
+							<div class="inline field">
+								<label for="basicInfo_lineToken" class="label"><s:text name="global.line_token" />:</label>
+								<div class="ui action input">
+									<s:textfield name="basicInfo.lineToken" />
+									<div onclick="window.open('<s:property value="lineOauthUrl" />')" class="ui small green button">
+										<i class="linechat icon"></i>
+										รับ Token
+									</div>
+								</div>
+							</div>
+						</s:if>
 						<h4 class="ui horizontal divider header">
 							<i class="comment icon"></i>
 							<s:text name="global.description" />

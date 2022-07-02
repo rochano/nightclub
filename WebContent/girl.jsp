@@ -299,7 +299,7 @@
 																	</s:else>
 																</s:if>
 																<s:else>
-																	<p>[คลิกเพื่อดูข้อมูล]</p>
+																	<p>[<s:text name="global.for_more_info" />]</p>
 																	<p>[<a href="<s:url value="/signup"/>">กรุณาสมัครสมาชิก</a> หรือ <a href="<s:url value="/login"/>">เข้าสู่ระบบ</a>]</p>
 																</s:else> --%>
 																<p><s:property value="girlInfo.lineId" /></p>
@@ -322,7 +322,7 @@
 																	</s:else>
 																</s:if>
 																<s:else>
-																	<p>[คลิกเพื่อดูข้อมูล]</p>
+																	<p>[<s:text name="global.for_more_info" />]</p>
 																	<p>[<a href="<s:url value="/signup"/>">กรุณาสมัครสมาชิก</a> หรือ <a href="<s:url value="/login"/>">เข้าสู่ระบบ</a>]</p>
 																</s:else> --%>
 																<p><s:property value="girlInfo.lineId" /></p>
@@ -345,7 +345,7 @@
 																	</s:else>
 																</s:if>
 																<s:else>
-																	<p>[คลิกเพื่อดูข้อมูล]</p>
+																	<p>[<s:text name="global.for_more_info" />]</p>
 																	<p>[<a href="<s:url value="/signup"/>">กรุณาสมัครสมาชิก</a> หรือ <a href="<s:url value="/login"/>">เข้าสู่ระบบ</a>]</p>
 																</s:else> --%>
 																<p><s:property value="girlInfo.lineId" /></p>

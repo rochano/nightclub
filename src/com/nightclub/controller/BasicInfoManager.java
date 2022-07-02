@@ -99,6 +99,8 @@ public class BasicInfoManager extends HibernateUtil {
 						.uniqueResult();
 					if(systemInfo != null) {
 						basicInfo.setSystemInfo(systemInfo);
+					} else {
+						basicInfo.setSystemInfo(new SystemInfo());
 					}
 					shopLocations = getShopLocationListByShopInfoId(session, basicInfo.getShopInfoId());
 					basicInfo.setShopLocations(shopLocations);
@@ -145,6 +147,8 @@ public class BasicInfoManager extends HibernateUtil {
 						.uniqueResult();
 					if(systemInfo != null) {
 						basicInfo.setSystemInfo(systemInfo);
+					} else {
+						basicInfo.setSystemInfo(new SystemInfo());
 					}
 				}
 			}

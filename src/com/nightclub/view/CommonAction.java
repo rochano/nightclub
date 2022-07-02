@@ -36,7 +36,7 @@ public class CommonAction extends ActionSupport implements ServletRequestAware, 
 	private List<String> girlFavourites = new ArrayList<String>();
 	
 	private StatisticInfoManager statisticInfoManager;
-	private ClientInfoManager clientInfoManager;
+	protected ClientInfoManager clientInfoManager;
 	protected GirlFavouriteManager girlFavouriteManager;
 	
 	public CommonAction() {

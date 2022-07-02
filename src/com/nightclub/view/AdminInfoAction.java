@@ -471,6 +471,33 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		return SUCCESS;
 	}
 	
+	public String lineNotify() {
+		this.homeInfo = homeInfoManager.getHomeInfo("0");
+		
+		return SUCCESS;
+	}
+
+	public String lineNotifyupdate() {
+		HomeInfo homeInfo_ = homeInfoManager.getHomeInfo("0");
+		homeInfo_.setHomeInfoId("0");
+		homeInfo_.setLineClientId(homeInfo.getLineClientId());
+		homeInfo_.setLineClientSecret(homeInfo.getLineClientSecret());
+		homeInfo_.setLineRedirectUrl(homeInfo.getLineRedirectUrl());
+		homeInfo_.setLineNotifyActive(homeInfo.getLineNotifyActive());
+		
+		if(homeInfoManager.getHomeInfo("0") != null) {
+			homeInfoManager.update(homeInfo_);
+		} else {
+			homeInfoManager.add(homeInfo_);
+		}
+		
+		addActionMessage(getText("global.message_success_update"));
+		
+		this.execute();
+		
+		return SUCCESS;
+	}
+	
 	public String getMenu() {
 		return menu;
 	}

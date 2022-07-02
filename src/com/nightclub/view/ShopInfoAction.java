@@ -1,5 +1,6 @@
 package com.nightclub.view;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import com.nightclub.controller.ShopGirlInfoManager;
 import com.nightclub.controller.ShopReserveInfoManager;
 import com.nightclub.controller.SystemInfoManager;
 import com.nightclub.model.BasicInfo;
+import com.nightclub.model.ClientInfo;
 import com.nightclub.model.EventInfo;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.MapInfo;
@@ -27,7 +29,7 @@ import com.nightclub.model.ScheduleInfo;
 import com.nightclub.model.ShopGirlInfo;
 import com.nightclub.model.SystemInfo;
 import com.nightclub.model.UserInfo;
-import com.nightclub.util.UploadFileUtils;
+import com.nightclub.util.LineApiUtils;
 
 public class ShopInfoAction extends CommonAction {
 	
@@ -282,6 +284,16 @@ public class ShopInfoAction extends CommonAction {
 					reserveInfo.setReserveInfoId(UUID.randomUUID().toString().toUpperCase());
 					reserveInfo.setClientInfoId(userInfo.getClientInfoId());
 					shopReserveInfoManager.add(this.reserveInfo);
+					BasicInfo shop = basicInfoManager.getBasicInfoById(this.reserveInfo.getShopInfoId());
+					ClientInfo clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
+					String lookupDateHeader = sdfOutput.format(reserveInfo.getReserveDate());
+					if(shop.getLineToken() != null && !"".equals(shop.getLineToken())) {
+						LineApiUtils.sendData(getText("global.add_reserve_success")
+											+ "\n" + clientInfo.getNickName() 
+											+ "\n" + lookupDateHeader
+											+ "\n" + reserveInfo.getStartTime()
+											+ " - " + reserveInfo.getEndTime(), shop.getLineToken());
+					}
 				}
 
 			} catch (Exception e) {
@@ -337,6 +349,16 @@ public class ShopInfoAction extends CommonAction {
 					UserInfo userInfo = (UserInfo)getSession().get("userInfo");
 					reserveInfo.setClientInfoId(userInfo.getClientInfoId());
 					shopReserveInfoManager.update(this.reserveInfo);
+					BasicInfo shop = basicInfoManager.getBasicInfoById(this.reserveInfo.getShopInfoId());
+					ClientInfo clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
+					String lookupDateHeader = sdfOutput.format(reserveInfo.getReserveDate());
+					if(shop.getLineToken() != null && !"".equals(shop.getLineToken())) {
+						LineApiUtils.sendData(getText("global.update_reserve_success")
+								+ "\n" + clientInfo.getNickName() 
+								+ "\n" + lookupDateHeader
+								+ "\n" + reserveInfo.getStartTime()
+								+ " - " + reserveInfo.getEndTime(), shop.getLineToken());
+					}
 				}
 
 			} catch (Exception e) {
@@ -347,7 +369,27 @@ public class ShopInfoAction extends CommonAction {
 	}
 	
 	public String girlReserveDelete() {
-		shopReserveInfoManager.delete(this.reserveInfoId);
+		if (getSession().containsKey("userInfo")) {
+			try {
+				ReserveInfo reserveInfo = shopReserveInfoManager.getReserveInfo(this.reserveInfoId);
+				UserInfo userInfo = (UserInfo)getSession().get("userInfo");
+				BasicInfo shop = basicInfoManager.getBasicInfoById(reserveInfo.getShopInfoId());
+				ClientInfo clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
+				String lookupDateHeader = sdfOutput.format(reserveInfo.getReserveDate());
+				if(shop.getLineToken() != null && !"".equals(shop.getLineToken())) {
+						LineApiUtils.sendData(getText("global.delete_reserve_success")
+								+ "\n" + clientInfo.getNickName() 
+								+ "\n" + lookupDateHeader
+								+ "\n" + reserveInfo.getStartTime()
+								+ " - " + reserveInfo.getEndTime(), shop.getLineToken());
+					
+				}
+				shopReserveInfoManager.delete(this.reserveInfoId);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return SUCCESS;
 	}
 	

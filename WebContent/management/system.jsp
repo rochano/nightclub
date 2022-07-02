@@ -176,7 +176,7 @@
 		  		<a class="toc item"><i class="sidebar icon"></i></a>
 		  	</div>
 			<s:if test="hasActionMessages()">
-				<div class="ui success message green inverted">
+				<div class="ui success message green">
 					<i class="close icon"></i>
 					<div class="header">
 						<s:actionmessage cssClass="list" />
@@ -194,11 +194,10 @@
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th><s:text name="global.class" /></th>
+									<th><s:text name="global.category" /></th>
 									<th><s:text name="global.service" /></th>
 									<th><s:text name="global.duration" /></th>
 									<th><s:text name="global.price" /></th>
-									<th><s:text name="global.active" /></th>
 									<th><s:text name="global.operation" /></th>
 								</tr>
 							</thead>
@@ -206,20 +205,16 @@
 								<%-- Normal --%>
 								<tr>
 									<td class="center aligned" rowspan="3">1</td>
-									<td class="center aligned" rowspan="3"><s:text name="global.normal" /></td>
+									<td class="center aligned" rowspan="3">
+										<s:i18n name="global_th">
+											<s:text name="global.normal" />
+										</s:i18n>
+									</td>
 									<td class="center aligned">1</td>
 									<td class="center aligned">60</td>
 									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="systemInfo.priceNormal1"/></s:text></td>
 									<td class="center aligned" rowspan="3">
-										<div class="ui toggle fitted checkbox">
-											<input type="radio" name="classType" 
-											<s:if test="systemInfo.classType == 'Normal'">checked="checked"</s:if>
-											 value="Normal">
-											<label></label>
-										</div>
-									</td>
-									<td class="center aligned" rowspan="3">
-										<a href="<s:url value="/management/system/edit/Normal"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
+										<a href="<s:url value="/management/system/edit/standard"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
 									</td>
 								</tr>
 								<tr>
@@ -243,20 +238,16 @@
 								<%-- VIP --%>
 								<tr>
 									<td class="center aligned" rowspan="3">2</td>
-									<td class="center aligned" rowspan="3"><s:text name="global.vip" /></td>
+									<td class="center aligned" rowspan="3">
+										<s:i18n name="global_th">
+											<s:text name="global.vip" />
+										</s:i18n>
+									</td>
 									<td class="center aligned">1</td>
 									<td class="center aligned">60</td>
 									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="systemInfo.priceVIP1"/></s:text></td>
 									<td class="center aligned" rowspan="3">
-										<div class="ui toggle fitted checkbox">
-											<input type="radio" name="classType" 
-											<s:if test="systemInfo.classType == 'VIP'">checked="checked"</s:if>
-											 value="VIP">
-											<label></label>
-										</div>
-									</td>
-									<td class="center aligned" rowspan="3">
-										<a href="<s:url value="/management/system/edit/VIP"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
+										<a href="<s:url value="/management/system/edit/vip"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
 									</td>
 								</tr>
 								<tr>
@@ -278,17 +269,6 @@
 									<td style="display: none"></td>
 								</tr>
 							</tbody>
-							<tfoot class="full-width">
-								<tr>
-									<th colspan="7">
-										<form id="systemInfoupdateForm" class="ui form " method="post" action="<s:url value="/management/system/systemsupdate"/>" >
-											<div class="ui right floated small primary submit button">
-												<s:text name="global.submit" />
-											</div>
-										</form>
-									</th>
-								</tr>
-							</tfoot>
 						</table>
 					</div>
 				</div>
@@ -307,15 +287,18 @@
   <div class="content">
     <form class="ui form" id="infoForm" method="post" action="<s:url value="/management/system/update"/>">
 		<div class="inline fields">
-			<label class="label"><s:text name="global.class" />:</label>
+			<label class="label"><s:text name="global.category" />:</label>
 			<div class="disabled inline field">
-				<s:if test="classType == 'Normal'">
-					<s:text name="global.normal" />
+				<s:if test="classType == 'standard'">
+					<s:i18n name="global_th">
+						<s:text name="global.normal" />
+					</s:i18n>
 				</s:if>
 				<s:else>
-					<s:text name="global.vip" />
+					<s:i18n name="global_th">
+						<s:text name="global.vip" />
+					</s:i18n>
 				</s:else>
-				
 			</div>
 		</div>
 		<div class="inline fields">

@@ -29,6 +29,7 @@
   <link rel="stylesheet" type="text/css" href="<s:url value="/assets/fontawesome/css/solid.min.css"/>">
   <link rel="stylesheet" type="text/css" href="<s:url value="/assets/fontawesome/css/fontawesome.min.css"/>">
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/calendar.css"/>">
+  <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/flag.css"/>">
 <sj:head />
 
   <!--- Example Libs -->

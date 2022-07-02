@@ -304,7 +304,7 @@
 		  		<a class="toc item"><i class="sidebar icon"></i></a>
 		  	</div>
 			<s:if test="hasActionMessages()">
-				<div class="ui success message green inverted">
+				<div class="ui success message green">
 					<i class="close icon"></i>
 					<div class="header">
 						<s:actionmessage cssClass="list" />
@@ -323,32 +323,18 @@
 						<div class="inline field">
 							<s:textfield name="girlSearch.nickName" key="global.nick_name"/>
 						</div>
-						<div class="inline field">
-							<s:textfield name="girlSearch.category" key="global.category"/>
-						</div>
-						<div class="accordion">
-							<div class="inline field title">
-								<label class="label"><s:text name="global.location" /> :
-									<i class="dropdown icon"></i>
-								</label>
+						<div class="inline fields">
+							<label><s:text name="global.category" /> :</label>
+							<div class="field">
+								<s:i18n name="global_th">
+								<s:select list="#{'standard':getText('global.normal'), 
+												'vip':getText('global.vip')}"
+									headerKey="" headerValue=""
+									name="girlSearch.category">
+								</s:select>
+							</s:i18n>
 							</div>
-							<div class="content">
-								<div class="ui four column grid doubling">
-									<s:iterator value="zoneInfos" status="rowstatus">
-										<div class="column">
-											<div class="field ui checkbox">
-												<input type="checkbox" name="searchGirlLocations" id="searchGirlLocations_<s:property value="#rowstatus.count" />"
-													<s:iterator value="searchGirlLocations" >
-														<s:property value="top" />
-														<s:if test="top == zoneInfoId">checked="checked"</s:if>
-													</s:iterator>
-													value="<s:property value="zoneInfoId" />">
-												<label for="searchGirlLocations_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
-											</div>
-										</div>
-									</s:iterator>
-								</div>
-							</div>
+							
 						</div>
 						<div class="ui error message"></div>
 						<div class="ui right aligned one column grid">
@@ -455,8 +441,32 @@
     	<div class="inline field">
 			<s:textfield name="girlInfo.nickName" key="global.nick_name"/>
 		</div>
-		<div class="inline field">
-			<s:textfield name="girlInfo.category" key="global.category"/>
+		<div class="inline fields">
+			<label class="label"><s:text name="global.category" /> :</label>
+			<div class="inline field">
+				<div class="ui radio checkbox">
+					<input type="radio" name="girlInfo.category" id="girlInfo_category_standard"
+						 checked="checked"
+						 value="standard">
+					<label for="girlInfo_category_standard">
+						<s:i18n name="global_th">
+							<s:text name="global.normal" />
+						</s:i18n>
+					</label>
+				</div>
+			</div>
+			<div class="inline field">
+				<div class="ui radio checkbox">
+					<input type="radio" name="girlInfo.category" id="girlInfo_category_vip" 
+						<s:if test="girlInfo.category == 'vip'">checked="checked"</s:if>
+						 value="vip">
+					<label for="girlInfo_category_vip">
+						<s:i18n name="global_th">
+							<s:text name="global.vip" />
+						</s:i18n>
+					</label>
+				</div>
+			</div>
 		</div>
 		<div class="ui accordion">
 			<h4 class="title">

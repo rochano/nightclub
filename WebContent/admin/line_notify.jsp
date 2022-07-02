@@ -8,9 +8,22 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_contact" /></title>
+  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_line_notify" /></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
+  
+    <style>
+  body {
+    padding: 1em;
+  }
+  .ui.form .inline.field>:first-child, .ui.form .inline.fields>label:first-child {
+  	width: 150px;
+  	margin: 0;
+  }
+  .ui.form .inline.field>input {
+   width: 100%;
+  }
+  </style>
 <script type="text/javascript">
   $(document)
     .ready(function() {
@@ -65,13 +78,22 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					<s:text name="global.menu_contact" />
+					<s:text name="global.menu_line_notify" />
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
-						<form class="ui form " method="post" action="<s:url value="/admin/contact/update"/>" >
+						<form class="ui form " method="post" action="<s:url value="/admin/lineNotify/update"/>" >
 							<div class="inline field">
-								<s:textfield name="homeInfo.lineContactUrl" label="Line Contact Url"/>
+								<s:textfield name="homeInfo.lineClientId" key="global.line_client_id" />
+							</div>
+							<div class="inline field">
+								<s:textfield name="homeInfo.lineClientSecret" key="global.line_client_secret" />
+							</div>
+							<div class="inline field">
+								<s:textfield name="homeInfo.lineRedirectUrl" key="global.line_redirect_url" />
+							</div>
+							<div class="inline field ui checkbox">
+								<s:checkbox name="homeInfo.lineNotifyActive" key="global.line_notify_active" />
 							</div>
 							<div class="ui right aligned one column grid">
 								<div class="column">

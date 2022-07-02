@@ -120,20 +120,11 @@
 									</s:else>
 								</a></td>
 								<td>
-									<s:if test="systemInfo != null && systemInfo.classType == 'VIP'" >
-										<a href="<s:property value="%{#url + #system}"/>" <s:property value="%{target}"/> class="ui"><b>
-											<font color="red" size="2">
-												<s:text name="format.integer"><s:param name="value" value="systemInfo.priceVIP1"/></s:text>
-												&#3647
-											</font></b></a>
-									</s:if>
-									<s:elseif test="systemInfo != null" >
-										<a href="<s:property value="%{#url + #system}"/>" <s:property value="%{target}"/> class="ui"><b>
-											<font color="red" size="2">
-												<s:text name="format.integer"><s:param name="value" value="systemInfo.priceNormal1"/></s:text>
-												&#3647
-											</font></b></a>
-									</s:elseif>
+									<a href="<s:property value="%{#url + #system}"/>" <s:property value="%{target}"/> class="ui"><b>
+									<font color="red" size="2">
+										<s:text name="format.integer"><s:param name="value" value="systemInfo.priceNormal1"/></s:text>
+										&#3647
+									</font></b></a>
 								</td>
 								<td colspan="2"><a href="tel:<s:property value="phone" />" class="ui header tiny"><s:property value="phone" /></a></td>
 								<td rowspan="2"><a href="<s:property value="%{#url + #girls}"/>" <s:property value="%{target}"/> class="ui">All Stuff</a></td>

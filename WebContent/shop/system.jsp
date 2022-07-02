@@ -72,7 +72,7 @@
 					</div>
 					<div class="ui attached segment">
 						<div class="column one center aligned">
-							<table class="ui table celled">
+							<table class="ui table celled inverted">
 								<thead>
 									<tr class="center aligned">
 										<th><s:text name="global.shop_system_course_name" /></th>
@@ -82,18 +82,34 @@
 									</tr>
 								</thead>
 								<tbody class="top aligned">
-									<s:if test="systemInfo.classType == 'Normal'">
-										<s:set name="price1" value="%{systemInfo.priceNormal1}" />
-										<s:set name="price2" value="%{systemInfo.priceNormal2}" />
-										<s:set name="price3" value="%{systemInfo.priceNormal3}" />
-									</s:if>
-									<s:else>
-										<s:set name="price1" value="%{systemInfo.priceVIP1}" />
-										<s:set name="price2" value="%{systemInfo.priceVIP2}" />
-										<s:set name="price3" value="%{systemInfo.priceVIP3}" />
-									</s:else>
+									<s:set name="price1" value="%{systemInfo.priceNormal1}" />
+									<s:set name="price2" value="%{systemInfo.priceNormal2}" />
+									<s:set name="price3" value="%{systemInfo.priceNormal3}" />
 									<tr>
-										<td class="center aligned" rowspan="3"><s:property value="systemInfo.classType" /></td>
+										<td class="center aligned" rowspan="3"><s:text name="global.normal" /></td>
+										<td class="center aligned">1</td>
+										<td class="center aligned">60</td>
+										<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="%{price1}"/></s:text> baht</td>
+									</tr>
+									<tr>
+										<td style="display: none"></td>
+										<td style="display: none"></td>
+										<td class="center aligned border-left">2</td>
+										<td class="center aligned">90</td>
+										<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="%{price2}"/></s:text> baht</td>
+									</tr>
+									<tr>
+										<td style="display: none"></td>
+										<td style="display: none"></td>
+										<td class="center aligned border-left">3</td>
+										<td class="center aligned">120</td>
+										<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="%{price3}"/></s:text> baht</td>
+									</tr>
+									<s:set name="price1" value="%{systemInfo.priceVIP1}" />
+									<s:set name="price2" value="%{systemInfo.priceVIP2}" />
+									<s:set name="price3" value="%{systemInfo.priceVIP3}" />
+									<tr>
+										<td class="center aligned" rowspan="3"><s:text name="global.vip" /></td>
 										<td class="center aligned">1</td>
 										<td class="center aligned">60</td>
 										<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="%{price1}"/></s:text> baht</td>

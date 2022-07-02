@@ -62,7 +62,7 @@
 		  		<a class="toc item"><i class="sidebar icon"></i></a>
 		  	</div>
 			<s:if test="hasActionMessages()">
-				<div class="ui success message green inverted">
+				<div class="ui success message green">
 					<i class="close icon"></i>
 					<div class="header">
 						<s:actionmessage cssClass="list" />

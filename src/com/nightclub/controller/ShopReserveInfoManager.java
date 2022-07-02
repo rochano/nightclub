@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
 
+import com.nightclub.model.BasicInfo;
 import com.nightclub.model.ClientInfo;
 import com.nightclub.model.ReserveInfo;
 import com.nightclub.model.ShopGirlInfo;
@@ -138,5 +139,22 @@ public class ShopReserveInfoManager extends HibernateUtil {
 		session.getTransaction().commit();
 		
 		return reserveInfos;
+	}
+	
+	public ReserveInfo getReserveInfo(String reserveInfoId) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		ReserveInfo reserveInfo = null;
+		try {
+			
+			reserveInfo = (ReserveInfo)session.createQuery("from ReserveInfo where reserveInfoId = :reserveInfoId ")
+					.setParameter("reserveInfoId", reserveInfoId).uniqueResult();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return reserveInfo;
 	}
 }
