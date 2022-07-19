@@ -286,11 +286,11 @@
 												</s:if>
 												<s:if test="%{girlInfo.agentInfoId != null}">
 													<s:if test="%{girlInfo.agentInfo.userInfo.active  == 'true'}">
-														<tr>
+														<%-- <tr>
 															<td class="right aligned"><p>Line</p></td>
 															<td class="center aligned one wide"><p>:</p></td>
 															<td>
-																<%-- <s:if test="%{clientInfo != null}">
+																<s:if test="%{clientInfo != null}">
 																	<s:if test="%{clientInfo.userInfo.active  == 'true'}">
 																		<p><s:property value="girlInfo.lineId" /></p>
 																	</s:if>
@@ -301,19 +301,28 @@
 																<s:else>
 																	<p>[<s:text name="global.for_more_info" />]</p>
 																	<p>[<a href="<s:url value="/signup"/>">กรุณาสมัครสมาชิก</a> หรือ <a href="<s:url value="/login"/>">เข้าสู่ระบบ</a>]</p>
-																</s:else> --%>
+																</s:else>
 																<p><s:property value="girlInfo.lineId" /></p>
+															</td>
+														</tr> --%>
+														<tr>
+															<td colspan="3">
+																<p class="centered" style="text-align: -webkit-center;">
+																	<a href="https://line.me/ti/p/~<s:property value="girlInfo.lineId" />">
+																		<img class="ui small image" src="https://scdn.line-apps.com/n/line_add_friends/btn/th.png">
+																	</a>
+																</p>
 															</td>
 														</tr>
 													</s:if>
 												</s:if>
 												<s:elseif test="%{girlInfo.shopInfoId != null}">
 													<s:if test="%{girlInfo.basicInfo.userInfo.active  == 'true'}">
-														<tr>
+														<%-- <tr>
 															<td class="right aligned"><p>Line</p></td>
 															<td class="center aligned one wide"><p>:</p></td>
 															<td>
-																<%-- <s:if test="%{clientInfo != null}">
+																<s:if test="%{clientInfo != null}">
 																	<s:if test="%{clientInfo.userInfo.active  == 'true'}">
 																		<p><s:property value="girlInfo.lineId" /></p>
 																	</s:if>
@@ -324,19 +333,28 @@
 																<s:else>
 																	<p>[<s:text name="global.for_more_info" />]</p>
 																	<p>[<a href="<s:url value="/signup"/>">กรุณาสมัครสมาชิก</a> หรือ <a href="<s:url value="/login"/>">เข้าสู่ระบบ</a>]</p>
-																</s:else> --%>
+																</s:else>
 																<p><s:property value="girlInfo.lineId" /></p>
+															</td>
+														</tr> --%>
+														<tr>
+															<td colspan="3">
+																<p class="centered" style="text-align: -webkit-center;">
+																	<a href="https://line.me/ti/p/~<s:property value="girlInfo.lineId" />">
+																		<img class="ui small image" src="https://scdn.line-apps.com/n/line_add_friends/btn/th.png">
+																	</a>
+																</p>
 															</td>
 														</tr>
 													</s:if>
 												</s:elseif>
 												<s:else>
 													<s:if test="%{girlInfo.userInfo.active  == 'true'}">
-														<tr>
+														<%-- <tr>
 															<td class="right aligned"><p>Line</p></td>
 															<td class="center aligned one wide"><p>:</p></td>
 															<td>
-																<%-- <s:if test="%{clientInfo != null}">
+																<s:if test="%{clientInfo != null}">
 																	<s:if test="%{clientInfo.userInfo.active  == 'true'}">
 																		<p><s:property value="girlInfo.lineId" /></p>
 																	</s:if>
@@ -347,8 +365,17 @@
 																<s:else>
 																	<p>[<s:text name="global.for_more_info" />]</p>
 																	<p>[<a href="<s:url value="/signup"/>">กรุณาสมัครสมาชิก</a> หรือ <a href="<s:url value="/login"/>">เข้าสู่ระบบ</a>]</p>
-																</s:else> --%>
+																</s:else>
 																<p><s:property value="girlInfo.lineId" /></p>
+															</td>
+														</tr> --%>
+														<tr>
+															<td colspan="3">
+																<p class="centered" style="text-align: -webkit-center;">
+																	<a href="https://line.me/ti/p/~<s:property value="girlInfo.lineId" />">
+																		<img class="ui small image" src="https://scdn.line-apps.com/n/line_add_friends/btn/th.png">
+																	</a>
+																</p>
 															</td>
 														</tr>
 													</s:if>

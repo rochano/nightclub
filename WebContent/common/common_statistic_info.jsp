@@ -52,13 +52,13 @@ $(document)
 			<div class="ui label blue">
 				<i class="user icon"></i>
 				<s:text name="format.integer">
-					<s:param name="value" value="statisticModel.todayView"/>
+					<s:param name="value" value="statisticModel.hitsView"/>
 				</s:text>
 		  	</div>
 	  		<div class="ui label green">
 				<i class="area chart icon"></i> 
 				<s:text name="format.integer">
-					<s:param name="value" value="statisticModel.totalView"/>
+					<s:param name="value" value="statisticModel.totalHitsView"/>
 				</s:text>
 		  	</div>
 			</s:else>

@@ -9,7 +9,7 @@
   <script type="text/javascript" src="<s:url value="/slick/slick.min.js"/>"></script>
   <style>
   .ui.menu:not(.vertical) > .item {
-  	width: 20%;
+  	width: 33.33%;
 	justify-content: center;
 	border-width: 1px ;
 	border-style: solid;

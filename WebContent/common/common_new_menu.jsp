@@ -3,10 +3,10 @@
   <div class="ui centered grid">
 	  <div class="center aligned column">
 	  	<div class="ui menu inverted stackable toc left aligned">
-	  		<a class="toc item"><i class="sidebar icon"></i></a>
+	  		<a class="toc item"><s:text name="global.main_menu" /></a>
 	  	</div>
 		<div class="ui menu inverted stackable">
-			<a href="<s:url value="/"/>" class="ui item"><s:text name="global.main_menu_home" /></a>
+			<%-- <a href="<s:url value="/"/>" class="ui item"><s:text name="global.main_menu_home" /></a>
 			<div class="ui dropdown item">
 				<s:text name="global.main_menu_service_shop" />
 				<i class="dropdown icon"></i>
@@ -26,7 +26,7 @@
 						</s:iterator>
 					</s:else>
 				</div>
-			</div>
+			</div> --%>
 			<a href="<s:url value="/agents"/>" class="ui item"><s:text name="global.main_menu_agents" /></a>
 			<a href="<s:url value="/freeagents"/>" class="ui item"><s:text name="global.main_menu_free_agents" /></a>
 			<a href="<s:url value="/engirls"/>" class="ui item"><s:text name="global.main_menu_en_girls" /></a>
@@ -41,8 +41,8 @@
 			</div>
 		</div>
 		<div class="ui menu inverted stackable">
-			<a href="<s:url value="/search"/>" class="ui item"><s:text name="global.main_menu_search" /></a>
-			<a href="<s:url value="/contact"/>" class="ui item"><s:text name="global.main_menu_contact" /></a>
+			<%-- <a href="<s:url value="/search"/>" class="ui item"><s:text name="global.main_menu_search" /></a>
+			<a href="<s:url value="/contact"/>" class="ui item"><s:text name="global.main_menu_contact" /></a> --%>
 			<a href="<s:url value="/howtouse"/>" class="ui item"><s:text name="global.main_menu_how_to_use" /></a>
 			<a href="<s:url value="/signup"/>" class="ui item"><s:text name="global.main_menu_register" /></a>
 			<a href="<s:url value="/login"/>" class="ui item"><s:text name="global.main_menu_login" /></a>
