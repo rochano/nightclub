@@ -101,7 +101,7 @@
 						<label><s:text name="global.username" /></label>
 						<div class="ui left icon input">
 							<i class="user icon"></i>
-							<input type="text" name="username" value="" id="username" placeholder="<s:text name="global.username_or_phone" />" />
+							<input type="text" name="username" value="" id="username" placeholder="<s:text name="global.username" />" />
 						</div>
 					</div>
 					<div class="field">
