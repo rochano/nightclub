@@ -9,6 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>THAINIGHTNAVI.COM - <s:text name="global.main_menu_free_agents" /></title>
+  <s:set var="userType"><%=IConstants.USER_TYPE_FREE_AGENT%></s:set>
   <%@include file="/common/common_header.jsp" %>
   <!--- Example CSS -->
   <style>
@@ -109,13 +110,15 @@
 					<div class="active section"><s:text name="global.main_menu_free_agents" /></div>
 				</div>
 
+				<%@include file="/common/common_search.jsp" %>
+
 				<div class="center aligned column">
 					<div class="ui centered attached segment soft">
 						<div class="ui centered four doubling cards ">
 						<s:if test="%{girlInfos.size gte 0}">
 							<s:iterator value="girlInfos" status="status">
 								<div class="ui red card">
-									<div class="image ui centered corner labeled" >
+									<div class="image ui centered corner labeled pic" >
 										<a class="ui right corner label toggleFavourite link" 
 												data-girlInfoId="<s:property value="girlInfoId" />"
 												data-content="Please login first" data-variation="tiny">
@@ -171,20 +174,20 @@
 										<a class="ui header " href="<s:url value="/girl/%{girlInfoId}"/>"><s:property value="nickName" /></a>
 										<div class="description">
 											<i class="marker icon"></i>
-											<s:if test="#request.locale.language=='th'">
+											<%--<s:if test="#request.locale.language=='th'">
 												<s:iterator value="girlLocations" >
 													<div class="ui medium label">
 														<s:property value="primaryKey.zoneInfo.zoneNameEn" />
 													</div>
 												</s:iterator>
 											</s:if>
-											<s:else>
+											<s:else>--%>
 												<s:iterator value="girlLocations" >
 													<div class="ui medium label">
 														<s:property value="primaryKey.zoneInfo.zoneNameJp" />
 													</div>
 												</s:iterator>
-											</s:else>
+											<%--</s:else>--%>
 										</div>
 									</div>
 								</div>
@@ -194,6 +197,10 @@
 							<s:text name="global.no_data" />
 						</s:if>
 						</div>
+						<s:if test="%{girlInfos.size gt 0}">
+							<br />
+							<button class="centered ui basic inverted button loadMore">LOAD MORE</button>
+						</s:if>
 					</div>
 				</div>
 			    

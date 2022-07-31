@@ -64,7 +64,7 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
         	
         	if(this.userInfo != null) {
         		if (!this.userInfo.getUserType().equals(userType)) {
-        			addActionError("Your user type is incorrect !");
+        			addActionError(getText("global.user_type_not_correct"));
         			return LOGIN;
         		}
         		// add userName to the session
@@ -142,7 +142,7 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 					return EN_GIRL;
 				}
         	} else {
-        		addActionError("Your username or password is incorrect !");
+        		addActionError(getText("global.username_password_not_correct"));
         	}
             
             return LOGIN;
@@ -173,7 +173,7 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
     	if (username != null && phone != null && password != null) {
     		
     		if(linkController.getUserInfo(username, phone) != null) {
-    			addActionError("Your username or phone number has been already existed !"); 
+    			addActionError(getText("global.username_phone_no_exists")); 
     			return INPUT;
     			
     		} else {

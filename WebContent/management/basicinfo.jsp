@@ -98,12 +98,12 @@
 				var select = $('#basicInfo_zoneInfoId');
 			     select.find('option').remove();
 			     $.each(jsonResponse.categoryZones, function(i, obj) {
-			       <s:if test="#request.locale.language=='th'">
+			    	 <%--<s:if test="#request.locale.language=='th'">--%>
 			       $('<option>').val(obj.zoneInfo.zoneInfoId).text(obj.zoneInfo.zoneNameEn).appendTo(select);
-			       </s:if>
+			       <%--</s:if>
 			       <s:else>
 			       $('<option>').val(obj.zoneInfo.zoneInfoId).text(obj.zoneInfo.zoneNameJp).appendTo(select);
-			       </s:else>
+			       </s:else>--%>
 			     });
 			     select.parents(".ui.dropdown:first").find(".text").text(select.find('option:first').text());
 			});

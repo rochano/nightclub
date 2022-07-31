@@ -43,7 +43,7 @@
               rules: [
                 {
                   type   : 'empty',
-                  prompt : 'Please enter your username.'
+                  prompt : '<s:text name="global.username_or_phone" /><s:text name="global.message_please_input_jp" />'
                 }/* ,
                 {
                   type   : 'email',
@@ -56,7 +56,7 @@
                 rules: [
                   {
                     type   : 'empty',
-                    prompt : 'Please enter your phone number.'
+                    prompt : '<s:text name="global.phone_no" /><s:text name="global.message_please_input_jp" />'
                   }
                 ]
               },
@@ -65,11 +65,11 @@
               rules: [
                 {
                   type   : 'empty',
-                  prompt : 'Please enter your password.'
+                  prompt : '<s:text name="global.password" /><s:text name="global.message_please_input_jp" />'
                 },
                 {
                   type   : 'length[6]',
-                  prompt : 'Your password must be at least 6 characters.'
+                  prompt : '<s:text name="global.password" /><s:text name="global.message_valid_length_jp" ><s:param value="6" /></s:text>'
                 }
               ]
             },
@@ -78,7 +78,7 @@
               rules: [
                 {
                   type   : 'match[password]',
-                  prompt : 'Confirm password mismatch.'
+                  prompt : '<s:text name="global.signup_confirm_password" /><s:text name="global.message_match_password" />'
                 },
               ]
             },
@@ -87,7 +87,7 @@
                 rules: [
                   {
                     type   : 'checked',
-                    prompt : 'You must agree to the over 18 years conditions'
+                    prompt : '<s:text name="global.must_over_18" />'
                   },
                 ]
               }
@@ -135,7 +135,7 @@
 			<div class="header item">
 				<a class="ui labeled icon button" href="<s:url value="/login"/>">
 					<i class="sign in icon"></i>
-					Log-in
+					<s:text name="global.main_menu_login" />
 				</a>
 			</div>
 		</div>
@@ -145,39 +145,39 @@
 			<h2 class="ui teal image header">
 				<img src="assets/images/logo.png" class="image">
 				<div class="content">
-					Log-in to your account
+					<s:text name="global.main_menu_register" />
 				</div>
 			</h2>
 			<form class="ui large form inverted" name="form1" method="post" action="<s:url value="/signup"/>">
 				<div class="ui segment basic">
 					<div class="field">
-						<label>Username</label>
+						<label><s:text name="global.username" /></label>
 						<div class="ui input">
-							<s:textfield name="username" placeholder="Username" />
+							<input type="text" name="username" value="" id="username" placeholder="<s:text name="global.username" />" />
 						</div>
 					</div>
 					<div class="field">
-						<label>Phone number</label>
+						<label><s:text name="global.phone_no" /></label>
 						<div class="ui input">
-							<s:textfield name="phone" placeholder="Phone number" />
+							<input type="text" name="phone" value="" id="phone" placeholder="<s:text name="global.phone_no" />" />
 						</div>
 					</div>
 					<div class="field">
-						<label>Password</label>
+						<label><s:text name="global.password" /></label>
 						<div class="ui icon input">
 							<i class="fa-eye-slash icon" id="togglePassword"></i>
-							<s:password name="password" placeholder="Password" />  
+							<input type="password" name="password" id="password" placeholder="<s:text name="global.password" />" />
 						</div>
 					</div>
 					<div class="field">
-						<label>Confirm Password</label>
+						<label><s:text name="global.signup_confirm_password" /></label>
 						<div class="ui icon input">
 							<i class="lock icon"></i>
-							<s:password name="confirmpassword" placeholder="Confirm Password" />  
+							<input type="password" name="confirmpassword" id="confirmpassword" placeholder="<s:text name="global.signup_confirm_password" />" />
 						</div>
 					</div>
 							<div class="field">
-								<label>User Type</label>
+								<label><s:text name="global.user_type" /></label>
 							</div>
 							<div class="grouped fields">
 								<div class="field">
@@ -196,11 +196,11 @@
 							 	<div class="ui left icon input">
 									<div class="ui checkbox">
 										<input type="checkbox" name="chk_over18" id="chk_over18">
-										<label for="chk_over18">คุณยอมรับว่ามีอายุมากกว่า 18 ปี</label>
+										<label for="chk_over18"><s:text name="global.over_18_years_old" /></label>
 									</div>
 								</div>
 							</div>
-					<div class="ui fluid large teal submit button">Signup</div>
+					<div class="ui fluid large teal submit button"><s:text name="global.main_menu_register" /></div>
 				</div>
 				<div class="ui error message"><s:actionerror cssClass="list" /></div>
 			</form>

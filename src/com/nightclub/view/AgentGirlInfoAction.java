@@ -14,6 +14,7 @@ import org.cloudinary.json.JSONObject;
 import com.nightclub.controller.AgentGirlInfoManager;
 import com.nightclub.controller.AgentInfoManager;
 import com.nightclub.controller.GirlSettingManager;
+import com.nightclub.controller.NationalityInfoManager;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.AgentGirlInfo;
@@ -23,6 +24,7 @@ import com.nightclub.model.GirlLocation;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
 import com.nightclub.model.GirlSetting;
+import com.nightclub.model.NationalityInfo;
 import com.nightclub.model.UserInfo;
 import com.nightclub.model.ZoneInfo;
 import com.nightclub.util.UploadFileUtils;
@@ -53,12 +55,14 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	private ArrayList<String> weightList;
 	private List<ZoneInfo> zoneInfos;
 	private List<String> girlLocations;
+	private List<NationalityInfo> nationalityInfos;
 
 	private AgentGirlInfoManager girlInfoManager;
 	private GirlSettingManager girlSettingManager;
 	private ZoneInfoManager zoneInfoManager;
 	private AgentInfoManager agentInfoManager;
 	private UserInfoManager userInfoManager;
+	private NationalityInfoManager nationalityInfoManager;
 	
     private String pic1FileName;
     private String pic2FileName;
@@ -75,6 +79,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 		girlServices = new ArrayList();
 		agentInfoManager = new AgentInfoManager();
 		userInfoManager = new UserInfoManager();
+		nationalityInfoManager = new NationalityInfoManager();
 	}
 	
 	public String execute() {
@@ -594,6 +599,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 		this.heightList = makeList(girlSetting.getHeightFrom(), girlSetting.getHeightTo());
 		this.weightList = makeList(girlSetting.getWeightFrom(), girlSetting.getWeightTo());
 		this.zoneInfos = zoneInfoManager.list();
+		this.nationalityInfos = nationalityInfoManager.list();
 	}
 
 	public List<ZoneInfo> getZoneInfos() {
@@ -618,5 +624,13 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 
 	public void setSearchGirlLocations(List<String> searchGirlLocations) {
 		this.searchGirlLocations = searchGirlLocations;
+	}
+
+	public List<NationalityInfo> getNationalityInfos() {
+		return nationalityInfos;
+	}
+
+	public void setNationalityInfos(List<NationalityInfo> nationalityInfos) {
+		this.nationalityInfos = nationalityInfos;
 	}
 }

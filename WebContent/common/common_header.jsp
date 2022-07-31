@@ -44,13 +44,17 @@
   .ui.menu.toc:not(.vertical) > .item {
 	justify-content: flex-start;
   }
+  .slide-image {
+  	height: 350px;
+  	overflow: hidden;
+  }
   .slide-image img.ui.fluid.image {
   	height: 350px;
   	width:auto;
   }
   @media only screen and (max-width: 767px) {
-  	.ui.menu:not(.vertical):not(.fixed),
-  	.ui.grid.menu-slide-image {
+  	.ui.menu:not(.vertical):not(.fixed)/*,
+  	.ui.grid.menu-slide-image*/ {
   		display: none;
   	}
   	.ui.menu.toc:not(.vertical):not(.fixed) {
@@ -125,22 +129,143 @@
       .accordion()
       var key = 'thainightnavi_cookies', value = 'accept', age_days = 90;
       if(!document.cookie.includes(key + '=' + value)) {
-			$('.ui.cookie.sidebar').sidebar('setting', {
-		         dimPage          : true,
-		         transition       : "overlay",
-		         mobileTransition : "overlay",
-		         closable         : false
-		       }).sidebar('show');
-			$('.ui.cookie.sidebar .ui.accept.button').on('click', function() {
-				document.cookie = key + '=' + value + '; Path=/; SameSite=Strict; Max-Age=' + (60 * 60 * 24 * age_days);
-				$('.ui.cookie.sidebar').sidebar('hide');
-				$('.ui.basic.modal')
-				.modal('setting', {
-		         closable         : false
-		       }).modal('show')
-				;
-			});
-		};
-    })
-  ;
+				$('.ui.cookie.sidebar').sidebar('setting', {
+			         dimPage          : true,
+			         transition       : "overlay",
+			         mobileTransition : "overlay",
+			         closable         : false
+			       }).sidebar('show');
+				$('.ui.cookie.sidebar .ui.accept.button').on('click', function() {
+					document.cookie = key + '=' + value + '; Path=/; SameSite=Strict; Max-Age=' + (60 * 60 * 24 * age_days);
+					$('.ui.cookie.sidebar').sidebar('hide');
+					/* $('.ui.basic.modal')
+					.modal('setting', {
+			         closable         : false
+			       }).modal('show')
+					; */
+				});
+			};
+
+			$(".loadMore").click(function() {
+				var this_ = $(this);
+				var userType = '<s:property value="userType" />';
+				var feedOffset = $('.ui.card', '.ui.cards').length;
+				this_.empty()
+				this_.text('...');
+				$.getJSON("<s:url value="/ajax/loadMoreGirlInfos/" />" + userType + "/" + feedOffset,
+					$("#searchForm").serialize(),
+					function(jsonResponse) {
+						$.each(jsonResponse.girlInfos, function(i, obj) {
+							var infoHtml = '';
+							infoHtml += '<div class="ui red card">';
+							infoHtml += '<div class="image ui centered corner labeled pic" >';
+							infoHtml += '<a class="ui right corner label toggleFavourite link" ';
+							infoHtml += 'data-girlInfoId="' + obj.girlInfoId + '"';
+							infoHtml += '				data-content="Please login first" data-variation="tiny">';
+							infoHtml += '			<i class="heart ';
+							if (jsonResponse.girlFavourites.indexOf(obj.girlInfoId) != -1) {
+								infoHtml += 'red';
+							} else {
+								infoHtml += 'outline';
+							}
+							infoHtml += '				icon"></i>';
+							infoHtml += '		</a>';
+							infoHtml += '		<a href="' + getUrl('girl/' + obj.girlInfoId) + '">';
+							infoHtml += getPic(obj);
+							infoHtml += '		</a>';
+							infoHtml += '	</div>';
+							infoHtml += '	<div class="content left aligned label pink circular ui">';
+							infoHtml += '		<span class="right floated">';
+							infoHtml += getPrice(obj);
+							infoHtml += '		</span>';
+							if (obj.allSame == 'true') {
+								infoHtml += '<s:text name="global.all_same" />';
+							}
+							infoHtml += '	</div>';
+							infoHtml += '	<div class="content left aligned">';
+							infoHtml += '		<a class="ui header " href="' + getUrl('girl/' + obj.girlInfoId) + '">' + obj.nickName + '</a>';
+							infoHtml += '		<div class="description">';
+							infoHtml += getCustomDescription(obj);
+							infoHtml += '			<i class="marker icon"></i>';
+							<%-- <s:if test="#request.locale.language=='th'">
+								$.each(obj.girlLocations, function(j, objLocation) {
+									infoHtml += '					<div class="ui medium label">';
+									infoHtml += objLocation.primaryKey.zoneInfo.zoneNameEn;
+									infoHtml += '					</div>';
+								});
+							</s:if>
+							<s:else> --%>
+								$.each(obj.girlLocations, function(j, objLocation) {
+									infoHtml += '					<div class="ui medium label">';
+									infoHtml += objLocation.primaryKey.zoneInfo.zoneNameJp;
+									infoHtml += '					</div>';
+								});
+							<%-- </s:else> --%>
+							infoHtml += '		</div>';
+							infoHtml += '	</div>';
+							infoHtml += '</div>';
+							$('.ui.cards').append(infoHtml);
+						});
+						this_.empty()
+						this_.text('LOAD MORE');
+				});
+	    })
+	});
+  	function getUrl(uri) {
+  	  	var host = '<s:url value="//"/>';
+		return host.substring(0, host.length-1) + uri;
+	}
+
+	function checkIsNotNullAndEmpty(value) {
+		if (value != null && value != "") {
+			return true;
+		}
+		return false;
+	}
+
+	function getImg(pic) {
+		return '<img class="image ui centered" src="' + pic + '">'
+	}
+
+	function getPic(obj) {
+		if (checkIsNotNullAndEmpty(obj.pic1)) {
+			return getImg(obj.pic1)
+		}
+		if (checkIsNotNullAndEmpty(obj.pic2)) {
+			return getImg(obj.pic2)
+		}
+		if (checkIsNotNullAndEmpty(obj.pic3)) {
+			return getImg(obj.pic3)
+		}
+		if (checkIsNotNullAndEmpty(obj.pic4)) {
+			return getImg(obj.pic4)
+		}
+		if (checkIsNotNullAndEmpty(obj.pic5)) {
+			return getImg(obj.pic5)
+		}
+		return getImg('<s:url value="/assets/images/wireframe/square-image.png" />');
+	}
+
+	function getPrice(obj) {
+		if (obj.chk40Mins == 'true') {
+			return obj.price40Mins.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+		}
+		if (obj.chk60Mins == 'true') {
+			return obj.price60Mins.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+		}
+		if (obj.chk90Mins == 'true') {
+			return obj.price90Mins.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+		}
+		if (obj.chk120Mins == 'true') {
+			return obj.price120Mins.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+		}
+		if (obj.chk6Hrs == 'true') {
+			return obj.price6Hrs.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+		}
+	}
+
+	function getCustomDescription() {
+		var infoHtml = "";
+		return infoHtml;
+	}
   </script>

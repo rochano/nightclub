@@ -289,6 +289,16 @@
 							</div>
 						</div>
 						<div class="inline field">
+							<s:i18n name="global_th">
+								<s:select list="nationalityInfos"
+									listKey="nationalityInfoId" listValue="nationalityNameEn"
+									key="global.nationality" 
+									cssClass="ui search dropdown" 
+									name="girlInfo.nationalityInfoId">
+								</s:select>
+							</s:i18n>
+						</div>
+						<div class="inline field">
 							<s:select list="skinInfos"
 								listKey="skinInfoId" listValue="skinNameEn"
 								key="global.skin" 

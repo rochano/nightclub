@@ -65,12 +65,12 @@
 					</div>
 					<div class="ui grid attached segment">
 						<div class="column one left aligned">
-							<s:if test="#request.locale.language=='th'">
+							<%--<s:if test="#request.locale.language=='th'">
 								<s:text name="homeInfo.descriptionEn"></s:text>
 							</s:if>
-							<s:else>
+							<s:else>--%>
 								<s:text name="homeInfo.description"></s:text>
-							</s:else>
+							<%--</s:else>--%>
 				 		</div>
 					</div>
 				</div>
@@ -84,12 +84,12 @@
 					</div>
 					<div class="ui grid attached segment">
 						<div class="column one left aligned">
-							<s:if test="#request.locale.language=='th'">
+							<%--<s:if test="#request.locale.language=='th'">
 								<s:text name="homeInfo.descriptionEn2"></s:text>
 							</s:if>
-							<s:else>
+							<s:else>--%>
 								<s:text name="homeInfo.description2"></s:text>
-							</s:else>
+							<%--</s:else>--%>
 				 		</div>
 					</div>
 				</div>

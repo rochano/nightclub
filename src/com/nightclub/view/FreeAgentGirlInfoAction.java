@@ -11,6 +11,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.nightclub.controller.FreeAgentGirlInfoManager;
 import com.nightclub.controller.GirlSettingManager;
+import com.nightclub.controller.NationalityInfoManager;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.FreeAgentGirlInfo;
@@ -19,6 +20,7 @@ import com.nightclub.model.GirlLocation;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
 import com.nightclub.model.GirlSetting;
+import com.nightclub.model.NationalityInfo;
 import com.nightclub.model.UserInfo;
 import com.nightclub.model.ZoneInfo;
 import com.nightclub.util.UploadFileUtils;
@@ -38,6 +40,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	private UserInfoManager userInfoManager;
 	private GirlSettingManager girlSettingManager;
 	private ZoneInfoManager zoneInfoManager;
+	private NationalityInfoManager nationalityInfoManager;
  
 	private List<GirlServiceInfo> girlServiceInfos;
 	private List<String> girlServices;
@@ -50,6 +53,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	private ArrayList<String> weightList;
 	private List<ZoneInfo> zoneInfos;
 	private List<String> girlLocations;
+	private List<NationalityInfo> nationalityInfos;
 	
     private String pic1FileName;
     private String pic2FileName;
@@ -63,6 +67,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		girlSettingManager = new GirlSettingManager();
 		zoneInfoManager = new ZoneInfoManager();
 		girlServices = new ArrayList();
+		nationalityInfoManager = new NationalityInfoManager();
 	}
 
 	public String execute() {
@@ -406,6 +411,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		this.heightList = makeList(girlSetting.getHeightFrom(), girlSetting.getHeightTo());
 		this.weightList = makeList(girlSetting.getWeightFrom(), girlSetting.getWeightTo());
 		this.zoneInfos = zoneInfoManager.list();
+		this.nationalityInfos = nationalityInfoManager.list();
 	}
 
 	public List<String> getGirlLocations() {
@@ -417,5 +423,13 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 
 	public void setGirlLocations(List<String> girlLocations) {
 		this.girlLocations = girlLocations;
+	}
+
+	public List<NationalityInfo> getNationalityInfos() {
+		return nationalityInfos;
+	}
+
+	public void setNationalityInfos(List<NationalityInfo> nationalityInfos) {
+		this.nationalityInfos = nationalityInfos;
 	}
 }

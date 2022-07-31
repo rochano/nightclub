@@ -11,6 +11,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.nightclub.controller.EnGirlInfoManager;
 import com.nightclub.controller.GirlSettingManager;
+import com.nightclub.controller.NationalityInfoManager;
 import com.nightclub.controller.SkinInfoManager;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
@@ -19,6 +20,7 @@ import com.nightclub.model.FreeAgentGirlInfo;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlLocation;
 import com.nightclub.model.GirlSetting;
+import com.nightclub.model.NationalityInfo;
 import com.nightclub.model.SkinInfo;
 import com.nightclub.model.UserInfo;
 import com.nightclub.model.ZoneInfo;
@@ -40,6 +42,7 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 	private GirlSettingManager girlSettingManager;
 	private ZoneInfoManager zoneInfoManager;
 	private SkinInfoManager skinInfoManager;
+	private NationalityInfoManager nationalityInfoManager;
 
 	private GirlSetting girlSetting;
 	private ArrayList<String> ageList;
@@ -51,6 +54,7 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 	private List<ZoneInfo> zoneInfos;
 	private List<SkinInfo> skinInfos;
 	private List<String> girlLocations;
+	private List<NationalityInfo> nationalityInfos;
 	
     private String pic1FileName;
     private String pic2FileName;
@@ -64,6 +68,7 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 		girlSettingManager = new GirlSettingManager();
 		zoneInfoManager = new ZoneInfoManager();
 		skinInfoManager = new SkinInfoManager();
+		nationalityInfoManager = new NationalityInfoManager();
 	}
 
 	public String execute() {
@@ -370,6 +375,7 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 		this.weightList = makeList(girlSetting.getWeightFrom(), girlSetting.getWeightTo());
 		this.zoneInfos = zoneInfoManager.list();
 		this.skinInfos = skinInfoManager.list();
+		this.nationalityInfos = nationalityInfoManager.list();
 	}
 
 	public List<SkinInfo> getSkinInfos() {
@@ -389,5 +395,13 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 
 	public void setGirlLocations(List<String> girlLocations) {
 		this.girlLocations = girlLocations;
+	}
+
+	public List<NationalityInfo> getNationalityInfos() {
+		return nationalityInfos;
+	}
+
+	public void setNationalityInfos(List<NationalityInfo> nationalityInfos) {
+		this.nationalityInfos = nationalityInfos;
 	}
 }

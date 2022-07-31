@@ -1,3 +1,4 @@
+<%@page import="com.nightclub.common.IConstants"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
@@ -8,6 +9,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <s:set var="userType"><%=IConstants.USER_TYPE_AGENT%></s:set>
   <title>THAINIGHTNAVI.COM - <s:text name="global.main_menu_agents" /></title>
   <%@include file="/common/common_header.jsp" %>
   <!--- Example CSS -->
@@ -35,7 +37,7 @@
   @media only screen and (max-width: 767px) {
   	#shoplist-wrapper {overflow: scroll;}
   }
-  .ui.image {
+  .pic .ui.image {
 	width: auto;
 	height: 160px;
   }
@@ -46,6 +48,10 @@
   	flex-grow: 0;
   	-webkit-flex-grow: 0;
   	-ms-flex-positive: 0;
+  }
+  .agentLogoImg {
+  	width: 2em;
+    height: 2em;
   }
   </style>
   <script type="text/javascript">
@@ -87,7 +93,16 @@
 			})
 		;
 		</s:else>
+    	$('.ui.dropdown')
+    	  .dropdown()
+    	;
 	});
+  	function getCustomDescription(obj) {
+		var infoHtml = "";
+		infoHtml += '		<s:property value="agentInfo.agentName" />';
+		infoHtml += '		<br/>';
+		return infoHtml;
+	}
   </script>
 </head>
 <body>
@@ -101,7 +116,6 @@
 				<%@include file="/common/common_statistic_info.jsp" %>
 				<%@include file="/common/common_new_menu.jsp" %>
   				<br/>
-  				<s:if test="%{agentInfoId == null}">
   				<div class="ui breadcrumb segment attached inverted">
 					<a class="section" href="<s:url value="/" />" >
 						<s:text name="global.shop_menu_home" />
@@ -109,67 +123,16 @@
 					<i class="right chevron icon divider"></i>
 					<div class="active section"><s:text name="global.main_menu_agents" /></div>
 				</div>
-				<div class="center aligned column">
-	  				<div class="ui segment header">
-						<h2 class="ui top header">
-							<i class="bookmark icon yellow"></i>
-							<div class="content"><s:text name="global.main_menu_agents" /></div>
-						</h2>
-					</div>
-					
-					<div class="ui centered attached segment soft">
-						<div class="ui centered six doubling cards ">
-						<s:if test="%{agentInfos.size gte 0}">
-							<s:iterator value="agentInfos" status="status">
-								<div class="ui red card">
-									<div class="image ui centered" >
-										<a class="ui centered" href="<s:url value="/agents/%{agentInfoId}"/>" >
-											<img class="image ui centered" src="<s:property value="logoImg" />">
-										</a>
-									</div>
-									<div class="content">
-										<a class="header" href="<s:url value="/agents/%{agentInfoId}"/>"><s:property value="agentName" /></a>
-									</div>
-								</div>
-							</s:iterator>
-						</s:if>
-						<s:if test="%{agentsInfos.size eq 0}">
-							<s:text name="global.no_data" />
-						</s:if>
-						</div>
-					</div>
-				</div>
-				</s:if>
 
-				<s:if test="%{agentInfoId != null}">
-				<div class="ui breadcrumb segment attached inverted">
-					<a class="section" href="<s:url value="/" />" >
-						<s:text name="global.shop_menu_home" />
-					</a>
-					<i class="right chevron icon divider"></i>
-					<a class="section" href="<s:url value="/agents" />" >
-						<s:text name="global.main_menu_agents" />
-					</a>
-					<i class="right chevron icon divider"></i>
-					<div class="active section"><s:text name="agentInfo.agentName" /></div>
-				</div>
-				</s:if>
+				<%@include file="/common/common_search.jsp" %>
 
 				<div class="center aligned column">
-					<s:if test="%{agentInfoId != null}">
-					<div class="ui segment header">
-						<h2 class="ui top header">
-							<i class="bookmark icon yellow"></i>
-							<div class="content"><s:text name="agentInfo.agentName" /></div>
-						</h2>
-					</div>
-					</s:if>
 					<div class="ui centered attached segment soft">
 						<div class="ui centered four doubling cards ">
 						<s:if test="%{girlInfos.size gte 0}">
 							<s:iterator value="girlInfos" status="status">
 								<div class="ui red card">
-									<div class="image ui centered corner labeled" >
+									<div class="image ui centered corner labeled pic" >
 										<a class="ui right corner label toggleFavourite link" 
 												data-girlInfoId="<s:property value="girlInfoId" />"
 												data-content="Please login first" data-variation="tiny">
@@ -222,24 +185,27 @@
 										</s:if>
 									</div>
 									<div class="content left aligned">
-										<a class="ui header " href="<s:url value="/girl/%{girlInfoId}"/>"><s:property value="nickName" /></a>
+										<a class="ui header " href="<s:url value="/girl/%{girlInfoId}"/>">
+											<s:property value="nickName" />
+										</a>
 										<div class="description">
-											<s:property value="agentInfo.agentName" /><br/>
+											<s:property value="agentInfo.agentName" />
+											<br/>
 											<i class="marker icon"></i>
-											<s:if test="#request.locale.language=='th'">
+											<%--<s:if test="#request.locale.language=='th'">
 												<s:iterator value="girlLocations" >
 													<div class="ui medium label">
 														<s:property value="primaryKey.zoneInfo.zoneNameEn" />
 													</div>
 												</s:iterator>
 											</s:if>
-											<s:else>
+											<s:else>--%>
 												<s:iterator value="girlLocations" >
 													<div class="ui medium label">
 														<s:property value="primaryKey.zoneInfo.zoneNameJp" />
 													</div>
 												</s:iterator>
-											</s:else>
+											<%--</s:else>--%>
 										</div>
 									</div>
 								</div>
@@ -249,6 +215,10 @@
 							<s:text name="global.no_data" />
 						</s:if>
 						</div>
+						<s:if test="%{girlInfos.size gt 0}">
+							<br />
+							<button class="centered ui basic inverted button loadMore">LOAD MORE</button>
+						</s:if>
 					</div>
 				</div>
 			    

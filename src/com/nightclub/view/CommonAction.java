@@ -33,16 +33,13 @@ public class CommonAction extends ActionSupport implements ServletRequestAware, 
 	private HttpServletRequest servletRequest;
 	private ClientInfo clientInfo;
 	private Map<String, Object> sessionMap;
-	private List<String> girlFavourites = new ArrayList<String>();
 	
 	private StatisticInfoManager statisticInfoManager;
 	protected ClientInfoManager clientInfoManager;
-	protected GirlFavouriteManager girlFavouriteManager;
 	
 	public CommonAction() {
 		statisticInfoManager = new StatisticInfoManager();
 		clientInfoManager = new ClientInfoManager();
-		girlFavouriteManager = new GirlFavouriteManager();
 	}
 
 	protected void getStatisticInfo() {
@@ -128,13 +125,15 @@ public class CommonAction extends ActionSupport implements ServletRequestAware, 
 			UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 			if (userInfo.getClientInfoId() != null) {
 				this.clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
-				this.girlFavourites = girlFavouriteManager.listByCustomerInfoId(userInfo.getClientInfoId());
+				loadGirlFavourites(userInfo.getClientInfoId());
 			} else {
 				this.clientInfo = new ClientInfo();
 			}
 			this.clientInfo.setUserInfo(userInfo);
 		}
 	}
+	
+	protected void loadGirlFavourites(String clientInfoId) {}
 
 	public StatisticModel getStatisticModel() {
 		return statisticModel;
@@ -168,13 +167,5 @@ public class CommonAction extends ActionSupport implements ServletRequestAware, 
 	
 	public Map<String, Object> getSession() {
 		return this.sessionMap;
-	}
-
-	public List<String> getGirlFavourites() {
-		return girlFavourites;
-	}
-
-	public void setGirlFavourites(List<String> girlFavourites) {
-		this.girlFavourites = girlFavourites;
 	}
 }

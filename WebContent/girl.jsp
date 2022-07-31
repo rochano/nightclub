@@ -211,12 +211,12 @@
 														<td class="center aligned one wide"><p>:</p></td>
 														<td>
 															<p>
-																<s:if test="#request.locale.language=='th'">
+																<%--<s:if test="#request.locale.language=='th'">
 																	<s:property value="girlInfo.skinInfo.skinNameEn" />
 																</s:if>
-																<s:else>
+																<s:else>--%>
 																	<s:property value="girlInfo.skinInfo.skinNameJp" />
-																</s:else>
+																<%--</s:else>--%>
 															</p>
 														</td>
 													</tr>
@@ -247,18 +247,18 @@
 													<td class="center aligned one wide"><p>:</p></td>
 													<td>
 														<p>
-															<s:if test="#request.locale.language=='th'">
+															<%--<s:if test="#request.locale.language=='th'">
 																<s:iterator value="girlInfo.girlLocations" >
 																	<s:property value="primaryKey.zoneInfo.zoneNameEn" />
 																	<br />
 																</s:iterator>
 															</s:if>
-															<s:else>
+															<s:else>--%>
 																<s:iterator value="girlInfo.girlLocations" >
 																	<s:property value="primaryKey.zoneInfo.zoneNameJp" />
 																	<br />
 																</s:iterator>
-															</s:else>
+															<%--</s:else>--%>
 														</p>
 													</td>
 												</tr>
@@ -446,12 +446,12 @@
 											<s:iterator value="girlServices" status="rowstatus">
 												<div class="column left aligned">
 													<i class="ui check square icon green"></i>
-													<s:if test="#request.locale.language=='th'">
+													<%--<s:if test="#request.locale.language=='th'">
 														<s:property value="primaryKey.girlServiceInfo.girlServiceName" />
 													</s:if>
-													<s:else>
+													<s:else>--%>
 														<s:property value="primaryKey.girlServiceInfo.girlServiceNameJp" />
-													</s:else>
+													<%--</s:else>--%>
 												</div>
 											</s:iterator>
 										</div>

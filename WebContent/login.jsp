@@ -49,7 +49,7 @@
               rules: [
                 {
                   type   : 'empty',
-                  prompt : 'Please enter your username or phone number.'
+                  prompt : '<s:text name="global.username_or_phone" /><s:text name="global.message_please_input_jp" />'
                 }/* ,
                 {
                   type   : 'email',
@@ -62,12 +62,12 @@
               rules: [
                 {
                   type   : 'empty',
-                  prompt : 'Please enter your password.'
-                },
+                  prompt : '<s:text name="global.password" /><s:text name="global.message_please_input_jp" />'
+                }/* ,
                 {
                   type   : 'length[6]',
-                  prompt : 'Your password must be at least 6 characters.'
-                }
+                  prompt : '<s:text name="global.password" /><s:text name="global.message_valid_length_jp" ><s:param value="6" /></s:text>'
+                } */
               ]
             }
           }
@@ -123,7 +123,7 @@
 			<div class="header item">
 				<a class="ui labeled icon button" href="<s:url value="/"/>">
 					<i class="home icon"></i>
-					Home page
+					<s:text name="global.main_menu_home" />
 				</a>
 			</div>
 		</div>
@@ -131,7 +131,7 @@
 			<div class="header item">
 				<a class="ui labeled icon button" href="<s:url value="/admin/login"/>">
 					<i class="sign in icon"></i>
-					Log-in as Administrator
+					<s:text name="global.login_as_admin" />
 				</a>
 			</div>
 		</div>
@@ -143,26 +143,26 @@
 	  				<h2 class="ui teal image header">
 						<img src="assets/images/logo.png" class="image">
 						<div class="content">
-							Log-in to your account
+							<s:text name="global.main_menu_login" />
 						</div>
 					</h2>
 					<form class="ui large form inverted" name="form1" method="post" action="<s:url value="/login"/>">
 						<div class="ui segment basic">
 							<div class="field">
-								<label>Username or phone number</label>
+								<label><s:text name="global.username_or_phone" /></label>
 								<div class="ui input">
-									<s:textfield name="username" placeholder="Username or phone number" />  
+									<input type="text" name="username" value="" id="username" placeholder="<s:text name="global.username_or_phone" />" />
 								</div>
 							</div>
 							<div class="field">
-								<label>Password</label>
+								<label><s:text name="global.password" /></label>
 								<div class="ui icon input">
 									<i class="fa-eye-slash icon" id="togglePassword"></i>
-									<s:password name="password" placeholder="Password" />
+									<input type="password" name="password" id="password" placeholder="<s:text name="global.password" />" />
 								</div>
 							</div>
 							<div class="field">
-								<label>User Type</label>
+								<label><s:text name="global.user_type" /></label>
 							</div>
 							<div class="grouped fields">
 								<div class="field">
@@ -177,7 +177,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="ui fluid large teal submit button">Login</div>
+							<div class="ui fluid large teal submit button"><s:text name="global.main_menu_login" /></div>
 						</div>
 						<div class="ui error message"><s:actionerror cssClass="list" /></div>
 					</form>
@@ -188,7 +188,7 @@
 				<div class="center aligned column">
 					<a class="ui big green labeled icon button" href="<s:url value="/signup"/>">
 						<i class="signup icon"></i>
-						Sign Up
+						<s:text name="global.main_menu_register" />
 					</a>
 	    		</div>
 			</div>

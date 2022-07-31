@@ -42,12 +42,12 @@
               rules: [
                 {
                   type   : 'empty',
-                  prompt : 'Please enter your e-mail.'
-                },
+                  prompt : '<s:text name="global.username_or_phone" /><s:text name="global.message_please_input_jp" />'
+                }/* ,
                 {
                   type   : 'email',
                   prompt : 'Please enter a valid e-mail.'
-                }
+                } */
               ]
             },
             password: {
@@ -55,12 +55,12 @@
               rules: [
                 {
                   type   : 'empty',
-                  prompt : 'Please enter your password.'
-                },
+                  prompt : '<s:text name="global.password" /><s:text name="global.message_please_input_jp" />'
+                }/* ,
                 {
                   type   : 'length[6]',
-                  prompt : 'Your password must be at least 6 characters.'
-                }
+                  prompt : '<s:text name="global.password" /><s:text name="global.message_valid_length_jp" ><s:param value="6" /></s:text>'
+                } */
               ]
             }
           }
@@ -82,7 +82,7 @@
 			<div class="header item">
 				<a class="ui labeled icon button" href="<s:url value="/login"/>">
 					<i class="long arrow left icon"></i>
-					Shop login
+					<s:text name="global.main_menu_login" />
 				</a>
 			</div>
 		</div>
@@ -92,26 +92,26 @@
 			<h2 class="ui teal image header">
 				<img src="../assets/images/logo.png" class="image">
 				<div class="content">
-					Log-in as Administrator
+					<s:text name="global.login_as_admin" />
 				</div>
 			</h2>
 			<form class="ui large form inverted" name="form1" method="post" action="<s:url value="/admin/login"/>">
 				<div class="ui segment basic">
 					<div class="field">
-						<label>Username</label>
+						<label><s:text name="global.username" /></label>
 						<div class="ui left icon input">
 							<i class="user icon"></i>
-							<s:textfield name="username" placeholder="E-mail address" />  
+							<input type="text" name="username" value="" id="username" placeholder="<s:text name="global.username_or_phone" />" />
 						</div>
 					</div>
 					<div class="field">
-						<label>Password</label>
+						<label><s:text name="global.password" /></label>
 						<div class="ui left icon input">
 							<i class="lock icon"></i>
-							<s:password name="password" placeholder="Password" />  
+							<input type="password" name="password" id="password" placeholder="<s:text name="global.password" />" />
 						</div>
 					</div>
-					<div class="ui fluid large teal submit button">Login</div>
+					<div class="ui fluid large teal submit button"><s:text name="global.main_menu_login" /></div>
 				</div>
 				<div class="ui error message"><s:actionerror cssClass="list" /></div>
 			</form>

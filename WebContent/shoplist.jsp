@@ -61,12 +61,12 @@
 						<h2 class="ui top header">
 							<i class="bookmark icon yellow"></i>
 							<div class="content">
-								<s:if test="#request.locale.language=='th'">
+								<%--<s:if test="#request.locale.language=='th'">
 								<s:text name="category.categoryNameEn" />
 								</s:if>
-								<s:else>
+								<s:else>--%>
 								<s:text name="category.categoryNameJp" />
-								</s:else>
+								<%--</s:else>--%>
 							</div>
 						</h2>
 					</div>
@@ -112,12 +112,12 @@
 									<img class="ui tiny image centered" src="<s:property value="shopImg" />">
 								</td>
 								<td><a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui header medium">
-									<s:if test="#request.locale.language=='th'">
+									<%--<s:if test="#request.locale.language=='th'">
 										<s:property value="shopNameEn" />
 									</s:if>
-									<s:else>
+									<s:else>--%>
 										<s:property value="shopNameJp" />
-									</s:else>
+									<%--</s:else>--%>
 								</a></td>
 								<td>
 									<a href="<s:property value="%{#url + #system}"/>" <s:property value="%{target}"/> class="ui"><b>
@@ -133,20 +133,20 @@
 								<td style="padding-top: 5px;">
 									<i class="marker icon"></i>
 									<a href="<s:property value="%{url}"/>" <s:property value="%{target}"/> class="ui header tiny">
-										<s:if test="#request.locale.language=='th'">
+										<%--<s:if test="#request.locale.language=='th'">
 											<s:iterator value="shopLocations" >
 												<div class="ui medium label black">
 													<s:property value="primaryKey.zoneInfo.zoneNameEn" />
 												</div>
 											</s:iterator>
 										</s:if>
-										<s:else>
+										<s:else>--%>
 											<s:iterator value="shopLocations" >
 												<div class="ui medium label black">
 													<s:property value="primaryKey.zoneInfo.zoneNameJp" />
 												</div>
 											</s:iterator>
-										</s:else>
+										<%--</s:else>--%>
 									</a>
 								</td>
 								<td>60分</td>

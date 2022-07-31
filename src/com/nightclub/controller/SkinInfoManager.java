@@ -9,8 +9,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
 
+import com.nightclub.model.GirlInfo;
 import com.nightclub.model.SkinInfo;
-import com.nightclub.model.ZoneInfo;
 
 public class SkinInfoManager extends HibernateUtil {
 	
@@ -48,11 +48,11 @@ public class SkinInfoManager extends HibernateUtil {
 		session.beginTransaction();
 		boolean bResult = false;
 		try {
-			ZoneInfo zoneInfo = (ZoneInfo)session
+			List<GirlInfo> girlInfos = (List<GirlInfo>)session
 					.createQuery("from EnGirlInfo g where g.skinInfoId = :skinInfoId ")
-					.setParameter("skinInfoId", skinInfoId).uniqueResult();
+					.setParameter("skinInfoId", skinInfoId).list();
 			
-			if(zoneInfo != null && zoneInfo.getCategoryZones().size() > 0) {
+			if(girlInfos.size() > 0) {
 				bResult = true;
 			}
 			

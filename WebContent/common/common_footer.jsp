@@ -23,7 +23,7 @@
 		<button class="ui small inverted compact marginless accept button">Got it</button>
 	</div>
 </div>
-<div class="ui basic modal">
+<%-- <div class="ui basic modal">
   <div class="ui icon header">
     <i class="language icon"></i>
     Default Language
@@ -43,4 +43,4 @@
 		</a>
 	</div>
   </div>
-</div>
+</div> --%>

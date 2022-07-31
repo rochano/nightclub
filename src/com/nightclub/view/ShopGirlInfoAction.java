@@ -1,7 +1,6 @@
 package com.nightclub.view;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +13,7 @@ import org.cloudinary.json.JSONObject;
 
 import com.nightclub.controller.BasicInfoManager;
 import com.nightclub.controller.GirlSettingManager;
+import com.nightclub.controller.NationalityInfoManager;
 import com.nightclub.controller.ShopGirlInfoManager;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
@@ -21,6 +21,7 @@ import com.nightclub.model.BasicInfo;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlLocation;
 import com.nightclub.model.GirlSetting;
+import com.nightclub.model.NationalityInfo;
 import com.nightclub.model.ShopGirlInfo;
 import com.nightclub.model.UserInfo;
 import com.nightclub.model.ZoneInfo;
@@ -50,12 +51,14 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 	private ArrayList<String> weightList;
 	private List<ZoneInfo> zoneInfos;
 	private List<String> girlLocations;
+	private List<NationalityInfo> nationalityInfos;
 
 	private ShopGirlInfoManager girlInfoManager;
 	private GirlSettingManager girlSettingManager;
 	private BasicInfoManager basicInfoManager;
 	private UserInfoManager userInfoManager;
 	private ZoneInfoManager zoneInfoManager;
+	private NationalityInfoManager nationalityInfoManager;
 
     private String pic1FileName;
     private String pic2FileName;
@@ -71,6 +74,7 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 		basicInfoManager = new BasicInfoManager();
 		userInfoManager = new UserInfoManager();
 		zoneInfoManager = new ZoneInfoManager();
+		nationalityInfoManager = new NationalityInfoManager();
 	}
 	
 	public String execute() {
@@ -550,6 +554,7 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 		this.heightList = makeList(girlSetting.getHeightFrom(), girlSetting.getHeightTo());
 		this.weightList = makeList(girlSetting.getWeightFrom(), girlSetting.getWeightTo());
 		this.zoneInfos = zoneInfoManager.list();
+		this.nationalityInfos = nationalityInfoManager.list();
 	}
 
 	public List<String> getSearchGirlLocations() {
@@ -574,5 +579,13 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 
 	public void setGirlLocations(List<String> girlLocations) {
 		this.girlLocations = girlLocations;
+	}
+
+	public List<NationalityInfo> getNationalityInfos() {
+		return nationalityInfos;
+	}
+
+	public void setNationalityInfos(List<NationalityInfo> nationalityInfos) {
+		this.nationalityInfos = nationalityInfos;
 	}
 }

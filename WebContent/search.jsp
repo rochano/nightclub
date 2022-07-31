@@ -194,7 +194,7 @@
 											<s:if test="frontSearch.chkCategory == 'true'">checked="checked"</s:if>
 											value="true" />
 										<label for="frontSearch_chkCategory"><s:text name="global.main_menu_service_shop" /></label>
-										<s:if test="#request.locale.language=='th'">
+										<%--<s:if test="#request.locale.language=='th'">
 											<select name="frontSearch.categoryInfoId" id="frontSearch_categoryInfoId" 
 												<s:if test="frontSearch.chkCategory == 'true'"></s:if>
 												<s:else>disabled="disabled"</s:else>
@@ -207,7 +207,7 @@
 												</s:iterator>
 											</select>
 										</s:if>
-										<s:else>
+										<s:else>--%>
 											<select name="frontSearch.categoryInfoId" id="frontSearch_categoryInfoId" 
 												<s:if test="frontSearch.chkCategory == 'true'"></s:if>
 												<s:else>disabled="disabled"</s:else>
@@ -219,7 +219,7 @@
 													><s:property value="categoryNameJp" /></option>
 												</s:iterator>
 											</select>
-										</s:else>
+										<%--</s:else>--%>
 									</div>
 								</div>
 								<div class="inline field">
@@ -273,7 +273,7 @@
 									</div>
 									<div class="content">
 										<div class="ui four column grid doubling">
-											<s:if test="#request.locale.language=='th'">
+											<%--<s:if test="#request.locale.language=='th'">
 												<s:iterator value="zoneInfos" status="rowstatus">
 													<div class="column">
 														<div class="field ui checkbox">
@@ -288,7 +288,7 @@
 													</div>
 												</s:iterator>
 											</s:if>
-											<s:else>
+											<s:else>--%>
 												<s:iterator value="zoneInfos" status="rowstatus">
 													<div class="column">
 														<div class="field ui checkbox">
@@ -302,7 +302,7 @@
 														</div>
 													</div>
 												</s:iterator>
-											</s:else>
+											<%--</s:else>--%>
 										</div>
 									</div>
 								</div>
@@ -425,20 +425,20 @@
 												<s:property value="agentInfo.agentName" /><br/>
 											</s:elseif>
 											<i class="marker icon"></i>
-											<s:if test="#request.locale.language=='th'">
+											<%--<s:if test="#request.locale.language=='th'">
 												<s:iterator value="girlLocations" >
 													<div class="ui medium label">
 														<s:property value="primaryKey.zoneInfo.zoneNameEn" />
 													</div>
 												</s:iterator>
 											</s:if>
-											<s:else>
+											<s:else>--%>
 												<s:iterator value="girlLocations" >
 													<div class="ui medium label">
 														<s:property value="primaryKey.zoneInfo.zoneNameJp" />
 													</div>
 												</s:iterator>
-											</s:else>
+											<%--</s:else>--%>
 										</div>
 									</div>
 								</div>

@@ -38,7 +38,7 @@
 	    <result-types>
 	        <result-type name="bytesResult" class="com.nightclub.result.BytesResult"/>
 	    </result-types>
-	    <interceptors>
+	    <!-- <interceptors>
 	    	<interceptor name="i18n" class="org.apache.struts2.interceptor.I18nInterceptor"/>
 	    	<interceptor-stack name="i18nStack">
                 <interceptor-ref name="i18n"/>
@@ -46,7 +46,7 @@
                 <interceptor-ref name="paramsPrepareParamsStack" />
             </interceptor-stack>
 	    </interceptors>
-	    <default-interceptor-ref name="i18nStack"/>
+	    <default-interceptor-ref name="i18nStack"/> -->
 	    <default-action-ref name="home"/>
 	    
 		<action name="home"
@@ -213,6 +213,13 @@
 		<action name="girlReserveShopJson/*"
 			class="com.nightclub.view.ShopReserveInfoAction" method="girlReserveInfo">
 			<param name="lookupDate">{1}</param>
+			<result type="json" />
+		</action>
+		
+		<action name="loadMoreGirlInfos/*/*"
+			class="com.nightclub.view.FrontEndAction" method="loadMoreGirlInfos">
+			<param name="userType">{1}</param>
+			<param name="feedOffset">{2}</param>
 			<result type="json" />
 		</action>
     </package>
@@ -1247,6 +1254,49 @@
 		    <result name="input">/admin/line_notify.jsp</result>
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/line_notify.jsp</result>
+		</action>
+		
+		<action name="nationality"
+			class="com.nightclub.view.NationalityInfoAction" method="execute">
+			<param name="menu">nationality</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">nationality.jsp</result>
+		</action>
+		
+		<action name="nationality/*"
+			class="com.nightclub.view.NationalityInfoAction" method="{1}">
+			<param name="menu">nationality</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" type="redirect">nationality</result>
+		</action>
+		
+		<action name="nationality/edit/*"
+			class="com.nightclub.view.NationalityInfoAction" method="edit">
+			<param name="menu">nationality</param>
+			<param name="nationalityInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" >/admin/nationality.jsp</result>
+		</action>
+		
+		<action name="nationality/delete/*"
+			class="com.nightclub.view.NationalityInfoAction" method="delete">
+			<param name="menu">nationality</param>
+			<param name="nationalityInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="input" >/admin/nationality.jsp</result>
+			<result name="success" type="redirect">nationality</result>
+		</action>
+		
+		<action name="nationality/search"
+			class="com.nightclub.view.NationalityInfoAction" method="search">
+			<param name="menu">nationality</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/nationality.jsp</result>
 		</action>
 	</package>
 

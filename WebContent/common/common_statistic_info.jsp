@@ -202,7 +202,7 @@ $(document)
 						</s:if>
 					</div>
 				</div>
-				<div class="ui divider"></div>
+				<%-- <div class="ui divider"></div>
 				<a class="ui tiny item" href="<s:url value="?request_cookie_locale=jp"/>">
 					<i class="jp flag"></i>
 					JP
@@ -210,7 +210,7 @@ $(document)
 				<a class="ui tiny item" href="<s:url value="?request_cookie_locale=th"/>">
 					<i class="th flag"></i>
 					TH
-				</a>
+				</a> --%>
 			</div>
 	  	</div>
 	</div>

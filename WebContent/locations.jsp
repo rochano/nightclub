@@ -112,12 +112,12 @@
 					<i class="right chevron icon divider"></i>
 					<div class="active section">
 						<s:if test="zoneInfo != null">
-							<s:if test="#request.locale.language=='th'">
+							<%--<s:if test="#request.locale.language=='th'">
 								<s:text name="zoneInfo.zoneNameEn" />
 							</s:if>
-							<s:else>
+							<s:else>--%>
 								<s:text name="zoneInfo.zoneNameJp" />
-							</s:else>
+							<%--</s:else>--%>
 						</s:if>
 					</div>
 				</div>
@@ -128,12 +128,12 @@
 							<i class="bookmark icon yellow"></i>
 							<div class="content">
 								<s:if test="zoneInfo != null">
-									<s:if test="#request.locale.language=='th'">
+									<%--<s:if test="#request.locale.language=='th'">
 										<s:text name="zoneInfo.zoneNameEn" />
 									</s:if>
-									<s:else>
+									<s:else>--%>
 										<s:text name="zoneInfo.zoneNameJp" />
-									</s:else>
+									<%--</s:else>--%>
 								</s:if>
 							</div>
 						</h2>
@@ -204,12 +204,12 @@
 											</s:elseif>
 											<i class="marker icon"></i>
 											<s:if test="zoneInfo != null">
-												<s:if test="#request.locale.language=='th'">
+												<%--<s:if test="#request.locale.language=='th'">
 													<s:text name="zoneInfo.zoneNameEn" />
 												</s:if>
-												<s:else>
+												<s:else>--%>
 													<s:text name="zoneInfo.zoneNameJp" />
-												</s:else>
+												<%--</s:else>--%>
 											</s:if>
 										</div>
 									</div>

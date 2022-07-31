@@ -495,6 +495,16 @@
 		<div class="inline field">
 			<s:select list="ageList" name="girlInfo.age" key="global.age"></s:select>
 		</div>
+		<div class="inline field">
+			<s:i18n name="global_th">
+				<s:select list="nationalityInfos"
+					listKey="nationalityInfoId" listValue="nationalityNameEn"
+					key="global.nationality" 
+					cssClass="ui search dropdown" 
+					name="girlInfo.nationalityInfoId">
+				</s:select>
+			</s:i18n>
+		</div>
 		<div class="inline fields">
 			<label><s:text name="global.body_size" /> :</label>
 			<div class="field">

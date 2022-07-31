@@ -11,6 +11,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
 
+import com.nightclub.model.AgentGirlInfo;
+import com.nightclub.model.FreeAgentGirlInfo;
 import com.nightclub.model.FrontSearch;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlLocation;
@@ -473,7 +475,7 @@ public class GirlInfoManager extends HibernateUtil {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<GirlInfo> search(FrontSearch frontSearch) {
+	public List<GirlInfo> search(FrontSearch frontSearch, int feedLimit, int feedOffset) {
 		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -529,6 +531,9 @@ public class GirlInfoManager extends HibernateUtil {
 				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
 					sql += " and girlInfo.nickName like :nickName ";
 				}
+				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
+					sql += " and girlInfo.nationalityInfoId in (:nationalityInfoIdList) ";
+				}
 				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
 				query = session.createQuery(sql.toString());
 				query = query.setParameter("availableShopGirlInfo", Boolean.TRUE.toString().toLowerCase());
@@ -547,12 +552,24 @@ public class GirlInfoManager extends HibernateUtil {
 				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
 					query = query.setParameter("nickName", "%" + frontSearch.getNickName() + "%");
 				}
+				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
+					query = query.setParameterList("nationalityInfoIdList", frontSearch.getNationalityInfos().toArray());
+				}
 				query = query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
+				query = query.setParameter("feedLimit", feedLimit);
+				query = query.setParameter("feedOffset", feedOffset);
+				query = query.setFirstResult(feedLimit);
+				query = query.setMaxResults(feedOffset);
 				shopGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = shopGirlInfoList.iterator();
 				while(it.hasNext()) {
 					girlInfo = (GirlInfo) it.next();
 					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
+					while(itGirlLocation.hasNext()) {
+						GirlLocation girlLocation = itGirlLocation.next();
+						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
+					}
 					girlInfo.setGirlLocations(girlLocations);
 				}
 				girlInfos.addAll(shopGirlInfoList);
@@ -578,11 +595,14 @@ public class GirlInfoManager extends HibernateUtil {
 				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
 					sql += " and girlInfo.nickName like :nickName ";
 				}
+				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
+					sql += " and girlInfo.nationalityInfoId in (:nationalityInfoIdList) ";
+				}
 				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
 				query = session.createQuery(sql.toString());
 				query = query.setParameter("availableAgentGirlInfo", Boolean.TRUE.toString().toLowerCase());
 				if (frontSearch.getChkAgents() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkAgents())) {
-					if (!frontSearch.getAgentInfoId().isEmpty()) {
+					if (frontSearch.getAgentInfoId() != null && !frontSearch.getAgentInfoId().isEmpty()) {
 						query = query.setParameter("agentInfoId", frontSearch.getAgentInfoId());
 					}
 				}
@@ -598,13 +618,24 @@ public class GirlInfoManager extends HibernateUtil {
 				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
 					query = query.setParameter("nickName", "%" + frontSearch.getNickName() + "%");
 				}
+				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
+					query = query.setParameterList("nationalityInfoIdList", frontSearch.getNationalityInfos().toArray());
+				}
 				query = query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
+				query = query.setFirstResult(feedOffset);
+				query = query.setMaxResults(feedLimit);
 				agentGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = agentGirlInfoList.iterator();
 				while(it.hasNext()) {
 					girlInfo = (GirlInfo) it.next();
 					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
+					while(itGirlLocation.hasNext()) {
+						GirlLocation girlLocation = itGirlLocation.next();
+						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
+					}
 					girlInfo.setGirlLocations(girlLocations);
+					((AgentGirlInfo)girlInfo).setGirlServices(new ArrayList());
 				}
 				girlInfos.addAll(agentGirlInfoList);
 			}
@@ -626,6 +657,9 @@ public class GirlInfoManager extends HibernateUtil {
 				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
 					sql += " and girlInfo.nickName like :nickName ";
 				}
+				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
+					sql += " and girlInfo.nationalityInfoId in (:nationalityInfoIdList) ";
+				}
 				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
 				query = session.createQuery(sql.toString());
 				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
@@ -640,13 +674,24 @@ public class GirlInfoManager extends HibernateUtil {
 				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
 					query = query.setParameter("nickName", "%" + frontSearch.getNickName() + "%");
 				}
+				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
+					query = query.setParameterList("nationalityInfoIdList", frontSearch.getNationalityInfos().toArray());
+				}
 				query = query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
+				query = query.setFirstResult(feedOffset);
+				query = query.setMaxResults(feedLimit);
 				freeAgentGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = freeAgentGirlInfoList.iterator();
 				while(it.hasNext()) {
 					girlInfo = (GirlInfo) it.next();
 					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
+					while(itGirlLocation.hasNext()) {
+						GirlLocation girlLocation = itGirlLocation.next();
+						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
+					}
 					girlInfo.setGirlLocations(girlLocations);
+					((FreeAgentGirlInfo)girlInfo).setGirlServices(new ArrayList());
 				}
 				girlInfos.addAll(freeAgentGirlInfoList);
 			}
@@ -668,6 +713,9 @@ public class GirlInfoManager extends HibernateUtil {
 				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
 					sql += " and girlInfo.nickName like :nickName ";
 				}
+				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
+					sql += " and girlInfo.nationalityInfoId in (:nationalityInfoIdList) ";
+				}
 				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
 				query = session.createQuery(sql.toString());
 				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
@@ -682,12 +730,22 @@ public class GirlInfoManager extends HibernateUtil {
 				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
 					query = query.setParameter("nickName", "%" + frontSearch.getNickName() + "%");
 				}
+				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
+					query = query.setParameterList("nationalityInfoIdList", frontSearch.getNationalityInfos().toArray());
+				}
 				query = query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
+				query = query.setFirstResult(feedOffset);
+				query = query.setMaxResults(feedLimit);
 				enGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = enGirlInfoList.iterator();
 				while(it.hasNext()) {
 					girlInfo = (GirlInfo) it.next();
 					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
+					while(itGirlLocation.hasNext()) {
+						GirlLocation girlLocation = itGirlLocation.next();
+						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
+					}
 					girlInfo.setGirlLocations(girlLocations);
 				}
 				girlInfos.addAll(enGirlInfoList);

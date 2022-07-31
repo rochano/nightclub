@@ -8,9 +8,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.Length;
 
 @Entity
@@ -40,6 +44,9 @@ public class GirlInfo extends BaseModel implements Serializable{
 	private String available;
 	private String allSame;
 	private String lineId;
+	private String nationalityInfoId;
+	
+	private NationalityInfo nationalityInfo;
 	
 //	private ZoneInfo zoneInfo;
 	
@@ -151,6 +158,16 @@ public class GirlInfo extends BaseModel implements Serializable{
 		}
 		return lineId;
 	}
+	@Column(name="nationality_info_id")
+	public String getNationalityInfoId() {
+		return nationalityInfoId;
+	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="nationality_info_id", referencedColumnName="nationality_info_id", insertable=false, updatable=false)
+	public NationalityInfo getNationalityInfo() {
+		return nationalityInfo;
+	}
 	public void setGirlInfoId(String girlInfoId) {
 		this.girlInfoId = girlInfoId;
 	}
@@ -231,5 +248,11 @@ public class GirlInfo extends BaseModel implements Serializable{
 	}
 	public void setLineId(String lineId) {
 		this.lineId = lineId;
+	}
+	public void setNationalityInfoId(String nationalityInfoId) {
+		this.nationalityInfoId = nationalityInfoId;
+	}
+	public void setNationalityInfo(NationalityInfo nationalityInfo) {
+		this.nationalityInfo = nationalityInfo;
 	}
 }
