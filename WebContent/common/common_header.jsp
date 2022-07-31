@@ -152,6 +152,7 @@
 				var feedOffset = $('.ui.card', '.ui.cards').length;
 				this_.empty()
 				this_.text('...');
+				this_.attr("disabled","disabled");
 				$.getJSON("<s:url value="/ajax/loadMoreGirlInfos/" />" + userType + "/" + feedOffset,
 					$("#searchForm").serialize(),
 					function(jsonResponse) {
@@ -208,6 +209,16 @@
 						});
 						this_.empty()
 						this_.text('LOAD MORE');
+						this_.removeAttr("disabled");
+						<s:if test="clientInfo != null"></s:if>
+						<s:else>
+						$('.toggleFavourite').popup('destroy');
+						$('.toggleFavourite')
+							.popup({
+								on: 'click'
+							})
+						;
+						</s:else>
 				});
 	    })
 	});

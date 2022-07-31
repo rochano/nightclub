@@ -57,8 +57,20 @@
   <script type="text/javascript">
   $(document)
     .ready(function() {
-    	<s:if test="clientInfo != null">
-		$(".toggleFavourite").click(function() {
+    	<s:if test="clientInfo != null"></s:if>
+		<s:else>
+		$('.toggleFavourite')
+			.popup({
+				on: 'click'
+			})
+		;
+		</s:else>
+    	$('.ui.dropdown')
+    	  .dropdown()
+    	;
+	});
+ 	<s:if test="clientInfo != null">
+		$(".toggleFavourite").live('click', function() {
 			var favouriteIcon = $(this).find("i");
 			var girlInfoId = $(this).attr("data-girlInfoId");
 			var favourite = 0;
@@ -83,20 +95,9 @@
 					favouriteIcon.removeClass("red");
 					favouriteIcon.addClass("outline")
 				}
-  			});
+			});
 		});
-		</s:if>
-		<s:else>
-		$('.toggleFavourite')
-			.popup({
-				on: 'click'
-			})
-		;
-		</s:else>
-    	$('.ui.dropdown')
-    	  .dropdown()
-    	;
-	});
+	</s:if>
   	function getCustomDescription(obj) {
 		var infoHtml = "";
 		infoHtml += '		<s:property value="agentInfo.agentName" />';

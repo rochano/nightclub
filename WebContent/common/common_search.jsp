@@ -7,9 +7,15 @@
   .ui.form .inline.field > label {
   	color: rgba(255, 255, 255, 0.9);
   }
-  .ui.checkbox label, .ui.form select {
+  .ui.checkbox label, .ui.form select, .ui.form .field > label {
   	display: inline-block;
   	width: auto;
+  }
+  @media only screen and (max-width: 767px) {
+  	.ui.form select, ui.form .field > label {
+	  	display: block;
+	  	width: 100%;
+	  }
   }
   ui.form select {
     margin-top: 0em;
@@ -32,12 +38,7 @@
   	-webkit-flex-grow: 0;
   	-ms-flex-positive: 0;
   }
-  .ui.form select {
-  	width: 150px;
-  }
-  .ui.form .inline.field > :first-child {
-  
-  
+  .ui.form .field > :first-child {
   	width: 150px;
   }
   </style>
@@ -77,7 +78,7 @@
 								<s:set var="userTypeFreeAgent"><%=IConstants.USER_TYPE_FREE_AGENT%></s:set>
 								<s:set var="userTypeEnGirl"><%=IConstants.USER_TYPE_EN_GIRL%></s:set>
 								<s:if test="%{#userType == #userTypeShop}">
-									<div class="inline field">
+									<div class="field">
 										<label><s:text name="global.main_menu_service_shop" /></label>
 										<input type="hidden" name="frontSearch.chkCategory" id="frontSearch_chkCategory" value="true" />
 										<%--<s:if test="#request.locale.language=='th'">
@@ -103,7 +104,7 @@
 									</div>
 								</s:if>
 								<s:if test="%{#userType == #userTypeAgent}">
-									<div class="inline field">
+									<div class="field">
 										<label><s:text name="global.main_menu_agents" /></label>
 										<input type="hidden" name="frontSearch.chkAgents" id="frontSearch_chkAgents" value="true" />
 										<select name="frontSearch.agentInfoId" id="frontSearch_agentInfoId">
@@ -122,7 +123,7 @@
 								<s:if test="%{#userType == #userTypeEnGirl}">
 									<input type="hidden" name="frontSearch.chkEnGirls" id="frontSearch_chkEnGirls" value="true" />
 								</s:if>
-								<div class="inline field">
+								<div class="field">
 									<label><s:text name="global.gender_specify" /></label>
 									<s:select list="#{'':'',
 										'Straight':getText('global.gender_straight'),
@@ -170,7 +171,7 @@
 									</div>
 								</div>
 								<br/>
-								<div class="inline field">
+								<div class="field">
 									<label><s:text name="global.incall_outcall_specify" /></label>
 									<select name="frontSearch.incallOutcall" id="frontSearch_incallOutcall">
 										<option value=""></option>
