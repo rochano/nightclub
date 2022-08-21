@@ -433,7 +433,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	}
 	
 	public String girllist() {
-		this.girlInfos = girlInfoManager.search(new FrontSearch());
+		this.girlInfos = girlInfoManager.search(new FrontSearch(), -1, 0);
 		this.zoneInfos = zoneInfoManager.list();
 		this.categoryInfos = categoryInfoManager.list();
 		this.agentInfos = agentInfoManager.list();
@@ -463,7 +463,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	}
 	
 	public String girlsearch() {
-		this.girlInfos = girlInfoManager.search(getGirlSearch());
+		this.girlInfos = girlInfoManager.search(getGirlSearch(), -1, 0);
 		this.zoneInfos = zoneInfoManager.list();
 		this.categoryInfos = categoryInfoManager.list();
 		this.agentInfos = agentInfoManager.list();

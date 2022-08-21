@@ -75,6 +75,7 @@
     ;
       $("#addbtn")
 		.on('click', function() {
+		  $('.ui.modal .header:first').text("<s:text name="global.add_information" /><s:text name="global.menu_system" />");
 		  $('#infoForm').find("input[type=text], input[type=hidden], textarea").val("");
 		  $('#infoForm')[0].action.value = "add";
 		  $('#infoForm')[0].action = "<s:url value="/management/system/add"/>";

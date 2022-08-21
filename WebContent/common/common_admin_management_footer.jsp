@@ -20,7 +20,9 @@
 			<a href="<s:url value="/admin/skin"/>"><span><s:text name="global.skin" /></span></a> |
 			<a href="<s:url value="/admin/howtoinput"/>"><span><s:text name="global.how_to_input" /></span></a> |
 			<a href="<s:url value="/admin/lineNotify"/>"><span><s:text name="global.menu_line_notify" /></span></a> |
-			<a href="<s:url value="/admin/nationality"/>"><span><s:i18n name="global_th"><s:text name="global.nationality" /></s:i18n></span></a>
+			<a href="<s:url value="/admin/nationality"/>"><span><s:i18n name="global_th"><s:text name="global.nationality" /></s:i18n></span></a> |
+			<a href="<s:url value="/admin/country"/>"><span><s:i18n name="global_th"><s:text name="global.country" /></s:i18n></span></a> |
+			<a href="<s:url value="/admin/province"/>"><span><s:i18n name="global_th"><s:text name="global.province" /></s:i18n></span></a>
 		</p></div>
 		<p class="copy">COPYRIGHT(C) ALL RIGHTS RESERVED.</p>
 	</div>

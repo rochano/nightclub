@@ -60,8 +60,30 @@
     	 $("#frontSearch_chkEnGirls").val("true");
      });
      $('#searchForm.ui.form').slideDown('slow');
+     $("#frontSearch_countryInfoId").change(function() {
+    	  	var countryInfoId = $(this).val();
+    	  	loadProvince(countryInfoId, '#provinceInfos');
+ 	  });
     })
   ;
+  function loadProvince(countryInfoId, provinceInfosElmId) {
+	  $.getJSON("<s:url value="/ajax/loadProvinceByCountry/" />" + countryInfoId, 
+			function(jsonResponse) {
+				var provinceInfos = $(provinceInfosElmId);
+				provinceInfos.empty();
+			     $.each(jsonResponse.provinceInfos, function(i, obj) {
+					var html = '';
+					html += '<div class="column">';
+					html += '	<div class="field ui checkbox">';
+					html += '		<input type="checkbox" name="frontSearch.provinceInfos" id="provinceInfos_' + i + '"';
+					html += '			value="' + obj.provinceInfoId + '">';
+					html += '		<label for="provinceInfos_' + i + '">' + obj.provinceNameJp + '</label>';
+					html += '	</div>';
+					html += '</div>';
+			       $(html).appendTo(provinceInfos);
+			     });
+			});
+   }
   </script>
 				<div class="center aligned column">
 					<div class="ui segment header">
@@ -179,14 +201,14 @@
 										<option value="outcall" <s:if test="frontSearch.incallOutcall == 'outcall'">selected="selected"</s:if>><s:text name="global.outcall" /></option>
 									</select>
 								</div>
-								<div class="ui inverted accordion">
+								<%-- <div class="ui inverted accordion">
 									<div class="title">
 										<label><s:text name="global.location_specify" /></label>
 										<i class="dropdown icon"></i>
 									</div>
 									<div class="content">
 										<div class="ui four column grid doubling">
-											<%--<s:if test="#request.locale.language=='th'">
+											<s:if test="#request.locale.language=='th'">
 												<s:iterator value="zoneInfos" status="rowstatus">
 													<div class="column">
 														<div class="field ui checkbox">
@@ -201,7 +223,7 @@
 													</div>
 												</s:iterator>
 											</s:if>
-											<s:else>--%>
+											<s:else>
 												<s:iterator value="zoneInfos" status="rowstatus">
 													<div class="column">
 														<div class="field ui checkbox">
@@ -215,7 +237,38 @@
 														</div>
 													</div>
 												</s:iterator>
-											<%--</s:else>--%>
+											</s:else>
+										</div>
+									</div>
+								</div> --%>
+								<div class="field">
+									<s:select list="countryInfos"
+										listKey="countryInfoId" listValue="countryNameJp"
+										key="global.country" 
+										headerKey="" headerValue=""
+										name="frontSearch.countryInfoId">
+									</s:select>
+								</div>
+								<div class="ui inverted accordion">
+									<h4 class="title">
+										<s:text name="global.province" /> :
+										<i class="dropdown icon"></i>
+									</h4>
+									<div class="content">
+										<div class="ui four column grid doubling" id="provinceInfos">
+											<s:iterator value="provinceInfos" status="rowstatus">
+												<div class="column">
+													<div class="field ui checkbox">
+														<input type="checkbox" name="frontSearch.provinceInfos" id="provinceInfos_<s:property value="#rowstatus.count" />"
+															<s:iterator value="frontSearch.provinceInfos" >
+																<s:property value="top" />
+																<s:if test="top == provinceInfoId">checked="checked"</s:if>
+															</s:iterator>
+															value="<s:property value="provinceInfoId" />">
+														<label for="provinceInfos_<s:property value="#rowstatus.count" />"><s:property value="provinceNameJp" /></label>
+													</div>
+												</div>
+											</s:iterator>
 										</div>
 									</div>
 								</div>

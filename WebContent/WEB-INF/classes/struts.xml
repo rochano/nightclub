@@ -222,6 +222,12 @@
 			<param name="feedOffset">{2}</param>
 			<result type="json" />
 		</action>
+		
+		<action name="loadProvinceByCountry/*"
+			class="com.nightclub.view.ProvinceInfoAction" method="loadProvinceByCountry">
+			<param name="countryInfoId">{1}</param>
+			<result type="json" />
+		</action>
     </package>
 	
 	<package name="shop" extends="struts-default" namespace="/shop">
@@ -1297,6 +1303,92 @@
 			<interceptor-ref name="adminStack" />
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/nationality.jsp</result>
+		</action>
+		
+		<action name="country"
+			class="com.nightclub.view.CountryInfoAction" method="execute">
+			<param name="menu">country</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">country.jsp</result>
+		</action>
+		
+		<action name="country/*"
+			class="com.nightclub.view.CountryInfoAction" method="{1}">
+			<param name="menu">country</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" type="redirect">country</result>
+		</action>
+		
+		<action name="country/edit/*"
+			class="com.nightclub.view.CountryInfoAction" method="edit">
+			<param name="menu">country</param>
+			<param name="countryInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" >/admin/country.jsp</result>
+		</action>
+		
+		<action name="country/delete/*"
+			class="com.nightclub.view.CountryInfoAction" method="delete">
+			<param name="menu">country</param>
+			<param name="countryInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="input" >/admin/country.jsp</result>
+			<result name="success" type="redirect">country</result>
+		</action>
+		
+		<action name="country/search"
+			class="com.nightclub.view.CountryInfoAction" method="search">
+			<param name="menu">country</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/country.jsp</result>
+		</action>
+		
+		<action name="province"
+			class="com.nightclub.view.ProvinceInfoAction" method="execute">
+			<param name="menu">province</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">province.jsp</result>
+		</action>
+		
+		<action name="province/*"
+			class="com.nightclub.view.ProvinceInfoAction" method="{1}">
+			<param name="menu">province</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" type="redirect">province</result>
+		</action>
+		
+		<action name="province/edit/*"
+			class="com.nightclub.view.ProvinceInfoAction" method="edit">
+			<param name="menu">province</param>
+			<param name="provinceInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" >/admin/province.jsp</result>
+		</action>
+		
+		<action name="province/delete/*"
+			class="com.nightclub.view.ProvinceInfoAction" method="delete">
+			<param name="menu">province</param>
+			<param name="provinceInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="input" >/admin/province.jsp</result>
+			<result name="success" type="redirect">province</result>
+		</action>
+		
+		<action name="province/search"
+			class="com.nightclub.view.ProvinceInfoAction" method="search">
+			<param name="menu">province</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/province.jsp</result>
 		</action>
 	</package>
 

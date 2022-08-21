@@ -18,3 +18,5 @@
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('howtoinput')}">active</s:if>" href="<s:url value="/admin/howtoinput"/>"><i class="file outline icon"></i><s:text name="global.how_to_input" /></a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('linenotify')}">active</s:if>" href="<s:url value="/admin/linenotify"/>"><i class="announcement icon"></i><s:text name="global.menu_line_notify" /></a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('nationality')}">active</s:if>" href="<s:url value="/admin/nationality"/>"><i class="flag icon"></i><s:i18n name="global_th"><s:text name="global.nationality" /></s:i18n></a>
+	<a class="item <s:if test="%{menu.equalsIgnoreCase('country')}">active</s:if>" href="<s:url value="/admin/country"/>"><i class="world icon"></i><s:i18n name="global_th"><s:text name="global.country" /></s:i18n></a>
+	<a class="item <s:if test="%{menu.equalsIgnoreCase('province')}">active</s:if>" href="<s:url value="/admin/province"/>"><i class="map icon"></i><s:i18n name="global_th"><s:text name="global.province" /></s:i18n></a>

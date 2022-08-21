@@ -117,6 +117,7 @@
 
       $("#addbtn")
 		.on('click', function() {
+		  $('.ui.modal .header:first').text("<s:text name="global.add_information" /><s:text name="global.shop_category" />");
 		  $('#infoForm').find("input[type=text], input[type=hidden], textarea").val("");
 		  CKEDITOR.instances.categoryInfo_description.setData('');
 		  $('#infoForm').find(".event:gt(0)").remove();

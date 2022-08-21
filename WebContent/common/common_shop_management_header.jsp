@@ -89,7 +89,7 @@
       $('.ui.sidebar')
       .sidebar('attach events', '.toc.item')
     	;
-      $('.ui.accordion')
+      $('.container > .ui.accordion')
       .accordion()
     ;
       dataTable = $("#searchList").dataTable({

@@ -19,6 +19,8 @@ public class FrontSearch implements Serializable {
 	private String incallOutcall;
 	private String nickName;
 	private List<String> nationalityInfos;
+	private String countryInfoId;
+	private List<String> provinceInfos;
 
 	public String getChkCategory() {
 		return chkCategory;
@@ -91,6 +93,18 @@ public class FrontSearch implements Serializable {
 	}
 	public void setNationalityInfos(List<String> nationalityInfos) {
 		this.nationalityInfos = nationalityInfos;
+	}
+	public String getCountryInfoId() {
+		return countryInfoId;
+	}
+	public List<String> getProvinceInfos() {
+		return provinceInfos;
+	}
+	public void setCountryInfoId(String countryInfoId) {
+		this.countryInfoId = countryInfoId;
+	}
+	public void setProvinceInfos(List<String> provinceInfos) {
+		this.provinceInfos = provinceInfos;
 	}
 	
 }

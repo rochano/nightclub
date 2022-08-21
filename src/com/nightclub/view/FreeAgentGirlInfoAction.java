@@ -9,18 +9,22 @@ import java.util.logging.Logger;
 
 import org.apache.struts2.interceptor.SessionAware;
 
+import com.nightclub.controller.CountryInfoManager;
 import com.nightclub.controller.FreeAgentGirlInfoManager;
 import com.nightclub.controller.GirlSettingManager;
 import com.nightclub.controller.NationalityInfoManager;
+import com.nightclub.controller.ProvinceInfoManager;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
+import com.nightclub.model.CountryInfo;
 import com.nightclub.model.FreeAgentGirlInfo;
 import com.nightclub.model.GirlInfo;
-import com.nightclub.model.GirlLocation;
+import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
 import com.nightclub.model.GirlSetting;
 import com.nightclub.model.NationalityInfo;
+import com.nightclub.model.ProvinceInfo;
 import com.nightclub.model.UserInfo;
 import com.nightclub.model.ZoneInfo;
 import com.nightclub.util.UploadFileUtils;
@@ -41,6 +45,8 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	private GirlSettingManager girlSettingManager;
 	private ZoneInfoManager zoneInfoManager;
 	private NationalityInfoManager nationalityInfoManager;
+	private CountryInfoManager countryInfoManager;
+	private ProvinceInfoManager provinceInfoManager;
  
 	private List<GirlServiceInfo> girlServiceInfos;
 	private List<String> girlServices;
@@ -54,6 +60,9 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	private List<ZoneInfo> zoneInfos;
 	private List<String> girlLocations;
 	private List<NationalityInfo> nationalityInfos;
+	private List<CountryInfo> countryInfos;
+	private List<ProvinceInfo> provinceInfos;
+	private List<String> girlProvinces;
 	
     private String pic1FileName;
     private String pic2FileName;
@@ -68,6 +77,8 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		zoneInfoManager = new ZoneInfoManager();
 		girlServices = new ArrayList();
 		nationalityInfoManager = new NationalityInfoManager();
+		countryInfoManager = new CountryInfoManager();
+		provinceInfoManager = new ProvinceInfoManager();
 	}
 
 	public String execute() {
@@ -85,13 +96,25 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 				}
 			}
 		}
-		this.girlLocations = new ArrayList<String>();
-		if (this.girlInfo != null) {
-			List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
-			if(girlLocations != null) {
-				for(GirlLocation girlLocation : girlLocations) {
-					this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
-				}
+//		this.girlLocations = new ArrayList<String>();
+//		if (this.girlInfo != null) {
+//			List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
+//			if(girlLocations != null) {
+//				for(GirlLocation girlLocation : girlLocations) {
+//					this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
+//				}
+//			}
+//		}
+		if(this.girlInfo.getCountryInfoId() != null && !"".equals(this.girlInfo.getCountryInfoId())) {
+			this.provinceInfos = provinceInfoManager.listByCountry(this.girlInfo.getCountryInfoId());
+		} else if(this.countryInfos.size() > 0){
+			this.provinceInfos = provinceInfoManager.listByCountry(this.countryInfos.get(0).getCountryInfoId());
+		}
+		this.girlProvinces = new ArrayList<String>();
+		List<GirlProvince> girlProvinces = girlInfoManager.getGirlProvinceListByGirlInfoId(this.girlInfo.getGirlInfoId());
+		if(girlProvinces != null) {
+			for(GirlProvince girlProvince : girlProvinces) {
+				this.girlProvinces.add(girlProvince.getProvinceInfo().getProvinceInfoId());
 			}
 		}
 		if (this.girlInfo == null) {
@@ -191,16 +214,27 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	            	girlService.setFreeAgentGirlInfo(this.girlInfo);
 	            	this.girlInfo.getGirlServices().add(girlService);
 				}
-	            this.girlInfo.getGirlLocations().clear();
-	            GirlLocation girlLocation;
-	            for(String zoneInfoId : this.getGirlLocations()) {
-	            	ZoneInfo zoneInfo = new ZoneInfo();
-	            	zoneInfo.setZoneInfoId(zoneInfoId);
+//	            this.girlInfo.getGirlLocations().clear();
+//	            GirlLocation girlLocation;
+//	            for(String zoneInfoId : this.getGirlLocations()) {
+//	            	ZoneInfo zoneInfo = new ZoneInfo();
+//	            	zoneInfo.setZoneInfoId(zoneInfoId);
+//
+//	            	girlLocation = new GirlLocation();
+//	            	girlLocation.setZoneInfo(zoneInfo);
+//	            	girlLocation.setGirlInfo(this.girlInfo);
+//					this.girlInfo.getGirlLocations().add(girlLocation);
+//				}
+	            this.girlInfo.getGirlProvinces().clear();
+	            GirlProvince girlProvince;
+	            for(String provinceInfoId : this.girlProvinces) {
+	            	ProvinceInfo provinceInfo = new ProvinceInfo();
+	            	provinceInfo.setProvinceInfoId(provinceInfoId);
 
-	            	girlLocation = new GirlLocation();
-	            	girlLocation.setZoneInfo(zoneInfo);
-	            	girlLocation.setGirlInfo(this.girlInfo);
-					this.girlInfo.getGirlLocations().add(girlLocation);
+	            	girlProvince = new GirlProvince();
+	            	girlProvince.setProvinceInfo(provinceInfo);
+	            	girlProvince.setGirlInfo(this.girlInfo);
+					this.girlInfo.getGirlProvinces().add(girlProvince);
 				}
 	            
 	        } catch (Exception e) {
@@ -412,6 +446,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		this.weightList = makeList(girlSetting.getWeightFrom(), girlSetting.getWeightTo());
 		this.zoneInfos = zoneInfoManager.list();
 		this.nationalityInfos = nationalityInfoManager.list();
+		this.countryInfos = countryInfoManager.list();
 	}
 
 	public List<String> getGirlLocations() {
@@ -431,5 +466,29 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 
 	public void setNationalityInfos(List<NationalityInfo> nationalityInfos) {
 		this.nationalityInfos = nationalityInfos;
+	}
+
+	public List<CountryInfo> getCountryInfos() {
+		return countryInfos;
+	}
+
+	public List<ProvinceInfo> getProvinceInfos() {
+		return provinceInfos;
+	}
+
+	public List<String> getGirlProvinces() {
+		return girlProvinces;
+	}
+
+	public void setCountryInfos(List<CountryInfo> countryInfos) {
+		this.countryInfos = countryInfos;
+	}
+
+	public void setProvinceInfos(List<ProvinceInfo> provinceInfos) {
+		this.provinceInfos = provinceInfos;
+	}
+
+	public void setGirlProvinces(List<String> girlProvinces) {
+		this.girlProvinces = girlProvinces;
 	}
 }

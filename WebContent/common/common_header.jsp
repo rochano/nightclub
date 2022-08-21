@@ -196,12 +196,20 @@
 								});
 							</s:if>
 							<s:else> --%>
-								$.each(obj.girlLocations, function(j, objLocation) {
+							<%-- 	$.each(obj.girlLocations, function(j, objLocation) {
 									infoHtml += '					<div class="ui medium label">';
 									infoHtml += objLocation.primaryKey.zoneInfo.zoneNameJp;
 									infoHtml += '					</div>';
-								});
+								}); --%>
 							<%-- </s:else> --%>
+							if (obj.countryInfo) {
+								infoHtml += '		' + obj.countryInfo.countryNameJp;
+							}
+							$.each(obj.girlProvinces, function(j, objProvince) {
+								infoHtml += '					<div class="ui medium label">';
+								infoHtml += objProvince.primaryKey.provinceInfo.provinceNameJp;
+								infoHtml += '					</div>';
+							});
 							infoHtml += '		</div>';
 							infoHtml += '	</div>';
 							infoHtml += '</div>';

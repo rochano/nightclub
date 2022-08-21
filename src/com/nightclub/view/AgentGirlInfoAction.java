@@ -13,18 +13,22 @@ import org.cloudinary.json.JSONObject;
 
 import com.nightclub.controller.AgentGirlInfoManager;
 import com.nightclub.controller.AgentInfoManager;
+import com.nightclub.controller.CountryInfoManager;
 import com.nightclub.controller.GirlSettingManager;
 import com.nightclub.controller.NationalityInfoManager;
+import com.nightclub.controller.ProvinceInfoManager;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.AgentGirlInfo;
 import com.nightclub.model.AgentInfo;
+import com.nightclub.model.CountryInfo;
 import com.nightclub.model.GirlInfo;
-import com.nightclub.model.GirlLocation;
+import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
 import com.nightclub.model.GirlSetting;
 import com.nightclub.model.NationalityInfo;
+import com.nightclub.model.ProvinceInfo;
 import com.nightclub.model.UserInfo;
 import com.nightclub.model.ZoneInfo;
 import com.nightclub.util.UploadFileUtils;
@@ -34,12 +38,14 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	
 	private static final long serialVersionUID = 1L;
 	Logger log_ = Logger.getLogger(this.getClass().getName());
-	
+
 	private Map<String, Object> sessionMap;
 	private List<GirlInfo> girlInfos;
 	private AgentGirlInfo girlInfo;
 	private AgentGirlInfo girlSearch;
-	private List<String> searchGirlLocations;
+//	private List<String> searchGirlLocations;
+	private List<String> searchGirlProvinces;
+	private List<ProvinceInfo> searchProvinceInfos;
 	private String girlInfoId;
 	private String menu;
 	private String action;
@@ -56,6 +62,9 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	private List<ZoneInfo> zoneInfos;
 	private List<String> girlLocations;
 	private List<NationalityInfo> nationalityInfos;
+	private List<CountryInfo> countryInfos;
+	private List<ProvinceInfo> provinceInfos;
+	private List<String> girlProvinces;
 
 	private AgentGirlInfoManager girlInfoManager;
 	private GirlSettingManager girlSettingManager;
@@ -63,6 +72,8 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	private AgentInfoManager agentInfoManager;
 	private UserInfoManager userInfoManager;
 	private NationalityInfoManager nationalityInfoManager;
+	private CountryInfoManager countryInfoManager;
+	private ProvinceInfoManager provinceInfoManager;
 	
     private String pic1FileName;
     private String pic2FileName;
@@ -80,6 +91,8 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 		agentInfoManager = new AgentInfoManager();
 		userInfoManager = new UserInfoManager();
 		nationalityInfoManager = new NationalityInfoManager();
+		countryInfoManager = new CountryInfoManager();
+		provinceInfoManager = new ProvinceInfoManager();
 	}
 	
 	public String execute() {
@@ -150,7 +163,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	            	girlService.setFreeAgentGirlInfo(this.girlInfo);
 					this.girlInfo.getGirlServices().add(girlService);
 				}
-	            this.girlInfo.getGirlLocations().clear();
+	            /*this.girlInfo.getGirlLocations().clear();
 	            GirlLocation girlLocation;
 	            for(String zoneInfoId : this.girlLocations) {
 	            	ZoneInfo zoneInfo = new ZoneInfo();
@@ -160,6 +173,17 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	            	girlLocation.setZoneInfo(zoneInfo);
 	            	girlLocation.setGirlInfo(this.girlInfo);
 					this.girlInfo.getGirlLocations().add(girlLocation);
+				}*/
+	            this.girlInfo.getGirlProvinces().clear();
+	            GirlProvince girlProvince;
+	            for(String provinceInfoId : this.girlProvinces) {
+	            	ProvinceInfo provinceInfo = new ProvinceInfo();
+	            	provinceInfo.setProvinceInfoId(provinceInfoId);
+
+	            	girlProvince = new GirlProvince();
+	            	girlProvince.setProvinceInfo(provinceInfo);
+	            	girlProvince.setGirlInfo(this.girlInfo);
+					this.girlInfo.getGirlProvinces().add(girlProvince);
 				}
 	            
 	        } catch (Exception e) {
@@ -280,7 +304,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	            	girlService.setFreeAgentGirlInfo(this.girlInfo);
 	            	this.girlInfo.getGirlServices().add(girlService);
 				}
-	            this.girlInfo.getGirlLocations().clear();
+	            /*this.girlInfo.getGirlLocations().clear();
 	            GirlLocation girlLocation;
 	            for(String zoneInfoId : this.girlLocations) {
 	            	ZoneInfo zoneInfo = new ZoneInfo();
@@ -290,6 +314,17 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	            	girlLocation.setZoneInfo(zoneInfo);
 	            	girlLocation.setGirlInfo(this.girlInfo);
 					this.girlInfo.getGirlLocations().add(girlLocation);
+				}*/
+	            this.girlInfo.getGirlProvinces().clear();
+	            GirlProvince girlProvince;
+	            for(String provinceInfoId : this.girlProvinces) {
+	            	ProvinceInfo provinceInfo = new ProvinceInfo();
+	            	provinceInfo.setProvinceInfoId(provinceInfoId);
+
+	            	girlProvince = new GirlProvince();
+	            	girlProvince.setProvinceInfo(provinceInfo);
+	            	girlProvince.setGirlInfo(this.girlInfo);
+					this.girlInfo.getGirlProvinces().add(girlProvince);
 				}
 	            
 	        } catch (Exception e) {
@@ -349,11 +384,23 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 				this.girlServices.add(girlService.getGirlServiceInfo().getGirlServiceInfoId());
 			}
 		}
-		this.girlLocations = new ArrayList<String>();
-		List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
-		if(girlLocations != null) {
-			for(GirlLocation girlLocation : girlLocations) {
-				this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
+//		this.girlLocations = new ArrayList<String>();
+//		List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
+//		if(girlLocations != null) {
+//			for(GirlLocation girlLocation : girlLocations) {
+//				this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
+//			}
+//		}
+		if(this.girlInfo.getCountryInfoId() != null && !"".equals(this.girlInfo.getCountryInfoId())) {
+			this.provinceInfos = provinceInfoManager.listByCountry(this.girlInfo.getCountryInfoId());
+		} else if(this.countryInfos.size() > 0){
+			this.provinceInfos = provinceInfoManager.listByCountry(this.countryInfos.get(0).getCountryInfoId());
+		}
+		this.girlProvinces = new ArrayList<String>();
+		List<GirlProvince> girlProvinces = girlInfoManager.getGirlProvinceListByGirlInfoId(this.girlInfo.getGirlInfoId());
+		if(girlProvinces != null) {
+			for(GirlProvince girlProvince : girlProvinces) {
+				this.girlProvinces.add(girlProvince.getProvinceInfo().getProvinceInfoId());
 			}
 		}
 		return SUCCESS;
@@ -371,8 +418,11 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	public String search() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.girlSearch.setAgentInfoId(userInfo.getAgentInfoId());
-		this.girlInfos = girlInfoManager.search(this.girlSearch, this.searchGirlLocations);
+		this.girlInfos = girlInfoManager.search(this.girlSearch, this.searchGirlProvinces);
 		setFormValue(userInfo);
+		if(this.girlSearch.getCountryInfoId() != null && !"".equals(this.girlSearch.getCountryInfoId())) {
+			this.searchProvinceInfos = provinceInfoManager.listByCountry(this.girlSearch.getCountryInfoId());
+		}
 		return SUCCESS;
 	}
 
@@ -600,6 +650,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 		this.weightList = makeList(girlSetting.getWeightFrom(), girlSetting.getWeightTo());
 		this.zoneInfos = zoneInfoManager.list();
 		this.nationalityInfos = nationalityInfoManager.list();
+		this.countryInfos = countryInfoManager.list();
 	}
 
 	public List<ZoneInfo> getZoneInfos() {
@@ -618,13 +669,13 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 		this.girlLocations = girlLocations;
 	}
 
-	public List<String> getSearchGirlLocations() {
-		return searchGirlLocations;
-	}
-
-	public void setSearchGirlLocations(List<String> searchGirlLocations) {
-		this.searchGirlLocations = searchGirlLocations;
-	}
+//	public List<String> getSearchGirlLocations() {
+//		return searchGirlLocations;
+//	}
+//
+//	public void setSearchGirlLocations(List<String> searchGirlLocations) {
+//		this.searchGirlLocations = searchGirlLocations;
+//	}
 
 	public List<NationalityInfo> getNationalityInfos() {
 		return nationalityInfos;
@@ -632,5 +683,45 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 
 	public void setNationalityInfos(List<NationalityInfo> nationalityInfos) {
 		this.nationalityInfos = nationalityInfos;
+	}
+
+	public List<String> getGirlProvinces() {
+		return girlProvinces;
+	}
+
+	public void setGirlProvinces(List<String> girlProvinces) {
+		this.girlProvinces = girlProvinces;
+	}
+
+	public List<CountryInfo> getCountryInfos() {
+		return countryInfos;
+	}
+
+	public List<ProvinceInfo> getProvinceInfos() {
+		return provinceInfos;
+	}
+
+	public void setCountryInfos(List<CountryInfo> countryInfos) {
+		this.countryInfos = countryInfos;
+	}
+
+	public void setProvinceInfos(List<ProvinceInfo> provinceInfos) {
+		this.provinceInfos = provinceInfos;
+	}
+
+	public List<String> getSearchGirlProvinces() {
+		return searchGirlProvinces;
+	}
+
+	public void setSearchGirlProvinces(List<String> searchGirlProvinces) {
+		this.searchGirlProvinces = searchGirlProvinces;
+	}
+
+	public List<ProvinceInfo> getSearchProvinceInfos() {
+		return searchProvinceInfos;
+	}
+
+	public void setSearchProvinceInfos(List<ProvinceInfo> searchProvinceInfos) {
+		this.searchProvinceInfos = searchProvinceInfos;
 	}
 }

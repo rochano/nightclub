@@ -8,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.location" /></title>
+  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:i18n name="global_th"><s:text name="global.province" /></s:i18n></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
 
@@ -75,10 +75,10 @@
     ;
       $("#addbtn")
 		.on('click', function() {
-		  $('.ui.modal .header:first').text("<s:text name="global.add_information" /><s:text name="global.location" />");
+		  $('.ui.modal .header:first').text("<s:text name="global.add_information" /><s:i18n name="global_th"><s:text name="global.province" /></s:i18n>");
 		  $('#infoForm').find("input[type=text], input[type=hidden], textarea").val("");
 		  $('#infoForm')[0].action.value = "add";
-		  $('#infoForm')[0].action = "<s:url value="/admin/zone/add"/>";
+		  $('#infoForm')[0].action = "<s:url value="/admin/province/add"/>";
         $('.ui.modal')
 		    .modal('show')
 		  ;
@@ -150,12 +150,12 @@
 					</s:i18n>
 				</h4>
 				<div class="ui left aligned attached segment active content">
-					<form class="ui form" id="searchForm" method="post" action="<s:url value="/admin/zone/search"/>">
+					<form class="ui form" id="searchForm" method="post" action="<s:url value="/admin/province/search"/>">
 						<div class="inline field">
-							<s:textfield name="zoneSearch.zoneNameJp" key="global.japanese_location_name"/>
+							<s:textfield name="provinceSearch.provinceNameJp" key="global.japanese_name"/>
 						</div>
 						<div class="inline field">
-							<s:textfield name="zoneSearch.zoneNameEn" key="global.english_location_name"/>
+							<s:textfield name="provinceSearch.provinceNameEn" key="global.english_name"/>
 						</div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
@@ -167,7 +167,7 @@
 				</div>
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					<s:text name="global.location" />
+					<s:i18n name="global_th"><s:text name="global.province" /></s:i18n>
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
@@ -180,20 +180,24 @@
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th><s:text name="global.japanese_location_name" /></th>
-									<th><s:text name="global.english_location_name" /></th>
+									<th><s:text name="global.japanese_name" /></th>
+									<th><s:text name="global.english_name" /></th>
+									<th><s:i18n name="global_th"><s:text name="global.country" /></s:i18n></th>
 									<th><s:text name="global.operation" /></th>
 								</tr>
 							</thead>
 							<tbody>
-								<s:iterator value="zoneInfos" status="status">
+								<s:iterator value="provinceInfos" status="status">
 								<tr>
 									<td class="center aligned"><s:property value="#status.count" /></td>
-									<td><s:property value="zoneNameJp" /></td>
-									<td><s:property value="zoneNameEn" /></td>
+									<td><s:property value="provinceNameJp" /></td>
+									<td><s:property value="provinceNameEn" /></td>
+									<td><s:property value="countryInfo.countryNameEn" /></td>
 									<td class="center aligned">
-										<a href="<s:url value="/admin/zone/edit/%{zoneInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
-										<a href="<s:url value="/admin/zone/delete/%{zoneInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
+										<div class="ui buttons">
+											<a href="<s:url value="/admin/province/edit/%{provinceInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
+											<a href="<s:url value="/admin/province/delete/%{provinceInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
+										</div>
 									</td>
 								</tr>
 								</s:iterator>
@@ -211,18 +215,28 @@
 <div class="ui modal">
   <i class="close icon"></i>
   <div class="header">
-    <s:text name="global.edit_information" /><s:text name="global.location" />
+    <s:text name="global.edit_information" /><s:i18n name="global_th"><s:text name="global.province" /></s:i18n>
   </div>
   <div class="content">
-    <form class="ui form" id="infoForm" method="post" action="<s:url value="/admin/zone/update"/>">
+    <form class="ui form" id="infoForm" method="post" action="<s:url value="/admin/province/update"/>">
 		<div class="inline field">
-			<s:textfield name="zoneInfo.zoneNameJp" key="global.japanese_location_name" />
+			<s:textfield name="provinceInfo.provinceNameJp" key="global.japanese_name" />
 		</div>
 		<div class="inline field">
-			<s:textfield name="zoneInfo.zoneNameEn" key="global.english_location_name" />
+			<s:textfield name="provinceInfo.provinceNameEn" key="global.english_name" />
+		</div>
+		<div class="inline field">
+			<s:i18n name="global_th">
+				<s:select list="countryInfos"
+					listKey="countryInfoId" listValue="countryNameEn"
+					key="global.country" 
+					cssClass="ui search dropdown" 
+					name="provinceInfo.countryInfoId">
+				</s:select>
+			</s:i18n>
 		</div>
 		<s:hidden name="action" value="update"></s:hidden>
-		<s:hidden name="zoneInfo.zoneInfoId"></s:hidden>
+		<s:hidden name="provinceInfo.provinceInfoId"></s:hidden>
 		<div class="ui error message"></div>
 	</form>
   </div>

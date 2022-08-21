@@ -45,14 +45,17 @@ public class GirlInfo extends BaseModel implements Serializable{
 	private String allSame;
 	private String lineId;
 	private String nationalityInfoId;
-	
+	private String countryInfoId;
+
 	private NationalityInfo nationalityInfo;
-	
+	private CountryInfo countryInfo;
+
 //	private ZoneInfo zoneInfo;
 	
 //	private BasicInfo basicInfo;
 	
 	private List<GirlLocation> girlLocations = new ArrayList<GirlLocation>();
+	private List<GirlProvince> girlProvinces = new ArrayList<GirlProvince>();
 	
 	@Id
 	@Column(name="girl_info_id")
@@ -168,6 +171,21 @@ public class GirlInfo extends BaseModel implements Serializable{
 	public NationalityInfo getNationalityInfo() {
 		return nationalityInfo;
 	}
+	@Column(name="country_info_id")
+	public String getCountryInfoId() {
+		return countryInfoId;
+	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="country_info_id", referencedColumnName="country_info_id", insertable=false, updatable=false)
+	public CountryInfo getCountryInfo() {
+		return countryInfo;
+	}
+	@OneToMany(mappedBy = "primaryKey.girlInfo",
+            cascade = CascadeType.ALL)
+	public List<GirlProvince> getGirlProvinces() {
+		return girlProvinces;
+	}
 	public void setGirlInfoId(String girlInfoId) {
 		this.girlInfoId = girlInfoId;
 	}
@@ -254,5 +272,14 @@ public class GirlInfo extends BaseModel implements Serializable{
 	}
 	public void setNationalityInfo(NationalityInfo nationalityInfo) {
 		this.nationalityInfo = nationalityInfo;
+	}
+	public void setCountryInfoId(String countryInfoId) {
+		this.countryInfoId = countryInfoId;
+	}
+	public void setCountryInfo(CountryInfo countryInfo) {
+		this.countryInfo = countryInfo;
+	}
+	public void setGirlProvinces(List<GirlProvince> girlProvinces) {
+		this.girlProvinces = girlProvinces;
 	}
 }

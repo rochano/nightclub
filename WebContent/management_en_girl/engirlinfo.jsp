@@ -211,8 +211,30 @@
 		  var val = $(this).val().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		  $(this).val(val);
 	  });
+      $("#girlInfo_countryInfoId").change(function() {
+   	  	var countryInfoId = $(this).val();
+   	  	loadProvince(countryInfoId, '#provinceInfos');
+       });
     })
   ;
+  function loadProvince(countryInfoId, provinceInfosElmId) {
+	  $.getJSON("<s:url value="/ajax/loadProvinceByCountry/" />" + countryInfoId, 
+			function(jsonResponse) {
+				var provinceInfos = $(provinceInfosElmId);
+				provinceInfos.empty();
+			     $.each(jsonResponse.provinceInfos, function(i, obj) {
+					var html = '';
+					html += '<div class="column">';
+					html += '	<div class="field ui checkbox">';
+					html += '		<input type="checkbox" name="girlProvinces" id="girlProvinces_' + i + '"';
+					html += '			value="' + obj.provinceInfoId + '">';
+					html += '		<label for="girlProvinces_' + i + '">' + obj.provinceNameEn + '</label>';
+					html += '	</div>';
+					html += '</div>';
+			       $(html).appendTo(provinceInfos);
+			     });
+			});
+   }
   </script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/ckeditor/ckeditor.js"></script>
 </head>
@@ -327,7 +349,7 @@
 								<s:select list="weightList" name="girlInfo.weight" label="W "></s:select>
 							</div>
 						</div>
-						<div class="accordion">
+						<%-- <div class="accordion">
 							<h4 class="title">
 								<s:text name="global.location" /> :
 								<i class="dropdown icon"></i>
@@ -344,6 +366,39 @@
 													</s:iterator>
 													value="<s:property value="zoneInfoId" />">
 												<label for="girlLocations_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
+											</div>
+										</div>
+									</s:iterator>
+								</div>
+							</div>
+						</div> --%>
+						<div class="inline field">
+							<s:i18n name="global_th">
+								<s:select list="countryInfos"
+									listKey="countryInfoId" listValue="countryNameEn"
+									key="global.country" 
+									cssClass="ui search dropdown" 
+									name="girlInfo.countryInfoId">
+								</s:select>
+							</s:i18n>
+						</div>
+						<div class="ui accordion">
+							<h4 class="title">
+								<s:i18n name="global_th"><s:text name="global.province" /></s:i18n> :
+								<i class="dropdown icon"></i>
+							</h4>
+							<div class="content">
+								<div class="ui four column grid doubling" id="provinceInfos">
+									<s:iterator value="provinceInfos" status="rowstatus">
+										<div class="column">
+											<div class="field ui checkbox">
+												<input type="checkbox" name="girlProvinces" id="girlProvinces_<s:property value="#rowstatus.count" />"
+													<s:iterator value="girlProvinces" >
+														<s:property value="top" />
+														<s:if test="top == provinceInfoId">checked="checked"</s:if>
+													</s:iterator>
+													value="<s:property value="provinceInfoId" />">
+												<label for="girlProvinces_<s:property value="#rowstatus.count" />"><s:property value="provinceNameEn" /></label>
 											</div>
 										</div>
 									</s:iterator>
