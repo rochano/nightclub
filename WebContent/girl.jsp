@@ -254,11 +254,17 @@
 																</s:iterator>
 															</s:if>
 															<s:else>--%>
-																<s:iterator value="girlInfo.girlLocations" >
+																<%-- <s:iterator value="girlInfo.girlLocations" >
 																	<s:property value="primaryKey.zoneInfo.zoneNameJp" />
 																	<br />
-																</s:iterator>
+																</s:iterator> --%>
 															<%--</s:else>--%>
+															<s:property value="girlInfo.countryInfo.countryNameJp" />
+															<s:iterator value="girlProvinces" >
+																<div class="ui medium label">
+																	<s:property value="primaryKey.provinceInfo.provinceNameJp" />
+																</div>
+															</s:iterator>
 														</p>
 													</td>
 												</tr>

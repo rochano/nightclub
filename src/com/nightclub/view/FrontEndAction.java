@@ -33,6 +33,7 @@ import com.nightclub.model.EnGirlInfo;
 import com.nightclub.model.FreeAgentGirlInfo;
 import com.nightclub.model.FrontSearch;
 import com.nightclub.model.GirlInfo;
+import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.HomeInfo;
 import com.nightclub.model.HomeSlideImage;
@@ -77,6 +78,7 @@ public class FrontEndAction extends CommonAction {
 	protected List<String> girlFavourites = new ArrayList<String>();
 	private List<CountryInfo> countryInfos;
 	private List<ProvinceInfo> provinceInfos;
+	private List<GirlProvince> girlProvinces;
 
 	private CategoryInfoManager categoryInfoManager;
 	private BasicInfoManager basicInfoManager;
@@ -270,6 +272,7 @@ public class FrontEndAction extends CommonAction {
 			}
 		}
 		this.girlServices = girlInfoManager.getGirlServiceListByGirlInfoId(this.girlInfo.getGirlInfoId());
+		this.girlProvinces = girlInfoManager.getGirlProvinceListByGirlInfoId(this.girlInfo.getGirlInfoId());
 		return SUCCESS;
 	}
 	
@@ -562,5 +565,13 @@ public class FrontEndAction extends CommonAction {
 
 	public void setProvinceInfos(List<ProvinceInfo> provinceInfos) {
 		this.provinceInfos = provinceInfos;
+	}
+
+	public List<GirlProvince> getGirlProvinces() {
+		return girlProvinces;
+	}
+
+	public void setGirlProvinces(List<GirlProvince> girlProvinces) {
+		this.girlProvinces = girlProvinces;
 	}
 }

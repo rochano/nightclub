@@ -310,6 +310,7 @@ public class GirlInfoManager extends HibernateUtil {
 		session.beginTransaction();
 		GirlInfo girlInfo = null;
 		List<GirlLocation> girlLocations;
+		List<GirlProvince> girlProvinces;
 		try {
 			
 			girlInfo = (GirlInfo)session.createQuery("from GirlInfo where girlInfoId = :girlInfoId ")
@@ -317,6 +318,8 @@ public class GirlInfoManager extends HibernateUtil {
 			if (girlInfo != null) {
 				girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
 				girlInfo.setGirlLocations(girlLocations);
+				girlProvinces = getGirlProvinceListByGirlInfoId(session, girlInfo.getGirlInfoId());
+				girlInfo.setGirlProvinces(girlProvinces);
 			}
 			
 		} catch (HibernateException e) {
