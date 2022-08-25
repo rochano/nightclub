@@ -510,7 +510,7 @@ public class GirlInfoManager extends HibernateUtil {
 			List<GirlInfo> freeAgentGirlInfoList = new ArrayList();
 			List<GirlInfo> enGirlInfoList = new ArrayList();
 			GirlInfo girlInfo;
-			List<GirlLocation> girlLocations;
+//			List<GirlLocation> girlLocations;
 			List<GirlProvince> girlProvinces;
 			Query query;
 			boolean uncheckAll = false;
@@ -541,8 +541,8 @@ public class GirlInfoManager extends HibernateUtil {
 				if (frontSearch.getCategoryInfoId() != null && !frontSearch.getCategoryInfoId().isEmpty()) {
 					sql += " and basicInfo.categoryInfoId = :categoryInfoId ";
 				}
-				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
-					sql += " and girlInfo.gender = :gender ";
+				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
+					sql += " and girlInfo.genderInfoId = :genderInfoId ";
 				}
 				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
 					sql += " and exists(select 1 from GirlLocation gl ";
@@ -572,8 +572,8 @@ public class GirlInfoManager extends HibernateUtil {
 				if (frontSearch.getCategoryInfoId() != null && !frontSearch.getCategoryInfoId().isEmpty()) {
 					query = query.setParameter("categoryInfoId", frontSearch.getCategoryInfoId());
 				}
-				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
-					query = query.setParameter("gender", frontSearch.getGender());
+				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
+					query = query.setParameter("genderInfoId", frontSearch.getGenderInfoId());
 				}
 				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
 					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
@@ -603,13 +603,13 @@ public class GirlInfoManager extends HibernateUtil {
 				while(it.hasNext()) {
 					girlInfo = (GirlInfo) it.next();
 					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
-					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
-					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
-					while(itGirlLocation.hasNext()) {
-						GirlLocation girlLocation = itGirlLocation.next();
-						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
-					}
-					girlInfo.setGirlLocations(girlLocations);
+//					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+//					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
+//					while(itGirlLocation.hasNext()) {
+//						GirlLocation girlLocation = itGirlLocation.next();
+//						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
+//					}
+//					girlInfo.setGirlLocations(girlLocations);
 					if (girlInfo.getCountryInfo() != null) {
 						girlInfo.getCountryInfo().setProvinceInfos(new ArrayList());
 					}
@@ -625,8 +625,8 @@ public class GirlInfoManager extends HibernateUtil {
 				if (frontSearch.getAgentInfoId() != null && !frontSearch.getAgentInfoId().isEmpty()) {
 					sql += " and girlInfo.agentInfoId = :agentInfoId ";
 				}
-				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
-					sql += " and girlInfo.gender = :gender ";
+				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
+					sql += " and girlInfo.genderInfoId = :genderInfoId ";
 				}
 				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
 					sql += " and exists(select 1 from GirlLocation gl ";
@@ -658,8 +658,8 @@ public class GirlInfoManager extends HibernateUtil {
 						query = query.setParameter("agentInfoId", frontSearch.getAgentInfoId());
 					}
 				}
-				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
-					query = query.setParameter("gender", frontSearch.getGender());
+				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
+					query = query.setParameter("genderInfoId", frontSearch.getGenderInfoId());
 				}
 				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
 					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
@@ -690,13 +690,13 @@ public class GirlInfoManager extends HibernateUtil {
 					girlInfo = (GirlInfo) it.next();
 					((AgentGirlInfo)girlInfo).setAgentInfo(getAgentInfo(session, ((AgentGirlInfo)girlInfo).getAgentInfoId()));
 					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
-					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
-					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
-					while(itGirlLocation.hasNext()) {
-						GirlLocation girlLocation = itGirlLocation.next();
-						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
-					}
-					girlInfo.setGirlLocations(girlLocations);
+//					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+//					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
+//					while(itGirlLocation.hasNext()) {
+//						GirlLocation girlLocation = itGirlLocation.next();
+//						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
+//					}
+//					girlInfo.setGirlLocations(girlLocations);
 					((AgentGirlInfo)girlInfo).setGirlServices(new ArrayList());
 					if (girlInfo.getCountryInfo() != null) {
 						girlInfo.getCountryInfo().setProvinceInfos(new ArrayList());
@@ -710,8 +710,8 @@ public class GirlInfoManager extends HibernateUtil {
 			if (chkFreeAgents || uncheckAll) {
 				sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo ";
 				sql += "where DTYPE = 'FreeAgentGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId ";
-				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
-					sql += " and girlInfo.gender = :gender ";
+				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
+					sql += " and girlInfo.genderInfoId = :genderInfoId ";
 				}
 				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
 					sql += " and exists(select 1 from GirlLocation gl ";
@@ -737,8 +737,8 @@ public class GirlInfoManager extends HibernateUtil {
 				}
 				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
 				query = session.createQuery(sql.toString());
-				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
-					query = query.setParameter("gender", frontSearch.getGender());
+				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
+					query = query.setParameter("genderInfoId", frontSearch.getGenderInfoId());
 				}
 				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
 					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
@@ -768,13 +768,13 @@ public class GirlInfoManager extends HibernateUtil {
 				while(it.hasNext()) {
 					girlInfo = (GirlInfo) it.next();
 					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
-					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
-					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
-					while(itGirlLocation.hasNext()) {
-						GirlLocation girlLocation = itGirlLocation.next();
-						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
-					}
-					girlInfo.setGirlLocations(girlLocations);
+//					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+//					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
+//					while(itGirlLocation.hasNext()) {
+//						GirlLocation girlLocation = itGirlLocation.next();
+//						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
+//					}
+//					girlInfo.setGirlLocations(girlLocations);
 					((FreeAgentGirlInfo)girlInfo).setGirlServices(new ArrayList());
 					if (girlInfo.getCountryInfo() != null) {
 						girlInfo.getCountryInfo().setProvinceInfos(new ArrayList());
@@ -788,8 +788,8 @@ public class GirlInfoManager extends HibernateUtil {
 			if (chkEnGirls || uncheckAll) {
 				sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo ";
 				sql += "where DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId ";
-				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
-					sql += " and girlInfo.gender = :gender ";
+				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
+					sql += " and girlInfo.genderInfoId = :genderInfoId ";
 				}
 				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
 					sql += " and exists(select 1 from GirlLocation gl ";
@@ -815,8 +815,8 @@ public class GirlInfoManager extends HibernateUtil {
 				}
 				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
 				query = session.createQuery(sql.toString());
-				if (frontSearch.getGender() != null && !frontSearch.getGender().isEmpty()) {
-					query = query.setParameter("gender", frontSearch.getGender());
+				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
+					query = query.setParameter("genderInfoId", frontSearch.getGenderInfoId());
 				}
 				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
 					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
@@ -846,13 +846,13 @@ public class GirlInfoManager extends HibernateUtil {
 				while(it.hasNext()) {
 					girlInfo = (GirlInfo) it.next();
 					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
-					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
-					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
-					while(itGirlLocation.hasNext()) {
-						GirlLocation girlLocation = itGirlLocation.next();
-						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
-					}
-					girlInfo.setGirlLocations(girlLocations);
+//					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+//					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
+//					while(itGirlLocation.hasNext()) {
+//						GirlLocation girlLocation = itGirlLocation.next();
+//						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
+//					}
+//					girlInfo.setGirlLocations(girlLocations);
 					if (girlInfo.getCountryInfo() != null) {
 						girlInfo.getCountryInfo().setProvinceInfos(new ArrayList());
 					}

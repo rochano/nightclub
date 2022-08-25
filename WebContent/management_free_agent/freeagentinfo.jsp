@@ -545,33 +545,23 @@
 							<s:textarea name="girlInfo.description" />
 						</div>
 						<h4 class="ui horizontal header">
-							<s:text name="global.gender" />
+							<s:i18n name="global_th">
+								<s:text name="global.gender" />
+							</s:i18n>
 						</h4>
 						<div class="ui four column grid stackable">
-							<div class="column">
-								<div class="ui radio checkbox">
-									<input type="radio" name="girlInfo.gender" id="girlInfo_gender_Straight"
-										<s:if test="girlInfo.gender == 'Straight'">checked="checked"</s:if>
-										 value="Straight">
-									<label for="girlInfo_gender_Straight">
-										<s:i18n name="global_th">
-											<s:text name="global.gender_straight" />
-										</s:i18n>
-									</label>
+							<s:iterator value="genderInfos" status="rowstatus">
+								<div class="column">
+									<div class="ui radio checkbox">
+										<input type="radio" name="girlInfo.genderInfoId" id="genderInfos_<s:property value="#rowstatus.count" />"
+											<s:if test="girlInfo.genderInfoId == genderInfoId">checked="checked"</s:if>
+											 value="<s:property value="genderInfoId" />">
+										<label for="genderInfos_<s:property value="#rowstatus.count" />">
+											<s:text name="genderNameEn" />
+										</label>
+									</div>
 								</div>
-							</div>
-							<div class="column">
-								<div class="ui radio checkbox">
-									<input type="radio" name="girlInfo.gender" id="girlInfo_gender_Transgender" 
-										<s:if test="girlInfo.gender == 'Transgender'">checked="checked"</s:if>
-										 value="Transgender">
-									<label for="girlInfo_gender_Transgender">
-										<s:i18n name="global_th">
-											<s:text name="global.gender_transgender" />
-										</s:i18n>
-									</label>
-								</div>
-							</div>
+							</s:iterator>
 						</div>
 						<br />
 						<div class="accordion">

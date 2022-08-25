@@ -197,12 +197,7 @@
 														<td class="center aligned one wide"><p>:</p></td>
 														<td>
 															<p>
-																<s:if test="girlInfo.gender == 'Straight'">
-																	<s:text name="global.gender_straight" />
-																</s:if>
-																<s:else>
-																	<s:text name="global.gender_transgender" />
-																</s:else>
+																<s:property value="girlInfo.genderInfo.genderNameJp" />
 															</p>
 														</td>
 													</tr>
@@ -435,12 +430,7 @@
 										<div class="ui grid column">
 											<div class="column left aligned">
 												<i class="ui check square icon green"></i>
-												<s:if test="girlInfo.gender == 'Straight'">
-													<s:text name="global.gender_straight" />
-												</s:if>
-												<s:else>
-													<s:text name="global.gender_transgender" />
-												</s:else>
+												<s:property value="girlInfo.genderInfo.genderNameJp" />
 											</div>
 										</div>
 									</div>

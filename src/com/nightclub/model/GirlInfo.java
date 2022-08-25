@@ -46,9 +46,11 @@ public class GirlInfo extends BaseModel implements Serializable{
 	private String lineId;
 	private String nationalityInfoId;
 	private String countryInfoId;
+	private String genderInfoId;
 
 	private NationalityInfo nationalityInfo;
 	private CountryInfo countryInfo;
+	private GenderInfo genderInfo;
 
 //	private ZoneInfo zoneInfo;
 	
@@ -186,6 +188,16 @@ public class GirlInfo extends BaseModel implements Serializable{
 	public List<GirlProvince> getGirlProvinces() {
 		return girlProvinces;
 	}
+	@Column(name="gender_info_id")
+	public String getGenderInfoId() {
+		return genderInfoId;
+	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="gender_info_id", referencedColumnName="gender_info_id", insertable=false, updatable=false)
+	public GenderInfo getGenderInfo() {
+		return genderInfo;
+	}
 	public void setGirlInfoId(String girlInfoId) {
 		this.girlInfoId = girlInfoId;
 	}
@@ -281,5 +293,11 @@ public class GirlInfo extends BaseModel implements Serializable{
 	}
 	public void setGirlProvinces(List<GirlProvince> girlProvinces) {
 		this.girlProvinces = girlProvinces;
+	}
+	public void setGenderInfoId(String genderInfoId) {
+		this.genderInfoId = genderInfoId;
+	}
+	public void setGenderInfo(GenderInfo genderInfo) {
+		this.genderInfo = genderInfo;
 	}
 }

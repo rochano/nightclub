@@ -94,6 +94,12 @@
 	  </s:if>
 	  $('.ui.modal').modal({
           onApprove : function() {
+       	  	 var form = $('#infoForm');
+             form.find("[name=checklist]").remove()
+             $( "input[name=check]", dataTable.fnGetNodes()).each(function(i, item) {
+                 var obj = {id: item.value, checked: item.checked};
+           	  form.append("<input name='checklist' value='" + JSON.stringify(obj) + "' type='hidden' />")
+             })
             //Submits the semantic ui form
             //And pass the handling responsibilities to the form handlers,
             // e.g. on form validation success
@@ -131,6 +137,27 @@
           fields: {}
       })
       ;
+	  $("#editmultiplebtn")
+		.on('click', function() {
+		  var selectedItem = $( "input[name=check]:checked", dataTable.fnGetNodes()).length;
+		  if(selectedItem == 0) {
+			alert("กรุณาเลือกข้อมูล")
+			return;
+		  }
+		  $('.ui.modal .header:first').text("<s:text name="global.edit_information" /><s:text name="global.menu_free_agent" />(" + selectedItem + " รายการ)");
+		  $('#infoForm').find("input[type=text], textarea").val("");
+		  $('#infoForm').find("input[type=radio], input[type=checkbox]").prop('checked', false);
+		  $('#userInfo_freeAgentGirlInfo_nickName').parents(".fields:first").empty();
+		  $('#infoForm')[0].action.value = "editMultiple";
+		  $('#infoForm')[0].action = "<s:url value="/admin/freeagent/multipleupdate"/>";
+      $('.ui.modal')
+		    .modal('show')
+		  ;
+      });
+	  $("#checkAll")
+		.on('click', function() {
+			$( "input[name=check]", dataTable.fnGetNodes()).prop('checked', this.checked);
+		});
     })
   ;
   </script>
@@ -196,10 +223,21 @@
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
+						<div class="ui right aligned one column grid">
+							<div class="column">
+								<div id="editmultiplebtn" class="ui small button blue"><s:text name="global.edit" /></div>
+							</div>
+						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
+									<th>
+										<div class="ui fitted checkbox">
+											<input type="checkbox" id="checkAll" />
+											<label></label>
+										</div>
+									</th>
 									<th><s:text name="global.girl_photo" /></th>
 									<th><s:text name="global.username" /></th>
 									<th><s:text name="global.nick_name" /></th>
@@ -213,6 +251,12 @@
 								<s:iterator value="userInfos" status="status">
 								<tr>
 									<td class="center aligned"><s:property value="#status.count" /></td>
+									<td>
+										<div class="ui fitted checkbox">
+											<input type="checkbox" name="check" value="<s:property value="userInfoId" />" />
+											<label></label>
+										</div>
+									</td>
 									<td>
 										<img class="image ui tiny centered" src="<s:property value="freeAgentGirlInfo.pic1" />">
 									</td>
@@ -239,7 +283,7 @@
 							</tbody>
 							<tfoot class="full-width">
 								<tr>
-									<th colspan="8">
+									<th colspan="9">
 										<form class="ui form " id="activeForm" method="post" action="<s:url value="/admin/freeagent/active"/>" >
 											<div class="ui right floated small primary submit button">
 												<s:text name="global.submit" />

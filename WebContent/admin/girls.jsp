@@ -117,8 +117,30 @@
 	    	 $("#girlSearch_agentInfoId").attr("disabled", "disabled");
 	    	 $("#girlSearch_agentInfoId").val($("#girlSearch_agentInfoId option:first").val());
 	     })
+       $("#girlSearch_countryInfoId").change(function() {
+    	  	var countryInfoId = $(this).val();
+    	  	loadProvince(countryInfoId, '#provinceInfos');
+ 	    });
     })
   ;
+  function loadProvince(countryInfoId, provinceInfosElmId) {
+	  $.getJSON("<s:url value="/ajax/loadProvinceByCountry/" />" + countryInfoId, 
+			function(jsonResponse) {
+				var provinceInfos = $(provinceInfosElmId);
+				provinceInfos.empty();
+			     $.each(jsonResponse.provinceInfos, function(i, obj) {
+					var html = '';
+					html += '<div class="column">';
+					html += '	<div class="field ui checkbox">';
+					html += '		<input type="checkbox" name="girlSearch.provinceInfos" id="provinceInfos_' + i + '"';
+					html += '			value="' + obj.provinceInfoId + '">';
+					html += '		<label for="provinceInfos_' + i + '">' + obj.provinceNameEn + '</label>';
+					html += '	</div>';
+					html += '</div>';
+			       $(html).appendTo(provinceInfos);
+			     });
+			});
+   }
   </script>
 </head>
 <body class="menu pushable">
@@ -224,7 +246,7 @@
 								</div>
 							</div>
 						</s:i18n>
-						<div class="accordion">
+						<%-- <div class="accordion">
 							<div class="inline field title">
 								<label class="label"><s:text name="global.location" /> :
 									<i class="dropdown icon"></i>
@@ -242,6 +264,40 @@
 													</s:iterator>
 													value="<s:property value="zoneInfoId" />">
 												<label for="zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
+											</div>
+										</div>
+									</s:iterator>
+								</div>
+							</div>
+						</div> --%>
+						<div class="inline field">
+							<s:i18n name="global_th">
+								<s:select list="countryInfos"
+									listKey="countryInfoId" listValue="countryNameEn"
+									key="global.country" 
+									headerKey="" headerValue=""
+									name="girlSearch.countryInfoId">
+								</s:select>
+							</s:i18n>
+						</div>
+						<div class="ui inverted accordion">
+							<div class="inline field title">
+								<label class="label"><s:i18n name="global_th"><s:text name="global.province" /></s:i18n> :
+									<i class="dropdown icon"></i>
+								</label>
+							</div>
+							<div class="content">
+								<div class="ui four column grid doubling" id="provinceInfos">
+									<s:iterator value="provinceInfos" status="rowstatus">
+										<div class="column">
+											<div class="field ui checkbox">
+												<input type="checkbox" name="girlSearch.provinceInfos" id="provinceInfos_<s:property value="#rowstatus.count" />"
+													<s:iterator value="girlSearch.provinceInfos" >
+														<s:property value="top" />
+														<s:if test="top == provinceInfoId">checked="checked"</s:if>
+													</s:iterator>
+													value="<s:property value="provinceInfoId" />">
+												<label for="provinceInfos_<s:property value="#rowstatus.count" />"><s:property value="provinceNameEn" /></label>
 											</div>
 										</div>
 									</s:iterator>
@@ -270,7 +326,8 @@
 									<th><s:text name="global.girl_photo" /></th>
 									<th><s:text name="global.nick_name" /></th>
 									<th><s:text name="global.type" /></th>
-									<th><s:text name="global.location" /></th>
+									<th><s:i18n name="global_th"><s:text name="global.country" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.province" /></s:i18n></th>
 									<th>
 										<s:i18n name="global_th">
 											<s:text name="global.all_same" />
@@ -312,9 +369,10 @@
 											</s:i18n>
 										</s:elseif>
 									</td>
+									<td><s:property value="countryInfo.countryNameEn" /></td>
 									<td>
-										<s:iterator value="girlLocations" >
-											<s:property value="primaryKey.zoneInfo.zoneNameEn" />
+										<s:iterator value="girlProvinces" >
+											<s:property value="primaryKey.provinceInfo.provinceNameEn" />
 											<br />
 										</s:iterator>
 									</td>
@@ -331,7 +389,7 @@
 							</tbody>
 							<tfoot class="full-width">
 								<tr>
-									<th colspan="6">
+									<th colspan="7">
 										<form class="ui form " id="allSameForm" method="post" action="<s:url value="/admin/girls/update"/>" >
 											<div class="ui right floated small primary submit button">
 												<s:text name="global.submit" />

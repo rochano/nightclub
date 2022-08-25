@@ -146,11 +146,12 @@
 									<input type="hidden" name="frontSearch.chkEnGirls" id="frontSearch_chkEnGirls" value="true" />
 								</s:if>
 								<div class="field">
-									<label><s:text name="global.gender_specify" /></label>
-									<s:select list="#{'':'',
-										'Straight':getText('global.gender_straight'),
-										'Transgender':getText('global.gender_transgender')}"
-									name="frontSearch.gender"></s:select>
+									<s:select list="genderInfos"
+										listKey="genderInfoId" listValue="genderNameJp"
+										key="global.gender_specify" 
+										headerKey="" headerValue=""
+										name="frontSearch.genderInfoId">
+									</s:select>
 								</div>
 								<div class="ui inverted accordion">
 									<div class="title">

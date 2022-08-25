@@ -14,6 +14,7 @@ import org.cloudinary.json.JSONObject;
 import com.nightclub.controller.AgentGirlInfoManager;
 import com.nightclub.controller.AgentInfoManager;
 import com.nightclub.controller.CountryInfoManager;
+import com.nightclub.controller.GenderInfoManager;
 import com.nightclub.controller.GirlSettingManager;
 import com.nightclub.controller.NationalityInfoManager;
 import com.nightclub.controller.ProvinceInfoManager;
@@ -22,6 +23,7 @@ import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.AgentGirlInfo;
 import com.nightclub.model.AgentInfo;
 import com.nightclub.model.CountryInfo;
+import com.nightclub.model.GenderInfo;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
@@ -65,6 +67,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	private List<CountryInfo> countryInfos;
 	private List<ProvinceInfo> provinceInfos;
 	private List<String> girlProvinces;
+	private List<GenderInfo> genderInfos;
 
 	private AgentGirlInfoManager girlInfoManager;
 	private GirlSettingManager girlSettingManager;
@@ -74,6 +77,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	private NationalityInfoManager nationalityInfoManager;
 	private CountryInfoManager countryInfoManager;
 	private ProvinceInfoManager provinceInfoManager;
+	private GenderInfoManager genderInfoManager;
 	
     private String pic1FileName;
     private String pic2FileName;
@@ -93,6 +97,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 		nationalityInfoManager = new NationalityInfoManager();
 		countryInfoManager = new CountryInfoManager();
 		provinceInfoManager = new ProvinceInfoManager();
+		genderInfoManager = new GenderInfoManager();
 	}
 	
 	public String execute() {
@@ -651,6 +656,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 		this.zoneInfos = zoneInfoManager.list();
 		this.nationalityInfos = nationalityInfoManager.list();
 		this.countryInfos = countryInfoManager.list();
+		this.genderInfos = genderInfoManager.list();
 	}
 
 	public List<ZoneInfo> getZoneInfos() {
@@ -723,5 +729,13 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 
 	public void setSearchProvinceInfos(List<ProvinceInfo> searchProvinceInfos) {
 		this.searchProvinceInfos = searchProvinceInfos;
+	}
+
+	public List<GenderInfo> getGenderInfos() {
+		return genderInfos;
+	}
+
+	public void setGenderInfos(List<GenderInfo> genderInfos) {
+		this.genderInfos = genderInfos;
 	}
 }

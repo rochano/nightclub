@@ -16,22 +16,28 @@ import com.nightclub.common.IConstants;
 import com.nightclub.controller.AgentInfoManager;
 import com.nightclub.controller.BasicInfoManager;
 import com.nightclub.controller.CategoryInfoManager;
+import com.nightclub.controller.CountryInfoManager;
+import com.nightclub.controller.GenderInfoManager;
 import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.GirlSettingManager;
 import com.nightclub.controller.HomeInfoManager;
 import com.nightclub.controller.HomeSlideImageManager;
+import com.nightclub.controller.ProvinceInfoManager;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.AdminSearch;
 import com.nightclub.model.AgentInfo;
 import com.nightclub.model.CategoryInfo;
+import com.nightclub.model.CountryInfo;
 import com.nightclub.model.FrontSearch;
 import com.nightclub.model.GirlInfo;
+import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
 import com.nightclub.model.GirlSetting;
 import com.nightclub.model.HomeInfo;
 import com.nightclub.model.HomeSlideImage;
+import com.nightclub.model.ProvinceInfo;
 import com.nightclub.model.UserInfo;
 import com.nightclub.model.ZoneInfo;
 import com.nightclub.util.UploadFileUtils;
@@ -63,6 +69,10 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private List<ZoneInfo> zoneInfos;
 	private List<CategoryInfo> categoryInfos;
 	private List<AgentInfo> agentInfos;
+	private List<CountryInfo> countryInfos;
+	private List<ProvinceInfo> provinceInfos;
+	private List<GirlProvince> girlProvinces;
+	private List<String> checklist;
 	
 	private HomeInfoManager homeInfoManager;
 	private HomeSlideImageManager homeSlideImageManager;
@@ -73,6 +83,8 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private CategoryInfoManager categoryInfoManager;
 	private AgentInfoManager agentInfoManager;
 	private BasicInfoManager basicInfoManager;
+	private CountryInfoManager countryInfoManager;
+	private ProvinceInfoManager provinceInfoManager;
 
 	public AdminInfoAction() {
 		homeInfoManager = new HomeInfoManager();
@@ -84,6 +96,8 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		categoryInfoManager = new CategoryInfoManager();
 		agentInfoManager = new AgentInfoManager();
 		basicInfoManager = new BasicInfoManager();
+		countryInfoManager = new CountryInfoManager();
+		provinceInfoManager = new ProvinceInfoManager();
 	}
 	
 	public String execute() {
@@ -194,6 +208,32 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			}
 		}
 		addActionMessage(getText("global.message_success_update"));
+		return SUCCESS;
+	}
+	
+	public String usermultipleupdate() {
+		if(getChecklist() == null) {
+			setChecklist(new ArrayList<String>());
+		}
+
+		Iterator<String> it = getChecklist().iterator();
+		List<String> updateUserInfoIdList = new ArrayList<String>();
+		while(it.hasNext()) {
+			JSONObject jsonData = new JSONObject(it.next());
+			if (jsonData.getBoolean("checked")) {
+				updateUserInfoIdList.add(jsonData.getString("id"));
+			}
+		}
+		userInfoManager.updateValidDateByUserInfoId(updateUserInfoIdList, userInfo.getValidDateFrom(), userInfo.getValidDateTo(), getUserType());
+		addActionMessage(getText("global.message_success_update"));
+		this.userInfos = userInfoManager.list(getUserType());
+		if(IConstants.USER_TYPE_SHOP.equals(userType)) {
+			for(UserInfo userInfo : userInfos) {
+				if (userInfo.getShopInfoId() == null) continue;
+				userInfo.getShopInfo().setShopLocations(basicInfoManager.getShopLocationListByShopInfoId(userInfo.getShopInfoId()));
+			}
+		}
+		
 		return SUCCESS;
 	}
 	
@@ -437,6 +477,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		this.zoneInfos = zoneInfoManager.list();
 		this.categoryInfos = categoryInfoManager.list();
 		this.agentInfos = agentInfoManager.list();
+		this.countryInfos = countryInfoManager.list();
 		
 		return SUCCESS;
 	}
@@ -467,6 +508,10 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		this.zoneInfos = zoneInfoManager.list();
 		this.categoryInfos = categoryInfoManager.list();
 		this.agentInfos = agentInfoManager.list();
+		this.countryInfos = countryInfoManager.list();
+		if(getGirlSearch().getCountryInfoId() != null && !"".equals(getGirlSearch().getCountryInfoId())) {
+			this.provinceInfos = provinceInfoManager.listByCountry(getGirlSearch().getCountryInfoId());
+		}
 		
 		return SUCCESS;
 	}
@@ -669,6 +714,38 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 
 	public void setAgentInfos(List<AgentInfo> agentInfos) {
 		this.agentInfos = agentInfos;
+	}
+
+	public List<CountryInfo> getCountryInfos() {
+		return countryInfos;
+	}
+
+	public List<ProvinceInfo> getProvinceInfos() {
+		return provinceInfos;
+	}
+
+	public List<GirlProvince> getGirlProvinces() {
+		return girlProvinces;
+	}
+
+	public void setCountryInfos(List<CountryInfo> countryInfos) {
+		this.countryInfos = countryInfos;
+	}
+
+	public void setProvinceInfos(List<ProvinceInfo> provinceInfos) {
+		this.provinceInfos = provinceInfos;
+	}
+
+	public void setGirlProvinces(List<GirlProvince> girlProvinces) {
+		this.girlProvinces = girlProvinces;
+	}
+
+	public List<String> getChecklist() {
+		return checklist;
+	}
+
+	public void setChecklist(List<String> checklist) {
+		this.checklist = checklist;
 	}
 
 

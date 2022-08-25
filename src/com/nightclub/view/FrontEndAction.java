@@ -14,6 +14,7 @@ import com.nightclub.controller.CategoryInfoManager;
 import com.nightclub.controller.CountryInfoManager;
 import com.nightclub.controller.EnGirlInfoManager;
 import com.nightclub.controller.FreeAgentGirlInfoManager;
+import com.nightclub.controller.GenderInfoManager;
 import com.nightclub.controller.GirlFavouriteManager;
 import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.HomeInfoManager;
@@ -32,6 +33,7 @@ import com.nightclub.model.CountryInfo;
 import com.nightclub.model.EnGirlInfo;
 import com.nightclub.model.FreeAgentGirlInfo;
 import com.nightclub.model.FrontSearch;
+import com.nightclub.model.GenderInfo;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
@@ -79,6 +81,7 @@ public class FrontEndAction extends CommonAction {
 	private List<CountryInfo> countryInfos;
 	private List<ProvinceInfo> provinceInfos;
 	private List<GirlProvince> girlProvinces;
+	private List<GenderInfo> genderInfos;
 
 	private CategoryInfoManager categoryInfoManager;
 	private BasicInfoManager basicInfoManager;
@@ -94,6 +97,7 @@ public class FrontEndAction extends CommonAction {
 	protected GirlFavouriteManager girlFavouriteManager;
 	private CountryInfoManager countryInfoManager;
 	private ProvinceInfoManager provinceInfoManager;
+	private GenderInfoManager genderInfoManager;
 
 	public FrontEndAction() {
 		super();
@@ -111,6 +115,7 @@ public class FrontEndAction extends CommonAction {
 		girlFavouriteManager = new GirlFavouriteManager();
 		countryInfoManager = new CountryInfoManager();
 		provinceInfoManager = new ProvinceInfoManager();
+		genderInfoManager = new GenderInfoManager();
 	}
 	
 	public String execute() {
@@ -167,6 +172,7 @@ public class FrontEndAction extends CommonAction {
 		if(this.frontSearch.getCountryInfoId() != null && !"".equals(this.frontSearch.getCountryInfoId())) {
 			this.provinceInfos = provinceInfoManager.listByCountry(this.frontSearch.getCountryInfoId());
 		}
+		this.genderInfos = genderInfoManager.list();
 		return SUCCESS;
 	}
 	
@@ -187,6 +193,7 @@ public class FrontEndAction extends CommonAction {
 		if(this.frontSearch.getCountryInfoId() != null && !"".equals(this.frontSearch.getCountryInfoId())) {
 			this.provinceInfos = provinceInfoManager.listByCountry(this.frontSearch.getCountryInfoId());
 		}
+		this.genderInfos = genderInfoManager.list();
 		return SUCCESS;
 	}
 	
@@ -231,6 +238,7 @@ public class FrontEndAction extends CommonAction {
 		if(this.frontSearch.getCountryInfoId() != null && !"".equals(this.frontSearch.getCountryInfoId())) {
 			this.provinceInfos = provinceInfoManager.listByCountry(this.frontSearch.getCountryInfoId());
 		}
+		this.genderInfos = genderInfoManager.list();
 		return SUCCESS;
 	}
 	
@@ -573,5 +581,13 @@ public class FrontEndAction extends CommonAction {
 
 	public void setGirlProvinces(List<GirlProvince> girlProvinces) {
 		this.girlProvinces = girlProvinces;
+	}
+
+	public List<GenderInfo> getGenderInfos() {
+		return genderInfos;
+	}
+
+	public void setGenderInfos(List<GenderInfo> genderInfos) {
+		this.genderInfos = genderInfos;
 	}
 }

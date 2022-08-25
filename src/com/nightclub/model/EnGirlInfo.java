@@ -13,18 +13,13 @@ import org.hibernate.annotations.NotFoundAction;
 @Table(name="en_girl_info")
 public class EnGirlInfo extends GirlInfo {
 	private static final long serialVersionUID = -1930927867933854705L;
-	private String gender;
 	private Double price;
 	private String skinInfoId;
 	private String type;
 	
 	private SkinInfo skinInfo;
 	private UserInfo userInfo;
-	
-	@Column(name="gender")
-	public String getGender() {
-		return gender;
-	}
+
 	@Column(name="price")
 	public Double getPrice() {
 		if (price == null) {
@@ -52,9 +47,6 @@ public class EnGirlInfo extends GirlInfo {
     @JoinColumn(name="girl_info_id", insertable=false, updatable=false)
 	public UserInfo getUserInfo() {
 		return userInfo;
-	}
-	public void setGender(String gender) {
-		this.gender = gender;
 	}
 	public void setPrice(Double price) {
 		this.price= price;

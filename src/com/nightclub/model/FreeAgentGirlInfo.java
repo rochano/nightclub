@@ -18,7 +18,6 @@ import org.hibernate.annotations.NotFoundAction;
 @Table(name="free_agent_girl_info")
 public class FreeAgentGirlInfo extends GirlInfo {
 	private static final long serialVersionUID = -1930927867933854705L;
-	private String gender;
 	private List<GirlService> girlServices = new ArrayList<GirlService>();
 	private String chk40Mins;
 	private Double price40Mins;
@@ -33,11 +32,7 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	private UserInfo userInfo;
 	private String incall;
 	private String outcall;
-	
-	@Column(name="gender")
-	public String getGender() {
-		return gender;
-	}
+
 	@OneToMany(mappedBy = "primaryKey.freeAgentGirlInfo",
             cascade = CascadeType.ALL)
 	public List<GirlService> getGirlServices() {
@@ -116,9 +111,6 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	@Column(name="outcall")
 	public String getOutcall() {
 		return outcall;
-	}
-	public void setGender(String gender) {
-		this.gender = gender;
 	}
 	public void setGirlServices(List<GirlService> girlServices) {
 		this.girlServices = girlServices;

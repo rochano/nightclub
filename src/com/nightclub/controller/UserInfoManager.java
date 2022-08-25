@@ -1,5 +1,6 @@
 package com.nightclub.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import net.viralpatel.contact.util.HibernateUtil;
@@ -363,5 +364,26 @@ public class UserInfoManager extends HibernateUtil {
 		}
 		session.getTransaction().commit();
 		return userInfos;
+	}
+	
+	public void updateValidDateByUserInfoId(List<String> updateUserInfoIdList, Date validDateFrom, Date validDateTo, String userType) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			
+			if(updateUserInfoIdList.size()> 0) {
+				session.createQuery("update UserInfo set validDateFrom = :validDateFrom, validDateTo = :validDateTo where userType = :userType and userInfoId in (:userInfoIdList) ")
+						.setParameter("validDateFrom", validDateFrom)
+						.setParameter("validDateTo", validDateTo)
+						.setParameter("userType", userType)
+						.setParameterList("userInfoIdList", updateUserInfoIdList.toArray())
+						.executeUpdate();
+			}
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
 	}
 }

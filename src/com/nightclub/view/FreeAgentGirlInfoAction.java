@@ -11,6 +11,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.nightclub.controller.CountryInfoManager;
 import com.nightclub.controller.FreeAgentGirlInfoManager;
+import com.nightclub.controller.GenderInfoManager;
 import com.nightclub.controller.GirlSettingManager;
 import com.nightclub.controller.NationalityInfoManager;
 import com.nightclub.controller.ProvinceInfoManager;
@@ -18,6 +19,7 @@ import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.CountryInfo;
 import com.nightclub.model.FreeAgentGirlInfo;
+import com.nightclub.model.GenderInfo;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
@@ -47,6 +49,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	private NationalityInfoManager nationalityInfoManager;
 	private CountryInfoManager countryInfoManager;
 	private ProvinceInfoManager provinceInfoManager;
+	private GenderInfoManager genderInfoManager;
  
 	private List<GirlServiceInfo> girlServiceInfos;
 	private List<String> girlServices;
@@ -63,6 +66,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	private List<CountryInfo> countryInfos;
 	private List<ProvinceInfo> provinceInfos;
 	private List<String> girlProvinces;
+	private List<GenderInfo> genderInfos;
 	
     private String pic1FileName;
     private String pic2FileName;
@@ -79,6 +83,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		nationalityInfoManager = new NationalityInfoManager();
 		countryInfoManager = new CountryInfoManager();
 		provinceInfoManager = new ProvinceInfoManager();
+		genderInfoManager = new GenderInfoManager();
 	}
 
 	public String execute() {
@@ -105,16 +110,18 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 //				}
 //			}
 //		}
-		if(this.girlInfo.getCountryInfoId() != null && !"".equals(this.girlInfo.getCountryInfoId())) {
-			this.provinceInfos = provinceInfoManager.listByCountry(this.girlInfo.getCountryInfoId());
-		} else if(this.countryInfos.size() > 0){
-			this.provinceInfos = provinceInfoManager.listByCountry(this.countryInfos.get(0).getCountryInfoId());
-		}
-		this.girlProvinces = new ArrayList<String>();
-		List<GirlProvince> girlProvinces = girlInfoManager.getGirlProvinceListByGirlInfoId(this.girlInfo.getGirlInfoId());
-		if(girlProvinces != null) {
-			for(GirlProvince girlProvince : girlProvinces) {
-				this.girlProvinces.add(girlProvince.getProvinceInfo().getProvinceInfoId());
+		if (this.girlInfo != null) {
+			if(this.girlInfo.getCountryInfoId() != null && !"".equals(this.girlInfo.getCountryInfoId())) {
+				this.provinceInfos = provinceInfoManager.listByCountry(this.girlInfo.getCountryInfoId());
+			} else if(this.countryInfos.size() > 0){
+				this.provinceInfos = provinceInfoManager.listByCountry(this.countryInfos.get(0).getCountryInfoId());
+			}
+			this.girlProvinces = new ArrayList<String>();
+			List<GirlProvince> girlProvinces = girlInfoManager.getGirlProvinceListByGirlInfoId(this.girlInfo.getGirlInfoId());
+			if(girlProvinces != null) {
+				for(GirlProvince girlProvince : girlProvinces) {
+					this.girlProvinces.add(girlProvince.getProvinceInfo().getProvinceInfoId());
+				}
 			}
 		}
 		if (this.girlInfo == null) {
@@ -447,6 +454,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		this.zoneInfos = zoneInfoManager.list();
 		this.nationalityInfos = nationalityInfoManager.list();
 		this.countryInfos = countryInfoManager.list();
+		this.genderInfos = genderInfoManager.list();
 	}
 
 	public List<String> getGirlLocations() {
@@ -490,5 +498,13 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 
 	public void setGirlProvinces(List<String> girlProvinces) {
 		this.girlProvinces = girlProvinces;
+	}
+
+	public List<GenderInfo> getGenderInfos() {
+		return genderInfos;
+	}
+
+	public void setGenderInfos(List<GenderInfo> genderInfos) {
+		this.genderInfos = genderInfos;
 	}
 }

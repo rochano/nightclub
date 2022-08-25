@@ -13,7 +13,7 @@ public class FrontSearch implements Serializable {
 	private String agentInfoId;
 	private String chkFreeAgents;
 	private String chkEnGirls;
-	private String gender;
+	private String genderInfoId;
 	private List<String> zoneInfos;
 	private String chkIncallOutcall;
 	private String incallOutcall;
@@ -58,11 +58,11 @@ public class FrontSearch implements Serializable {
 	public void setChkEnGirls(String chkEnGirls) {
 		this.chkEnGirls = chkEnGirls;
 	}
-	public String getGender() {
-		return gender;
+	public String getGenderInfoId() {
+		return genderInfoId;
 	}
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setGenderInfoId(String genderInfoId) {
+		this.genderInfoId = genderInfoId;
 	}
 	public List<String> getZoneInfos() {
 		return zoneInfos;

@@ -1390,6 +1390,49 @@
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/province.jsp</result>
 		</action>
+		
+		<action name="gender"
+			class="com.nightclub.view.GenderInfoAction" method="execute">
+			<param name="menu">gender</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">gender.jsp</result>
+		</action>
+		
+		<action name="gender/*"
+			class="com.nightclub.view.GenderInfoAction" method="{1}">
+			<param name="menu">gender</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" type="redirect">gender</result>
+		</action>
+		
+		<action name="gender/edit/*"
+			class="com.nightclub.view.GenderInfoAction" method="edit">
+			<param name="menu">gender</param>
+			<param name="genderInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" >/admin/gender.jsp</result>
+		</action>
+		
+		<action name="gender/delete/*"
+			class="com.nightclub.view.GenderInfoAction" method="delete">
+			<param name="menu">gender</param>
+			<param name="genderInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="input" >/admin/gender.jsp</result>
+			<result name="success" type="redirect">gender</result>
+		</action>
+		
+		<action name="gender/search"
+			class="com.nightclub.view.GenderInfoAction" method="search">
+			<param name="menu">gender</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/gender.jsp</result>
+		</action>
 	</package>
 
 	<package name="api" extends="rest-default" namespace="/api" >
