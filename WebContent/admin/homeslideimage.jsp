@@ -8,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_home_slide_image" /></title>
+  <title><s:i18n name="global_th"><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_home_slide_image" /></s:i18n></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
   <script src="<s:url value="/assets/library/jquery.form.js"/>"></script>
@@ -148,7 +148,7 @@
   $('.removeSlideImage').live('click', function () {
 	  $(this).parents(".ui.card:first").remove();
 	  if ($("#slideImgContainer img").length == 0) {
-	   	$("#slideImgContainer").html('<s:text name="global.no_data" />');
+	   	$("#slideImgContainer").html('<s:i18n name="global_th"><s:text name="global.no_data" /></s:i18n>');
 	  }
 	  reloadPreview();
 	} );
@@ -204,7 +204,7 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					<s:text name="global.menu_home_slide_image" />
+					<s:i18n name="global_th"><s:text name="global.menu_home_slide_image" /></s:i18n>
 				</h4>
 				<div class="ui centered grid attached segment active content" id="container">
 					<div class="column one left aligned">
@@ -231,19 +231,19 @@
 						<div class="ui horizontal divider very basic">
 							<label for="slideImage" class="ui basic button">
 								<i class="icon upload"></i>
-							  	<s:text name="global.upload" />
+							  	<s:i18n name="global_th"><s:text name="global.upload" /></s:i18n>
 							</label>
 						<input type="file" id="slideImage" style="display:none">
 						</div>
 						<div class="ui horizontal divider very basic">
 							<form class="ui form " method="post" action="<s:url value="/admin/homeslideimage/update"/>" >
 								<div class="ui right floated small primary submit button">
-									<s:text name="global.submit" />
+									<s:i18n name="global_th"><s:text name="global.submit" /></s:i18n>
 								</div>
 							</form>
 						</div>
 						<h4 class="ui horizontal divider header">
-							<s:text name="global.preview" />
+							<s:i18n name="global_th"><s:text name="global.preview" /></s:i18n>
 						</h4>
 						<div class="slide-image">
 							<div class="ui centered grid ui">

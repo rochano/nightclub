@@ -8,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_girl_service" /></title>
+  <title><s:i18n name="global_th"><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_girl_service" /></s:i18n></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
 
@@ -202,22 +202,22 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					<s:text name="global.menu_girl_service" />
+					<s:i18n name="global_th"><s:text name="global.menu_girl_service" /></s:i18n>
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div id="addbtn" class="ui small button blue"><s:text name="global.add" /></div>
+								<div id="addbtn" class="ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th><s:text name="global.service_name" /></th>
-									<th><s:text name="global.service_name_jp" /></th>
-									<th width="20%"><s:text name="global.operation" /></th>
+									<th><s:i18n name="global_th"><s:text name="global.service_name" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.service_name_jp" /></s:i18n></th>
+									<th width="20%"><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -256,7 +256,7 @@
 									<th colspan="4">
 										<form class="ui form " method="post" action="<s:url value="/admin/girlservice/update"/>" >
 										<div class="ui right floated small primary submit button">
-											<s:text name="global.submit" />
+											<s:i18n name="global_th"><s:text name="global.submit" /></s:i18n>
 										</div>
 										</form>
 									</th>

@@ -47,7 +47,7 @@ public class CountryInfoAction extends ActionSupport {
 			countryInfo.setCountryInfoId(UUID.randomUUID().toString().toUpperCase());
 			countryInfoManager.add(this.countryInfo);
 			
-			addActionMessage(getText("global.message_success_add"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_add"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -60,7 +60,7 @@ public class CountryInfoAction extends ActionSupport {
 		try {
 			countryInfoManager.update(this.countryInfo);
 			
-			addActionMessage(getText("global.message_success_update"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -80,10 +80,10 @@ public class CountryInfoAction extends ActionSupport {
 		String result = "";
 		if(!countryInfoManager.isRelatedProvince(getCountryInfoId())) {
 			countryInfoManager.delete(getCountryInfoId());
-			addActionMessage(getText("global.message_success_delete"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_delete"));
 			result = SUCCESS;
 		} else{
-			addActionError(getText("global.message_country_delete_fail"));
+			addActionError(getTexts("global_th").getString("global.message_country_delete_fail"));
 			result = INPUT;
 		}
 		this.countryInfos = countryInfoManager.list();

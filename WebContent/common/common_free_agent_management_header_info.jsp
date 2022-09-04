@@ -2,12 +2,12 @@
 <div class="ui fixed top menu">
 	<div class="left menu">
 		<div class="header item">
-			<s:text name="global.management" />
+			<s:i18n name="global_th"><s:text name="global.management" /></s:i18n>
 		</div>
 	</div>
 	<div class="right menu">
 		<div class="ui dropdown item">
-			<s:text name="global.logged_in_as" />&nbsp;&nbsp;
+			<s:i18n name="global_th"><s:text name="global.logged_in_as" /></s:i18n>&nbsp;&nbsp;
 			<label class="ui large">
 				<s:if test="#session.freeAgentGirlInfo != null">
 					<s:property value="#session.freeAgentGirlInfo.nickName" />
@@ -19,13 +19,13 @@
 			<i class="dropdown icon"></i>
 			<div class="menu">
 				<div class="item">
-					<a class="ui tiny" href="<s:url value="/management_free_agent/howtoinput"/>"><i class="file outline icon"></i><s:text name="global.how_to_input" /></a>
+					<a class="ui tiny" href="<s:url value="/management_free_agent/howtoinput"/>"><i class="file outline icon"></i><s:i18n name="global_th"><s:text name="global.how_to_input" /></s:i18n></a>
 				</div>
 				<div class="item">
-					<a class="ui tiny" href="<s:url value="/management_free_agent/changepassword"/>"><i class="edit icon"></i><s:text name="global.change_password" /></a>
+					<a class="ui tiny" href="<s:url value="/management_free_agent/changepassword"/>"><i class="edit icon"></i><s:i18n name="global_th"><s:text name="global.change_password" /></s:i18n></a>
 				</div>
 				<div class="item">
-					<a class="ui tiny" href="<s:url value="/logout"/>"><i class="sign out icon"></i><s:text name="global.log_out" /></a>
+					<a class="ui tiny" href="<s:url value="/logout"/>"><i class="sign out icon"></i><s:i18n name="global_th"><s:text name="global.log_out" /></s:i18n></a>
 				</div>
 			</div>
 		</div>

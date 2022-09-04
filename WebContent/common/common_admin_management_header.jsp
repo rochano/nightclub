@@ -105,11 +105,11 @@
   		"ordering":  false,
   		"dom": '<"ui grid"<"column right floated right aligned"l>><"ui grid"<" one column overflow"t>><"ui grid"<"left aligned eight wide column"i><"right floated eight wide column"p>>',
   		"language":{
-  		    "lengthMenu": "<s:text name="global.length_menu" />",
-  		    "zeroRecords": "<s:text name="global.zero_records" />",
-  		    "infoEmpty": "<s:text name="global.info_empty" />",
-  		    "info": "<s:text name="global.info" />",
-  		    "infoFiltered": "<s:text name="global.info_filtered" />"
+  		    "lengthMenu": "<s:i18n name="global_th"><s:text name="global.length_menu" /></s:i18n>",
+  		    "zeroRecords": "<s:i18n name="global_th"><s:text name="global.zero_records" /></s:i18n>",
+  		    "infoEmpty": "<s:i18n name="global_th"><s:text name="global.info_empty" /></s:i18n>",
+  		    "info": "<s:i18n name="global_th"><s:text name="global.info" /></s:i18n>",
+  		    "infoFiltered": "<s:i18n name="global_th"><s:text name="global.info_filtered" /></s:i18n>"
   		},
   		"pagingType": "numbers",
   		"drawCallback": function() {

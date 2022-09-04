@@ -213,13 +213,13 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
     		if(this.userInfo.getPassword().equals(oldPassword)) {
     			if(password.equals(confirmPassword)) {
     				linkController.update(this.userInfo);
-    				addActionMessage(getText("global.message_success_update"));
+    				addActionMessage(getTexts("global_th").getString("global.message_success_update"));
     	    		return SUCCESS;
     			} else {
-    				addActionMessage(getText("global.confirm_password") + getText("global.message_match_new_password"));
+    				addActionMessage(getTexts("global_th").getString("global.confirm_password") + getTexts("global_th").getString("global.message_match_new_password"));
     			}
     		} else {
-    			addActionError(getText("global.message_old_password_is_incorrect"));
+    			addActionError(getTexts("global_th").getString("global.message_old_password_is_incorrect"));
     		}
     	}
     	return INPUT;

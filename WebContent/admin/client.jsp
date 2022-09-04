@@ -8,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_client" /></title>
+  <title><s:i18n name="global_th"><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_client" /></s:i18n></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
 
@@ -116,7 +116,7 @@
 	              rules: [
 	                {
 	                  type   : 'empty',
-	                  prompt : '<s:text name="global.message_please_input" /><s:text name="global.valid_date_from" />'
+	                  prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.valid_date_from" /></s:i18n>'
 	                },
 	              ]
 	            },
@@ -125,7 +125,7 @@
 	              rules: [
 	                {
 	                  type   : 'empty',
-	                  prompt : '<s:text name="global.message_please_input" /><s:text name="global.valid_date_to" />'
+	                  prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.valid_date_to" /></s:i18n>'
 	                },
 	              ]
 	            }
@@ -144,7 +144,7 @@
 			alert("กรุณาเลือกข้อมูล")
 			return;
 		  }
-		  $('.ui.modal .header:first').text("<s:text name="global.edit_information" /><s:text name="global.menu_client" />(" + selectedItem + " รายการ)");
+		  $('.ui.modal .header:first').text("<s:i18n name="global_th"><s:text name="global.edit_information" /><s:text name="global.menu_client" /></s:i18n>(" + selectedItem + " รายการ)");
 		  $('#infoForm').find("input[type=text], textarea").val("");
 		  $('#infoForm').find("input[type=radio], input[type=checkbox]").prop('checked', false);
 		  $('#userInfo.clientInfo.nickName').parents(".fields:first").empty();
@@ -206,29 +206,29 @@
 				<div class="ui left aligned attached segment active content">
 					<form class="ui form" id="searchForm" method="post" action="<s:url value="/admin/client/search"/>">
 						<div class="inline field">
-							<s:textfield name="search.userName" key="global.username"/>
+							<s:i18n name="global_th"><s:textfield name="search.userName" key="global.username"/></s:i18n>
 						</div>
 						<div class="inline field">
-							<s:textfield name="search.nickName" key="global.nick_name"/>
+							<s:i18n name="global_th"><s:textfield name="search.nickName" key="global.nick_name"/></s:i18n>
 						</div>
 						<div class="ui error message"></div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div class="ui small button submit blue"><s:text name="global.search" /></div>
-								<div class="ui small button clear"><s:text name="global.clear" /></div>
+								<div class="ui small button submit blue"><s:i18n name="global_th"><s:text name="global.search" /></s:i18n></div>
+								<div class="ui small button clear"><s:i18n name="global_th"><s:text name="global.clear" /></s:i18n></div>
 							</div>
 						</div>
 					</form>
 				</div>
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					<s:text name="global.menu_client" />
+					<s:i18n name="global_th"><s:text name="global.menu_client" /></s:i18n>
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div id="editmultiplebtn" class="ui small button blue"><s:text name="global.edit" /></div>
+								<div id="editmultiplebtn" class="ui small button blue"><s:i18n name="global_th"><s:text name="global.edit" /></s:i18n></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
@@ -241,15 +241,15 @@
 											<label></label>
 										</div>
 									</th>
-									<th><s:text name="global.username" /></th>
-									<th><s:text name="global.nick_name" /></th>
-									<th><s:text name="global.email" /></th>
-									<th><s:text name="global.mobile" /></th>
-									<th><s:text name="global.age" /></th>
-									<th><s:text name="global.valid_date_from" /></th>
-									<th><s:text name="global.valid_date_to" /></th>
-									<th><s:text name="global.active" /></th>
-									<th><s:text name="global.operation" /></th>
+									<th><s:i18n name="global_th"><s:text name="global.username" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.nick_name" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.email" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.mobile" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.age" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.valid_date_from" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.valid_date_to" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.active" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -291,7 +291,7 @@
 									<th colspan="11">
 										<form class="ui form " id="activeForm" method="post" action="<s:url value="/admin/client/active"/>" >
 											<div class="ui right floated small primary submit button">
-												<s:text name="global.submit" />
+												<s:i18n name="global_th"><s:text name="global.submit" /></s:i18n>
 											</div>
 										</form>
 									</th>
@@ -311,30 +311,30 @@
 <div class="ui modal">
   <i class="close icon"></i>
   <div class="header">
-    <s:text name="global.edit_information" /><s:text name="global.menu_client" />
+    <s:i18n name="global_th"><s:text name="global.edit_information" /><s:text name="global.menu_client" /></s:i18n>
   </div>
   <div class="content">
     <form class="ui form" id="infoForm" method="post" action="<s:url value="/admin/client/update"/>" >
 		<div class="two fields">
 			<div class="inline field">
-				<label><s:text name="global.nick_name" /></label>
+				<label><s:i18n name="global_th"><s:text name="global.nick_name" /></s:i18n></label>
 				<s:textfield name="userInfo.clientInfo.nickName" disabled="true"/>
 			</div>
 		</div>
 		<div class="inline field">
-			<label><s:text name="global.email" /></label>
+			<label><s:i18n name="global_th"><s:text name="global.email" /></s:i18n></label>
 			<s:textfield name="userInfo.clientInfo.email" disabled="true"/>
 		</div>
 		<div class="inline field">
-			<label><s:text name="global.mobile" /></label>
+			<label><s:i18n name="global_th"><s:text name="global.mobile" /></s:i18n></label>
 			<s:textfield name="userInfo.clientInfo.mobile" disabled="true"/>
 		</div>
 		<div class="inline field">
-			<label><s:text name="global.age" /></label>
+			<label><s:i18n name="global_th"><s:text name="global.age" /></s:i18n></label>
 			<s:textfield name="userInfo.clientInfo.age" disabled="true"/>
 		</div>
 		<div class="inline fields">
-			<label><s:text name="global.valid_date" /></label>
+			<label><s:i18n name="global_th"><s:text name="global.valid_date" /></s:i18n></label>
 			<div class="field">
 				<s:textfield name="userInfo.validDateFrom" placeholder="DD/MM/YYYY" />
 			</div>
@@ -348,8 +348,8 @@
 	</form>
   </div>
   <div class="actions">
-    <div class="ui approve blue button"><s:text name="global.save" /></div>
-    <div class="ui cancel button"><s:text name="global.cancel" /></div>
+    <div class="ui approve blue button"><s:i18n name="global_th"><s:text name="global.save" /></s:i18n></div>
+    <div class="ui cancel button"><s:i18n name="global_th"><s:text name="global.cancel" /></s:i18n></div>
   </div>
 </div>
 </body>

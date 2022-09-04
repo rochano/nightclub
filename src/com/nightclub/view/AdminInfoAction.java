@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -22,6 +23,7 @@ import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.GirlSettingManager;
 import com.nightclub.controller.HomeInfoManager;
 import com.nightclub.controller.HomeSlideImageManager;
+import com.nightclub.controller.NationalityInfoManager;
 import com.nightclub.controller.ProvinceInfoManager;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
@@ -30,6 +32,7 @@ import com.nightclub.model.AgentInfo;
 import com.nightclub.model.CategoryInfo;
 import com.nightclub.model.CountryInfo;
 import com.nightclub.model.FrontSearch;
+import com.nightclub.model.GenderInfo;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
@@ -37,6 +40,7 @@ import com.nightclub.model.GirlServiceInfo;
 import com.nightclub.model.GirlSetting;
 import com.nightclub.model.HomeInfo;
 import com.nightclub.model.HomeSlideImage;
+import com.nightclub.model.NationalityInfo;
 import com.nightclub.model.ProvinceInfo;
 import com.nightclub.model.UserInfo;
 import com.nightclub.model.ZoneInfo;
@@ -73,6 +77,8 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private List<ProvinceInfo> provinceInfos;
 	private List<GirlProvince> girlProvinces;
 	private List<String> checklist;
+	private List<GenderInfo> genderInfos;
+	private List<NationalityInfo> nationalityInfos;
 	
 	private HomeInfoManager homeInfoManager;
 	private HomeSlideImageManager homeSlideImageManager;
@@ -85,6 +91,8 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private BasicInfoManager basicInfoManager;
 	private CountryInfoManager countryInfoManager;
 	private ProvinceInfoManager provinceInfoManager;
+	private GenderInfoManager genderInfoManager;
+	private NationalityInfoManager nationalityInfoManager;
 
 	public AdminInfoAction() {
 		homeInfoManager = new HomeInfoManager();
@@ -98,6 +106,8 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		basicInfoManager = new BasicInfoManager();
 		countryInfoManager = new CountryInfoManager();
 		provinceInfoManager = new ProvinceInfoManager();
+		genderInfoManager = new GenderInfoManager();
+		nationalityInfoManager = new NationalityInfoManager();
 	}
 	
 	public String execute() {
@@ -122,7 +132,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 				homeInfoManager.add(homeInfo_);
 			}
 			
-			addActionMessage(getText("global.message_success_update"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 			
 			this.execute();
 			
@@ -159,7 +169,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 				}
 			}
 			homeSlideImageManager.add(this.homeSlideImages);
-			addActionMessage(getText("global.message_success_update"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 			
 			this.homeslideimage();
 			
@@ -207,7 +217,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 				userInfo.getShopInfo().setShopLocations(basicInfoManager.getShopLocationListByShopInfoId(userInfo.getShopInfoId()));
 			}
 		}
-		addActionMessage(getText("global.message_success_update"));
+		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 		return SUCCESS;
 	}
 	
@@ -225,7 +235,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			}
 		}
 		userInfoManager.updateValidDateByUserInfoId(updateUserInfoIdList, userInfo.getValidDateFrom(), userInfo.getValidDateTo(), getUserType());
-		addActionMessage(getText("global.message_success_update"));
+		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 		this.userInfos = userInfoManager.list(getUserType());
 		if(IConstants.USER_TYPE_SHOP.equals(userType)) {
 			for(UserInfo userInfo : userInfos) {
@@ -256,7 +266,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		userInfo_.setValidDateFrom(userInfo.getValidDateFrom());
 		userInfo_.setValidDateTo(userInfo.getValidDateTo());
 		userInfoManager.update(userInfo_);
-		addActionMessage(getText("global.message_success_update"));
+		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 		this.userInfos = userInfoManager.list(getUserType());
 		if(IConstants.USER_TYPE_SHOP.equals(userType)) {
 			for(UserInfo userInfo : userInfos) {
@@ -270,7 +280,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	
 	public String userdelete() {
 		userInfoManager.deleteByUserInfoId(getUserInfoId());
-		addActionMessage(getText("global.message_success_delete"));
+		addActionMessage(getTexts("global_th").getString("global.message_success_delete"));
 		this.userInfos = userInfoManager.list(getUserType());
 		if(IConstants.USER_TYPE_SHOP.equals(userType)) {
 			for(UserInfo userInfo : userInfos) {
@@ -352,13 +362,13 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 				}
 			}
 			if (bIsDeleteInUsed) {
-				addActionError(getText("global.message_girl_service_update_fail"));
+				addActionError(getTexts("global_th").getString("global.message_girl_service_update_fail"));
 				this.girlServicInfoList = girlInfoManager.getGirlServiceInfoList();
 				return INPUT;
 			}
 		}
 		girlInfoManager.updateGirlServiceInfo(getGirlServicInfoList(), girlServiceInfoIdList);
-		addActionMessage(getText("global.message_success_update"));
+		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 		return girlservice();
 	}
 
@@ -376,7 +386,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			this.girlSetting = girlSettingManager.add(this.girlSetting);
 		}
 		
-		addActionMessage(getText("global.message_success_update"));
+		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 		
 		this.execute();
 		
@@ -402,7 +412,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 				homeInfoManager.add(homeInfo_);
 			}
 			
-			addActionMessage(getText("global.message_success_update"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 			
 			this.execute();
 			
@@ -431,7 +441,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			homeInfoManager.add(homeInfo_);
 		}
 		
-		addActionMessage(getText("global.message_success_update"));
+		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 		
 		this.execute();
 		
@@ -460,7 +470,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 				homeInfoManager.add(homeInfo_);
 			}
 			
-			addActionMessage(getText("global.message_success_update"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 			
 			this.execute();
 			
@@ -478,6 +488,8 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		this.categoryInfos = categoryInfoManager.list();
 		this.agentInfos = agentInfoManager.list();
 		this.countryInfos = countryInfoManager.list();
+		this.genderInfos = genderInfoManager.list();
+		this.nationalityInfos = nationalityInfoManager.list();
 		
 		return SUCCESS;
 	}
@@ -499,7 +511,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			}
 		}
 		girlInfoManager.allSameByGirlInfoId(allGirlInfoIdList, allSameGirlInfoIdList);
-		addActionMessage(getText("global.message_success_update"));
+		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 		return girllist();
 	}
 	
@@ -512,6 +524,8 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		if(getGirlSearch().getCountryInfoId() != null && !"".equals(getGirlSearch().getCountryInfoId())) {
 			this.provinceInfos = provinceInfoManager.listByCountry(getGirlSearch().getCountryInfoId());
 		}
+		this.genderInfos = genderInfoManager.list();
+		this.nationalityInfos = nationalityInfoManager.list();
 		
 		return SUCCESS;
 	}
@@ -536,11 +550,41 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			homeInfoManager.add(homeInfo_);
 		}
 		
-		addActionMessage(getText("global.message_success_update"));
+		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 		
 		this.execute();
 		
 		return SUCCESS;
+	}
+	
+	public String inform() {
+		this.homeInfo = homeInfoManager.getHomeInfo("0");
+		
+		return SUCCESS;
+	}
+
+	public String informupdate() {
+		try {
+			UserInfo userInfo = (UserInfo)sessionMap.get("adminInfo");
+			HomeInfo homeInfo_ = homeInfoManager.getHomeInfo("0");
+			homeInfo_.setHomeInfoId("0");
+			homeInfo_.setInform(UploadFileUtils.uploadImageinDescription(homeInfo.getInform(), sessionMap, userInfo));
+			
+			if(homeInfoManager.getHomeInfo("0") != null) {
+				homeInfoManager.update(homeInfo_);
+			} else {
+				homeInfoManager.add(homeInfo_);
+			}
+			
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
+			
+			this.execute();
+			
+			return SUCCESS;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return INPUT;
+		}
 	}
 	
 	public String getMenu() {
@@ -746,6 +790,22 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 
 	public void setChecklist(List<String> checklist) {
 		this.checklist = checklist;
+	}
+
+	public List<GenderInfo> getGenderInfos() {
+		return genderInfos;
+	}
+
+	public void setGenderInfos(List<GenderInfo> genderInfos) {
+		this.genderInfos = genderInfos;
+	}
+
+	public List<NationalityInfo> getNationalityInfos() {
+		return nationalityInfos;
+	}
+
+	public void setNationalityInfos(List<NationalityInfo> nationalityInfos) {
+		this.nationalityInfos = nationalityInfos;
 	}
 
 

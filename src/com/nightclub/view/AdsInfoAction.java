@@ -85,7 +85,7 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
 			
 			adsInfoManager.add(this.adsInfo);
 			
-			addActionMessage(getText("global.message_success_add"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_add"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -121,7 +121,7 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
 			
 			adsInfoManager.update(this.adsInfo);
 			
-			addActionMessage(getText("global.message_success_update"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -172,7 +172,7 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
 
 	public String delete() {
 		adsInfoManager.delete(getAdsInfoId());
-		addActionMessage(getText("global.message_success_delete"));
+		addActionMessage(getTexts("global_th").getString("global.message_success_delete"));
 		this.adsInfos = adsInfoManager.list();
 		return SUCCESS;
 	}

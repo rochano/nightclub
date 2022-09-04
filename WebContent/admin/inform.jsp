@@ -8,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title><s:i18n name="global_th"><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_how_to_use" /></s:i18n></title>
+  <title><s:i18n name="global_th"><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_inform" /></s:i18n></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
 <script type="text/javascript">
@@ -95,15 +95,15 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					<s:i18n name="global_th"><s:text name="global.menu_how_to_use" /></s:i18n>
+					<s:i18n name="global_th"><s:text name="global.menu_inform" /></s:i18n>
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
-						<form class="ui form " method="post" action="<s:url value="/admin/howtouse/update"/>" >
+						<form class="ui form " method="post" action="<s:url value="/admin/inform/update"/>" >
 							<div class="inline field">
-								<s:textarea name="homeInfo.howToUse" />
+								<s:textarea name="homeInfo.inform" />
 								<script type="text/javascript">
-									CKEDITOR.replace("homeInfo.howToUse", {
+									CKEDITOR.replace("homeInfo.inform", {
 										/*filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
 										filebrowserImageBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Images',
 										filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',*/

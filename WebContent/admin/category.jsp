@@ -8,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.shop_category" /></title>
+  <title><s:i18n name="global_th"><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.shop_category" /></s:i18n></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
 
@@ -117,7 +117,7 @@
 
       $("#addbtn")
 		.on('click', function() {
-		  $('.ui.modal .header:first').text("<s:text name="global.add_information" /><s:text name="global.shop_category" />");
+		  $('.ui.modal .header:first').text("<s:i18n name="global_th"><s:text name="global.add_information" /><s:text name="global.shop_category" /></s:i18n>");
 		  $('#infoForm').find("input[type=text], input[type=hidden], textarea").val("");
 		  CKEDITOR.instances.categoryInfo_description.setData('');
 		  $('#infoForm').find(".event:gt(0)").remove();
@@ -224,22 +224,22 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					<s:text name="global.shop_category" />
+					<s:i18n name="global_th"><s:text name="global.shop_category" /></s:i18n>
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div id="addbtn" class="ui small button blue"><s:text name="global.add" /></div>
+								<div id="addbtn" class="ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th><s:text name="global.japanese_name" /></th>
-									<th><s:text name="global.english_name" /></th>
-									<th><s:text name="global.operation" /></th>
+									<th><s:i18n name="global_th"><s:text name="global.japanese_name" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.english_name" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -268,18 +268,18 @@
 <div class="ui modal">
   <i class="close icon"></i>
   <div class="header">
-    <s:text name="global.edit_information" /><s:text name="global.shop_category" />
+    <s:i18n name="global_th"><s:text name="global.edit_information" /><s:text name="global.shop_category" /></s:i18n>
   </div>
   <div class="content">
     <form class="ui form" id="infoForm" method="post" action="<s:url value="/admin/category/update"/>">
 		<div class="inline field">
-			<s:textfield name="categoryInfo.categoryNameJp" key="global.japanese_name" />
+			<s:i18n name="global_th"><s:textfield name="categoryInfo.categoryNameJp" key="global.japanese_name" /></s:i18n>
 		</div>
 		<div class="inline field">
-			<s:textfield name="categoryInfo.categoryNameEn" key="global.english_name" />
+			<s:i18n name="global_th"><s:textfield name="categoryInfo.categoryNameEn" key="global.english_name" /></s:i18n>
 		</div>
 		<div class="inline fields">
-			<label class="label"><s:text name="global.location" />:</label>
+			<label class="label"><s:i18n name="global_th"><s:text name="global.location" /></s:i18n>:</label>
 			<div class="ui left icon input">
 				<div class="ui feed">
 					<div class="event">
@@ -303,7 +303,7 @@
 		</div>
 		<h4 class="ui horizontal divider header">
 			<i class="comment icon"></i>
-			<s:text name="global.description" />
+			<s:i18n name="global_th"><s:text name="global.description" /></s:i18n>
 		</h4>
 		<div class="inline field">
 			<s:textarea name="categoryInfo.description" />
@@ -314,8 +314,8 @@
 	</form>
   </div>
   <div class="actions">
-    <div class="ui approve blue button"><s:text name="global.save" /></div>
-    <div class="ui cancel button"><s:text name="global.cancel" /></div>
+    <div class="ui approve blue button"><s:i18n name="global_th"><s:text name="global.save" /></s:i18n></div>
+    <div class="ui cancel button"><s:i18n name="global_th"><s:text name="global.cancel" /></s:i18n></div>
   </div>
 </div>
 <script type="text/javascript">

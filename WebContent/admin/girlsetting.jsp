@@ -8,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_girl_setting" /></title>
+  <title><s:i18n name="global_th"><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_girl_setting" /></s:i18n></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
 
@@ -71,7 +71,7 @@
                     rules: [
                       {
                         type   : 'integer',
-                        prompt : '<s:text name="global.message_please_input" /><s:text name="global.age" /><s:text name="global.message_correctly" />'
+                        prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.age" /><s:text name="global.message_correctly" /></s:i18n>'
                       },
                     ]
                   },
@@ -80,7 +80,7 @@
                      rules: [
                        {
                          type   : 'integer',
-                         prompt : '<s:text name="global.message_please_input" /><s:text name="global.age" /><s:text name="global.message_correctly" />'
+                         prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.age" /><s:text name="global.message_correctly" /></s:i18n>'
                        },
                      ]
                    },
@@ -89,7 +89,7 @@
                   rules: [
                     {
                       type   : 'integer',
-                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.bust" /><s:text name="global.message_correctly" />'
+                      prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.bust" /><s:text name="global.message_correctly" /></s:i18n>'
                     },
                   ]
                 },
@@ -98,7 +98,7 @@
                   rules: [
                     {
                       type   : 'integer',
-                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.bust" /><s:text name="global.message_correctly" />'
+                      prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.bust" /><s:text name="global.message_correctly" /></s:i18n>'
                     },
                   ]
                 },
@@ -107,7 +107,7 @@
                   rules: [
                     {
                       type   : 'integer',
-                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.waist" /><s:text name="global.message_correctly" />'
+                      prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.waist" /><s:text name="global.message_correctly" /></s:i18n>'
                     },
                   ]
                 },
@@ -116,7 +116,7 @@
                    rules: [
                      {
                        type   : 'integer',
-                       prompt : '<s:text name="global.message_please_input" /><s:text name="global.waist" /><s:text name="global.message_correctly" />'
+                       prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.waist" /><s:text name="global.message_correctly" /></s:i18n>'
                      },
                    ]
                  },
@@ -125,7 +125,7 @@
                 rules: [
                   {
                     type   : 'integer',
-                    prompt : '<s:text name="global.message_please_input" /><s:text name="global.hip" /><s:text name="global.message_correctly" />'
+                    prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.hip" /><s:text name="global.message_correctly" /></s:i18n>'
                   },
                 ]
               },
@@ -134,7 +134,7 @@
                   rules: [
                     {
                       type   : 'integer',
-                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.hip" /><s:text name="global.message_correctly" />'
+                      prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.hip" /><s:text name="global.message_correctly" /></s:i18n>'
                     },
                   ]
                 },
@@ -143,7 +143,7 @@
                   rules: [
                     {
                       type   : 'integer',
-                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.height" /><s:text name="global.message_correctly" />'
+                      prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.height" /><s:text name="global.message_correctly" /></s:i18n>'
                     },
                   ]
                 },
@@ -152,7 +152,7 @@
                   rules: [
                     {
                       type   : 'integer',
-                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.height" /><s:text name="global.message_correctly" />'
+                      prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.height" /><s:text name="global.message_correctly" /></s:i18n>'
                     },
                   ]
                 },
@@ -161,7 +161,7 @@
                   rules: [
                     {
                       type   : 'integer',
-                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.weight" /><s:text name="global.message_correctly" />'
+                      prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.weight" /><s:text name="global.message_correctly" /></s:i18n>'
                     },
                   ]
                 },
@@ -170,7 +170,7 @@
                   rules: [
                     {
                       type   : 'integer',
-                      prompt : '<s:text name="global.message_please_input" /><s:text name="global.weight" /><s:text name="global.message_correctly" />'
+                      prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.weight" /><s:text name="global.message_correctly" /></s:i18n>'
                     },
                   ]
                 },
@@ -220,13 +220,13 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					<s:text name="global.menu_girl_setting" />
+					<s:i18n name="global_th"><s:text name="global.menu_girl_setting" /></s:i18n>
 				</h4>
 				<div class="ui centered attached segment active content">
 					<form class="ui form " method="post" action="<s:url value="/admin/girlsetting/update"/>">
 						<div class="ui error message"><s:actionerror cssClass="list" /></div>
 						<div class="inline fields">
-							<label><s:text name="global.age" /></label>
+							<label><s:i18n name="global_th"><s:text name="global.age" /></s:i18n></label>
 							<div class="field">
 								<s:textfield name="girlSetting.ageFrom" size="5" />
 							</div>
@@ -236,7 +236,7 @@
 							</div>
 						</div>
 						<div class="inline fields">
-							<label><s:text name="global.bust" /></label>
+							<label><s:i18n name="global_th"><s:text name="global.bust" /></s:i18n></label>
 							<div class="field">
 								<s:textfield name="girlSetting.bustSizeFrom" size="5" />
 							</div>
@@ -246,7 +246,7 @@
 							</div>
 						</div>
 						<div class="inline fields">
-							<label><s:text name="global.waist" /></label>
+							<label><s:i18n name="global_th"><s:text name="global.waist" /></s:i18n></label>
 							<div class="field">
 								<s:textfield name="girlSetting.waistSizeFrom" size="5" />
 							</div>
@@ -256,7 +256,7 @@
 							</div>
 						</div>
 						<div class="inline fields">
-							<label><s:text name="global.hip" /></label>
+							<label><s:i18n name="global_th"><s:text name="global.hip" /></s:i18n></label>
 							<div class="field">
 								<s:textfield name="girlSetting.hipSizeFrom" size="5" />
 							</div>
@@ -266,7 +266,7 @@
 							</div>
 						</div>
 						<div class="inline fields">
-							<label><s:text name="global.height" /></label>
+							<label><s:i18n name="global_th"><s:text name="global.height" /></s:i18n></label>
 							<div class="field">
 								<s:textfield name="girlSetting.heightFrom" size="5" />
 							</div>
@@ -276,7 +276,7 @@
 							</div>
 						</div>
 						<div class="inline fields">
-							<label><s:text name="global.weight" /></label>
+							<label><s:i18n name="global_th"><s:text name="global.weight" /></s:i18n></label>
 							<div class="field">
 								<s:textfield name="girlSetting.weightFrom" size="5" />
 							</div>
@@ -287,7 +287,7 @@
 						</div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div class="ui small button submit blue"><s:text name="global.submit" /></div>
+								<div class="ui small button submit blue"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
 							</div>
 						</div>
 					</form>

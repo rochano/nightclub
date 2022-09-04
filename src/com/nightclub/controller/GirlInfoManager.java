@@ -41,7 +41,7 @@ public class GirlInfoManager extends HibernateUtil {
 	public GirlInfo update(GirlInfo girlInfo) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-//		deleteGirlLocationInfo(girlInfo.getGirlInfoId());
+		deleteGirlLocationInfo(girlInfo.getGirlInfoId());
 		deleteGirlServiceInfo(girlInfo.getGirlInfoId());
 		deleteGirlProvinceInfo(girlInfo.getGirlInfoId());
 		session.saveOrUpdate(girlInfo);
@@ -60,17 +60,17 @@ public class GirlInfoManager extends HibernateUtil {
 		}
 	}
 	
-//	public void deleteGirlLocationInfo(String girlInfoId) {
-//		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-//		try {
-//			session.createQuery("delete from GirlLocation gl where gl.primaryKey.girlInfo.girlInfoId = :girlInfoId")
-//			.setParameter("girlInfoId", girlInfoId).executeUpdate();
-//		} catch (HibernateException e) {
-//			e.printStackTrace();
-//			session.getTransaction().rollback();
-//		}
-//	}
-//	
+	public void deleteGirlLocationInfo(String girlInfoId) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			session.createQuery("delete from GirlLocation gl where gl.primaryKey.girlInfo.girlInfoId = :girlInfoId")
+			.setParameter("girlInfoId", girlInfoId).executeUpdate();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+	}
+	
 	public void deleteGirlProvinceInfo(String girlInfoId) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
@@ -510,7 +510,7 @@ public class GirlInfoManager extends HibernateUtil {
 			List<GirlInfo> freeAgentGirlInfoList = new ArrayList();
 			List<GirlInfo> enGirlInfoList = new ArrayList();
 			GirlInfo girlInfo;
-//			List<GirlLocation> girlLocations;
+			List<GirlLocation> girlLocations;
 			List<GirlProvince> girlProvinces;
 			Query query;
 			boolean uncheckAll = false;
@@ -603,17 +603,25 @@ public class GirlInfoManager extends HibernateUtil {
 				while(it.hasNext()) {
 					girlInfo = (GirlInfo) it.next();
 					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
-//					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
-//					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
-//					while(itGirlLocation.hasNext()) {
-//						GirlLocation girlLocation = itGirlLocation.next();
-//						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
-//					}
-//					girlInfo.setGirlLocations(girlLocations);
+					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
+					while(itGirlLocation.hasNext()) {
+						GirlLocation girlLocation = itGirlLocation.next();
+						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
+						if(girlLocation.getZoneInfo().getProvinceInfo() != null) {
+							girlLocation.getZoneInfo().getProvinceInfo().setZoneInfos(new ArrayList());
+						}
+					}
+					girlInfo.setGirlLocations(girlLocations);
 					if (girlInfo.getCountryInfo() != null) {
 						girlInfo.getCountryInfo().setProvinceInfos(new ArrayList());
 					}
 					girlProvinces = getGirlProvinceListByGirlInfoId(session, girlInfo.getGirlInfoId());
+					java.util.Iterator<GirlProvince> itGirlProvinces = girlProvinces.iterator();
+					while(itGirlProvinces.hasNext()) {
+						GirlProvince girlProvince = itGirlProvinces.next();
+						girlProvince.getProvinceInfo().setZoneInfos(new ArrayList());
+					}
 					girlInfo.setGirlProvinces(girlProvinces);
 				}
 				girlInfos.addAll(shopGirlInfoList);
@@ -690,18 +698,26 @@ public class GirlInfoManager extends HibernateUtil {
 					girlInfo = (GirlInfo) it.next();
 					((AgentGirlInfo)girlInfo).setAgentInfo(getAgentInfo(session, ((AgentGirlInfo)girlInfo).getAgentInfoId()));
 					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
-//					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
-//					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
-//					while(itGirlLocation.hasNext()) {
-//						GirlLocation girlLocation = itGirlLocation.next();
-//						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
-//					}
-//					girlInfo.setGirlLocations(girlLocations);
+					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
+					while(itGirlLocation.hasNext()) {
+						GirlLocation girlLocation = itGirlLocation.next();
+						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
+						if(girlLocation.getZoneInfo().getProvinceInfo() != null) {
+							girlLocation.getZoneInfo().getProvinceInfo().setZoneInfos(new ArrayList());
+						}
+					}
+					girlInfo.setGirlLocations(girlLocations);
 					((AgentGirlInfo)girlInfo).setGirlServices(new ArrayList());
 					if (girlInfo.getCountryInfo() != null) {
 						girlInfo.getCountryInfo().setProvinceInfos(new ArrayList());
 					}
 					girlProvinces = getGirlProvinceListByGirlInfoId(session, girlInfo.getGirlInfoId());
+					java.util.Iterator<GirlProvince> itGirlProvinces = girlProvinces.iterator();
+					while(itGirlProvinces.hasNext()) {
+						GirlProvince girlProvince = itGirlProvinces.next();
+						girlProvince.getProvinceInfo().setZoneInfos(new ArrayList());
+					}
 					girlInfo.setGirlProvinces(girlProvinces);
 				}
 				girlInfos.addAll(agentGirlInfoList);
@@ -768,18 +784,26 @@ public class GirlInfoManager extends HibernateUtil {
 				while(it.hasNext()) {
 					girlInfo = (GirlInfo) it.next();
 					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
-//					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
-//					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
-//					while(itGirlLocation.hasNext()) {
-//						GirlLocation girlLocation = itGirlLocation.next();
-//						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
-//					}
-//					girlInfo.setGirlLocations(girlLocations);
+					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
+					while(itGirlLocation.hasNext()) {
+						GirlLocation girlLocation = itGirlLocation.next();
+						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
+						if(girlLocation.getZoneInfo().getProvinceInfo() != null) {
+							girlLocation.getZoneInfo().getProvinceInfo().setZoneInfos(new ArrayList());
+						}
+					}
+					girlInfo.setGirlLocations(girlLocations);
 					((FreeAgentGirlInfo)girlInfo).setGirlServices(new ArrayList());
 					if (girlInfo.getCountryInfo() != null) {
 						girlInfo.getCountryInfo().setProvinceInfos(new ArrayList());
 					}
 					girlProvinces = getGirlProvinceListByGirlInfoId(session, girlInfo.getGirlInfoId());
+					java.util.Iterator<GirlProvince> itGirlProvinces = girlProvinces.iterator();
+					while(itGirlProvinces.hasNext()) {
+						GirlProvince girlProvince = itGirlProvinces.next();
+						girlProvince.getProvinceInfo().setZoneInfos(new ArrayList());
+					}
 					girlInfo.setGirlProvinces(girlProvinces);
 				}
 				girlInfos.addAll(freeAgentGirlInfoList);
@@ -846,17 +870,25 @@ public class GirlInfoManager extends HibernateUtil {
 				while(it.hasNext()) {
 					girlInfo = (GirlInfo) it.next();
 					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
-//					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
-//					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
-//					while(itGirlLocation.hasNext()) {
-//						GirlLocation girlLocation = itGirlLocation.next();
-//						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
-//					}
-//					girlInfo.setGirlLocations(girlLocations);
+					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
+					while(itGirlLocation.hasNext()) {
+						GirlLocation girlLocation = itGirlLocation.next();
+						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
+						if(girlLocation.getZoneInfo().getProvinceInfo() != null) {
+							girlLocation.getZoneInfo().getProvinceInfo().setZoneInfos(new ArrayList());
+						}
+					}
+					girlInfo.setGirlLocations(girlLocations);
 					if (girlInfo.getCountryInfo() != null) {
 						girlInfo.getCountryInfo().setProvinceInfos(new ArrayList());
 					}
 					girlProvinces = getGirlProvinceListByGirlInfoId(session, girlInfo.getGirlInfoId());
+					java.util.Iterator<GirlProvince> itGirlProvinces = girlProvinces.iterator();
+					while(itGirlProvinces.hasNext()) {
+						GirlProvince girlProvince = itGirlProvinces.next();
+						girlProvince.getProvinceInfo().setZoneInfos(new ArrayList());
+					}
 					girlInfo.setGirlProvinces(girlProvinces);
 				}
 				girlInfos.addAll(enGirlInfoList);
@@ -951,6 +983,13 @@ public class GirlInfoManager extends HibernateUtil {
 		try {
 			
 			girlProvinces = getGirlProvinceListByGirlInfoId(session, girlInfoId);
+			java.util.Iterator<GirlProvince> itGirlProvinces = girlProvinces.iterator();
+			List girlLocation = null;
+			while(itGirlProvinces.hasNext()) {
+				GirlProvince girlProvince = itGirlProvinces.next();
+				girlLocation = getGirlLocationListByGirlInfoIdAndProvinceInfoId(session, girlInfoId, girlProvince.getProvinceInfo().getProvinceInfoId());
+				girlProvince.getProvinceInfo().setZoneInfos(girlLocation);
+			}
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -966,6 +1005,7 @@ public class GirlInfoManager extends HibernateUtil {
 		girlProvinces = (List<GirlProvince>)session.createQuery("from GirlProvince gl where gl.primaryKey.girlInfo.girlInfoId = :girlInfoId")
 					.setParameter("girlInfoId", girlInfoId)
 					.list();
+		
 		return girlProvinces;
 	}
 	
@@ -991,5 +1031,17 @@ public class GirlInfoManager extends HibernateUtil {
 		}
 		countryInfo = (CountryInfo) mapCountryInfo.get(countryInfoId);
 		return countryInfo;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GirlLocation> getGirlLocationListByGirlInfoIdAndProvinceInfoId(Session session, String girlInfoId, String provinceInfoId) {
+		List<GirlLocation> girlLocations = null;
+		girlLocations = (List<GirlLocation>)session.createQuery("from GirlLocation gl " +
+				" where gl.primaryKey.girlInfo.girlInfoId = :girlInfoId" +
+				" and gl.primaryKey.zoneInfo.provinceInfoId = :provinceInfoId")
+					.setParameter("girlInfoId", girlInfoId)
+					.setParameter("provinceInfoId", provinceInfoId)
+					.list();
+		return girlLocations;
 	}
 }

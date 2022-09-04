@@ -47,7 +47,7 @@ public class GenderInfoAction extends ActionSupport {
 			genderInfo.setGenderInfoId(UUID.randomUUID().toString().toUpperCase());
 			genderInfoManager.add(this.genderInfo);
 			
-			addActionMessage(getText("global.message_success_add"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_add"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -60,7 +60,7 @@ public class GenderInfoAction extends ActionSupport {
 		try {
 			genderInfoManager.update(this.genderInfo);
 			
-			addActionMessage(getText("global.message_success_update"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -80,10 +80,10 @@ public class GenderInfoAction extends ActionSupport {
 		String result = "";
 		if(!genderInfoManager.isRelatedGirlInfo(getGenderInfoId())) {
 			genderInfoManager.delete(getGenderInfoId());
-			addActionMessage(getText("global.message_success_delete"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_delete"));
 			result = SUCCESS;
 		} else{
-			addActionError(getText("global.message_gender_delete_fail"));
+			addActionError(getTexts("global_th").getString("global.message_gender_delete_fail"));
 			result = INPUT;
 		}
 		this.genderInfos = genderInfoManager.list();

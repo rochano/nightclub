@@ -41,6 +41,13 @@
   .ui.form .field > :first-child {
   	width: 150px;
   }
+  #provinceInfos {
+  	margin-top:0;
+  	margin-left:0;
+  }
+  [name=provinceInfos] {
+  	display: none;
+  }
   </style>
   <script>
   $(document)
@@ -62,11 +69,19 @@
      $('#searchForm.ui.form').slideDown('slow');
      $("#frontSearch_countryInfoId").change(function() {
     	  	var countryInfoId = $(this).val();
-    	  	loadProvince(countryInfoId, '#provinceInfos');
+    	  	loadProvince(countryInfoId, '#provinceInfos', 'zoneInfos');
  	  });
+     $("[name='frontSearch.zoneInfos']").change(function() {
+   	  	 var parents = $(this).parents(".accordion:first");
+         if(parents.find("[name='frontSearch.zoneInfos']:checked").length == 0) {
+       	  parents.find("[name=provinceInfos]").prop('checked',false );
+         } else {
+       	  parents.find("[name=provinceInfos]").prop('checked',true );
+         }
+     });
     })
   ;
-  function loadProvince(countryInfoId, provinceInfosElmId) {
+  function loadProvince(countryInfoId, provinceInfosElmId, girlLocationsId) {
 	  $.getJSON("<s:url value="/ajax/loadProvinceByCountry/" />" + countryInfoId, 
 			function(jsonResponse) {
 				var provinceInfos = $(provinceInfosElmId);
@@ -74,10 +89,30 @@
 			     $.each(jsonResponse.provinceInfos, function(i, obj) {
 					var html = '';
 					html += '<div class="column">';
-					html += '	<div class="field ui checkbox">';
-					html += '		<input type="checkbox" name="frontSearch.provinceInfos" id="provinceInfos_' + i + '"';
-					html += '			value="' + obj.provinceInfoId + '">';
-					html += '		<label for="provinceInfos_' + i + '">' + obj.provinceNameJp + '</label>';
+					html += '	<div class="ui">';
+					html += '		<div class="ui accordion">';
+					html += '			<div class="title ui">';
+					html += '				<input type="checkbox" name="provinceInfos" id="provinceInfos_' + i + '"';
+					html += '				value="' + obj.provinceInfoId + '">';
+					html += '				<label>' + obj.provinceNameJp + '</label>';
+					html += '				<i class="dropdown icon"></i>';
+					html += '			</div>';
+					html += '			<div class="content">';
+					html += '				<div class="ui four column grid" class="zoneInfos">';
+					if(obj.zoneInfos) {
+						$.each(obj.zoneInfos, function(j, objZoneInfo) {
+							html += '				<div class="column">';
+							html += '					<div class="field ui checkbox">';
+							html += '						<input type="checkbox" name="frontSearch.' + girlLocationsId + '" id="' + obj.provinceInfoId + '_' + girlLocationsId + '_' + j + '"';
+							html += '						value="' + objZoneInfo.zoneInfoId + '">';
+							html += '						<label for="' + obj.provinceInfoId + '_' + girlLocationsId + '_' + j + '">' + objZoneInfo.zoneNameJp + '</label>';
+							html += '					</div>';
+							html += '				</div>';
+						});
+					}
+					html += '				</div>';
+					html += '			</div>';
+					html += '		</div>';
 					html += '	</div>';
 					html += '</div>';
 			       $(html).appendTo(provinceInfos);
@@ -256,17 +291,39 @@
 										<i class="dropdown icon"></i>
 									</h4>
 									<div class="content">
-										<div class="ui four column grid doubling" id="provinceInfos">
+										<div class="ui one column grid doubling" id="provinceInfos">
 											<s:iterator value="provinceInfos" status="rowstatus">
 												<div class="column">
-													<div class="field ui checkbox">
-														<input type="checkbox" name="frontSearch.provinceInfos" id="provinceInfos_<s:property value="#rowstatus.count" />"
-															<s:iterator value="frontSearch.provinceInfos" >
-																<s:property value="top" />
-																<s:if test="top == provinceInfoId">checked="checked"</s:if>
-															</s:iterator>
-															value="<s:property value="provinceInfoId" />">
-														<label for="provinceInfos_<s:property value="#rowstatus.count" />"><s:property value="provinceNameJp" /></label>
+													<div class="ui">
+														<div class="ui accordion">
+															<div class="title ui">
+																<input type="checkbox" name="provinceInfos" id="provinceInfos_<s:property value="#rowstatus.count" />"
+																<s:iterator value="frontSearch.provinceInfos" >
+																	<s:property value="top" />
+																	<s:if test="top == provinceInfoId">checked="checked"</s:if>
+																</s:iterator>
+																value="<s:property value="provinceInfoId" />">
+																<label><s:property value="provinceNameJp" /></label>
+																<i class="dropdown icon"></i>
+															</div>
+															<div class="content">
+																<div class="ui four column grid" class="zoneInfos">
+																	<s:iterator value="top.zoneInfos" status="rowstatus">
+																		<div class="column">
+																			<div class="field ui checkbox">
+																				<input type="checkbox" name="frontSearch.zoneInfos" id="<s:property value="provinceInfoId" />_zoneInfos_<s:property value="#rowstatus.count" />"
+																				<s:iterator value="frontSearch.zoneInfos" >
+																					<s:property value="top" />
+																					<s:if test="top == zoneInfoId">checked="checked"</s:if>
+																				</s:iterator>
+																				value="<s:property value="zoneInfoId" />">
+																				<label for="<s:property value="provinceInfoId" />_zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameJp" /></label>
+																			</div>
+																		</div>
+																	</s:iterator>
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
 											</s:iterator>

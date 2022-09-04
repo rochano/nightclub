@@ -29,6 +29,7 @@ public class HomeInfo implements Serializable {
 	private String lineClientSecret;
 	private String lineRedirectUrl;
 	private String lineNotifyActive;
+	private String inform;
 	
 	@Id
 	@Column(name="home_info_id")
@@ -86,6 +87,11 @@ public class HomeInfo implements Serializable {
 	public String getHowToInputEnGirl() {
 		return howToInputEnGirl;
 	}
+	@Column(name="inform")
+	@Length(max=1000)
+	public String getInform() {
+		return inform;
+	}
 	public void setHomeInfoId(String homeInfoId) {
 		this.homeInfoId = homeInfoId;
 	}
@@ -142,6 +148,9 @@ public class HomeInfo implements Serializable {
 	}
 	public void setLineNotifyActive(String lineNotifyActive) {
 		this.lineNotifyActive = lineNotifyActive;
+	}
+	public void setInform(String inform) {
+		this.inform = inform;
 	}
 	
 }

@@ -52,6 +52,10 @@
   	height: 350px;
   	width:auto;
   }
+  .inform {
+	display: block;
+	text-align: left;
+  }
   @media only screen and (max-width: 767px) {
   	.ui.menu:not(.vertical):not(.fixed)/*,
   	.ui.grid.menu-slide-image*/ {
@@ -59,6 +63,8 @@
   	}
   	.ui.menu.toc:not(.vertical):not(.fixed) {
   		display: block;
+  	}
+  	.inform {
   		margin-top: 50px;
   	}
   	/* .ui.inverted.menu .active.item {overflow: auto ;}
@@ -125,8 +131,9 @@
        })
       .sidebar('attach events', '.toc.item')
     	;
-      $('.ui.accordion')
+      $('.form > .ui.accordion')
       .accordion()
+    ;
       var key = 'thainightnavi_cookies', value = 'accept', age_days = 90;
       if(!document.cookie.includes(key + '=' + value)) {
 				$('.ui.cookie.sidebar').sidebar('setting', {

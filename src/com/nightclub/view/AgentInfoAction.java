@@ -104,7 +104,7 @@ public class AgentInfoAction extends ActionSupport implements SessionAware {
 			}
 		}
 		
-		addActionMessage(getText("global.message_success_update"));
+		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 		
 		this.execute();
 		

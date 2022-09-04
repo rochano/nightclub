@@ -12,7 +12,10 @@ import org.hibernate.Query;
 import org.hibernate.classic.Session;
 
 import com.nightclub.model.GirlInfo;
+import com.nightclub.model.GirlLocation;
+import com.nightclub.model.GirlProvince;
 import com.nightclub.model.ProvinceInfo;
+import com.nightclub.model.ZoneInfo;
 
 public class ProvinceInfoManager extends HibernateUtil {
 
@@ -72,6 +75,7 @@ public class ProvinceInfoManager extends HibernateUtil {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		List<ProvinceInfo> provinceInfos = null;
+		ProvinceInfo provinceInfo;
 		try {
 			
 			provinceInfos = (List<ProvinceInfo>)session.createQuery("from ProvinceInfo").list();
@@ -157,6 +161,7 @@ public class ProvinceInfoManager extends HibernateUtil {
 			while(it.hasNext()) {
 				provinceInfo = (ProvinceInfo) it.next();
 				provinceInfo.getCountryInfo().setProvinceInfos(new ArrayList());
+				provinceInfo.setZoneInfos(getZoneListByProvinceInfoId(session, provinceInfo.getProvinceInfoId()));
 			}
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -165,5 +170,19 @@ public class ProvinceInfoManager extends HibernateUtil {
 		session.getTransaction().commit();
 		
 		return provinceInfos;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<ZoneInfo> getZoneListByProvinceInfoId(Session session, String provinceInfoId) {
+		List<ZoneInfo> zoneInfos = null;
+		zoneInfos = (List<ZoneInfo>)session.createQuery("from ZoneInfo where provinceInfoId = :provinceInfoId")
+					.setParameter("provinceInfoId", provinceInfoId)
+					.list();
+		Iterator it = zoneInfos.iterator();
+		while(it.hasNext()) {
+			ZoneInfo zoneInfo = (ZoneInfo) it.next();
+			zoneInfo.setCategoryZones(new ArrayList());
+		}
+		return zoneInfos;
 	}
 }

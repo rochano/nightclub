@@ -161,7 +161,7 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 			}
 			girlInfoManager.add(this.girlInfo);
 			
-			addActionMessage(getText("global.message_success_add"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_add"));
 			this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
 			setFormValue(userInfo);
 			
@@ -272,7 +272,7 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 			this.girlInfo.setUpdatedBy(userInfo.getUserInfoId());
 			girlInfoManager.update(this.girlInfo);
 			
-			addActionMessage(getText("global.message_success_update"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 			this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
 			setFormValue(userInfo);
 			
@@ -326,7 +326,7 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 	public String delete() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		girlInfoManager.delete(getGirlInfoId());
-		addActionMessage(getText("global.message_success_delete"));
+		addActionMessage(getTexts("global_th").getString("global.message_success_delete"));
 		this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
 		setFormValue(userInfo);
 		return SUCCESS;
@@ -461,7 +461,7 @@ public class ShopGirlInfoAction extends ActionSupport implements SessionAware {
 		girlInfoManager.avaiableByGirlInfoId(allGirlInfoIdList, availableGirlInfoIdList);
 		this.girlInfos = girlInfoManager.list(userInfo.getShopInfoId());
 		setFormValue(userInfo);
-		addActionMessage(getText("global.message_success_update"));
+		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 		return SUCCESS;
 	}
 

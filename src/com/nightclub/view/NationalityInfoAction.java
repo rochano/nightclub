@@ -47,7 +47,7 @@ public class NationalityInfoAction extends ActionSupport {
 			nationalityInfo.setNationalityInfoId(UUID.randomUUID().toString().toUpperCase());
 			nationalityInfoManager.add(this.nationalityInfo);
 			
-			addActionMessage(getText("global.message_success_add"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_add"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -60,7 +60,7 @@ public class NationalityInfoAction extends ActionSupport {
 		try {
 			nationalityInfoManager.update(this.nationalityInfo);
 			
-			addActionMessage(getText("global.message_success_update"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -80,10 +80,10 @@ public class NationalityInfoAction extends ActionSupport {
 		String result = "";
 		if(!nationalityInfoManager.isRelatedGirlInfo(getNationalityInfoId())) {
 			nationalityInfoManager.delete(getNationalityInfoId());
-			addActionMessage(getText("global.message_success_delete"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_delete"));
 			result = SUCCESS;
 		} else{
-			addActionError(getText("global.message_nationality_delete_fail"));
+			addActionError(getTexts("global_th").getString("global.message_nationality_delete_fail"));
 			result = INPUT;
 		}
 		this.nationalityInfos = nationalityInfoManager.list();

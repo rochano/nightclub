@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import com.nightclub.controller.ProvinceInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
+import com.nightclub.model.ProvinceInfo;
 import com.nightclub.model.ZoneInfo;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -20,11 +22,14 @@ public class ZoneInfoAction extends ActionSupport {
 	private String menu;
 	private String action;
 	private boolean showInfo = false;
-	
+	private List<ProvinceInfo> provinceInfos;
+
 	private ZoneInfoManager zoneInfoManager;
+	private ProvinceInfoManager provinceInfoManager;
 
 	public ZoneInfoAction() {
 		zoneInfoManager = new ZoneInfoManager();
+		provinceInfoManager = new ProvinceInfoManager();
 	}
 	
 	public String execute() {
@@ -38,6 +43,7 @@ public class ZoneInfoAction extends ActionSupport {
 		}
 		
 		this.zoneInfos = zoneInfoManager.list();
+		this.provinceInfos = provinceInfoManager.list();
 		
 		return SUCCESS;
 	}
@@ -47,7 +53,7 @@ public class ZoneInfoAction extends ActionSupport {
 			zoneInfo.setZoneInfoId(UUID.randomUUID().toString().toUpperCase());
 			zoneInfoManager.add(this.zoneInfo);
 			
-			addActionMessage(getText("global.message_success_add"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_add"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -60,7 +66,7 @@ public class ZoneInfoAction extends ActionSupport {
 		try {
 			zoneInfoManager.update(this.zoneInfo);
 			
-			addActionMessage(getText("global.message_success_update"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -73,25 +79,28 @@ public class ZoneInfoAction extends ActionSupport {
 		this.zoneInfo = zoneInfoManager.getZoneInfo(this.zoneInfoId);
 		this.showInfo = true;
 		this.zoneInfos = zoneInfoManager.list();
+		this.provinceInfos = provinceInfoManager.list();
 		return SUCCESS;
 	}
 
 	public String delete() {
 		String result = "";
-		if(!zoneInfoManager.isRelatedCategory(getZoneInfoId())) {
+		if(!zoneInfoManager.isRelatedGirlInfo(getZoneInfoId())) {
 			zoneInfoManager.delete(getZoneInfoId());
-			addActionMessage(getText("global.message_success_delete"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_delete"));
 			result = SUCCESS;
 		} else{
-			addActionError(getText("global.message_location_delete_fail"));
+			addActionError(getTexts("global_th").getString("global.message_location_delete_fail"));
 			result = INPUT;
 		}
 		this.zoneInfos = zoneInfoManager.list();
+		this.provinceInfos = provinceInfoManager.list();
 		return result;
 	}
 	
 	public String search() {
 		this.zoneInfos = zoneInfoManager.search(this.zoneSearch);
+		this.provinceInfos = provinceInfoManager.list();
 		return SUCCESS;
 	}
 
@@ -149,6 +158,14 @@ public class ZoneInfoAction extends ActionSupport {
 
 	public void setZoneSearch(ZoneInfo zoneSearch) {
 		this.zoneSearch = zoneSearch;
+	}
+
+	public List<ProvinceInfo> getProvinceInfos() {
+		return provinceInfos;
+	}
+
+	public void setProvinceInfos(List<ProvinceInfo> provinceInfos) {
+		this.provinceInfos = provinceInfos;
 	}
 
 

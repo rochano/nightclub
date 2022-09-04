@@ -10,7 +10,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title><s:text name="global.management" /> - <s:text name="global.change_password" /></title>
+  <title><s:i18n name="global_th"><s:text name="global.management" /> - <s:text name="global.change_password" /></s:i18n></title>
 
   <%@include file="/common/common_shop_management_header.jsp" %>
 
@@ -49,7 +49,7 @@
               rules: [
                 {
                   type   : 'empty',
-                  prompt : '<s:text name="global.message_please_input" /><s:text name="global.old_password" />'
+                  prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.old_password" /></s:i18n>'
                 }
               ]
             },
@@ -58,11 +58,11 @@
               rules: [
                 {
                   type   : 'empty',
-                  prompt : '<s:text name="global.message_please_input" /><s:text name="global.new_password" />'
+                  prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.new_password" /></s:i18n>'
                 },
                 {
                   type   : 'length[6]',
-                  prompt : '<s:text name="global.new_password" /><s:text name="global.message_valid_length" ><s:param value="6" /></s:text>'
+                  prompt : '<s:i18n name="global_th"><s:text name="global.new_password" /><s:text name="global.message_valid_length" ><s:param value="6" /></s:text></s:i18n>'
                 }
               ]
             },
@@ -71,11 +71,11 @@
                 rules: [
                   {
                     type   : 'empty',
-                    prompt : '<s:text name="global.message_please_input" /><s:text name="global.confirm_password" />'
+                    prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.confirm_password" /></s:i18n>'
                   },
                   {
                     type   : 'match[password]',
-                    prompt : '<s:text name="global.confirm_password" /><s:text name="global.message_match_new_password" />'
+                    prompt : '<s:i18n name="global_th"><s:text name="global.confirm_password" /><s:text name="global.message_match_new_password" /></s:i18n>'
                   }
                 ]
              }
@@ -132,7 +132,7 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					<s:text name="global.change_password" />
+					<s:i18n name="global_th"><s:text name="global.change_password" /></s:i18n>
 				</h4>
 				<div class="ui centered attached segment active content">
 					<form class="ui form" method="post" action="<s:url value="/management_free_agent/changepassword/update"/>">
@@ -145,17 +145,17 @@
 							</s:if>
 						</div>
 						<div class="required inline field">
-							<s:password name="oldPassword" key="global.old_password"/>
+							<s:i18n name="global_th"><s:password name="oldPassword" key="global.old_password"/></s:i18n>
 						</div>
 						<div class="required inline field">
-							<s:password name="password" key="global.new_password"/>
+							<s:i18n name="global_th"><s:password name="password" key="global.new_password"/></s:i18n>
 						</div>
 						<div class="required inline field">
-							<s:password name="confirmPassword" key="global.confirm_password"/>
+							<s:i18n name="global_th"><s:password name="confirmPassword" key="global.confirm_password"/></s:i18n>
 						</div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div class="ui small button submit blue"><s:text name="global.submit" /></div>
+								<div class="ui small button submit blue"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
 							</div>
 						</div>
 					</form>

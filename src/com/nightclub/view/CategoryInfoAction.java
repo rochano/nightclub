@@ -76,7 +76,7 @@ public class CategoryInfoAction extends ActionSupport implements SessionAware {
 			this.categoryInfo.setCategoryInfoId(UUID.randomUUID().toString().toUpperCase());
 			categoryInfoManager.add(this.categoryInfo);
 			
-			addActionMessage(getText("global.message_success_add"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_add"));
 			this.categoryInfos = categoryInfoManager.list();
 			
 			return SUCCESS;
@@ -107,7 +107,7 @@ public class CategoryInfoAction extends ActionSupport implements SessionAware {
 			this.categoryInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.categoryInfo.getDescription(), sessionMap, userInfo));
 			categoryInfoManager.update(this.categoryInfo);
 			
-			addActionMessage(getText("global.message_success_update"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -132,7 +132,7 @@ public class CategoryInfoAction extends ActionSupport implements SessionAware {
 
 	public String delete() {
 		categoryInfoManager.delete(this.categoryInfoId);
-		addActionMessage(getText("global.message_success_delete"));
+		addActionMessage(getTexts("global_th").getString("global.message_success_delete"));
 		this.categoryInfos = categoryInfoManager.list();
 		this.zoneInfos = zoneInfoManager.list();
 		return SUCCESS;

@@ -2,6 +2,11 @@
 <%@ page pageEncoding="UTF-8"%>
   <div class="ui centered grid">
 	  <div class="center aligned column">
+	  	<div class="inform">
+	  		<s:if test="homeInfo.inform != ''">
+	  			<s:text name="homeInfo.inform" />
+	  		</s:if>
+	  	</div>
 	  	<div class="ui menu inverted stackable toc left aligned">
 	  		<a class="toc item"><s:text name="global.main_menu" /></a>
 	  	</div>

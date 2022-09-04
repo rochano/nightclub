@@ -277,7 +277,7 @@ public class BasicInfoAction extends ActionSupport implements SessionAware {
 				userInfo = userInfoManager.update(userInfo);
 			}
 		}
-		addActionMessage(getText("global.message_success_update"));
+		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 		
 		this.execute();
 		

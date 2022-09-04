@@ -8,9 +8,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.Length;
 
 @Entity
@@ -25,6 +29,8 @@ public class ZoneInfo implements Serializable {
 	private String zoneNameJp;
 	private String chkCustomUrl;
 	private String customUrl;
+	private String provinceInfoId;
+	private ProvinceInfo provinceInfo;
 	
 	private List<CategoryZone> catgoryZones = new ArrayList<CategoryZone>();
 
@@ -61,6 +67,16 @@ public class ZoneInfo implements Serializable {
 	public String getCustomUrl() {
 		return customUrl;
 	}
+	@Column(name="province_info_id")
+	public String getProvinceInfoId() {
+		return provinceInfoId;
+	}
+	@OneToOne
+	@NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="province_info_id", referencedColumnName="province_info_id", insertable=false, updatable=false)
+	public ProvinceInfo getProvinceInfo() {
+		return provinceInfo;
+	}
 	public void setZoneInfoId(String zoneInfoId) {
 		this.zoneInfoId = zoneInfoId;
 	}
@@ -81,5 +97,11 @@ public class ZoneInfo implements Serializable {
 	}
 	public void setCustomUrl(String customUrl) {
 		this.customUrl = customUrl;
+	}
+	public void setProvinceInfoId(String provinceInfoId) {
+		this.provinceInfoId = provinceInfoId;
+	}
+	public void setProvinceInfo(ProvinceInfo provinceInfo) {
+		this.provinceInfo = provinceInfo;
 	}
 }

@@ -66,6 +66,27 @@ public class ZoneInfoManager extends HibernateUtil {
 		return bResult;
 	}
 
+	public boolean isRelatedGirlInfo(String zoneInfoId) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		boolean bResult = false;
+		try {
+			List<GirlInfo> girlInfos = (List<GirlInfo>)session
+					.createQuery("from GirlLocation where primaryKey.zoneInfo.zoneInfoId = :zoneInfoId ")
+					.setParameter("zoneInfoId", zoneInfoId).list();
+			
+			if(girlInfos.size() > 0) {
+				bResult = true;
+			}
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return bResult;
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<ZoneInfo> list() {
 		

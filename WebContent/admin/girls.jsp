@@ -8,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_girls" /></title>
+  <title><s:i18n name="global_th"><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_girls" /></s:i18n></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
 
@@ -46,6 +46,16 @@
   }
   searchForm .ui.checkbox label {
   	margin: 0em 0.85714286em 0em 0em;
+  }
+  #provinceInfos > .column:not(.row) {
+  	padding-top: 0;
+  }
+  #provinceInfos {
+  	margin-top:0;
+  	margin-left:0;
+  }
+  [name=provinceInfos] {
+  	display: none;
   }
   </style>
 
@@ -119,11 +129,19 @@
 	     })
        $("#girlSearch_countryInfoId").change(function() {
     	  	var countryInfoId = $(this).val();
-    	  	loadProvince(countryInfoId, '#provinceInfos');
+    	  	loadProvince(countryInfoId, '#provinceInfos', 'zoneInfos');
  	    });
+	   $("[name='girlSearch.zoneInfos']").change(function() {
+	   	  	 var parents = $(this).parents(".accordion:first");
+	         if(parents.find("[name='girlSearch.zoneInfos']:checked").length == 0) {
+	       	  parents.find("[name=provinceInfos]").prop('checked',false );
+	         } else {
+	       	  parents.find("[name=provinceInfos]").prop('checked',true );
+	         }
+	     });
     })
   ;
-  function loadProvince(countryInfoId, provinceInfosElmId) {
+  function loadProvince(countryInfoId, provinceInfosElmId, girlLocationsId) {
 	  $.getJSON("<s:url value="/ajax/loadProvinceByCountry/" />" + countryInfoId, 
 			function(jsonResponse) {
 				var provinceInfos = $(provinceInfosElmId);
@@ -131,10 +149,30 @@
 			     $.each(jsonResponse.provinceInfos, function(i, obj) {
 					var html = '';
 					html += '<div class="column">';
-					html += '	<div class="field ui checkbox">';
-					html += '		<input type="checkbox" name="girlSearch.provinceInfos" id="provinceInfos_' + i + '"';
-					html += '			value="' + obj.provinceInfoId + '">';
-					html += '		<label for="provinceInfos_' + i + '">' + obj.provinceNameEn + '</label>';
+					html += '	<div class="ui">';
+					html += '		<div class="ui accordion">';
+					html += '			<div class="title ui">';
+					html += '				<input type="checkbox" name="provinceInfos" id="provinceInfos_' + i + '"';
+					html += '				value="' + obj.provinceInfoId + '">';
+					html += '				<label>' + obj.provinceNameEn + '</label>';
+					html += '				<i class="dropdown icon"></i>';
+					html += '			</div>';
+					html += '			<div class="content">';
+					html += '				<div class="ui four column grid" class="zoneInfos">';
+					if(obj.zoneInfos) {
+						$.each(obj.zoneInfos, function(j, objZoneInfo) {
+							html += '				<div class="column">';
+							html += '					<div class="field ui checkbox">';
+							html += '						<input type="checkbox" name="girlSearch.' + girlLocationsId + '" id="' + obj.provinceInfoId + '_' + girlLocationsId + '_' + j + '"';
+							html += '						value="' + objZoneInfo.zoneInfoId + '">';
+							html += '						<label for="' + obj.provinceInfoId + '_' + girlLocationsId + '_' + j + '">' + objZoneInfo.zoneNameEn + '</label>';
+							html += '					</div>';
+							html += '				</div>';
+						});
+					}
+					html += '				</div>';
+					html += '			</div>';
+					html += '		</div>';
 					html += '	</div>';
 					html += '</div>';
 			       $(html).appendTo(provinceInfos);
@@ -184,7 +222,7 @@
 				<div class="ui left aligned attached segment active content">
 					<form class="ui form" id="searchForm" method="post" action="<s:url value="/admin/girls/search"/>">
 						<div class="inline field">
-							<s:textfield name="girlSearch.nickName" key="global.nick_name"/>
+							<s:i18n name="global_th"><s:textfield name="girlSearch.nickName" key="global.nick_name"/></s:i18n>
 						</div>
 						<s:i18n name="global_th">
 							<div class="inline field">
@@ -246,6 +284,48 @@
 								</div>
 							</div>
 						</s:i18n>
+						<div class="inline field">
+							<s:i18n name="global_th">
+								<s:select list="genderInfos"
+									listKey="genderInfoId" listValue="genderNameEn"
+									key="global.gender_specify" 
+									headerKey="" headerValue=""
+									name="girlSearch.genderInfoId">
+								</s:select>
+							</s:i18n>
+						</div>
+						<div class="ui accordion">
+							<div class="title">
+								<label><s:i18n name="global_th"><s:text name="global.nationality" /></s:i18n></label>
+								<i class="dropdown icon"></i>
+							</div>
+							<div class="content">
+								<div class="ui four column grid doubling">
+									<s:iterator value="nationalityInfos" status="rowstatus">
+										<div class="column">
+											<div class="field ui checkbox">
+												<input type="checkbox" name="girlSearch.nationalityInfos" id="nationalityInfos_<s:property value="#rowstatus.count" />"
+													<s:iterator value="girlSearch.nationalityInfos" >
+														<s:property value="top" />
+														<s:if test="top == nationalityInfoId">checked="checked"</s:if>
+													</s:iterator>
+													value="<s:property value="nationalityInfoId" />">
+												<label for="nationalityInfoInfos_<s:property value="#rowstatus.count" />"><s:property value="nationalityNameEn" /></label>
+											</div>
+										</div>
+									</s:iterator>
+								</div>
+							</div>
+						</div>
+						<br/>
+						<div class="inline field">
+							<label><s:i18n name="global_th"><s:text name="global.incall_outcall_specify" /></s:i18n></label>
+							<select name="girlSearch.incallOutcall" id="girlSearch_incallOutcall">
+								<option value=""></option>
+								<option value="incall" <s:if test="girlSearch.incallOutcall == 'incall'">selected="selected"</s:if>><s:i18n name="global_th"><s:text name="global.incall" /></s:i18n></option>
+								<option value="outcall" <s:if test="girlSearch.incallOutcall == 'outcall'">selected="selected"</s:if>><s:i18n name="global_th"><s:text name="global.outcall" /></s:i18n></option>
+							</select>
+						</div>
 						<%-- <div class="accordion">
 							<div class="inline field title">
 								<label class="label"><s:text name="global.location" /> :
@@ -280,24 +360,39 @@
 								</s:select>
 							</s:i18n>
 						</div>
-						<div class="ui inverted accordion">
-							<div class="inline field title">
-								<label class="label"><s:i18n name="global_th"><s:text name="global.province" /></s:i18n> :
-									<i class="dropdown icon"></i>
-								</label>
-							</div>
+						<div class="ui accordion">
+							<h4 class="title">
+								<s:i18n name="global_th"><s:text name="global.province" /></s:i18n> :
+								<i class="dropdown icon"></i>
+							</h4>
 							<div class="content">
-								<div class="ui four column grid doubling" id="provinceInfos">
+								<div class="ui one column grid doubling" id="provinceInfos">
 									<s:iterator value="provinceInfos" status="rowstatus">
 										<div class="column">
-											<div class="field ui checkbox">
-												<input type="checkbox" name="girlSearch.provinceInfos" id="provinceInfos_<s:property value="#rowstatus.count" />"
-													<s:iterator value="girlSearch.provinceInfos" >
-														<s:property value="top" />
-														<s:if test="top == provinceInfoId">checked="checked"</s:if>
-													</s:iterator>
-													value="<s:property value="provinceInfoId" />">
-												<label for="provinceInfos_<s:property value="#rowstatus.count" />"><s:property value="provinceNameEn" /></label>
+											<div class="field ui">
+												<div class="ui accordion">
+													<div class="title ui">
+														<label><s:property value="provinceNameEn" /></label>
+														<i class="dropdown icon"></i>
+													</div>
+													<div class="content">
+														<div class="ui four column grid" class="zoneInfos">
+															<s:iterator value="top.zoneInfos" status="rowstatus">
+																<div class="column">
+																	<div class="field ui checkbox">
+																		<input type="checkbox" name="girlSearch.zoneInfos" id="<s:property value="provinceInfoId" />_zoneInfos_<s:property value="#rowstatus.count" />"
+																		<s:iterator value="girlSearch.zoneInfos" >
+																			<s:property value="top" />
+																			<s:if test="top == zoneInfoId">checked="checked"</s:if>
+																		</s:iterator>
+																		value="<s:property value="zoneInfoId" />">
+																		<label for="<s:property value="provinceInfoId" />_zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
+																	</div>
+																</div>
+															</s:iterator>
+														</div>
+													</div>
+												</div>
 											</div>
 										</div>
 									</s:iterator>
@@ -307,15 +402,15 @@
 						<div class="ui error message"></div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div class="ui small button submit blue"><s:text name="global.search" /></div>
-								<div class="ui small button clear"><s:text name="global.clear" /></div>
+								<div class="ui small button submit blue"><s:i18n name="global_th"><s:text name="global.search" /></s:i18n></div>
+								<div class="ui small button clear"><s:i18n name="global_th"><s:text name="global.clear" /></s:i18n></div>
 							</div>
 						</div>
 					</form>
 				</div>
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					<s:text name="global.menu_girls" />
+					<s:i18n name="global_th"><s:text name="global.menu_girls" /></s:i18n>
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
@@ -323,9 +418,9 @@
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
-									<th><s:text name="global.girl_photo" /></th>
-									<th><s:text name="global.nick_name" /></th>
-									<th><s:text name="global.type" /></th>
+									<th><s:i18n name="global_th"><s:text name="global.girl_photo" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.nick_name" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.type" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.country" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.province" /></s:i18n></th>
 									<th>
@@ -392,7 +487,7 @@
 									<th colspan="7">
 										<form class="ui form " id="allSameForm" method="post" action="<s:url value="/admin/girls/update"/>" >
 											<div class="ui right floated small primary submit button">
-												<s:text name="global.submit" />
+												<s:i18n name="global_th"><s:text name="global.submit" /></s:i18n>
 											</div>
 										</form>
 									</th>

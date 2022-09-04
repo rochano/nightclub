@@ -10,7 +10,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title><s:text name="global.management" /> - <s:text name="global.how_to_input" /></title>
+  <title><s:i18n name="global_th"><s:text name="global.management" /> - <s:text name="global.how_to_input" /></s:i18n></title>
 
   <%@include file="/common/common_shop_management_header.jsp" %>
 
@@ -72,7 +72,7 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					<s:text name="global.how_to_input" />
+					<s:i18n name="global_th"><s:text name="global.how_to_input" /></s:i18n>
 				</h4>
 				<div class="ui centered attached segment active content">
 					<s:text name="homeInfo.howToInputFreeAgent"></s:text>

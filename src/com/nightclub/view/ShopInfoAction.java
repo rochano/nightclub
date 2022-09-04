@@ -288,7 +288,7 @@ public class ShopInfoAction extends CommonAction {
 					ClientInfo clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
 					String lookupDateHeader = sdfOutput.format(reserveInfo.getReserveDate());
 					if(shop.getLineToken() != null && !"".equals(shop.getLineToken())) {
-						LineApiUtils.sendData(getText("global.add_reserve_success")
+						LineApiUtils.sendData(getTexts("global_th").getString("global.add_reserve_success")
 											+ "\n" + clientInfo.getNickName() 
 											+ "\n" + lookupDateHeader
 											+ "\n" + reserveInfo.getStartTime()
@@ -353,7 +353,7 @@ public class ShopInfoAction extends CommonAction {
 					ClientInfo clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
 					String lookupDateHeader = sdfOutput.format(reserveInfo.getReserveDate());
 					if(shop.getLineToken() != null && !"".equals(shop.getLineToken())) {
-						LineApiUtils.sendData(getText("global.update_reserve_success")
+						LineApiUtils.sendData(getTexts("global_th").getString("global.update_reserve_success")
 								+ "\n" + clientInfo.getNickName() 
 								+ "\n" + lookupDateHeader
 								+ "\n" + reserveInfo.getStartTime()
@@ -377,7 +377,7 @@ public class ShopInfoAction extends CommonAction {
 				ClientInfo clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
 				String lookupDateHeader = sdfOutput.format(reserveInfo.getReserveDate());
 				if(shop.getLineToken() != null && !"".equals(shop.getLineToken())) {
-						LineApiUtils.sendData(getText("global.delete_reserve_success")
+						LineApiUtils.sendData(getTexts("global_th").getString("global.delete_reserve_success")
 								+ "\n" + clientInfo.getNickName() 
 								+ "\n" + lookupDateHeader
 								+ "\n" + reserveInfo.getStartTime()

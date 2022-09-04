@@ -61,7 +61,7 @@ public class AgentGirlInfoManager extends GirlInfoManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<GirlInfo> search(AgentGirlInfo searchGirlInfo, List<String> searchGirlProvinces ) {
+	public List<GirlInfo> search(AgentGirlInfo searchGirlInfo, List<String> searchGirlLocations ) {
 		
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -74,7 +74,7 @@ public class AgentGirlInfoManager extends GirlInfoManager {
 			log_.info("agentInfoId >> [" + searchGirlInfo.getAgentInfoId() + "]");
 			log_.info("nickName >> [" + searchGirlInfo.getNickName() + "]");
 			log_.info("country >> [" + searchGirlInfo.getCountryInfoId() + "]");
-			log_.info("province >> [" + searchGirlProvinces + "]");
+			log_.info("location >> [" + searchGirlLocations + "]");
 			
 			StringBuffer sql = new StringBuffer();
 			sql.append("from AgentGirlInfo g ");
@@ -85,38 +85,38 @@ public class AgentGirlInfoManager extends GirlInfoManager {
 			if(!searchGirlInfo.getCountryInfoId().isEmpty()) {
 				sql.append("and g.countryInfoId like :countryInfoId ");
 			}
-//			if(searchGirlLocations != null && searchGirlLocations.size() > 0) {
-//				sql.append("and exists(select 1 from GirlLocation gl "
-//						+ "where gl.primaryKey.girlInfo.girlInfoId = g.girlInfoId "
-//						+ "and gl.primaryKey.zoneInfo.zoneInfoId in (:location)) ");
-//			}
-			if(searchGirlProvinces != null && searchGirlProvinces.size() > 0) {
-				sql.append("and exists(select 1 from GirlProvince gp "
-						+ "where gp.primaryKey.girlInfo.girlInfoId = g.girlInfoId "
-						+ "and gp.primaryKey.provinceInfo.provinceInfoId in (:province)) ");
+			if(searchGirlLocations != null && searchGirlLocations.size() > 0) {
+				sql.append("and exists(select 1 from GirlLocation gl "
+						+ "where gl.primaryKey.girlInfo.girlInfoId = g.girlInfoId "
+						+ "and gl.primaryKey.zoneInfo.zoneInfoId in (:location)) ");
 			}
+//			if(searchGirlProvinces != null && searchGirlProvinces.size() > 0) {
+//				sql.append("and exists(select 1 from GirlProvince gp "
+//						+ "where gp.primaryKey.girlInfo.girlInfoId = g.girlInfoId "
+//						+ "and gp.primaryKey.provinceInfo.provinceInfoId in (:province)) ");
+//			}
 			
 			Query query = session.createQuery(sql.toString());
 			query.setParameter("agentInfoId", searchGirlInfo.getAgentInfoId());
 			if(!searchGirlInfo.getNickName().isEmpty()) {
 				query.setParameter("nickName", '%'+searchGirlInfo.getNickName()+'%');
 			}
-//			if(searchGirlLocations != null && searchGirlLocations.size() > 0) {
-//				query.setParameterList("location", searchGirlLocations.toArray());
-//			}
+			if(searchGirlLocations != null && searchGirlLocations.size() > 0) {
+				query.setParameterList("location", searchGirlLocations.toArray());
+			}
 			if(!searchGirlInfo.getCountryInfoId().isEmpty()) {
 				query.setParameter("countryInfoId", '%'+searchGirlInfo.getCountryInfoId()+'%');
 			}
-			if(searchGirlProvinces != null && searchGirlProvinces.size() > 0) {
-				query.setParameterList("province", searchGirlProvinces.toArray());
-			}
+//			if(searchGirlProvinces != null && searchGirlProvinces.size() > 0) {
+//				query.setParameterList("province", searchGirlProvinces.toArray());
+//			}
 			
 			girlInfos = (List<GirlInfo>)query.list();
 			Iterator it = girlInfos.iterator();
 			while(it.hasNext()) {
 				girlInfo = (GirlInfo) it.next();
-//				girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
-//				girlInfo.setGirlLocations(girlLocations);
+				girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+				girlInfo.setGirlLocations(girlLocations);
 				girlProvinces = getGirlProvinceListByGirlInfoId(session, girlInfo.getGirlInfoId());
 				girlInfo.setGirlProvinces(girlProvinces);
 			}

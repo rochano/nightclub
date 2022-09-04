@@ -23,6 +23,7 @@ import com.nightclub.model.EnGirlInfo;
 import com.nightclub.model.FreeAgentGirlInfo;
 import com.nightclub.model.GenderInfo;
 import com.nightclub.model.GirlInfo;
+import com.nightclub.model.GirlLocation;
 import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlSetting;
 import com.nightclub.model.NationalityInfo;
@@ -91,15 +92,15 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.girlInfo = (EnGirlInfo)girlInfoManager.getGirlInfo(userInfo.getGirlInfoId());
 		setFormValue(userInfo);
-//		this.girlLocations = new ArrayList<String>();
-//		if (this.girlInfo != null) {
-//			List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
-//			if(girlLocations != null) {
-//				for(GirlLocation girlLocation : girlLocations) {
-//					this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
-//				}
-//			}
-//		}
+		this.girlLocations = new ArrayList<String>();
+		if (this.girlInfo != null) {
+			List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
+			if(girlLocations != null) {
+				for(GirlLocation girlLocation : girlLocations) {
+					this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
+				}
+			}
+		}
 		if (this.girlInfo != null) {
 			if(this.girlInfo.getCountryInfoId() != null && !"".equals(this.girlInfo.getCountryInfoId())) {
 				this.provinceInfos = provinceInfoManager.listByCountry(this.girlInfo.getCountryInfoId());
@@ -201,17 +202,17 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 	            }
 	            
 	            this.girlInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.girlInfo.getDescription(), sessionMap, userInfo));
-//	            this.girlInfo.getGirlLocations().clear();
-//	            GirlLocation girlLocation;
-//	            for(String zoneInfoId : this.getGirlLocations()) {
-//	            	ZoneInfo zoneInfo = new ZoneInfo();
-//	            	zoneInfo.setZoneInfoId(zoneInfoId);
-//
-//	            	girlLocation = new GirlLocation();
-//	            	girlLocation.setZoneInfo(zoneInfo);
-//	            	girlLocation.setGirlInfo(this.girlInfo);
-//					this.girlInfo.getGirlLocations().add(girlLocation);
-//				}
+	            this.girlInfo.getGirlLocations().clear();
+	            GirlLocation girlLocation;
+	            for(String zoneInfoId : this.getGirlLocations()) {
+	            	ZoneInfo zoneInfo = new ZoneInfo();
+	            	zoneInfo.setZoneInfoId(zoneInfoId);
+
+	            	girlLocation = new GirlLocation();
+	            	girlLocation.setZoneInfo(zoneInfo);
+	            	girlLocation.setGirlInfo(this.girlInfo);
+					this.girlInfo.getGirlLocations().add(girlLocation);
+				}
 	            this.girlInfo.getGirlProvinces().clear();
 	            GirlProvince girlProvince;
 	            for(String provinceInfoId : this.girlProvinces) {
@@ -246,7 +247,7 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 				}
 			}
 			
-			addActionMessage(getText("global.message_success_update"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 			execute();
 			
 			return SUCCESS;

@@ -54,7 +54,7 @@ public class ProvinceInfoAction extends ActionSupport {
 			provinceInfo.setProvinceInfoId(UUID.randomUUID().toString().toUpperCase());
 			provinceInfoManager.add(this.provinceInfo);
 			
-			addActionMessage(getText("global.message_success_add"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_add"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -67,7 +67,7 @@ public class ProvinceInfoAction extends ActionSupport {
 		try {
 			provinceInfoManager.update(this.provinceInfo);
 			
-			addActionMessage(getText("global.message_success_update"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -88,10 +88,10 @@ public class ProvinceInfoAction extends ActionSupport {
 		String result = "";
 		if(!provinceInfoManager.isRelatedGirlInfo(getProvinceInfoId())) {
 			provinceInfoManager.delete(getProvinceInfoId());
-			addActionMessage(getText("global.message_success_delete"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_delete"));
 			result = SUCCESS;
 		} else{
-			addActionError(getText("global.message_province_delete_fail"));
+			addActionError(getTexts("global_th").getString("global.message_province_delete_fail"));
 			result = INPUT;
 		}
 		this.provinceInfos = provinceInfoManager.list();

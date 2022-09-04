@@ -11,7 +11,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title><s:text name="global.management" /> - <s:text name="global.menu_agent_info" /></title>
+  <title><s:i18n name="global_th"><s:text name="global.management" /> - <s:text name="global.menu_agent_info" /></s:i18n></title>
 
   <%@include file="/common/common_shop_management_header.jsp" %>
   <script src="<s:url value="/assets/library/jquery.form.js"/>"></script>
@@ -138,17 +138,17 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					<s:text name="global.menu_agent_info" />
+					<s:i18n name="global_th"><s:text name="global.menu_agent_info" /></s:i18n>
 				</h4>
 				<div class="ui centered attached segment active content">
 					<form class="ui form " method="post" action="<s:url value="/management_agent/agentinfo/update"/>" enctype="multipart/form-data" >
 						<div class="ui error message"><s:actionerror cssClass="list" /></div>
 						<div class="inline field">
-							<s:textfield name="agentInfo.agentName" key="global.agent_name"/>
+							<s:i18n name="global_th"><s:textfield name="agentInfo.agentName" key="global.agent_name"/></s:i18n>
 						</div>
 						<div class="two fields">
 							<div class="inline field">
-								<label><s:text name="global.logo" /></label>
+								<label><s:i18n name="global_th"><s:text name="global.logo" /></s:i18n></label>
 								<div class="image ui small">
 									<div id="logoImg">
 										<s:if test="%{agentInfo.logoImg != ''}">
@@ -162,7 +162,7 @@
 										</button> -->
 										<label for="filelogoImg" class="ui basic button">
 											<i class="icon upload"></i>
-										  	<s:text name="global.upload" />
+										  	<s:i18n name="global_th"><s:text name="global.upload" /></s:i18n>
 										</label>
 									    <input type="file" id="filelogoImg" style="display:none">
 									</div>
@@ -171,11 +171,11 @@
 							</div>
 						</div>
 						<div class="inline field">
-							<s:textfield name="agentInfo.lineId" key="global.line_id"/>
+							<s:i18n name="global_th"><s:textfield name="agentInfo.lineId" key="global.line_id"/></s:i18n>
 						</div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div class="ui small button submit blue"><s:text name="global.submit" /></div>
+								<div class="ui small button submit blue"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
 							</div>
 						</div>
 						<s:hidden name="agentInfo.agentInfoId"></s:hidden>

@@ -8,7 +8,7 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_home" /></title>
+  <title><s:i18n name="global_th"><s:text name="global.management" /><s:text name="global.administrator" /> - <s:text name="global.menu_home" /></s:i18n></title>
 
   <%@include file="/common/common_admin_management_header.jsp" %>
 <script type="text/javascript">
@@ -95,11 +95,15 @@
 			<div class="ui accordion">
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
-					<s:text name="global.menu_home" />
+					<s:i18n name="global_th"><s:text name="global.menu_home" /></s:i18n>
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
-						<h2 class="ui header"><s:text name="global.welcome_to" /> <s:text name="global.management" /><s:text name="global.administrator" /><h2>
+						<h2 class="ui header">
+							<s:i18n name="global_th">
+								<s:text name="global.welcome_to" /> <s:text name="global.management" /><s:text name="global.administrator" />
+							</s:i18n>
+						<h2>
 						<form class="ui form " method="post" action="<s:url value="/admin/home/update"/>" >
 							<h4 class="ui horizontal divider header">
 								<i class="comment icon"></i>
@@ -180,7 +184,7 @@
 							</div>
 							<div class="ui right aligned one column grid">
 								<div class="column">
-									<div class="ui small button submit blue"><s:text name="global.submit" /></div>
+									<div class="ui small button submit blue"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
 								</div>
 							</div>
 						</form>

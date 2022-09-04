@@ -116,10 +116,10 @@
 					<a class="section" href="<s:url value="/agents" />" >
 						<s:text name="global.main_menu_agents" />
 					</a>
-					<i class="right chevron icon divider"></i>
+					<%-- <i class="right chevron icon divider"></i>
 					<a class="section" href="<s:url value="/agents/%{girlInfo.agentInfoId}"/>" >
 						<s:text name="girlInfo.agentInfo.agentName" />
-					</a>
+					</a> --%>
 					</s:if>
 					<s:elseif test="%{girlInfo instanceof com.nightclub.model.FreeAgentGirlInfo}" >
 					<a class="section" href="<s:url value="/freeagents" />" >
@@ -138,7 +138,7 @@
 				<div class="center aligned column">
 					<div class="ui centered attached segment soft">
 						<div class="column one left aligned">
-							<div class="ui middle aligned stackable grid container">
+							<div class="ui aligned stackable grid container">
 								<div class="row">
 									<div class="seven wide column corner labeled">
 										<a class="ui right corner label toggleFavourite link huge" 
@@ -254,12 +254,39 @@
 																	<br />
 																</s:iterator> --%>
 															<%--</s:else>--%>
-															<s:property value="girlInfo.countryInfo.countryNameJp" />
-															<s:iterator value="girlProvinces" >
-																<div class="ui medium label">
-																	<s:property value="primaryKey.provinceInfo.provinceNameJp" />
+															<div class="ui inverted list">
+																<div class="item">
+																	<div class="content">
+																		<div class="header">
+																			<h5 class="ui header left aligned inverted">
+																				<s:property value="girlInfo.countryInfo.countryNameJp" />
+																			</h5>
+																		</div>
+																		<div class="list">
+																			<s:iterator value="girlProvinces" >
+																				<div class="item">
+																					<div class="content">
+																						<div class="description">
+																							<s:property value="primaryKey.provinceInfo.provinceNameJp" />
+																						</div>
+																						<div class="list">
+																							<s:iterator value="primaryKey.provinceInfo.zoneInfos" >
+																								<div class="item">
+																									<div class="content">
+																										<div class="ui medium label">
+																											<s:property value="primaryKey.zoneInfo.zoneNameJp" />
+																										</div>
+																									</div>
+																								</div>
+																							</s:iterator>
+																						</div>
+																					</div>
+																				</div>
+																			</s:iterator>
+																		</div>
+																	</div>
 																</div>
-															</s:iterator>
+															</div>
 														</p>
 													</td>
 												</tr>
@@ -462,16 +489,16 @@
 										<table class="ui celled center aligned celled table compact unstackable orange">
 											<thead class="center aligned">
 												<tr>
-													<th>เวลา</th>
-													<th>เรทราคา</th>
-													<th>จำนวนน้ำ</th>
+													<th><s:text name="global.time" /></th>
+													<th><s:text name="global.price_rate" /></th>
+													<th><s:text name="global.quantity" /></th>
 												</tr>
 											</thead>
 											<tbody>
 												<s:if test="girlInfo.chk40Mins == 'true'">
 												<tr>
 													<td class="center aligned">
-														<label for="girlInfo_chk40Mins">40 นาที</label>
+														<label for="girlInfo_chk40Mins"><s:text name="global.price40Mins" /></label>
 													</td>
 													<td class="center aligned">
 														<s:text name="format.integer"><s:param name="value" value="girlInfo.price40Mins"/></s:text>
@@ -484,7 +511,7 @@
 												<s:if test="girlInfo.chk60Mins == 'true'">
 												<tr>
 													<td class="center aligned">
-														<label for="girlInfo_chk60Mins">60 นาที</label>
+														<label for="girlInfo_chk60Mins"><s:text name="global.price60Mins" /></label>
 													</td>
 													<td class="center aligned">
 														<s:text name="format.integer"><s:param name="value" value="girlInfo.price60Mins"/></s:text>
@@ -497,7 +524,7 @@
 												<s:if test="girlInfo.chk90Mins == 'true'">
 												<tr>
 													<td class="center aligned">
-														<label for="girlInfo_chk90Mins">90 นาที</label>
+														<label for="girlInfo_chk90Mins"><s:text name="global.price90Mins" /></label>
 													</td>
 													<td class="center aligned">
 														<s:text name="format.integer"><s:param name="value" value="girlInfo.price90Mins"/></s:text>
@@ -510,7 +537,7 @@
 												<s:if test="girlInfo.chk120Mins == 'true'">
 												<tr>
 													<td class="center aligned">
-														<label for="girlInfo_chk120Mins">120 นาที</label>
+														<label for="girlInfo_chk120Mins"><s:text name="global.price120Mins" /></label>
 													</td>
 													<td class="center aligned">
 														<s:text name="format.integer"><s:param name="value" value="girlInfo.price120Mins"/></s:text>
@@ -523,7 +550,7 @@
 												<s:if test="girlInfo.chk6Hrs == 'true'">
 												<tr>
 													<td class="center aligned">
-														<label for="girlInfo_chk6Hrs">ค้างคืน(6ชม.)</label>
+														<label for="girlInfo_chk6Hrs"><s:text name="global.price6Hrs" /></label>
 													</td>
 													<td class="center aligned">
 														<s:text name="format.integer"><s:param name="value" value="girlInfo.price6Hrs"/></s:text>

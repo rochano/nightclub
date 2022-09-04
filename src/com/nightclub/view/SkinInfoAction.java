@@ -47,7 +47,7 @@ public class SkinInfoAction extends ActionSupport {
 			skinInfo.setSkinInfoId(UUID.randomUUID().toString().toUpperCase());
 			skinInfoManager.add(this.skinInfo);
 			
-			addActionMessage(getText("global.message_success_add"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_add"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -60,7 +60,7 @@ public class SkinInfoAction extends ActionSupport {
 		try {
 			skinInfoManager.update(this.skinInfo);
 			
-			addActionMessage(getText("global.message_success_update"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 			
 			return SUCCESS;
 		} catch (Exception e) {
@@ -80,10 +80,10 @@ public class SkinInfoAction extends ActionSupport {
 		String result = "";
 		if(!skinInfoManager.isRelatedGirlInfo(getSkinInfoId())) {
 			skinInfoManager.delete(getSkinInfoId());
-			addActionMessage(getText("global.message_success_delete"));
+			addActionMessage(getTexts("global_th").getString("global.message_success_delete"));
 			result = SUCCESS;
 		} else{
-			addActionError(getText("global.message_skin_delete_fail"));
+			addActionError(getTexts("global_th").getString("global.message_skin_delete_fail"));
 			result = INPUT;
 		}
 		this.skinInfos = skinInfoManager.list();

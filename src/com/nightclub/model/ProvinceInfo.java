@@ -1,11 +1,14 @@
 package com.nightclub.model;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -24,6 +27,7 @@ public class ProvinceInfo implements Serializable {
 	private String provinceNameJp;
 	private String countryInfoId;
 	private CountryInfo countryInfo;
+	private List<ZoneInfo> zoneInfos;
 
 	@Id
 	@Column(name="province_info_id")
@@ -49,6 +53,11 @@ public class ProvinceInfo implements Serializable {
 	public CountryInfo getCountryInfo() {
 		return countryInfo;
 	}
+	@OneToMany(mappedBy = "provinceInfo",
+            cascade = CascadeType.ALL)
+	public List<ZoneInfo> getZoneInfos() {
+		return zoneInfos;
+	}
 	public void setProvinceInfoId(String provinceInfoId) {
 		this.provinceInfoId = provinceInfoId;
 	}
@@ -63,5 +72,8 @@ public class ProvinceInfo implements Serializable {
 	}
 	public void setCountryInfoId(String countryInfoId) {
 		this.countryInfoId = countryInfoId;
+	}
+	public void setZoneInfos(List<ZoneInfo> zoneInfos) {
+		this.zoneInfos = zoneInfos;
 	}
 }
