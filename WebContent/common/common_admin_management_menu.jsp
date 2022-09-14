@@ -22,3 +22,4 @@
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('country')}">active</s:if>" href="<s:url value="/admin/country"/>"><i class="world icon"></i><s:i18n name="global_th"><s:text name="global.country" /></s:i18n></a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('province')}">active</s:if>" href="<s:url value="/admin/province"/>"><i class="map icon"></i><s:i18n name="global_th"><s:text name="global.province" /></s:i18n></a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('gender')}">active</s:if>" href="<s:url value="/admin/gender"/>"><i class="other gender icon"></i><s:i18n name="global_th"><s:text name="global.gender" /></s:i18n></a>
+	<a class="item <s:if test="%{menu.equalsIgnoreCase('description')}">active</s:if>" href="<s:url value="/admin/description"/>"><i class="list icon"></i><s:i18n name="global_th"><s:text name="global.description" /></s:i18n></a>

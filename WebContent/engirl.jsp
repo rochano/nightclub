@@ -132,6 +132,14 @@
 					<div class="active section"><s:text name="global.main_menu_en_girls" /></div>
 				</div>
 				
+				<div class="center aligned column">
+		  			<div class="ui grid attached segment">
+						<div class="column one left aligned">
+							<s:text name="homeInfo.descriptionEnGirl" />
+				 		</div>
+					</div>
+				</div>
+
 				<%@include file="/common/common_search.jsp" %>
 
 				<div class="center aligned column">

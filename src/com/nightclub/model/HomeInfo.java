@@ -30,6 +30,10 @@ public class HomeInfo implements Serializable {
 	private String lineRedirectUrl;
 	private String lineNotifyActive;
 	private String inform;
+	private String descriptionShopService;
+	private String descriptionAgent;
+	private String descriptionFreeAgent;
+	private String descriptionEnGirl;
 	
 	@Id
 	@Column(name="home_info_id")
@@ -92,6 +96,26 @@ public class HomeInfo implements Serializable {
 	public String getInform() {
 		return inform;
 	}
+	@Column(name="description_shop_service")
+	@Length(max=1000)
+	public String getDescriptionShopService() {
+		return descriptionShopService;
+	}
+	@Column(name="description_agent")
+	@Length(max=1000)
+	public String getDescriptionAgent() {
+		return descriptionAgent;
+	}
+	@Column(name="description_free_agent")
+	@Length(max=1000)
+	public String getDescriptionFreeAgent() {
+		return descriptionFreeAgent;
+	}
+	@Column(name="description_en_girl")
+	@Length(max=1000)
+	public String getDescriptionEnGirl() {
+		return descriptionEnGirl;
+	}
 	public void setHomeInfoId(String homeInfoId) {
 		this.homeInfoId = homeInfoId;
 	}
@@ -151,6 +175,18 @@ public class HomeInfo implements Serializable {
 	}
 	public void setInform(String inform) {
 		this.inform = inform;
+	}
+	public void setDescriptionShopService(String descriptionShopService) {
+		this.descriptionShopService = descriptionShopService;
+	}
+	public void setDescriptionAgent(String descriptionAgent) {
+		this.descriptionAgent = descriptionAgent;
+	}
+	public void setDescriptionFreeAgent(String descriptionFreeAgent) {
+		this.descriptionFreeAgent = descriptionFreeAgent;
+	}
+	public void setDescriptionEnGirl(String descriptionEnGirl) {
+		this.descriptionEnGirl = descriptionEnGirl;
 	}
 	
 }

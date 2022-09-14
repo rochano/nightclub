@@ -5,7 +5,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -582,6 +581,40 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			
 			return SUCCESS;
 		} catch (IOException e) {
+			e.printStackTrace();
+			return INPUT;
+		}
+	}
+	
+	public String description() {
+		this.homeInfo = homeInfoManager.getHomeInfo("0");
+		
+		return SUCCESS;
+	}
+
+	public String descriptionupdate() {
+		try {
+			UserInfo userInfo = (UserInfo)sessionMap.get("adminInfo");
+			HomeInfo homeInfo_ = homeInfoManager.getHomeInfo("0");
+			homeInfo_.setHomeInfoId("0");
+			homeInfo_.setDescriptionShopService(UploadFileUtils.uploadImageinDescription(homeInfo.getDescriptionShopService(), sessionMap, userInfo));
+			homeInfo_.setDescriptionAgent(UploadFileUtils.uploadImageinDescription(homeInfo.getDescriptionAgent(), sessionMap, userInfo));
+			homeInfo_.setDescriptionFreeAgent(UploadFileUtils.uploadImageinDescription(homeInfo.getDescriptionFreeAgent(), sessionMap, userInfo));
+			homeInfo_.setDescriptionEnGirl(UploadFileUtils.uploadImageinDescription(homeInfo.getDescriptionEnGirl(), sessionMap, userInfo));
+			
+			if(homeInfoManager.getHomeInfo("0") != null) {
+				homeInfoManager.update(homeInfo_);
+			} else {
+				homeInfoManager.add(homeInfo_);
+			}
+			
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
+			
+			this.execute();
+			
+			return SUCCESS;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return INPUT;
 		}

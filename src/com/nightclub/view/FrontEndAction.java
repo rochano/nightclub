@@ -173,6 +173,7 @@ public class FrontEndAction extends CommonAction {
 			this.provinceInfos = provinceInfoManager.listByCountry(this.frontSearch.getCountryInfoId());
 		}
 		this.genderInfos = genderInfoManager.list();
+		this.homeInfo = homeInfoManager.getHomeInfo("0");
 		return SUCCESS;
 	}
 	
@@ -194,6 +195,7 @@ public class FrontEndAction extends CommonAction {
 			this.provinceInfos = provinceInfoManager.listByCountry(this.frontSearch.getCountryInfoId());
 		}
 		this.genderInfos = genderInfoManager.list();
+		this.homeInfo = homeInfoManager.getHomeInfo("0");
 		return SUCCESS;
 	}
 	
@@ -239,6 +241,7 @@ public class FrontEndAction extends CommonAction {
 			this.provinceInfos = provinceInfoManager.listByCountry(this.frontSearch.getCountryInfoId());
 		}
 		this.genderInfos = genderInfoManager.list();
+		this.homeInfo = homeInfoManager.getHomeInfo("0");
 		return SUCCESS;
 	}
 	

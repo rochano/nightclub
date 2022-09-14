@@ -127,6 +127,14 @@
 					<div class="active section"><s:text name="global.main_menu_agents" /></div>
 				</div>
 
+				<div class="center aligned column">
+		  			<div class="ui grid attached segment">
+						<div class="column one left aligned">
+							<s:text name="homeInfo.descriptionAgent" />
+				 		</div>
+					</div>
+				</div>
+
 				<%@include file="/common/common_search.jsp" %>
 
 				<div class="center aligned column">

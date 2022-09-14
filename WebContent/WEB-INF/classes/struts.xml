@@ -1450,6 +1450,23 @@
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/inform.jsp</result>
 		</action>
+
+		<action name="description"
+			class="com.nightclub.view.AdminInfoAction" method="description">
+			<param name="menu">description</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">description.jsp</result>
+		</action>
+		
+		<action name="description/*"
+			class="com.nightclub.view.AdminInfoAction" method="description{1}">
+			<param name="menu">description</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/description.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/description.jsp</result>
+		</action>
 	</package>
 
 	<package name="api" extends="rest-default" namespace="/api" >
