@@ -266,13 +266,25 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		userInfo_.setValidDateTo(userInfo.getValidDateTo());
 		userInfoManager.update(userInfo_);
 		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
-		this.userInfos = userInfoManager.list(getUserType());
 		if(IConstants.USER_TYPE_SHOP.equals(userType)) {
 			for(UserInfo userInfo : userInfos) {
 				if (userInfo.getShopInfoId() == null) continue;
 				userInfo.getShopInfo().setShopLocations(basicInfoManager.getShopLocationListByShopInfoId(userInfo.getShopInfoId()));
 			}
+		} else if(IConstants.USER_TYPE_AGENT.equals(userType)) {
+			AgentInfo agentInfo = agentInfoManager.getAgentInfo(userInfo_.getAgentInfoId());
+			agentInfo.setLineId(userInfo.getAgentInfo().getLineId());
+			agentInfoManager.update(agentInfo);
+		} else if(IConstants.USER_TYPE_FREE_AGENT.equals(userType)) {
+			GirlInfo girlInfo = girlInfoManager.getGirlInfo(userInfo_.getGirlInfoId());
+			girlInfo.setLineId(userInfo.getFreeAgentGirlInfo().getLineId());
+			girlInfoManager.update(girlInfo);
+		} else if(IConstants.USER_TYPE_EN_GIRL.equals(userType)) {
+			GirlInfo girlInfo = girlInfoManager.getGirlInfo(userInfo_.getGirlInfoId());
+			girlInfo.setLineId(userInfo.getEnGirlInfo().getLineId());
+			girlInfoManager.update(girlInfo);
 		}
+		this.userInfos = userInfoManager.list(getUserType());
 		
 		return SUCCESS;
 	}

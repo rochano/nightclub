@@ -243,6 +243,7 @@
 									<th><s:i18n name="global_th"><s:text name="global.agent_name" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.valid_date_from" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.valid_date_to" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.line_id" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.active" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
@@ -264,6 +265,7 @@
 									<td><s:property value="agentInfo.agentName" /></td>
 									<td class="center aligned"><s:date name="validDateFrom" format="dd/MM/yyyy" /></td>
 									<td class="center aligned"><s:date name="validDateTo" format="dd/MM/yyyy" /></td>
+									<td><s:property value="agentInfo.lineId" /></td>
 									<td class="center aligned">
 										<div class="ui toggle fitted checkbox">
 											<input type="checkbox" name="active" 
@@ -325,6 +327,9 @@
 			<div class="field">
 				<s:textfield name="userInfo.validDateTo" placeholder="DD/MM/YYYY" />
 			</div>
+		</div>
+		<div class="inline field">
+			<s:i18n name="global_th"><s:textfield name="userInfo.agentInfo.lineId" key="global.line_id" /></s:i18n>
 		</div>
 		<s:hidden name="userInfoId"></s:hidden>
 		<div class="ui error message"></div>
