@@ -185,21 +185,6 @@
 									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
-							<tbody>
-								<s:iterator value="genderInfos" status="status">
-								<tr>
-									<td class="center aligned"><s:property value="#status.count" /></td>
-									<td><s:property value="genderNameJp" /></td>
-									<td><s:property value="genderNameEn" /></td>
-									<td class="center aligned">
-										<div class="ui buttons">
-											<a href="<s:url value="/admin/gender/edit/%{genderInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
-											<a href="<s:url value="/admin/gender/delete/%{genderInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
-										</div>
-									</td>
-								</tr>
-								</s:iterator>
-							</tbody>
 						</table>
 					</div>
 				</div>
@@ -233,6 +218,21 @@
     <div class="ui cancel button"><s:i18n name="global_th"><s:text name="global.cancel" /></s:i18n></div>
   </div>
 </div>
-  
+  <script type="text/javascript">
+  <s:iterator value="genderInfos" status="status">
+	dataSet.push(
+		['<s:property value="#status.count" />', 
+		"<s:property value="genderNameJp" />",
+		"<s:property value="genderNameEn" />",
+		'<div class="ui buttons">' +
+			'<a href="<s:url value="/admin/gender/edit/%{genderInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
+			'<a href="<s:url value="/admin/gender/delete/%{genderInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>' +
+		'</div>'
+	]);
+  </s:iterator>
+	columnDefs = [
+	  {  className: "center aligned", targets: [ 0, 3 ] }
+	];
+  </script>
 </body>
 </html>

@@ -242,19 +242,6 @@
 									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
-							<tbody>
-								<s:iterator value="categoryInfos" status="status">
-								<tr>
-									<td class="center aligned"><s:property value="#status.count" /></td>
-									<td><s:property value="categoryNameJp" /></td>
-									<td><s:property value="categoryNameEn" /></td>
-									<td class="center aligned">
-										<a href="<s:url value="/admin/category/edit/%{categoryInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
-										<a href="<s:url value="/admin/category/delete/%{categoryInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
-									</td>
-								</tr>
-								</s:iterator>
-							</tbody>
 						</table>
 					</div>
 				</div>
@@ -327,6 +314,18 @@
 		filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
 		filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash' */
 	});
-</script>
+  <s:iterator value="categoryInfos" status="status">
+		dataSet.push(
+			['<s:property value="#status.count" />', 
+			"<s:property value="categoryNameJp" />",
+			"<s:property value="categoryNameEn" />",
+			'<a href="<s:url value="/admin/category/edit/%{categoryInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
+			'<a href="<s:url value="/admin/category/delete/%{categoryInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>'
+    	]);
+	</s:iterator>
+	columnDefs = [
+	  {  className: "center aligned", targets: [ 0, 3 ] }
+	];
+  </script>
 </body>
 </html>

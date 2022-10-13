@@ -90,6 +90,8 @@
 }
   </style>
   <script>
+  var dataSet = [];
+  var columnDefs = [];
   $(document)
     .ready(function() {
       $('.ui.menu .ui.dropdown').dropdown({
@@ -102,6 +104,8 @@
       .accordion()
     ;
       dataTable = $("#searchList").dataTable({
+        "data" : dataSet,
+        "columnDefs" : columnDefs,
   		"ordering":  false,
   		"dom": '<"ui grid"<"column right floated right aligned"l>><"ui grid"<" one column overflow"t>><"ui grid"<"left aligned eight wide column"i><"right floated eight wide column"p>>',
   		"language":{

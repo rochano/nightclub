@@ -285,40 +285,6 @@
 									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
-							<tbody>
-								<s:iterator value="userInfos" status="status">
-								<tr>
-									<td class="center aligned"><s:property value="#status.count" /></td>
-									<td>
-										<div class="ui fitted checkbox">
-											<input type="checkbox" name="check" value="<s:property value="userInfoId" />" />
-											<label></label>
-										</div>
-									</td>
-									<td><s:property value="username" /></td>
-									<td><s:property value="clientInfo.nickName" /></td>
-									<td><s:property value="clientInfo.email" /></td>
-									<td><s:property value="clientInfo.mobile" /></td>
-									<td><s:property value="clientInfo.age" /></td>
-									<td class="center aligned"><s:date name="validDateFrom" format="dd/MM/yyyy" /></td>
-									<td class="center aligned"><s:date name="validDateTo" format="dd/MM/yyyy" /></td>
-									<td class="center aligned">
-										<div class="ui toggle fitted checkbox">
-											<input type="checkbox" name="active" 
-											<s:if test="active == 'true'">checked="checked"</s:if>
-											 value="<s:property value="userInfoId" />">
-											<label></label>
-										</div>
-									</td>
-									<td class="center aligned">
-										<div class="ui buttons">
-											<a href="<s:url value="/admin/client/edit/%{userInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
-											<a href="<s:url value="/admin/client/delete/%{userInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>
-										</div>
-									</td>
-								</tr>
-								</s:iterator>
-							</tbody>
 							<tfoot class="full-width">
 								<tr>
 									<th colspan="11">
@@ -401,5 +367,37 @@
     <div class="ui cancel button"><s:i18n name="global_th"><s:text name="global.cancel" /></s:i18n></div>
   </div>
 </div>
+  <script type="text/javascript">
+  <s:iterator value="userInfos" status="status">
+		dataSet.push(
+			['<s:property value="#status.count" />', 
+			'<div class="ui fitted checkbox">' +
+				'<input type="checkbox" name="check" value="<s:property value="userInfoId" />" />' +
+				'<label></label>' +
+			'</div>',
+			'<img class="image ui tiny centered" src="<s:property value="freeAgentGirlInfo.pic1" />">',
+			"<s:property value="username" />",
+			"<s:property value="clientInfo.nickName" />",
+			"<s:property value="clientInfo.email" />",
+			"<s:property value="clientInfo.mobile" />",
+			"<s:property value="clientInfo.age" />",
+			'<s:date name="validDateFrom" format="dd/MM/yyyy" />',
+			'<s:date name="validDateTo" format="dd/MM/yyyy" />',
+			'<div class="ui toggle fitted checkbox">' +
+				'<input type="checkbox" name="active" ' +
+				<s:if test="active == 'true'">'checked="checked" ' + </s:if>
+				'value="<s:property value="userInfoId" />">' +
+				'<label></label>' +
+			'</div>',
+			'<div class="ui buttons">' +
+				'<a href="<s:url value="/admin/client/edit/%{userInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
+				'<a href="<s:url value="/admin/client/delete/%{userInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>' +
+			'</div>'
+    	]);
+	</s:iterator>
+	columnDefs = [
+	  {  className: "center aligned", targets: [ 0, 7, 8, 9, 10 ] }
+	];
+  </script>
 </body>
 </html>

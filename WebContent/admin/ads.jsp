@@ -275,35 +275,7 @@
 									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
-							<tbody>
-								<s:iterator value="adsInfos" status="status">
-								<tr>
-									<td class="center aligned"><s:property value="#status.count" /></td>
-									<td><s:property value="title" /></td>
-									<td class="center aligned">
-										<s:if test="autoSubscribe != 'true'"><s:date name="adsDateFrom" format="dd/MM/yyyy" /></s:if>
-										<s:if test="autoSubscribe == 'true'"><s:date name="currentRangeFrom" format="dd/MM/yyyy" /></s:if>
-									</td>
-									<td class="center aligned">
-										<s:if test="autoSubscribe != 'true'"><s:date name="adsDateTo" format="dd/MM/yyyy" /></s:if>
-										<s:if test="autoSubscribe == 'true'"><s:date name="currentRangeTo" format="dd/MM/yyyy" /></s:if>
-									</td>
-									<td class="center aligned">
-										<div class="ui toggle fitted checkbox">
-											<input type="checkbox" disabled="disabled"
-											<s:if test="active == 'true'">checked="checked"</s:if>
-											 value="<s:property value="adsInfoId" />">
-											<label></label>
-										</div>
-									</td>
-									<td class="center aligned">
-										<a href="<s:url value="/admin/ads/edit/"/><s:property value="adsInfoId" />" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
-										<a href="<s:url value="/admin/ads/delete/"/><s:property value="adsInfoId" />" class="ui icon button small red"><i class="ui icon delete"></i></a>
-									</td>
-								</tr>
-								</s:iterator>
-							</tbody>
-						</table>
+							</table>
 					</div>
 				</div>
 			</div>
@@ -398,5 +370,28 @@
     <div class="ui cancel button"><s:i18n name="global_th"><s:text name="global.cancel" /></s:i18n></div>
   </div>
 </div>
+  <script type="text/javascript">
+  <s:iterator value="adsInfos" status="status">
+		dataSet.push(
+			['<s:property value="#status.count" />', 
+			"<s:property value="title" />",
+			<s:if test="autoSubscribe != 'true'">'<s:date name="adsDateFrom" format="dd/MM/yyyy" />',</s:if>
+			<s:if test="autoSubscribe == 'true'">'<s:date name="currentRangeFrom" format="dd/MM/yyyy" />',</s:if>
+			<s:if test="autoSubscribe != 'true'">'<s:date name="adsDateTo" format="dd/MM/yyyy" />',</s:if>
+			<s:if test="autoSubscribe == 'true'">'<s:date name="currentRangeTo" format="dd/MM/yyyy" />',</s:if>
+			'<div class="ui toggle fitted checkbox">' +
+				'<input type="checkbox" disabled="disabled"' +
+				<s:if test="active == 'true'">'checked="checked" ' +</s:if>
+				'value="<s:property value="adsInfoId" />">' +
+				'<label></label>' +
+			'</div>',
+			'<a href="<s:url value="/admin/ads/edit/%{adsInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
+			'<a href="<s:url value="/admin/ads/delete/%{adsInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>'
+    	]);
+	</s:iterator>
+	columnDefs = [
+	  {  className: "center aligned", targets: [ 0, 2, 3, 4, 5 ] }
+	];
+  </script>
 </body>
 </html>

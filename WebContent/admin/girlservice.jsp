@@ -220,37 +220,6 @@
 									<th width="20%"><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
-							<tbody>
-								<s:iterator value="girlServicInfoList" status="status">
-								<tr>
-									<td>
-										<div class="center aligned">
-											<span><s:property value="#status.count" /></span>
-											<input type="hidden" name="girlServiceInfoId" value="<s:property value="girlServiceInfoId" />" />
-										</div>
-									</td>
-									<td>
-										<div class="ui fluid icon input">
-											<input type="text" name="girlServiceName" value="<s:property value="girlServiceName" />" />
-										</div>
-									</td>
-									<td>
-										<div class="ui fluid icon input">
-											<input type="text" name="girlServiceNameJp" value="<s:property value="girlServiceNameJp" />" />
-										</div>
-									</td>
-									<td>
-										<div class="center aligned">
-											<button type="button" class="insertbtn ui icon button small blue"><i class="ui icon add"></i></button>
-											<button type="button" class="removebtn ui icon button small red 
-												<s:if test="girlServiceList.size() > 0 ">disabled</s:if>">
-												<i class="ui icon delete"></i>
-											</button>
-										</div>
-									</td>
-								</tr>
-								</s:iterator>
-							</tbody>
 							<tfoot class="full-width">
 								<tr>
 									<th colspan="4">
@@ -271,5 +240,28 @@
   	<%@include file="/common/common_admin_management_footer.jsp" %>  
 </div>
 </div>
+  <script type="text/javascript">
+  <s:iterator value="girlServicInfoList" status="status">
+		dataSet.push(
+			['<div class="center aligned">' +
+				'<span><s:property value="#status.count" /></span>' +
+				'<input type="hidden" name="girlServiceInfoId" value="<s:property value="girlServiceInfoId" />" />' +
+			'</div>', 
+			'<div class="ui fluid icon input">' +
+				'<input type="text" name="girlServiceName" value="<s:property value="girlServiceName" />" />' +
+			'</div>',
+			'<div class="ui fluid icon input">' +
+				'<input type="text" name="girlServiceNameJp" value="<s:property value="girlServiceNameJp" />" />' +
+			'</div>',
+			'<div class="center aligned">' +
+				'<button type="button" class="insertbtn ui icon button small blue"><i class="ui icon add"></i></button>' +
+				'<button type="button" class="removebtn ui icon button small red ' +
+					<s:if test="girlServiceList.size() > 0 ">'disabled' +</s:if>'">' +
+					'<i class="ui icon delete"></i>' +
+				'</button>' +
+			'</div>'
+    	]);
+	</s:iterator>
+  </script>
 </body>
 </html>

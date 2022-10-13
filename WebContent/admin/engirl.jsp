@@ -283,48 +283,6 @@
 									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
-							<tbody>
-								<s:iterator value="userInfos" status="status">
-								<tr>
-									<td class="center aligned"><s:property value="#status.count" /></td>
-									<td>
-										<div class="ui fitted checkbox">
-											<input type="checkbox" name="check" value="<s:property value="userInfoId" />" />
-											<label></label>
-										</div>
-									</td>
-									<td>
-										<img class="image ui tiny centered" src="<s:property value="enGirlInfo.pic1" />">
-									</td>
-									<td><s:property value="username" /></td>
-									<td><s:property value="enGirlInfo.nickName" /></td>
-									<td>
-										<s:i18n name="global_th">
-											<s:if test="enGirlInfo.type == 1"><s:text name="global.en_girl_type_1" /></s:if>
-											<s:if test="enGirlInfo.type == 2"><s:text name="global.en_girl_type_2" /></s:if>
-											<s:if test="enGirlInfo.type == 3"><s:text name="global.en_girl_type_3" /></s:if>
-										</s:i18n>
-									</td>
-									<td class="center aligned"><s:date name="validDateFrom" format="dd/MM/yyyy" /></td>
-									<td class="center aligned"><s:date name="validDateTo" format="dd/MM/yyyy" /></td>
-									<td><s:property value="enGirlInfo.lineId" /></td>
-									<td class="center aligned">
-										<div class="ui toggle fitted checkbox">
-											<input type="checkbox" name="active" 
-											<s:if test="active == 'true'">checked="checked"</s:if>
-											 value="<s:property value="userInfoId" />">
-											<label></label>
-										</div>
-									</td>
-									<td class="center aligned">
-										<div class="ui buttons">
-											<a href="<s:url value="/admin/engirl/edit/%{userInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
-											<a href="<s:url value="/admin/engirl/delete/%{userInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>
-										</div>
-									</td>
-								</tr>
-								</s:iterator>
-							</tbody>
 							<tfoot class="full-width">
 								<tr>
 									<th colspan="11">
@@ -412,5 +370,40 @@
     <div class="ui cancel button"><s:i18n name="global_th"><s:text name="global.cancel" /></s:i18n></div>
   </div>
 </div>
+  <script type="text/javascript">
+  <s:iterator value="userInfos" status="status">
+		dataSet.push(
+			['<s:property value="#status.count" />', 
+			'<div class="ui fitted checkbox">' +
+				'<input type="checkbox" name="check" value="<s:property value="userInfoId" />" />' +
+				'<label></label>' +
+			'</div>',
+			'<img class="image ui tiny centered" src="<s:property value="enGirlInfo.pic1" />">',
+			"<s:property value="username" />",
+			"<s:property value="enGirlInfo.nickName" />",
+			<s:i18n name="global_th">
+				<s:if test="enGirlInfo.type == 1">"<s:text name="global.en_girl_type_1" />",</s:if>
+				<s:if test="enGirlInfo.type == 2">"<s:text name="global.en_girl_type_2" />",</s:if>
+				<s:if test="enGirlInfo.type == 3">"<s:text name="global.en_girl_type_3" />",</s:if>
+			</s:i18n>
+			'<s:date name="validDateFrom" format="dd/MM/yyyy" />',
+			'<s:date name="validDateTo" format="dd/MM/yyyy" />',
+			"<s:property value="enGirlInfo.lineId" />",
+			'<div class="ui toggle fitted checkbox">' +
+				'<input type="checkbox" name="active" ' +
+				<s:if test="active == 'true'">'checked="checked" ' + </s:if>
+				'value="<s:property value="userInfoId" />">' +
+				'<label></label>' +
+			'</div>',
+			'<div class="ui buttons">' +
+				'<a href="<s:url value="/admin/engirl/edit/%{userInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
+				'<a href="<s:url value="/admin/engirl/delete/%{userInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>' +
+			'</div>'
+    	]);
+	</s:iterator>
+	columnDefs = [
+	  {  className: "center aligned", targets: [ 0, 6, 7, 9, 10 ] }
+	];
+  </script>
 </body>
 </html>

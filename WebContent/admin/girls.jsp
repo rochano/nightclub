@@ -430,58 +430,6 @@
 									</th>
 								</tr>
 							</thead>
-							<tbody>
-								<s:iterator value="girlInfos" status="status">
-								<tr>
-									<td class="center aligned"><s:property value="#status.count" /></td>
-									<td>
-										<img class="image ui tiny centered" src="<s:property value="pic1" />">
-									</td>
-									<td><s:property value="nickName" /></td>
-									<td>
-										<s:if test="%{top instanceof com.nightclub.model.ShopGirlInfo}" >
-											<s:i18n name="global_th">
-												<s:text name="global.main_menu_service_shop" />
-												-
-												<s:property value="basicInfo.shopNameEn" />
-											</s:i18n>
-										</s:if>
-										<s:elseif test="%{top instanceof com.nightclub.model.AgentGirlInfo}" >
-											<s:i18n name="global_th">
-												<s:text name="global.main_menu_agents" />
-												-
-												<s:property value="agentInfo.agentName" />
-											</s:i18n>
-										</s:elseif>
-										<s:elseif test="%{top instanceof com.nightclub.model.FreeAgentGirlInfo}" >
-											<s:i18n name="global_th">
-												<s:text name="global.main_menu_free_agents" />
-											</s:i18n>
-										</s:elseif>
-										<s:elseif test="%{top instanceof com.nightclub.model.EnGirlInfo}" >
-											<s:i18n name="global_th">
-												<s:text name="global.main_menu_en_girls" />
-											</s:i18n>
-										</s:elseif>
-									</td>
-									<td><s:property value="countryInfo.countryNameEn" /></td>
-									<td>
-										<s:iterator value="girlProvinces" >
-											<s:property value="primaryKey.provinceInfo.provinceNameEn" />
-											<br />
-										</s:iterator>
-									</td>
-									<td class="center aligned">
-										<div class="ui toggle fitted checkbox">
-											<input type="checkbox" name="allSame" 
-											<s:if test="allSame == 'true'">checked="checked"</s:if>
-											 value="<s:property value="girlInfoId" />">
-											<label></label>
-										</div>
-									</td>
-								</tr>
-								</s:iterator>
-							</tbody>
 							<tfoot class="full-width">
 								<tr>
 									<th colspan="7">
@@ -503,5 +451,55 @@
   	<%@include file="/common/common_admin_management_footer.jsp" %>  
 </div>
 </div>
+  <script type="text/javascript">
+  var girlProvinces = '';
+  <s:iterator value="girlInfos" status="status">
+  		girlProvinces = '';
+	<s:iterator value="girlProvinces" >
+	  	girlProvinces += '<s:property value="primaryKey.provinceInfo.provinceNameEn" />';
+	  	girlProvinces += '<br />';
+	</s:iterator>
+		dataSet.push(
+			['<s:property value="#status.count" />',
+			'<img class="image ui tiny centered" src="<s:property value="pic1" />">',
+			"<s:property value="nickName" />",
+			<s:if test="%{top instanceof com.nightclub.model.ShopGirlInfo}" >
+				<s:i18n name="global_th">
+					"<s:text name="global.main_menu_service_shop" />" +
+					"-" +
+					"<s:property value="basicInfo.shopNameEn" />",
+				</s:i18n>
+			</s:if>
+			<s:elseif test="%{top instanceof com.nightclub.model.AgentGirlInfo}" >
+				<s:i18n name="global_th">
+					"<s:text name="global.main_menu_agents" />" +
+					"-" +
+					"<s:property value="agentInfo.agentName" />",
+				</s:i18n>
+			</s:elseif>
+			<s:elseif test="%{top instanceof com.nightclub.model.FreeAgentGirlInfo}" >
+				<s:i18n name="global_th">
+					"<s:text name="global.main_menu_free_agents" />",
+				</s:i18n>
+			</s:elseif>
+			<s:elseif test="%{top instanceof com.nightclub.model.EnGirlInfo}" >
+				<s:i18n name="global_th">
+					"<s:text name="global.main_menu_en_girls" />",
+				</s:i18n>
+			</s:elseif>
+			'<s:property value="countryInfo.countryNameEn" />',
+			girlProvinces,
+			'<div class="ui toggle fitted checkbox">' +
+				'<input type="checkbox" name="allSame" ' +
+				<s:if test="allSame == 'true'">'checked="checked"' + </s:if>
+				'value="<s:property value="girlInfoId" />">' +
+				'<label></label>' +
+			'</div>'
+    	]);
+	</s:iterator>
+	columnDefs = [
+	  {  className: "center aligned", targets: [ 0, 6 ] }
+	];
+  </script>
 </body>
 </html>

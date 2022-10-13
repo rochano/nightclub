@@ -186,20 +186,6 @@
 									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
-							<tbody>
-								<s:iterator value="zoneInfos" status="status">
-								<tr>
-									<td class="center aligned"><s:property value="#status.count" /></td>
-									<td><s:property value="zoneNameJp" /></td>
-									<td><s:property value="zoneNameEn" /></td>
-									<td><s:property value="provinceInfo.provinceNameEn" /></td>
-									<td class="center aligned">
-										<a href="<s:url value="/admin/zone/edit/%{zoneInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
-										<a href="<s:url value="/admin/zone/delete/%{zoneInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
-									</td>
-								</tr>
-								</s:iterator>
-							</tbody>
 						</table>
 					</div>
 				</div>
@@ -243,6 +229,20 @@
     <div class="ui cancel button"><s:i18n name="global_th"><s:text name="global.cancel" /></s:i18n></div>
   </div>
 </div>
-  
+  <script type="text/javascript">
+  <s:iterator value="zoneInfos" status="status">
+		dataSet.push(
+			['<s:property value="#status.count" />', 
+			"<s:property value="zoneNameJp" />",
+			"<s:property value="zoneNameEn" />",
+			"<s:property value="provinceInfo.provinceNameEn" />",
+			'<a href="<s:url value="/admin/zone/edit/%{zoneInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
+			'<a href="<s:url value="/admin/zone/delete/%{zoneInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>'
+    	]);
+	</s:iterator>
+	columnDefs = [
+	  {  className: "center aligned", targets: [ 0, 4 ] }
+	];
+  </script>
 </body>
 </html>

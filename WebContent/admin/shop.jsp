@@ -286,48 +286,6 @@
 									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
-							<tbody>
-								<s:iterator value="userInfos" status="status">
-								<tr>
-									<td class="center aligned"><s:property value="#status.count" /></td>
-									<td>
-										<div class="ui fitted checkbox">
-											<input type="checkbox" name="check" value="<s:property value="userInfoId" />" />
-											<label></label>
-										</div>
-									</td>
-									<td>
-										<img class="image ui tiny centered" src="<s:property value="shopInfo.logoImg" />">
-									</td>
-									<td><s:property value="username" /></td>
-									<td><s:property value="shopInfo.shopNameJp" /></td>
-									<td><s:property value="shopInfo.shopNameEn" /></td>
-									<td><s:property value="shopInfo.categoryInfo.categoryNameEn" /></td>
-									<td>
-										<s:iterator value="shopInfo.shopLocations" >
-											<s:property value="primaryKey.zoneInfo.zoneNameEn" />
-											<br />
-										</s:iterator>
-									</td>
-									<td class="center aligned"><s:date name="validDateFrom" format="dd/MM/yyyy" /></td>
-									<td class="center aligned"><s:date name="validDateTo" format="dd/MM/yyyy" /></td>
-									<td class="center aligned">
-										<div class="ui toggle fitted checkbox">
-											<input type="checkbox" name="active" 
-											<s:if test="active == 'true'">checked="checked"</s:if>
-											 value="<s:property value="userInfoId" />">
-											<label></label>
-										</div>
-									</td>
-									<td class="center aligned">
-										<div class="ui buttons">
-											<a href="<s:url value="/admin/shop/edit/%{userInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
-											<a href="<s:url value="/admin/shop/delete/%{userInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>
-										</div>
-									</td>
-								</tr>
-								</s:iterator>
-							</tbody>
 							<tfoot class="full-width">
 								<tr>
 									<th colspan="12">
@@ -398,5 +356,43 @@
     <div class="ui cancel button"><s:i18n name="global_th"><s:text name="global.cancel" /></s:i18n></div>
   </div>
 </div>
+  <script type="text/javascript">
+  	var shopLocations = '';
+  <s:iterator value="userInfos" status="status">
+		shopLocations = '';
+	<s:iterator value="shopInfo.shopLocations" >
+		shopLocations += '<s:property value="primaryKey.zoneInfo.zoneNameEn" />';
+		shopLocations += '<br />';
+	</s:iterator>
+		dataSet.push(
+			['<s:property value="#status.count" />', 
+			'<div class="ui fitted checkbox">' +
+				'<input type="checkbox" name="check" value="<s:property value="userInfoId" />" />' +
+				'<label></label>' +
+			'</div>',
+			'<img class="image ui tiny centered" src="<s:property value="shopInfo.logoImg" />">',
+			"<s:property value="username" />",
+			"<s:property value="shopInfo.shopNameJp" />",
+			"<s:property value="shopInfo.shopNameEn" />",
+			"<s:property value="shopInfo.categoryInfo.categoryNameEn" />",
+			shopLocations,
+			'<s:date name="validDateFrom" format="dd/MM/yyyy" />',
+			'<s:date name="validDateTo" format="dd/MM/yyyy" />',
+			'<div class="ui toggle fitted checkbox">' +
+				'<input type="checkbox" name="active" ' +
+				<s:if test="active == 'true'">'checked="checked" ' + </s:if>
+				'value="<s:property value="userInfoId" />">' +
+				'<label></label>' +
+			'</div>',
+			'<div class="ui buttons">' +
+				'<a href="<s:url value="/admin/shop/edit/%{userInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
+				'<a href="<s:url value="/admin/shop/delete/%{userInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>' +
+			'</div>'
+    	]);
+	</s:iterator>
+	columnDefs = [
+	  {  className: "center aligned", targets: [ 0, 8, 9, 10, 11 ] }
+	];
+  </script>
 </body>
 </html>
