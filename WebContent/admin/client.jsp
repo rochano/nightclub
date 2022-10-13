@@ -78,7 +78,7 @@
       ;
 	  $("table").tablesort();
       <s:if test="showInfo">
-	  $('.ui.modal')
+	  $('.ui.modal.edit')
 	    .modal('show')
 	  ;
 	  $("body").addClass("scrolling");
@@ -92,7 +92,7 @@
 	  <s:if test="userInfo.validDateTo != null">
 	  $("#userInfo_validDateTo").val("<s:date name="userInfo.validDateTo" format="dd/MM/yyyy" />");
 	  </s:if>
-	  $('.ui.modal').modal({
+	  $('.ui.modal.edit').modal({
           onApprove : function() {
        	     var form = $('#infoForm');
              form.find("[name=checklist]").remove()
@@ -104,6 +104,22 @@
             //And pass the handling responsibilities to the form handlers,
             // e.g. on form validation success
             $('#infoForm').submit();
+            //Return false as to not close modal dialog
+            return false;
+          }
+      });
+      $('.ui.modal.delete').modal({
+          onApprove : function() {
+       	  	 var form = $('#deleteForm');
+             form.find("[name=checklist]").remove()
+             $( "input[name=check]", dataTable.fnGetNodes()).each(function(i, item) {
+                 var obj = {id: item.value, checked: item.checked};
+           	  form.append("<input name='checklist' value='" + JSON.stringify(obj) + "' type='hidden' />")
+             })
+            //Submits the semantic ui form
+            //And pass the handling responsibilities to the form handlers,
+            // e.g. on form validation success
+            $('#deleteForm').submit();
             //Return false as to not close modal dialog
             return false;
           }
@@ -132,6 +148,11 @@
           ,},
        })
       ;
+	  $('#deleteForm.ui.form')
+      .form({
+          fields: {}
+      })
+      ;
 	  $('#searchForm.ui.form')
       .form({
           fields: {}
@@ -144,16 +165,15 @@
 			alert("กรุณาเลือกข้อมูล")
 			return;
 		  }
-		  $('.ui.modal .header:first').text("<s:i18n name="global_th"><s:text name="global.edit_information" /><s:text name="global.menu_client" /></s:i18n>(" + selectedItem + " รายการ)");
+		  $('.ui.modal.edit .header:first').text("<s:i18n name="global_th"><s:text name="global.edit_information" /><s:text name="global.menu_client" /></s:i18n>(" + selectedItem + " รายการ)");
 		  $('#infoForm').find("input[type=text], textarea").val("");
 		  $('#infoForm').find("input[type=radio], input[type=checkbox]").prop('checked', false);
 		  $('#userInfo.clientInfo.nickName').parents(".fields:first").empty();
 		  $('#userInfo_clientInfo_email').parents(".fields:first").empty();
 		  $('#userInfo_clientInfo_mobile').parents(".fields:first").empty();
 		  $('#userInfo_clientInfo_age').parents(".fields:first").empty();
-		  $('#infoForm')[0].action.value = "editMultiple";
 		  $('#infoForm')[0].action = "<s:url value="/admin/client/multipleupdate"/>";
-      $('.ui.modal')
+		  $('.ui.modal.edit')
 		    .modal('show')
 		  ;
       });
@@ -161,6 +181,18 @@
 		.on('click', function() {
 			$( "input[name=check]", dataTable.fnGetNodes()).prop('checked', this.checked);
 		});
+	  $("#deletemultiplebtn")
+		.on('click', function() {
+		  var selectedItem = $( "input[name=check]:checked", dataTable.fnGetNodes()).length;
+		  if(selectedItem == 0) {
+			alert("กรุณาเลือกข้อมูล")
+			return;
+		  }
+		  $('.ui.modal.delete .header:first').text("<s:i18n name="global_th"><s:text name="global.delete_information" /><s:text name="global.menu_client" /></s:i18n>(" + selectedItem + " รายการ)");
+		  $('.ui.modal.delete')
+			    .modal('show')
+			  ;
+	    });
     })
   ;
   </script>
@@ -229,6 +261,7 @@
 						<div class="ui right aligned one column grid">
 							<div class="column">
 								<div id="editmultiplebtn" class="ui small button blue"><s:i18n name="global_th"><s:text name="global.edit" /></s:i18n></div>
+								<div id="deletemultiplebtn" class="ui small button red"><s:i18n name="global_th"><s:text name="global.delete" /></s:i18n></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
@@ -308,7 +341,7 @@
 </div>
 </div>
 
-<div class="ui modal">
+<div class="ui modal edit">
   <i class="close icon"></i>
   <div class="header">
     <s:i18n name="global_th"><s:text name="global.edit_information" /><s:text name="global.menu_client" /></s:i18n>
@@ -349,6 +382,22 @@
   </div>
   <div class="actions">
     <div class="ui approve blue button"><s:i18n name="global_th"><s:text name="global.save" /></s:i18n></div>
+    <div class="ui cancel button"><s:i18n name="global_th"><s:text name="global.cancel" /></s:i18n></div>
+  </div>
+</div>
+<div class="ui modal delete">
+  <i class="close icon"></i>
+  <div class="header">
+    <s:i18n name="global_th"><s:text name="global.delete_information" /><s:text name="global.menu_client" /></s:i18n>
+  </div>
+  <div class="content centered">
+    <form class="ui form" id="deleteForm" method="post" action="<s:url value="/admin/client/multipledelete"/>" >
+		<h4><s:i18n name="global_th"><s:text name="global.delete_confirm" /></s:i18n></h4>
+		<div class="ui error message"></div>
+	</form>
+  </div>
+  <div class="actions">
+    <div class="ui approve red button"><s:i18n name="global_th"><s:text name="global.delete" /></s:i18n></div>
     <div class="ui cancel button"><s:i18n name="global_th"><s:text name="global.cancel" /></s:i18n></div>
   </div>
 </div>

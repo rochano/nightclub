@@ -117,7 +117,7 @@ public class UserInfoManager extends HibernateUtil {
 		}
 		session.getTransaction().commit();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<UserInfo> list(String userType) {
 		
@@ -376,6 +376,25 @@ public class UserInfoManager extends HibernateUtil {
 						.setParameter("validDateFrom", validDateFrom)
 						.setParameter("validDateTo", validDateTo)
 						.setParameter("userType", userType)
+						.setParameterList("userInfoIdList", updateUserInfoIdList.toArray())
+						.executeUpdate();
+			}
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+	}
+
+	public void deleteByUserInfoId(List<String> updateUserInfoIdList) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			
+			if(updateUserInfoIdList.size()> 0) {
+				session.createQuery("update UserInfo set deleteFlg = :deleteFlg where userInfoId in (:userInfoIdList) ")
+						.setParameter("deleteFlg", Boolean.TRUE.toString().toLowerCase())
 						.setParameterList("userInfoIdList", updateUserInfoIdList.toArray())
 						.executeUpdate();
 			}

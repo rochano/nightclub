@@ -302,6 +302,32 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		
 		return SUCCESS;
 	}
+
+	public String usermultipledelete() {
+		if(getChecklist() == null) {
+			setChecklist(new ArrayList<String>());
+		}
+
+		Iterator<String> it = getChecklist().iterator();
+		List<String> updateUserInfoIdList = new ArrayList<String>();
+		while(it.hasNext()) {
+			JSONObject jsonData = new JSONObject(it.next());
+			if (jsonData.getBoolean("checked")) {
+				updateUserInfoIdList.add(jsonData.getString("id"));
+			}
+		}
+		userInfoManager.deleteByUserInfoId(updateUserInfoIdList);
+		addActionMessage(getTexts("global_th").getString("global.message_success_delete"));
+		this.userInfos = userInfoManager.list(getUserType());
+		if(IConstants.USER_TYPE_SHOP.equals(userType)) {
+			for(UserInfo userInfo : userInfos) {
+				if (userInfo.getShopInfoId() == null) continue;
+				userInfo.getShopInfo().setShopLocations(basicInfoManager.getShopLocationListByShopInfoId(userInfo.getShopInfoId()));
+			}
+		}
+		
+		return SUCCESS;
+	}
 	
 	public String usersearch() {
 		// shop
