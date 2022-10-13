@@ -34,6 +34,11 @@
   	width: 150px;
   	margin: 0;
   }
+  @media only screen and (max-width: 470px) {
+  	#searchForm.ui.form .inline.field>label.screen:first-child {
+	  	display: none;
+	}
+  }
   #searchForm .ui.checkbox label, #searchForm.ui.form select {
   	display: inline-block;
   	width: auto;
@@ -246,7 +251,7 @@
 								</div>
 							</div>
 							<div class="inline field">
-								<label>&nbsp;</label>
+								<label class="screen">&nbsp;</label>
 								<div class="ui checkbox">
 									<input type="checkbox" name="girlSearch.chkAgents" id="girlSearch_chkAgents"
 										<s:if test="girlSearch.chkAgents == 'true'">checked="checked"</s:if>
@@ -266,7 +271,7 @@
 								</div>
 							</div>
 							<div class="inline field">
-								<label>&nbsp;</label>
+								<label class="screen">&nbsp;</label>
 								<div class="ui checkbox">
 									<input type="checkbox" name="girlSearch.chkFreeAgents" id="girlSearch_chkFreeAgents"
 										<s:if test="girlSearch.chkFreeAgents == 'true'">checked="checked"</s:if>
@@ -275,7 +280,7 @@
 								</div>
 							</div>
 							<div class="inline field">
-								<label>&nbsp;</label>
+								<label class="screen">&nbsp;</label>
 								<div class="ui checkbox">
 									<input type="checkbox" name="girlSearch.chkEnGirls" id="girlSearch_chkEnGirls"
 										<s:if test="girlSearch.chkEnGirls == 'true'">checked="checked"</s:if>
