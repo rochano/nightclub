@@ -533,44 +533,6 @@
 									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
-							<tbody>
-								<s:iterator value="girlInfos" status="status">
-								<tr>
-									<td class="center aligned"><s:property value="#status.count" /></td>
-									<td>
-										<img class="image ui tiny centered" src="<s:property value="pic1" />">
-									</td>
-									<td><s:property value="nickName" /></td>
-									<td class="center aligned"><s:property value="age" /></td>
-									<td><s:property value="countryInfo.countryNameEn" /></td>
-									<td>
-										<s:iterator value="girlProvinces" >
-											<s:property value="primaryKey.provinceInfo.provinceNameEn" />
-											<br />
-										</s:iterator>
-									</td>
-									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="height"/></s:text></td>
-									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="weight"/></s:text></td>
-									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="bustSize"/></s:text></td>
-									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="waistSize"/></s:text></td>
-									<td class="center aligned"><s:text name="format.integer"><s:param name="value" value="hipSize"/></s:text></td>
-									<td class="center aligned">
-										<div class="ui toggle fitted checkbox">
-											<input type="checkbox" name="available" 
-											<s:if test="available == 'true'">checked="checked"</s:if>
-											 value="<s:property value="girlInfoId" />">
-											<label></label>
-										</div>
-									</td>
-									<td class="center aligned">
-										<div class="ui buttons">
-											<a href="<s:url value="/management_agent/girl/edit/%{girlInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>
-											<a href="<s:url value="/management_agent/girl/delete/%{girlInfoId}"/>" class="ui icon button small red"><i class="ui icon delete"></i></a>
-										</div>
-									</td>
-								</tr>
-								</s:iterator>
-							</tbody>
 							<tfoot class="full-width">
 								<tr>
 									<th colspan="13">
@@ -1038,5 +1000,38 @@
 		filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'*/
 	});
 </script>
+<script type="text/javascript">
+  <s:iterator value="girlInfos" status="status">
+		dataSet.push(
+			['<s:property value="#status.count" />', 
+			'<img class="image ui tiny centered" src="<s:property value="pic1" />">',
+			"<s:property value="nickName" />",
+			"<s:property value="age" />",
+			'<s:property value="countryInfo.countryNameEn" />',
+			'<s:iterator value="girlProvinces" >' +
+				'<s:property value="primaryKey.provinceInfo.provinceNameEn" />' + 
+				'<br />' + 
+			'</s:iterator>',
+			'<s:text name="format.integer"><s:param name="value" value="height"/></s:text>',
+			'<s:text name="format.integer"><s:param name="value" value="weight"/></s:text>',
+			'<s:text name="format.integer"><s:param name="value" value="bustSize"/></s:text>',
+			'<s:text name="format.integer"><s:param name="value" value="waistSize"/></s:text>',
+			'<s:text name="format.integer"><s:param name="value" value="hipSize"/></s:text>',
+			'<div class="ui toggle fitted checkbox">' +
+				'<input type="checkbox" name="active" ' +
+				<s:if test="available == 'true'">'checked="checked" ' + </s:if>
+				'value="<s:property value="girlInfoId" />">' +
+				'<label></label>' +
+			'</div>',
+			'<div class="ui buttons">' +
+				'<a href="<s:url value="/management_agent/girl/edit/%{girlInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
+				'<a href="<s:url value="/management_agent/girl/edit/%{girlInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>' +
+			'</div>'
+    	]);
+	</s:iterator>
+	columnDefs = [
+	  {  className: "center aligned", targets: [ 0, 3, 6, 7, 8, 9, 10, 11, 12 ] }
+	];
+  </script>
 </body>
 </html>

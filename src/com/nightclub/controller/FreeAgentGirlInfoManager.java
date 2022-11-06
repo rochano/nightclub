@@ -9,9 +9,9 @@ import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
 
-import com.nightclub.model.AgentInfo;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlLocation;
+import com.nightclub.model.GirlServiceInfo;
 
 public class FreeAgentGirlInfoManager extends GirlInfoManager {
 	
@@ -93,5 +93,23 @@ public class FreeAgentGirlInfoManager extends GirlInfoManager {
 		}
 		session.getTransaction().commit();
 		return girlInfos;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GirlServiceInfo> getGirlServiceInfoList() {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<GirlServiceInfo> girlServiceInfos = null;
+		try {
+			
+			girlServiceInfos = (List<GirlServiceInfo>)session.createQuery("from GirlServiceInfo order by orderNo").list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return girlServiceInfos;
 	}
 }

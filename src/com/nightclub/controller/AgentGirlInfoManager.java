@@ -14,6 +14,7 @@ import com.nightclub.model.AgentGirlInfo;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlLocation;
 import com.nightclub.model.GirlProvince;
+import com.nightclub.model.GirlServiceInfo;
 
 public class AgentGirlInfoManager extends GirlInfoManager {
 	
@@ -209,5 +210,23 @@ public class AgentGirlInfoManager extends GirlInfoManager {
 		}
 		session.getTransaction().commit();
 		return girlInfos;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GirlServiceInfo> getGirlServiceInfoList() {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<GirlServiceInfo> girlServiceInfos = null;
+		try {
+			
+			girlServiceInfos = (List<GirlServiceInfo>)session.createQuery("from GirlServiceInfo order by orderNo").list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return girlServiceInfos;
 	}
 }
