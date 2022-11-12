@@ -53,6 +53,12 @@
   	border-width:1px 0px!important; 
   	vertical-align: text-top;
   }
+  #mov1 {
+    display: none;
+  }
+  #mov1.display {
+    display: block;
+  }
   </style>
   <script type="text/javascript">
   $(document)
@@ -93,6 +99,48 @@
 			})
 		;
 		</s:else>
+  	  $("#playMov1")
+		.on('click', function() {
+		  var elem = $('#mov1').get(0);
+		  elem.currentTime = 0;
+		  if (elem.requestFullscreen) {
+		    elem.requestFullscreen();
+		  } else if (elem.webkitRequestFullscreen) { /* Safari */
+		    elem.webkitRequestFullscreen();
+		  } else if (elem.msRequestFullscreen) { /* IE11 */
+		    elem.msRequestFullscreen();
+		  }
+		  elem.play();
+		  $(elem).addClass('display');
+		});
+  		$("#mov1").on('ended', function() {
+  			var mov1 = $('#mov1');
+  			mov1.removeClass('display');
+		  	var elem = mov1.get(0);
+		  	elem.pause();
+		  	if (elem.exitFullscreen) {
+		  		elem.exitFullscreen();
+			} else if (elem.webkitExitFullscreen) {
+				elem.webkitExitFullscreen();
+			} else if (elem.mozCancelFullScreen) {
+				elem.mozCancelFullScreen();
+			} else if (elem.msExitFullscreen) {
+				elem.msExitFullscreen();
+			}
+	  	});
+  		$(document).on('fullscreenchange', fullscreenChangeHandler);
+  	  	$(document).on('mozfullscreenchange', fullscreenChangeHandler);
+  	  	$(document).on('MSFullscreenChange', fullscreenChangeHandler);
+  		$(document).on('webkitfullscreenchange', fullscreenChangeHandler);
+  		function fullscreenChangeHandler() {
+	  	  var mov1 = $('#mov1');
+	  	  if (!this.fullscreenElement) {
+		  	if (mov1.hasClass('display')) {
+		  	  mov1.removeClass('display');
+		  	  mov1.get(0).pause();
+		  	}
+	  	  }
+	  	}
 	});
   </script>
 </head>
@@ -175,6 +223,17 @@
 												</s:if>
 										  	</div>
 										</div>
+										<s:if test="girlInfo.mov1 != null && girlInfo.mov1 != ''">
+											<br />
+											<div class="center aligned sixteen wide column">
+												<div class="image ui small column">
+													<button class="ui icon button green basic large" id="playMov1">
+														<i class="play icon"></i>
+													</button>
+													<video id="mov1" class="ui image fluid centered" src="<s:property value="girlInfo.mov1" />" />
+												</div>
+											</div>
+										</s:if>
 									</div>
 									<div class="seven wide right floated centered column">
 										<table class="ui compact table unstackable">

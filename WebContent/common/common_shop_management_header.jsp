@@ -79,6 +79,11 @@
   		margin-right: 0!important;
   	}
  }
+.ui.image video {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
   </style>
   <script>
   var dataSet = [];

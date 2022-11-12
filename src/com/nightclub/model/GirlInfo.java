@@ -47,6 +47,7 @@ public class GirlInfo extends BaseModel implements Serializable{
 	private String nationalityInfoId;
 	private String countryInfoId;
 	private String genderInfoId;
+	private String mov1;
 
 	private NationalityInfo nationalityInfo;
 	private CountryInfo countryInfo;
@@ -198,6 +199,13 @@ public class GirlInfo extends BaseModel implements Serializable{
 	public GenderInfo getGenderInfo() {
 		return genderInfo;
 	}
+	@Column(name="mov1")
+	public String getMov1() {
+		if (mov1 == null) { 
+			return "";
+		}
+		return mov1;
+	}
 	public void setGirlInfoId(String girlInfoId) {
 		this.girlInfoId = girlInfoId;
 	}
@@ -299,5 +307,8 @@ public class GirlInfo extends BaseModel implements Serializable{
 	}
 	public void setGenderInfo(GenderInfo genderInfo) {
 		this.genderInfo = genderInfo;
+	}
+	public void setMov1(String mov1) {
+		this.mov1 = mov1;
 	}
 }

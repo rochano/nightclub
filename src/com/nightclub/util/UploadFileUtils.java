@@ -112,4 +112,35 @@ public class UploadFileUtils {
 		Map param = new HashMap();
 		Map uploadResult = cloudinary.uploader().destroy(publicId, param);
 	}
+
+	public static String uploadVideoApi(String originFileName, Map sessionMap, UserInfo userInfo) throws IOException {
+		String fileName = originFileName;
+		if(sessionMap.containsKey(originFileName)) {
+    		File fileToCreate = new File(fileName);
+    		FileModel fileModel = (FileModel) sessionMap.get(fileName);
+    		FileUtils.writeByteArrayToFile(fileToCreate, fileModel.getImageInBytes());
+    		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+					  "cloud_name", "diladfres",
+					  "api_key", "486787566588465",
+					  "api_secret", "ltE8fUE2mSc2HCpydAW5kqmriGA"));
+    		Map param = new HashMap();
+    		param.put("folder", userInfo.getUserInfoId());
+    		param.put("resource_type", "video");
+			Map uploadResult = cloudinary.uploader().upload(fileToCreate, param);
+			log_.info("uploadResult >> " + uploadResult.toString());
+			fileName = uploadResult.get("url").toString();
+			fileToCreate.delete();
+			String pattern = "(v[0-9]*/)([0-9|A-Z|-]*/[a-z0-9]*)";
+			String publicId = "";
+			// Create a Pattern object
+			Pattern r = Pattern.compile(pattern);
+			// Now create matcher object.
+			Matcher m = r.matcher(fileName);
+			if (m.find( )) {
+				publicId = m.group(2);
+			}
+			log_.info("publicId >> " + publicId);
+    	}
+		return fileName;
+	}
 }

@@ -123,11 +123,13 @@
 		  $("#pic3").empty();
 		  $("#pic4").empty();
 		  $("#pic5").empty();
+		  $("#mov1").empty();
 		  $("#pic1FileName").val("");
 		  $("#pic2FileName").val("");
 		  $("#pic3FileName").val("");
 		  $("#pic4FileName").val("");
 		  $("#pic5FileName").val("");
+		  $("#mov1FileName").val("");
 		  $('#infoForm').find("select").val($("#infoForm select option:first").val());
 		  loadProvince($("#girlInfo_countryInfoId").val(), '#provinceInfos', 'girlLocations');
           $('.ui.modal')
@@ -315,6 +317,26 @@
 				var image = "<img src='" + filePath + fileName + "' />";
 				$("#pic5").html(image);
 				$('#pic5FileName').val(fileName);
+	        	console.log('success');
+	        },
+	        error:function(error){
+	        	console.log(error);
+	        }
+	  });
+	  $('#fileMov1').fileupload({
+			url: '<s:url value="/UploadFileServlet"/>',
+			dataType: 'json',
+			add: function (e, data) {
+				data.submit();
+			},
+	        success:function(response,status) {
+		        console.log(arguments)
+				console.log(response.fileName);
+		        var fileName = response.fileName;
+				var filePath = response.path;
+				var image = "<video src='" + filePath + fileName + "' controls />";
+				$("#mov1").html(image);
+				$('#mov1FileName').val(fileName);
 	        	console.log('success');
 	        },
 	        error:function(error){
@@ -807,6 +829,28 @@
 					</label>
 					<input type="file" id="filePic5" style="display:none">
 					<s:hidden name="pic5FileName"></s:hidden>
+				</div>
+			</div>
+		</div>
+		<br />
+		<h4 class="ui horizontal divider header">
+			<i class="video icon"></i>
+			<s:i18n name="global_th"><s:text name="global.video" /></s:i18n>
+		</h4>
+		<div class="ui grid five column">
+			<div class="image ui small column">
+				<div id="mov1">
+					<s:if test="%{girlInfo.mov1 != ''}">
+						<video class="ui small centered" src="<s:property value="girlInfo.mov1" />" controls />
+					</s:if>
+				</div>
+				<div class="ui horizontal divider very basic">
+					<label for="fileMov1" class="ui basic button">
+						<i class="icon upload"></i>
+					  	<s:i18n name="global_th"><s:text name="global.upload" /></s:i18n>
+					</label>
+					<input type="file" id="fileMov1" style="display:none">
+					<s:hidden name="mov1FileName"></s:hidden>
 				</div>
 			</div>
 		</div>

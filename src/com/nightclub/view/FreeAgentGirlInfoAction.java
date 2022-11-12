@@ -74,6 +74,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
     private String pic3FileName;
     private String pic4FileName;
     private String pic5FileName;
+    private String mov1FileName;
 
 	public FreeAgentGirlInfoAction() {
 		userInfoManager = new UserInfoManager();
@@ -244,6 +245,14 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	            	girlProvince.setGirlInfo(this.girlInfo);
 					this.girlInfo.getGirlProvinces().add(girlProvince);
 				}
+	            
+	            if(!getMov1FileName().isEmpty()) {
+	            	this.mov1FileName = UploadFileUtils.uploadVideoApi(getMov1FileName(), sessionMap, userInfo);
+		            this.girlInfo.setMov1(this.mov1FileName);
+	            }
+	            else if(currentGirlInfo.getMov1() != null && !currentGirlInfo.getMov1().isEmpty()) {
+	            	this.girlInfo.setMov1(currentGirlInfo.getMov1());
+	            }
 	            
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -507,5 +516,13 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 
 	public void setGenderInfos(List<GenderInfo> genderInfos) {
 		this.genderInfos = genderInfos;
+	}
+	
+	public String getMov1FileName() {
+		return mov1FileName;
+	}
+
+	public void setMov1FileName(String mov1FileName) {
+		this.mov1FileName = mov1FileName;
 	}
 }

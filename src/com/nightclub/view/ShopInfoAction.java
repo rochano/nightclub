@@ -136,10 +136,10 @@ public class ShopInfoAction extends CommonAction {
 	}
 	
 	public String girlReserveInfo() {
-		if (getSession().containsKey("userInfo")) {
-			UserInfo userInfo = (UserInfo)getSession().get("userInfo");
-			if (userInfo.getClientInfoId() != null) {
-				String clientInfoId = userInfo.getClientInfoId();
+		//if (getSession().containsKey("userInfo")) {
+			//UserInfo userInfo = (UserInfo)getSession().get("userInfo");
+			//if (userInfo.getClientInfoId() != null) {
+				String clientInfoId = "";//userInfo.getClientInfoId();
 				Date date = new Date();
 				try {
 					date = sdf.parse(lookupDate);
@@ -148,8 +148,8 @@ public class ShopInfoAction extends CommonAction {
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
-			}
-		}
+			//}
+		//}
 		
 		return SUCCESS;
 	}
