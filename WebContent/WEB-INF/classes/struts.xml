@@ -167,7 +167,6 @@
 			class="com.nightclub.view.FrontEndAction" method="favourite">
 			<result name="success">/favourite.jsp</result>
 		</action>
-		
 	</package>
 	
 	<package name="ajax" extends="json-default" namespace="/ajax" >
@@ -954,6 +953,16 @@
 		    <result name="input">/admin/girls.jsp</result>
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/girls.jsp</result>
+		</action>
+		
+		<action name="girls/info/*"
+			class="com.nightclub.view.AdminInfoAction" method="girlInfo">
+			<param name="menu">girls</param>
+			<param name="girlInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/girl_info.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/girl_info.jsp</result>
 		</action>
 
 	    <action name="zone"

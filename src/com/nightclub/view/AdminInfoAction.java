@@ -18,6 +18,7 @@ import com.nightclub.controller.BasicInfoManager;
 import com.nightclub.controller.CategoryInfoManager;
 import com.nightclub.controller.CountryInfoManager;
 import com.nightclub.controller.GenderInfoManager;
+import com.nightclub.controller.GirlCommentManager;
 import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.GirlSettingManager;
 import com.nightclub.controller.HomeInfoManager;
@@ -32,6 +33,7 @@ import com.nightclub.model.CategoryInfo;
 import com.nightclub.model.CountryInfo;
 import com.nightclub.model.FrontSearch;
 import com.nightclub.model.GenderInfo;
+import com.nightclub.model.GirlComment;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
@@ -78,6 +80,9 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private List<String> checklist;
 	private List<GenderInfo> genderInfos;
 	private List<NationalityInfo> nationalityInfos;
+	private List<GirlComment> girlComments;
+	private String girlInfoId;
+	private GirlInfo girlInfo;
 	
 	private HomeInfoManager homeInfoManager;
 	private HomeSlideImageManager homeSlideImageManager;
@@ -92,6 +97,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private ProvinceInfoManager provinceInfoManager;
 	private GenderInfoManager genderInfoManager;
 	private NationalityInfoManager nationalityInfoManager;
+	private GirlCommentManager girlCommentManager;
 
 	public AdminInfoAction() {
 		homeInfoManager = new HomeInfoManager();
@@ -107,6 +113,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		provinceInfoManager = new ProvinceInfoManager();
 		genderInfoManager = new GenderInfoManager();
 		nationalityInfoManager = new NationalityInfoManager();
+		girlCommentManager = new GirlCommentManager();
 	}
 	
 	public String execute() {
@@ -567,6 +574,13 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		return SUCCESS;
 	}
 	
+	public String girlInfo() {
+		this.girlInfo = girlInfoManager.getGirlInfo(girlInfoId);
+		this.girlComments = girlCommentManager.list(girlInfoId);
+		
+		return SUCCESS;
+	}
+	
 	public String lineNotify() {
 		this.homeInfo = homeInfoManager.getHomeInfo("0");
 		
@@ -877,6 +891,30 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 
 	public void setNationalityInfos(List<NationalityInfo> nationalityInfos) {
 		this.nationalityInfos = nationalityInfos;
+	}
+
+	public List<GirlComment> getGirlComments() {
+		return girlComments;
+	}
+
+	public void setGirlComments(List<GirlComment> girlComments) {
+		this.girlComments = girlComments;
+	}
+
+	public String getGirlInfoId() {
+		return girlInfoId;
+	}
+
+	public GirlInfo getGirlInfo() {
+		return girlInfo;
+	}
+
+	public void setGirlInfoId(String girlInfoId) {
+		this.girlInfoId = girlInfoId;
+	}
+
+	public void setGirlInfo(GirlInfo girlInfo) {
+		this.girlInfo = girlInfo;
 	}
 
 

@@ -3,6 +3,14 @@
   <div class="ui centered grid">
 	  <div class="center aligned column">
 	  	<div class="inform">
+	  		<s:if test="hasActionMessages()">
+				<div class="ui success message green">
+					<i class="close icon"></i>
+					<div class="header">
+						<s:actionmessage cssClass="list" />
+					</div>
+				</div>
+			</s:if>
 	  		<s:if test="homeInfo.inform != ''">
 	  			<s:text name="homeInfo.inform" />
 	  		</s:if>

@@ -3,6 +3,7 @@ package com.nightclub.view;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import com.nightclub.common.IConstants;
@@ -15,6 +16,7 @@ import com.nightclub.controller.CountryInfoManager;
 import com.nightclub.controller.EnGirlInfoManager;
 import com.nightclub.controller.FreeAgentGirlInfoManager;
 import com.nightclub.controller.GenderInfoManager;
+import com.nightclub.controller.GirlCommentManager;
 import com.nightclub.controller.GirlFavouriteManager;
 import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.HomeInfoManager;
@@ -34,6 +36,7 @@ import com.nightclub.model.EnGirlInfo;
 import com.nightclub.model.FreeAgentGirlInfo;
 import com.nightclub.model.FrontSearch;
 import com.nightclub.model.GenderInfo;
+import com.nightclub.model.GirlComment;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
@@ -82,6 +85,7 @@ public class FrontEndAction extends CommonAction {
 	private List<ProvinceInfo> provinceInfos;
 	private List<GirlProvince> girlProvinces;
 	private List<GenderInfo> genderInfos;
+	private GirlComment girlComment;
 
 	private CategoryInfoManager categoryInfoManager;
 	private BasicInfoManager basicInfoManager;
@@ -98,6 +102,7 @@ public class FrontEndAction extends CommonAction {
 	private CountryInfoManager countryInfoManager;
 	private ProvinceInfoManager provinceInfoManager;
 	private GenderInfoManager genderInfoManager;
+	private GirlCommentManager girlCommentManager;
 
 	public FrontEndAction() {
 		super();
@@ -116,6 +121,7 @@ public class FrontEndAction extends CommonAction {
 		countryInfoManager = new CountryInfoManager();
 		provinceInfoManager = new ProvinceInfoManager();
 		genderInfoManager = new GenderInfoManager();
+		girlCommentManager = new GirlCommentManager();
 	}
 	
 	public String execute() {
@@ -258,6 +264,9 @@ public class FrontEndAction extends CommonAction {
 	}
 	
 	public String girlInfo() {
+		if ("addGirlComment".equals(getAction())) {
+			addGirlComment();
+		}
 		getStatisticInfo();
 		
 		this.categoryInfos = categoryInfoManager.list();
@@ -344,6 +353,15 @@ public class FrontEndAction extends CommonAction {
 	
 	protected void loadGirlFavourites(String clientInfoId) {
 		this.girlFavourites = girlFavouriteManager.listByCustomerInfoId(clientInfoId);
+	}
+
+	public void addGirlComment() {
+		girlComment.setGirlCommentId(UUID.randomUUID().toString().toUpperCase());
+		girlComment.setCreatedDate(new Date());
+		girlCommentManager.add(girlComment);
+		addActionMessage(getTexts("global").getString("global.message_success_add"));
+		girlComment.setComment("");
+		girlComment.setRating(0);
 	}
 
 	public List<CategoryInfo> getCategoryInfos() {
@@ -592,5 +610,13 @@ public class FrontEndAction extends CommonAction {
 
 	public void setGenderInfos(List<GenderInfo> genderInfos) {
 		this.genderInfos = genderInfos;
+	}
+
+	public GirlComment getGirlComment() {
+		return girlComment;
+	}
+
+	public void setGirlComment(GirlComment girlComment) {
+		this.girlComment = girlComment;
 	}
 }

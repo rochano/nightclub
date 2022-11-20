@@ -433,11 +433,12 @@
 											<s:text name="global.all_same" />
 										</s:i18n>
 									</th>
+									<th><s:i18n name="global_th"><s:text name="global.detail" /></s:i18n></th>
 								</tr>
 							</thead>
 							<tfoot class="full-width">
 								<tr>
-									<th colspan="7">
+									<th colspan="8">
 										<form class="ui form " id="allSameForm" method="post" action="<s:url value="/admin/girls/update"/>" >
 											<div class="ui right floated small primary submit button">
 												<s:i18n name="global_th"><s:text name="global.submit" /></s:i18n>
@@ -499,11 +500,12 @@
 				<s:if test="allSame == 'true'">'checked="checked"' + </s:if>
 				'value="<s:property value="girlInfoId" />">' +
 				'<label></label>' +
-			'</div>'
+			'</div>',
+			'<a href="<s:url value="/admin/girls/info/%{girlInfoId}"/>" class="ui icon button small green" ><i class="ui icon info"></i></a>'
     	]);
 	</s:iterator>
 	columnDefs = [
-	  {  className: "center aligned", targets: [ 0, 6 ] }
+	  {  className: "center aligned", targets: [ 0, 6, 7 ] }
 	];
   </script>
 </body>

@@ -30,6 +30,7 @@
   <link rel="stylesheet" type="text/css" href="<s:url value="/assets/fontawesome/css/fontawesome.min.css"/>">
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/calendar.css"/>">
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/flag.css"/>">
+  <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/rating.css"/>">
 <sj:head />
 
   <!--- Example Libs -->
@@ -47,6 +48,7 @@
   <script type="text/javascript" src="<s:url value="/Semantic-UI-master/dist/components/accordion.js"/>"></script>
   <script type="text/javascript" src="<s:url value="/Semantic-UI-master/dist/components/sidebar.js"/>"></script>
   <script type="text/javascript" src="<s:url value="/Semantic-UI-master/dist/components/sticky.js"/>"></script>
+  <script type="text/javascript" src="<s:url value="/Semantic-UI-master/dist/components/rating.js"/>"></script>
   <script type="text/javascript" src="<s:url value="/assets/library/jquery.tablesort.min.js"/>"></script>
   <script type="text/javascript" src="<s:url value="/assets/library/jquery.dataTables.min.js"/>"></script>
   <script type="text/javascript" src="<s:url value="/assets/library/jquery.plugin.min.js"/>"></script>

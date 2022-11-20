@@ -59,6 +59,9 @@
   #mov1.display {
     display: block;
   }
+  .ui.rating .icon {
+    color: #555;
+  }
   </style>
   <script type="text/javascript">
   $(document)
@@ -141,6 +144,29 @@
 		  	}
 	  	  }
 	  	}
+  		$('.ui.form')
+        .form({
+        	fields: {}
+        })
+        ;
+        $('.message .close')
+        .on('click', function() {
+          $(this)
+            .closest('.message')
+            .transition('fade')
+          ;
+        })
+      ;
+  		$('#rating')
+	  	  .rating({
+	  		initialRating: function(value) {
+		  		$("#girlComment_rating").val(value);
+		  	},
+	  		onRate: function(value) {
+		  		$("#girlComment_rating").val(value);
+		  	}
+		  })
+	  	;
 	});
   </script>
 </head>
@@ -624,6 +650,37 @@
 									</div>
 								</div>
 								</s:else>
+								<div class="row">
+									<div class="column left aligned ">
+										<div class="ui divider"></div>
+										<h5 class="ui header left aligned inverted">
+											Comment
+										</h5>
+										<form class="ui form " method="post" action="" >
+											<div class="inline field ">
+												<div class="ui left small icon input">
+													<s:textfield name="girlComment.createdBy" value="Anonymous" placeholder="User" />
+													<i class="user icon"></i>
+												</div>
+											</div>
+											<div class="inline field">
+												<s:textarea name="girlComment.comment" placeholder="Type here..." />
+											</div>
+											<div class="ui row grid">
+												<div class="eight wide column left aligned">
+													<div id="rating" class="ui yellow rating" data-icon="star" data-max-rating="5"></div>
+												</div>
+												<div class="eight wide column right aligned">
+													<div class="ui small button submit blue"><s:text name="global.submit" /></div>
+												</div>
+											</div>
+											<input type="hidden" name="girlComment.girlInfoId" value="<s:property value="girlInfo.girlInfoId" />" />
+											<s:hidden name="girlComment.rating" />
+											<s:hidden name="action" value="addGirlComment" />
+										</form>
+										<br />
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
