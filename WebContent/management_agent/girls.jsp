@@ -1069,7 +1069,7 @@
 			'</div>',
 			'<div class="ui buttons">' +
 				'<a href="<s:url value="/management_agent/girl/edit/%{girlInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
-				'<a href="<s:url value="/management_agent/girl/edit/%{girlInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>' +
+				'<a href="<s:url value="/management_agent/girl/delete/%{girlInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>' +
 			'</div>'
     	]);
 	</s:iterator>

@@ -280,8 +280,10 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			}
 		} else if(IConstants.USER_TYPE_AGENT.equals(userType)) {
 			AgentInfo agentInfo = agentInfoManager.getAgentInfo(userInfo_.getAgentInfoId());
-			agentInfo.setLineId(userInfo.getAgentInfo().getLineId());
-			agentInfoManager.update(agentInfo);
+			if(agentInfo != null) {
+				agentInfo.setLineId(userInfo.getAgentInfo().getLineId());
+				agentInfoManager.update(agentInfo);
+			}
 		} else if(IConstants.USER_TYPE_FREE_AGENT.equals(userType)) {
 			GirlInfo girlInfo = girlInfoManager.getGirlInfo(userInfo_.getGirlInfoId());
 			girlInfo.setLineId(userInfo.getFreeAgentGirlInfo().getLineId());

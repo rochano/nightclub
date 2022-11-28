@@ -124,7 +124,7 @@ body {
 				.push([
 						'<s:property value="#status.count" />',
 						'<s:property value="createdBy" />',
-						'<s:property value="createdDate" />',
+						'<s:text name="text.datetime.format"><s:param value="createdDate"/></s:text>',
 						'<div class="ui yellow rating disabled" data-icon="star" data-rating="<s:property value="rating" />" data-max-rating="<s:property value="rating" />" ></div>',
 						'<s:property value="comment" />', ]);
 		</s:iterator>
