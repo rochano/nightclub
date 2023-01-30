@@ -21,14 +21,19 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	private List<GirlService> girlServices = new ArrayList<GirlService>();
 	private String chk40Mins;
 	private Double price40Mins;
+	private String crcy40Mins;
 	private String chk60Mins;
 	private Double price60Mins;
+	private String crcy60Mins;
 	private String chk90Mins;
 	private Double price90Mins;
+	private String crcy90Mins;
 	private String chk120Mins;
 	private Double price120Mins;
+	private String crcy120Mins;
 	private String chk6Hrs;
 	private Double price6Hrs;
+	private String crcy6Hrs;
 	private UserInfo userInfo;
 	private String incall;
 	private String outcall;
@@ -50,6 +55,10 @@ public class FreeAgentGirlInfo extends GirlInfo {
 			return price40Mins;
 		}
 	}
+	@Column(name="crcy_40_mins")
+	public String getCrcy40Mins() {
+		return crcy40Mins;
+	}
 	@Column(name="chk_60_mins")
 	public String getChk60Mins() {
 		return chk60Mins;
@@ -61,6 +70,10 @@ public class FreeAgentGirlInfo extends GirlInfo {
 		} else {
 			return price60Mins;
 		}
+	}
+	@Column(name="crcy_60_mins")
+	public String getCrcy60Mins() {
+		return crcy60Mins;
 	}
 	@Column(name="chk_90_mins")
 	public String getChk90Mins() {
@@ -74,6 +87,10 @@ public class FreeAgentGirlInfo extends GirlInfo {
 			return price90Mins;
 		}
 	}
+	@Column(name="crcy_90_mins")
+	public String getCrcy90Mins() {
+		return crcy90Mins;
+	}
 	@Column(name="chk_120_mins")
 	public String getChk120Mins() {
 		return chk120Mins;
@@ -86,6 +103,10 @@ public class FreeAgentGirlInfo extends GirlInfo {
 			return price120Mins;
 		}
 	}
+	@Column(name="crcy_120_mins")
+	public String getCrcy120Mins() {
+		return crcy120Mins;
+	}
 	@Column(name="chk_6_hrs")
 	public String getChk6Hrs() {
 		return chk6Hrs;
@@ -97,6 +118,10 @@ public class FreeAgentGirlInfo extends GirlInfo {
 		} else {
 			return price6Hrs;
 		}
+	}
+	@Column(name="crcy_6_hrs")
+	public String getCrcy6Hrs() {
+		return crcy6Hrs;
 	}
 	@OneToOne
 	@NotFound(action = NotFoundAction.IGNORE)
@@ -121,11 +146,17 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	public void setPrice40Mins(Double price40Mins) {
 		this.price40Mins = price40Mins;
 	}
+	public void setCrcy40Mins(String crcy40Mins) {
+		this.crcy40Mins = crcy40Mins;
+	}
 	public void setChk60Mins(String chk60Mins) {
 		this.chk60Mins = chk60Mins;
 	}
 	public void setPrice60Mins(Double price60Mins) {
 		this.price60Mins = price60Mins;
+	}
+	public void setCrcy60Mins(String crcy60Mins) {
+		this.crcy60Mins = crcy60Mins;
 	}
 	public void setChk90Mins(String chk90Mins) {
 		this.chk90Mins = chk90Mins;
@@ -133,17 +164,26 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	public void setPrice90Mins(Double price90Mins) {
 		this.price90Mins = price90Mins;
 	}
+	public void setCrcy90Mins(String crcy90Mins) {
+		this.crcy90Mins = crcy90Mins;
+	}
 	public void setChk120Mins(String chk120Mins) {
 		this.chk120Mins = chk120Mins;
 	}
 	public void setPrice120Mins(Double price120Mins) {
 		this.price120Mins = price120Mins;
 	}
+	public void setCrcy120Mins(String crcy120Mins) {
+		this.crcy120Mins = crcy120Mins;
+	}
 	public void setChk6Hrs(String chk6Hrs) {
 		this.chk6Hrs = chk6Hrs;
 	}
 	public void setPrice6Hrs(Double price6Hrs) {
 		this.price6Hrs = price6Hrs;
+	}
+	public void setCrcy6Hrs(String crcy6Hrs) {
+		this.crcy6Hrs = crcy6Hrs;
 	}
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;

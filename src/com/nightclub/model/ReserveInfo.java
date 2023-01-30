@@ -21,25 +21,22 @@ public class ReserveInfo implements Serializable{
 	private static final long serialVersionUID = 6848161747389312861L;
 	
 	private String reserveInfoId;
-	private String shopInfoId;
 	private String girlInfoId;
 	private String clientInfoId;
 	private Date reserveDate;
 	private String startTime;
 	private String endTime;
+	private String clientName;
+	private String mobile;
 
 	private GirlInfo girlInfo; 
-	private ClientInfo clientInfo;
+//	private ClientInfo clientInfo;
 
 	@Id
 	@Column(name="reserve_info_id")
 	@Length(max=40)
 	public String getReserveInfoId() {
 		return reserveInfoId;
-	}
-	@Column(name="shop_info_id")
-	public String getShopInfoId() {
-		return shopInfoId;
 	}
 	@Column(name="girl_info_id")
 	public String getGirlInfoId() {
@@ -61,23 +58,28 @@ public class ReserveInfo implements Serializable{
 	public String getEndTime() {
 		return endTime;
 	}
+	@Column(name="client_name")
+	public String getClientName() {
+		return clientName;
+	}
+	@Column(name="mobile")
+	public String getMobile() {
+		return mobile;
+	}
 	@OneToOne
 	@NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="girl_info_id", insertable=false, updatable=false)
 	public GirlInfo getGirlInfo() {
 		return girlInfo;
 	}
-	@OneToOne
-	@NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name="client_info_id", insertable=false, updatable=false)
-	public ClientInfo getClientInfo() {
-		return clientInfo;
-	}
+//	@OneToOne
+//	@NotFound(action = NotFoundAction.IGNORE)
+//    @JoinColumn(name="client_info_id", insertable=false, updatable=false)
+//	public ClientInfo getClientInfo() {
+//		return clientInfo;
+//	}
 	public void setReserveInfoId(String reserveInfoId) {
 		this.reserveInfoId = reserveInfoId;
-	}
-	public void setShopInfoId(String shopInfoId) {
-		this.shopInfoId = shopInfoId;
 	}
 	public void setGirlInfoId(String girlInfoId) {
 		this.girlInfoId = girlInfoId;
@@ -97,7 +99,13 @@ public class ReserveInfo implements Serializable{
 	public void setGirlInfo(GirlInfo girlInfo) {
 		this.girlInfo = girlInfo;
 	}
-	public void setClientInfo(ClientInfo clientInfo) {
-		this.clientInfo = clientInfo;
+//	public void setClientInfo(ClientInfo clientInfo) {
+//		this.clientInfo = clientInfo;
+//	}
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 }

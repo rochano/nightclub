@@ -9,11 +9,14 @@ import java.util.logging.Logger;
 
 import org.apache.struts2.interceptor.SessionAware;
 
+import com.nightclub.controller.GirlReserveInfoManager;
+import com.nightclub.controller.HomeInfoManager;
+import com.nightclub.model.HomeInfo;
 import com.nightclub.model.ReserveInfo;
 import com.nightclub.model.UserInfo;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class ShopReserveInfoAction extends ActionSupport implements SessionAware {
+public class AgentReserveInfoAction extends ActionSupport implements SessionAware {
 	
 	private static final long serialVersionUID = 1L;
 	Logger log_ = Logger.getLogger(this.getClass().getName());
@@ -27,9 +30,15 @@ public class ShopReserveInfoAction extends ActionSupport implements SessionAware
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	SimpleDateFormat sdfOutput = new SimpleDateFormat("EEEE, d MMM");
 	private List<ReserveInfo> reserveInfos;
+	private HomeInfo homeInfo;
+	
+	private GirlReserveInfoManager girlReserveInfoManager;
+	private HomeInfoManager homeInfoManager;
 
-	public ShopReserveInfoAction() {
+	public AgentReserveInfoAction() {
 //		shopReserveInfoManager = new ShopReserveInfoManager();
+		girlReserveInfoManager = new GirlReserveInfoManager();
+		homeInfoManager = new HomeInfoManager();
 	}
 	
 	public String execute() {
@@ -38,6 +47,8 @@ public class ShopReserveInfoAction extends ActionSupport implements SessionAware
 		Date today = new Date();
 		this.lookupDateHeader = sdfOutput.format(today);
 //		this.reserveInfos = shopReserveInfoManager.getReserveInfosByReserveDate(userInfo.getShopInfoId(), today);
+		this.reserveInfos = girlReserveInfoManager.getReserveInfosByReserveDate(userInfo.getAgentInfoId(), today);
+		homeInfo = homeInfoManager.getHomeInfo("0");
 		
 		return SUCCESS;
 	}
@@ -49,6 +60,7 @@ public class ShopReserveInfoAction extends ActionSupport implements SessionAware
 			date = sdf.parse(lookupDate);
 			this.lookupDateHeader = sdfOutput.format(date);
 //			this.reserveInfos = shopReserveInfoManager.getReserveInfosByReserveDate(userInfo.getShopInfoId(), date);
+			this.reserveInfos = girlReserveInfoManager.getReserveInfosByReserveDate(userInfo.getAgentInfoId(), date);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -106,6 +118,14 @@ public class ShopReserveInfoAction extends ActionSupport implements SessionAware
 
 	public void setLookupDate(String lookupDate) {
 		this.lookupDate = lookupDate;
+	}
+
+	public HomeInfo getHomeInfo() {
+		return homeInfo;
+	}
+
+	public void setHomeInfo(HomeInfo homeInfo) {
+		this.homeInfo = homeInfo;
 	}
 
 }

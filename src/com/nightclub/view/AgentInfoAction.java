@@ -1,5 +1,6 @@
 package com.nightclub.view;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -7,9 +8,12 @@ import java.util.logging.Logger;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.nightclub.controller.AgentInfoManager;
+import com.nightclub.controller.HomeInfoManager;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.model.AgentInfo;
+import com.nightclub.model.HomeInfo;
 import com.nightclub.model.UserInfo;
+import com.nightclub.util.LineApiUtils;
 import com.nightclub.util.UploadFileUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -23,19 +27,28 @@ public class AgentInfoAction extends ActionSupport implements SessionAware {
 	private String agentInfoId;
 	private String menu;
     private String agentLogoFileName;
+    private String code;
+    private String lineToken;
+    private String lineOauthUrl;
+    private HomeInfo homeInfo;
  
 	private AgentInfoManager agentInfoManager;
 	private UserInfoManager userInfoManager;
+	private HomeInfoManager homeInfoManager;
 
 	public AgentInfoAction() {
 		agentInfoManager = new AgentInfoManager();
 		userInfoManager = new UserInfoManager();
+		homeInfoManager = new HomeInfoManager();
 	}
 
 	public String execute() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.agentInfo = agentInfoManager.getAgentInfo(userInfo.getAgentInfoId());
 		sessionMap.put("agentInfo", agentInfo);
+		
+		homeInfo = homeInfoManager.getHomeInfo("0");
+		this.lineOauthUrl = LineApiUtils.getUrlForRequestCode(homeInfo.getLineClientId(), homeInfo.getLineRedirectUrl());
 
 		return SUCCESS;
 	}
@@ -110,6 +123,17 @@ public class AgentInfoAction extends ActionSupport implements SessionAware {
 		
 		return SUCCESS;
 	}
+	
+	public String lineTokenCallback() {
+		try {
+			HomeInfo homeInfo = homeInfoManager.getHomeInfo("0");
+			this.lineToken = LineApiUtils.requestToken(this.code, homeInfo.getLineClientId(), homeInfo.getLineClientSecret(), homeInfo.getLineRedirectUrl());
+			log_.info(this.lineToken);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
 
 	public AgentInfo getAgentInfo() {
 		return agentInfo;
@@ -145,5 +169,37 @@ public class AgentInfoAction extends ActionSupport implements SessionAware {
 	}
 	public void setAgentLogoFileName(String agentLogoFileName) {
 		this.agentLogoFileName = agentLogoFileName;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public String getLineToken() {
+		return lineToken;
+	}
+
+	public String getLineOauthUrl() {
+		return lineOauthUrl;
+	}
+
+	public HomeInfo getHomeInfo() {
+		return homeInfo;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public void setLineToken(String lineToken) {
+		this.lineToken = lineToken;
+	}
+
+	public void setLineOauthUrl(String lineOauthUrl) {
+		this.lineOauthUrl = lineOauthUrl;
+	}
+
+	public void setHomeInfo(HomeInfo homeInfo) {
+		this.homeInfo = homeInfo;
 	}
 }

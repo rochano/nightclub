@@ -173,6 +173,18 @@
 						<div class="inline field">
 							<s:i18n name="global_th"><s:textfield name="agentInfo.lineId" key="global.line_id"/></s:i18n>
 						</div>
+						<s:if test="homeInfo.lineNotifyActive == 'true'">
+							<div class="inline field">
+								<label for="agentInfo_lineToken" class="label"><s:i18n name="global_th"><s:text name="global.line_token" /></s:i18n>:</label>
+								<div class="ui action input">
+									<s:textfield name="agentInfo.lineToken" />
+									<div onclick="window.open('<s:property value="lineOauthUrl" />')" class="ui small green button">
+										<i class="linechat icon"></i>
+										รับ Token
+									</div>
+								</div>
+							</div>
+						</s:if>
 						<div class="ui right aligned one column grid">
 							<div class="column">
 								<div class="ui small button submit blue"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>

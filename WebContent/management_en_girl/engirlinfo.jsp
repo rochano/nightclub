@@ -382,13 +382,13 @@
 						<div class="inline fields">
 							<label><s:i18n name="global_th"><s:text name="global.body_size" /></s:i18n> :</label>
 							<div class="field">
-								<s:select list="bustSizeList" name="girlInfo.bustSize" label="B "></s:select>
+								<s:select list="bustSizeList" name="girlInfo.bustSize" label="B " headerKey="-1" headerValue="-"></s:select>
 							</div>
 							<div class="field">
-								<s:select list="waistSizeList" name="girlInfo.waistSize" label="W "></s:select>
+								<s:select list="waistSizeList" name="girlInfo.waistSize" label="W " headerKey="-1" headerValue="-"></s:select>
 							</div>
 							<div class="field">
-								<s:select list="hipSizeList" name="girlInfo.hipSize" label="H "></s:select>
+								<s:select list="hipSizeList" name="girlInfo.hipSize" label="H " headerKey="-1" headerValue="-"></s:select>
 							</div>
 						</div>
 						<div class="inline fields">

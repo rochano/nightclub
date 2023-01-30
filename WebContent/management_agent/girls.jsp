@@ -604,13 +604,13 @@
 		<div class="inline fields">
 			<label><s:i18n name="global_th"><s:text name="global.body_size" /></s:i18n> :</label>
 			<div class="field">
-				<s:select list="bustSizeList" name="girlInfo.bustSize" label="B "></s:select>
+				<s:select list="bustSizeList" name="girlInfo.bustSize" label="B " headerKey="-1" headerValue="-"></s:select>
 			</div>
 			<div class="field">
-				<s:select list="waistSizeList" name="girlInfo.waistSize" label="W "></s:select>
+				<s:select list="waistSizeList" name="girlInfo.waistSize" label="W " headerKey="-1" headerValue="-"></s:select>
 			</div>
 			<div class="field">
-				<s:select list="hipSizeList" name="girlInfo.hipSize" label="H "></s:select>
+				<s:select list="hipSizeList" name="girlInfo.hipSize" label="H " headerKey="-1" headerValue="-"></s:select>
 			</div>
 		</div>
 		<div class="inline fields">
@@ -914,7 +914,7 @@
 						<th width="5%">CH</th>
 						<th width="20%">เวลา</th>
 						<th>เรทราคา</th>
-						<th width="20%">จำนวนน้ำ</th>
+						<th width="20%">สกุลเงิน</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -935,7 +935,8 @@
 								value="<s:text name="format.integer"><s:param name="value" value="girlInfo.price40Mins"/></s:text>" />
 						</td>
 						<td>
-							1
+							<input type="text" name="girlInfo.crcy40Mins" size="7" id="girlInfo_crcy40Mins"
+								value="<s:property value="girlInfo.crcy40Mins"/>" />
 						</td>
 					</tr>
 					<tr>
@@ -955,7 +956,8 @@
 								value="<s:text name="format.integer"><s:param name="value" value="girlInfo.price60Mins"/></s:text>" />
 						</td>
 						<td>
-							1
+							<input type="text" name="girlInfo.crcy60Mins" size="7" id="girlInfo_crcy60Mins"
+								value="<s:property value="girlInfo.crcy60Mins"/>" />
 						</td>
 					</tr>
 					<tr>
@@ -975,7 +977,8 @@
 								value="<s:text name="format.integer"><s:param name="value" value="girlInfo.price90Mins"/></s:text>" />
 						</td>
 						<td>
-							2
+							<input type="text" name="girlInfo.crcy90Mins" size="7" id="girlInfo_crcy90Mins"
+								value="<s:property value="girlInfo.crcy90Mins"/>" />
 						</td>
 					</tr>
 					<tr>
@@ -995,7 +998,8 @@
 								value="<s:text name="format.integer"><s:param name="value" value="girlInfo.price120Mins"/></s:text>" />
 						</td>
 						<td>
-							2
+							<input type="text" name="girlInfo.crcy120Mins" size="7" id="girlInfo_crcy120Mins"
+								value="<s:property value="girlInfo.crcy120Mins"/>" />
 						</td>
 					</tr>
 					<tr>
@@ -1015,7 +1019,8 @@
 								value="<s:text name="format.integer"><s:param name="value" value="girlInfo.price6Hrs"/></s:text>" />
 						</td>
 						<td>
-							3
+							<input type="text" name="girlInfo.crcy6Hrs" size="7" id="girlInfo_crcy6Hrs"
+								value="<s:property value="girlInfo.crcy6Hrs"/>" />
 						</td>
 					</tr>
 				</tbody>
@@ -1058,9 +1063,9 @@
 			'</s:iterator>',
 			'<s:text name="format.integer"><s:param name="value" value="height"/></s:text>',
 			'<s:text name="format.integer"><s:param name="value" value="weight"/></s:text>',
-			'<s:text name="format.integer"><s:param name="value" value="bustSize"/></s:text>',
-			'<s:text name="format.integer"><s:param name="value" value="waistSize"/></s:text>',
-			'<s:text name="format.integer"><s:param name="value" value="hipSize"/></s:text>',
+			'<s:if test="bustSize!=-1"><s:text name="format.integer"><s:param name="value" value="bustSize"/></s:text></s:if><s:else>-</s:else>',
+			'<s:if test="waistSize!=-1"><s:text name="format.integer"><s:param name="value" value="waistSize"/></s:text></s:if><s:else>-</s:else>',
+			'<s:if test="hipSize!=-1"><s:text name="format.integer"><s:param name="value" value="hipSize"/></s:text></s:if><s:else>-</s:else>',
 			'<div class="ui toggle fitted checkbox">' +
 				'<input type="checkbox" name="active" ' +
 				<s:if test="available == 'true'">'checked="checked" ' + </s:if>

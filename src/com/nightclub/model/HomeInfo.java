@@ -29,6 +29,7 @@ public class HomeInfo implements Serializable {
 	private String lineClientSecret;
 	private String lineRedirectUrl;
 	private String lineNotifyActive;
+	private String lineChannelAccessToken;
 	private String inform;
 	private String descriptionShopService;
 	private String descriptionAgent;
@@ -116,6 +117,11 @@ public class HomeInfo implements Serializable {
 	public String getDescriptionEnGirl() {
 		return descriptionEnGirl;
 	}
+	@Column(name="line_channel_access_token")
+	@Length(max=1000)
+	public String getLineChannelAccessToken() {
+		return lineChannelAccessToken;
+	}
 	public void setHomeInfoId(String homeInfoId) {
 		this.homeInfoId = homeInfoId;
 	}
@@ -187,6 +193,9 @@ public class HomeInfo implements Serializable {
 	}
 	public void setDescriptionEnGirl(String descriptionEnGirl) {
 		this.descriptionEnGirl = descriptionEnGirl;
+	}
+	public void setLineChannelAccessToken(String lineChannelAccessToken) {
+		this.lineChannelAccessToken = lineChannelAccessToken;
 	}
 	
 }

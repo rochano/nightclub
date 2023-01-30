@@ -16,6 +16,7 @@ import com.nightclub.controller.AgentInfoManager;
 import com.nightclub.controller.CountryInfoManager;
 import com.nightclub.controller.GenderInfoManager;
 import com.nightclub.controller.GirlSettingManager;
+import com.nightclub.controller.HomeInfoManager;
 import com.nightclub.controller.NationalityInfoManager;
 import com.nightclub.controller.ProvinceInfoManager;
 import com.nightclub.controller.UserInfoManager;
@@ -30,6 +31,7 @@ import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
 import com.nightclub.model.GirlSetting;
+import com.nightclub.model.HomeInfo;
 import com.nightclub.model.NationalityInfo;
 import com.nightclub.model.ProvinceInfo;
 import com.nightclub.model.UserInfo;
@@ -69,6 +71,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	private List<ProvinceInfo> provinceInfos;
 	private List<String> girlProvinces;
 	private List<GenderInfo> genderInfos;
+	private HomeInfo homeInfo;
 
 	private AgentGirlInfoManager girlInfoManager;
 	private GirlSettingManager girlSettingManager;
@@ -79,6 +82,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	private CountryInfoManager countryInfoManager;
 	private ProvinceInfoManager provinceInfoManager;
 	private GenderInfoManager genderInfoManager;
+	private HomeInfoManager homeInfoManager;
 	
     private String pic1FileName;
     private String pic2FileName;
@@ -100,6 +104,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 		countryInfoManager = new CountryInfoManager();
 		provinceInfoManager = new ProvinceInfoManager();
 		genderInfoManager = new GenderInfoManager();
+		homeInfoManager = new HomeInfoManager();
 	}
 	
 	public String execute() {
@@ -672,6 +677,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 		this.nationalityInfos = nationalityInfoManager.list();
 		this.countryInfos = countryInfoManager.list();
 		this.genderInfos = genderInfoManager.list();
+		this.homeInfo = homeInfoManager.getHomeInfo("0");
 	}
 
 	public List<ZoneInfo> getZoneInfos() {
@@ -760,5 +766,13 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 
 	public void setMov1FileName(String mov1FileName) {
 		this.mov1FileName = mov1FileName;
+	}
+
+	public HomeInfo getHomeInfo() {
+		return homeInfo;
+	}
+
+	public void setHomeInfo(HomeInfo homeInfo) {
+		this.homeInfo = homeInfo;
 	}
 }

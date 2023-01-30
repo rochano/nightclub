@@ -1,11 +1,9 @@
 package net.viralpatel.contact.view;
 
-import java.util.List;
 import java.util.logging.Logger;
 
-import net.viralpatel.contact.controller.ContactManager;
-import net.viralpatel.contact.model.Contact;
-
+import com.nightclub.controller.HomeInfoManager;
+import com.nightclub.model.HomeInfo;
 import com.opensymphony.xwork2.ActionSupport;
 
 
@@ -13,11 +11,17 @@ public class CommonAction extends ActionSupport {
 	
 	Logger log_ = Logger.getLogger(this.getClass().getName());
 	private String menu;
+	private HomeInfo homeInfo;
 	
-	public CommonAction() {}
+	private HomeInfoManager homeInfoManager;
+	
+	public CommonAction() {
+		homeInfoManager = new HomeInfoManager();
+	}
 
 	public String execute() {
 		log_.info("menu >> " + menu);
+		this.homeInfo = homeInfoManager.getHomeInfo("0");
 		return SUCCESS;
 	}
 	
@@ -27,5 +31,13 @@ public class CommonAction extends ActionSupport {
 
 	public void setMenu(String menu) {
 		this.menu = menu;
+	}
+
+	public HomeInfo getHomeInfo() {
+		return homeInfo;
+	}
+
+	public void setHomeInfo(HomeInfo homeInfo) {
+		this.homeInfo = homeInfo;
 	}
 }

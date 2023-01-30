@@ -184,14 +184,14 @@
 		</action>
 		
 		<action name="girlReserveJson/*/*"
-			class="com.nightclub.view.ShopInfoAction" method="girlReserveInfo">
+			class="com.nightclub.view.FrontEndAction" method="girlReserveInfo">
 			<param name="girlInfoId">{1}</param>
 			<param name="lookupDate">{2}</param>
 			<result type="json" />
 		</action>
 
 		<action name="girlAvailableJson/*/*/*"
-			class="com.nightclub.view.ShopInfoAction" method="girlAvailable">
+			class="com.nightclub.view.FrontEndAction" method="girlAvailable">
 			<param name="girlInfoId">{1}</param>
 			<param name="lookupDate">{2}</param>
 			<param name="reserveInfoId">{3}</param>
@@ -199,18 +199,24 @@
 		</action>
 		
 		<action name="girlReserveExecuteJson"
-			class="com.nightclub.view.ShopInfoAction" method="girlReserveExecute">
+			class="com.nightclub.view.FrontEndAction" method="girlReserveExecute">
 			<result type="json" />
 		</action>
 		
 		<action name="girlReserveDeleteJson/*"
-			class="com.nightclub.view.ShopInfoAction" method="girlReserveDelete">
+			class="com.nightclub.view.FrontEndAction" method="girlReserveDelete">
 			<param name="reserveInfoId">{1}</param>
 			<result type="json" />
 		</action>
 		
-		<action name="girlReserveShopJson/*"
-			class="com.nightclub.view.ShopReserveInfoAction" method="girlReserveInfo">
+<!-- 		<action name="girlReserveShopJson/*"
+			class="com.nightclub.view.FrontEndAction" method="girlReserveInfo">
+			<param name="lookupDate">{1}</param>
+			<result type="json" />
+		</action> -->
+		
+		<action name="girlReserveAgentJson/*"
+			class="com.nightclub.view.AgentReserveInfoAction" method="girlReserveInfo">
 			<param name="lookupDate">{1}</param>
 			<result type="json" />
 		</action>
@@ -1540,6 +1546,21 @@
 			<result name="success">/management_agent/agentinfo.jsp</result>
 		</action>
 		
+		<action name="agentinfo/lineTokenCallback"
+			class="com.nightclub.view.AgentInfoAction" method="lineTokenCallback">
+			<param name="menu">basicinfo</param>
+			<interceptor-ref name="myStack" />
+			<!-- <interceptor-ref name="fileUpload">
+		        <param name="maximumSize">2097152</param>
+		        <param name="allowedTypes">
+		            image/png,image/gif,image/jpeg,image/pjpeg
+		        </param>
+		    </interceptor-ref> -->
+		    <result name="input">/management_agent/line_token_callback.jsp</result>
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_agent/line_token_callback.jsp</result>
+		</action>
+		
 		<action name="changepassword"
 			class="com.nightclub.view.UserInfoAction" method="execute">
 			<param name="menu">changepassword</param>
@@ -1614,6 +1635,50 @@
 			<result name="login" type="redirect">/login</result>
 			<result name="success">/management_agent/how_to_input.jsp</result>
 		</action>
+		
+		<action name="reserve"
+			class="com.nightclub.view.AgentReserveInfoAction" method="execute">
+			<param name="menu">reserve</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">reserve.jsp</result>
+		</action>
+		
+		<action name="reserve/*"
+			class="com.nightclub.view.AgentReserveInfoAction" method="{1}">
+			<param name="menu">reserve</param>
+			<interceptor-ref name="myStack" />
+		    <result name="input">reserve.jsp</result>
+			<result name="login" type="redirect">/login</result>
+			<result name="success" >/management_agent/reserve.jsp</result>
+		</action>
+		
+		<action name="reserve/edit/*"
+			class="com.nightclub.view.AgentReserveInfoAction" method="edit">
+			<param name="menu">reserve</param>
+			<param name="reserveInfoId">{1}</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success" >/management_agent/reserve.jsp</result>
+		</action>
+		
+		<action name="reserve/delete/*"
+			class="com.nightclub.view.AgentReserveInfoAction" method="delete">
+			<param name="menu">reserve</param>
+			<param name="reserveInfoId">{1}</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success" type="redirect">reserve</result>
+		</action>
+		
+		<action name="reserve/search"
+			class="com.nightclub.view.AgentReserveInfoAction" method="search">
+			<param name="menu">reserve</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_agent/reserve.jsp</result>
+		</action>
+
 	</package>
 	
 	<package name="management_free_agent" extends="struts-default" namespace="/management_free_agent">

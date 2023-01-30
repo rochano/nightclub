@@ -13,7 +13,6 @@
   <!--- Example CSS -->
   <style>
   .ui.table th, .ui.table tr:nth-child(even) td{
-  	font-size: 12px;
   	vertical-align: baseline;
     word-break: break-word;
   }
@@ -52,6 +51,15 @@
   .ui.table, .ui.table tr th, .ui.table tr td {
   	border-width:1px 0px!important; 
   	vertical-align: text-top;
+  }
+  .ui.segment.clearing, #availableInfos {
+    margin:0px;
+  }
+  #availableInfos {
+    display: inline-grid;
+  }
+  #wrapper_calendar {
+    margin-bottom:30px;
   }
   #mov1 {
     display: none;
@@ -102,6 +110,90 @@
 			})
 		;
 		</s:else>
+<s:if test="%{girlInfo.agentInfoId != null}">
+		$('.ui.modal').modal({
+		    onApprove : function() {
+		      //Submits the semantic ui form
+		      //And pass the handling responsibilities to the form handlers,
+		      // e.g. on form validation success
+		      $('#infoForm').submit();
+		      //Return false as to not close modal dialog
+		      return false;
+		    }
+		});
+		$('#inline_calendar')
+	  	  	.calendar({
+	  	  		initialDate: new Date(),
+	  	  	    type: 'date',
+	  	  	    onChange: function() {
+	  		  	    var lookupDate = arguments[0].toISOString().substring(0, 10);
+	  		  	    getReserveList(lookupDate);
+	  		  	}
+	  	    })
+	  	  ;
+  	  $("#addbtn")
+  		.on('click', function() {
+  		  $('.ui.modal .header:first').text("<s:text name="global.add_information" /><s:text name="global.menu_reserve" />");
+  		  $('#infoForm').find("input[type=text], textarea").val("");
+  		  $('#reserveInfo_shopInfoId').val("<s:property value="girlInfo.shopInfoId" />");
+  		  $('#reserveInfo_girlInfoId').val("<s:property value="girlInfo.girlInfoId" />");
+  		  $('#infoForm #action').val("add");
+  		  $(".ui.error.message").html("");
+  		  $("#infoForm").removeClass("error");
+
+  		  var lookupDate = $('#inline_calendar').calendar("get date").toISOString().substring(0, 10);
+  		  getAvailableList(lookupDate);
+  		  var reserveDate = lookupDate.split("-");
+  		  $('#reserveInfo_reserveDate').val(reserveDate[2] + "/" + reserveDate[1] + "/" + reserveDate[0]);
+  		  
+          $('.ui.modal')
+  		    .modal('show')
+  		  ;
+        });
+  	  $('#reserveInfo_startTime, #reserveInfo_endTime').timeEntry({show24Hours: true, spinnerImage: ''});
+  	  $('#infoForm')
+        .form({
+      	  fields: {
+      		  reserveInfo_startTime: {
+  	              identifier  : 'reserveInfo_startTime',
+  	              rules: [
+  	                {
+  	                  type   : 'empty',
+  	                  prompt : '<s:text name="global.message_please_input_param" ><s:param><s:text name="global.start_time" /></s:param></s:text>'
+  	                },
+  	              ]
+  	            },
+  	            reserveInfo_endTime: {
+  	              identifier  : 'reserveInfo_endTime',
+  	              rules: [
+  	                {
+  	                  type   : 'empty',
+  	                  prompt : '<s:text name="global.message_please_input_param" ><s:param><s:text name="global.end_time" /></s:param></s:text>'
+  	                },
+  	              ]
+  	            }
+            ,},
+            onSuccess: function() { 
+                var form = $(this);
+                $.post("<s:url value="/ajax/girlReserveExecuteJson" />",
+              	form.serialize(),
+              	function(jsonResponse) {
+                	  if (jsonResponse.actionMessage) {
+                    	var html = '<ul class="list"><li>' + jsonResponse.actionMessage + '</li></ul>';
+  					$(".ui.error.message").html(html);
+  					$("#infoForm").addClass("error");
+                    } else {
+  	            	  var lookupDate = $('#inline_calendar').calendar("get date").toISOString().substring(0, 10);
+  	            	  getReserveList(lookupDate);
+  	            	  $('.ui.modal').modal('toggle');
+                    }
+         		  });
+  			  
+                return false;
+            }
+         })
+        ;
+</s:if>
   	  $("#playMov1")
 		.on('click', function() {
 		  var elem = $('#mov1').get(0);
@@ -144,7 +236,7 @@
 		  	}
 	  	  }
 	  	}
-  		$('.ui.form')
+  		$('#girlCommentForm ')
         .form({
         	fields: {}
         })
@@ -167,7 +259,80 @@
 		  	}
 		  })
 	  	;
+  		var lookupDate = $('#inline_calendar').calendar("get date").toISOString().substring(0, 10);
+	  	getReserveList(lookupDate);
 	});
+<s:if test="%{girlInfo.agentInfoId != null}">
+  $(".edit-reserve")
+	.live('click', function() {
+	  $('.ui.modal .header:first').text("<s:text name="global.edit_information" /><s:text name="global.menu_reserve" />");
+	  $('#infoForm').find("input[type=text], textarea").val("");
+	  $('#reserveInfo_shopInfoId').val("<s:property value="girlInfo.shopInfoId" />");
+	  $('#reserveInfo_girlInfoId').val("<s:property value="girlInfo.girlInfoId" />");
+	  $('#reserveInfo_startTime').val($(this).attr("data-startTime"));
+	  $('#reserveInfo_endTime').val($(this).attr("data-endTime"));
+	  $('#reserveInfo_reserveInfoId').val($(this).attr("data-reserveInfoId"));
+	  $('#infoForm #action').val("update");
+	  $(".ui.error.message").html("");
+	  $("#infoForm").removeClass("error");
+
+	  var lookupDate = $('#inline_calendar').calendar("get date").toISOString().substring(0, 10);
+	  getAvailableList(lookupDate, $(this).attr("data-reserveInfoId"));
+	  var reserveDate = lookupDate.split("-");
+	  $('#reserveInfo_reserveDate').val(reserveDate[2] + "/" + reserveDate[1] + "/" + reserveDate[0]);
+	  
+	$('.ui.modal')
+		    .modal('show')
+		  ;
+	});
+
+$(".delete-reserve")
+	.live('click', function() {
+		$.getJSON("<s:url value="/ajax/girlReserveDeleteJson/" />" + $(this).attr("data-reserveInfoId"), 
+		function(jsonResponse) {
+			var lookupDate = $('#inline_calendar').calendar("get date").toISOString().substring(0, 10);
+    	  	getReserveList(lookupDate);
+		}
+		);
+	});
+function getReserveList(lookupDate) {
+	  var reserveInfos = $('#reserveInfos');
+	    reserveInfos.empty()
+ 		$.getJSON("<s:url value="/ajax/girlReserveJson/" />" + "<s:property value="girlInfo.girlInfoId" />" + "/" + lookupDate, 
+			function(jsonResponse) {
+				$("#lookupDateHeader").html(jsonResponse.lookupDateHeader);
+				if (jsonResponse.reserveInfos == null) return;
+			     $.each(jsonResponse.reserveInfos, function(i, obj) {
+	  				var html = '<div class="item">';
+		  	  	html += '<div class="right floated content">';
+		  	  	html += '<div class="ui buttons">';
+		  	    //html += '<div class="ui icon button small blue edit-reserve" data-reserveInfoId="' + obj.reserveInfoId + '" data-startTime="' + obj.startTime + '" data-endTime="' + obj.endTime + '" ><i class="ui icon edit"></i></div>';
+		  		//html += '<div class="ui icon button small red delete-reserve" data-reserveInfoId="' + obj.reserveInfoId + '" ><i class="ui icon delete"></i></div>';
+				html += '</div>';
+			  	html += '</div>';
+			  	html += '<div class="content">';
+			  	html += '<div class="header">' + obj.startTime + ' - ' + obj.endTime + '</div>';
+			  	html += '</div>';
+			  	html += '</div>';
+			    	reserveInfos.append(html);
+			     });
+		});
+}
+
+function getAvailableList(lookupDate, reserveInfoId) {
+	  var reserveInfoIdPath = reserveInfoId ? reserveInfoId : "";
+	  $.getJSON("<s:url value="/ajax/girlAvailableJson/" />" + "<s:property value="girlInfo.girlInfoId" />" + "/" + lookupDate + "/" + reserveInfoIdPath, 
+	  function(jsonResponse) {
+		var availableInfos = $('#availableInfos');
+		availableInfos.html("");
+		if (jsonResponse.availableInfos == null) return;
+	     $.each(jsonResponse.availableInfos, function(i, obj) {
+			var html = '<div class="item">' + obj.startTime + ' - ' + obj.endTime + '</div>';
+			availableInfos.append(html);
+	     });
+	  });
+}
+</s:if>
   </script>
 </head>
 <body>
@@ -316,9 +481,18 @@
 													<td class="center aligned one wide"><p>:</p></td>
 													<td>
 														<p>
-															B:<s:property value="girlInfo.bustSize" />
-															W:<s:property value="girlInfo.waistSize" />
-															H:<s:property value="girlInfo.hipSize" />
+															<s:if test="girlInfo.bustSize!=-1">
+																B:<s:property value="girlInfo.bustSize" />
+															</s:if>
+															<s:if test="girlInfo.waistSize!=-1">
+																W:<s:property value="girlInfo.waistSize" />
+															</s:if>
+															<s:if test="girlInfo.hipSize!=-1">
+																H:<s:property value="girlInfo.hipSize" />
+															</s:if>
+															<s:if test="girlInfo.bustSize==-1 && girlInfo.waistSize==-1 && girlInfo.hipSize==-1">
+																-
+															</s:if>
 														</p>
 													</td>
 												</tr>
@@ -576,7 +750,7 @@
 												<tr>
 													<th><s:text name="global.time" /></th>
 													<th><s:text name="global.price_rate" /></th>
-													<th><s:text name="global.quantity" /></th>
+													<th><s:text name="global.crcy" /></th>
 												</tr>
 											</thead>
 											<tbody>
@@ -589,7 +763,7 @@
 														<s:text name="format.integer"><s:param name="value" value="girlInfo.price40Mins"/></s:text>
 													</td>
 													<td class="center aligned">
-														1
+														<s:property value="girlInfo.crcy40Mins" />
 													</td>
 												</tr>
 												</s:if>
@@ -602,7 +776,7 @@
 														<s:text name="format.integer"><s:param name="value" value="girlInfo.price60Mins"/></s:text>
 													</td>
 													<td class="center aligned">
-														1
+														<s:property value="girlInfo.crcy60Mins" />
 													</td>
 												</tr>
 												</s:if>
@@ -615,7 +789,7 @@
 														<s:text name="format.integer"><s:param name="value" value="girlInfo.price90Mins"/></s:text>
 													</td>
 													<td class="center aligned">
-														2
+														<s:property value="girlInfo.crcy90Mins" />
 													</td>
 												</tr>
 												</s:if>
@@ -628,7 +802,7 @@
 														<s:text name="format.integer"><s:param name="value" value="girlInfo.price120Mins"/></s:text>
 													</td>
 													<td class="center aligned">
-														2
+														<s:property value="girlInfo.crcy120Mins" />
 													</td>
 												</tr>
 												</s:if>
@@ -641,7 +815,7 @@
 														<s:text name="format.integer"><s:param name="value" value="girlInfo.price6Hrs"/></s:text>
 													</td>
 													<td class="center aligned">
-														3
+														<s:property value="girlInfo.crcy6Hrs" />
 													</td>
 												</tr>
 												</s:if>
@@ -656,7 +830,7 @@
 										<h5 class="ui header left aligned inverted">
 											Comment
 										</h5>
-										<form class="ui form " method="post" action="" >
+										<form class="ui form " id="girlCommentForm" method="post" action="" >
 											<div class="inline field ">
 												<div class="ui left small icon input">
 													<s:textfield name="girlComment.createdBy" value="Anonymous" placeholder="User" />
@@ -681,6 +855,53 @@
 										<br />
 									</div>
 								</div>
+								<s:if test="%{girlInfo.agentInfoId != null}">
+									<s:if test="homeInfo.lineNotifyActive == 'true'">
+										<div class="row">
+											<div class="column">
+												<div class="ui divider"></div>
+												<h5 class="ui header left aligned inverted">
+													<s:text name="global.shop_girl_reserve" />
+												</h5>
+												<div class="ui centered grid attached content">
+													<div class="column one left aligned" id="wrapper_calendar">
+														<div class="ui grid stackable">
+															<div class="eight wide column">
+																<div class="ui calendar" id="inline_calendar">
+																</div>
+															</div>
+															<div class="eight wide column">
+																<div class="ui clearing segment">
+																	<h3 class="ui right floated header">
+																	  <div id="addbtn" class="ui icon button small blue" ><i class="ui icon add"></i></div>
+																	</h3>
+																	<h3 class="ui left floated header">
+																	   <div class="header" id="lookupDateHeader"><s:property value="lookupDateHeader" /></div>
+																	</h3>
+																</div>
+																<div class="ui celled list inverted" id="reserveInfos">
+																  <s:iterator value="reserveInfos" status="status">
+																  <div class="item">
+																  	<div class="right floated content">
+																      <div class="ui buttons">
+																		<div class="ui icon button small blue edit-reserve" data-reserveInfoId="<s:property value="reserveInfoId" />" data-startTime="<s:property value="startTime" />" data-endTime="<s:property value="endTime" />" ><i class="ui icon edit"></i></div>
+																		<div class="ui icon button small red delete-reserve" data-reserveInfoId="<s:property value="reserveInfoId" />" ><i class="ui icon delete"></i></div>
+																	  </div>
+																    </div>
+																    <div class="content">
+																      <div class="header"><s:property value="startTime" /> - <s:property value="endTime" /></div>
+																    </div>
+																  </div>
+																  </s:iterator>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</s:if>
+								</s:if>
 							</div>
 						</div>
 					</div>
@@ -691,5 +912,51 @@
 	</div>
 	<%@include file="/common/common_footer.jsp" %>
 </div>
+<s:if test="%{girlInfo.agentInfoId != null}">
+<s:if test="homeInfo.lineNotifyActive == 'true'">
+<div class="ui mini modal">
+  <i class="close icon"></i>
+  <div class="header">
+  	<s:text name="global.edit_information" /><s:text name="global.menu_girls" />
+  </div>
+  <div class="content">
+  	<form class="ui form" id="infoForm" method="post" action="<s:url value="/management/girl/update"/>" enctype="multipart/form-data">
+    	<div class="inline field disabled">
+			<label><s:text name="global.reserve_date" /></label>
+			<s:textfield name="reserveInfo.reserveDate" placeholder="DD/MM/YYYY" size="10" readonly="true" />
+		</div>
+    	<div class="inline field">
+    		<label><s:text name="global.free_time" /></label>
+    		<div class="ui list" id="availableInfos"></div>
+    	</div>
+    	<br />
+    	<div class="inline field">
+			<label><s:text name="global.time" /></label>
+			<s:textfield name="reserveInfo.startTime" placeholder="HH:mm" size="6" />
+			<label>-</label>
+			<s:textfield name="reserveInfo.endTime" placeholder="HH:mm" size="6" />
+		</div>
+		<div class="inline field">
+			<label><s:text name="global.client_name" /></label>
+				<s:textfield name="reserveInfo.clientName" />
+		</div>
+		<div class="inline field">
+			<label><s:text name="global.mobile" /></label>
+			<s:textfield name="reserveInfo.mobile" />
+		</div>
+		<s:hidden name="action" />
+		<s:hidden name="reserveInfo.shopInfoId" />
+		<s:hidden name="reserveInfo.girlInfoId" />
+		<s:hidden name="reserveInfo.reserveInfoId" />
+		<div class="ui error message"></div>
+	</form>
+  </div>
+  <div class="actions">
+    <div class="ui approve blue button"><s:text name="global.save" /></div>
+    <div class="ui cancel button"><s:text name="global.cancel" /></div>
+  </div>
+</div>
+</s:if>
+</s:if>
 </body>
 </html>

@@ -24,6 +24,7 @@ public class AgentInfo implements Serializable {
 	private String logoImg;
 	private UserInfo userInfo;
 	private String lineId;
+	private String lineToken;
 	
 	public AgentInfo() {}
 	
@@ -57,6 +58,10 @@ public class AgentInfo implements Serializable {
 	public String getLineId() {
 		return lineId;
 	}
+	@Column(name="line_token")
+	public String getLineToken() {
+		return lineToken;
+	}
 	public void setAgentInfoId(String agentInfoId) {
 		this.agentInfoId = agentInfoId;
 	}
@@ -74,5 +79,8 @@ public class AgentInfo implements Serializable {
 	}
 	public void setLineId(String lineId) {
 		this.lineId = lineId;
+	}
+	public void setLineToken(String lineToken) {
+		this.lineToken = lineToken;
 	}
 }
