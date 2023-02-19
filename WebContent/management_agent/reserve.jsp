@@ -89,7 +89,7 @@
           ;
         })
       ;
-      $('.ui.modal').modal({
+/*       $('.ui.modal').modal({
           onApprove : function() {
             //Submits the semantic ui form
             //And pass the handling responsibilities to the form handlers,
@@ -98,7 +98,7 @@
             //Return false as to not close modal dialog
             return false;
           }
-      });
+      }); */
 
 	  $("table").tablesort();
         $('.message .close')
@@ -113,75 +113,12 @@
       .form({
           fields: {}
       })
-	  $('#inline_calendar')
-	  	.calendar({
-	  		initialDate: new Date(),
-	  	    type: 'date',
-	  	    onChange: function() {
-		  	    var lookupDate = arguments[0].toISOString().substring(0, 10);
-		  	    getReserveList(lookupDate);
-		  	}
-	    })
-	  ;
+      $("#reserveSearch_reserveDate").dateEntry({dateFormat: 'dmy/', spinnerImage: ''});
+	  <s:if test="reserveSearch.reserveDate != null">
+	  $("#reserveSearch_reserveDate").val("<s:date name="reserveSearch.reserveDate" format="dd/MM/yyyy" />");
+	  </s:if>
   })
   ;
-  function getReserveList(lookupDate) {
-	  var reserveInfos = $('#reserveInfos');
-	    reserveInfos.empty()
-   		$.getJSON("<s:url value="/ajax/girlReserveAgentJson/" />" + lookupDate, 
-			function(jsonResponse) {
-				$("#lookupDateHeader").html(jsonResponse.lookupDateHeader);
-				if (jsonResponse.reserveInfos == null) return;
-				var prevGirlInfoId = "";
-			     $.each(jsonResponse.reserveInfos, function(i, obj) {
-			    	 var html = "";
-			    	 if (prevGirlInfoId != obj.girlInfoId) {
-				    	 html += '<div class="item">';
-						 html += '<img class="ui avatar image" src="' + obj.girlInfo.pic1 + '">';
-						 html += '<div class="content middle aligned">';
-						 html += '<div class="header" style="padding-top: 5px">' + obj.girlInfo.nickName + '</div>';
-						 html += '</div>';
-						 html += '</div>';
-			    	 }
-			    	 prevGirlInfoId = obj.girlInfoId;
-					 html += '<div class="item">';
-					 html += '<div class="ui equal width aligned grid content middle aligned ">'
-					 html += '<div class="column">';
-					 html += '<div class="header">' + obj.clientName + '</div>';
-					 html += '</div>';
-					 html += '<div class="column">';
-					 html += '<i class="icon phone"></i>';
-				     html += obj.mobile;
-				     html += '</div>';
-					 html += '<div class="column">';
-				  	 //html += '<div class="right floated content">';
-				  	 //html += '<div>';
-				  	 html += '<i class="icon time"></i>';
-				     html += obj.startTime + ' - ' + obj.endTime;
-				     //html += '</div>';
-				     html += '</div>';
-				     html += '<div class="column center aligned">';
-				  	 html += '<div class="ui icon button tiny red delete-reserve" data-reserveInfoId="' + obj.reserveInfoId + '" ><i class="ui icon delete"></i></div>';
-					 html += '</div>';
-/* 				     html += '<div class="content">';
-				     html += '<div class="header">' + obj.clientName + '</div>';
-				     html += obj.mobile;
-				     html += '</div>'; */
-				     html += '</div>';
-					 html += '</div>';
-			    	 reserveInfos.append(html);
-			     });
-		});
-  }
-  $(".delete-reserve")
-	.live('click', function() {
-		$.getJSON("<s:url value="/ajax/girlReserveDeleteJson/" />" + $(this).attr("data-reserveInfoId"), 
-		function(jsonResponse) {
-			var lookupDate = $('#inline_calendar').calendar("get date").toISOString().substring(0, 10);
-  	  	getReserveList(lookupDate);
-		}
-		);
-	});
   </script>
 </head>
 <body class="menu pushable">
@@ -220,44 +157,45 @@
 					<i class="dropdown icon"></i>
 					<s:i18n name="global_th"><s:text name="global.menu_reserve" /></s:i18n>
 				</h4>
+				<div class="ui left aligned attached segment active content">
+					<form class="ui form" id="searchForm" method="post" action="<s:url value="/management_agent/reserve/search"/>">
+						<div class="inline field">
+							<s:i18n name="global_th"><s:textfield name="reserveSearch.girlInfo.nickName" key="global.nick_name"/></s:i18n>
+						</div>
+						<div class="inline fields">
+							<label>Date</label>
+							<div class="field">
+								<s:textfield name="reserveSearch.reserveDate" placeholder="DD/MM/YYYY" />
+							</div>
+						</div>
+						<div class="ui error message"></div>
+						<div class="ui right aligned one column grid">
+							<div class="column">
+								<div class="ui small button submit blue">Search</div>
+								<div class="ui small button clear">Clear</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<h4 class="ui top attached header inverted active title">
+					<i class="dropdown icon"></i>
+					<s:i18n name="global_th"><s:text name="global.search_list" /></s:i18n>
+				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
-						<div class="ui grid stackable">
-						<div class="eight wide column">
-							<div class="ui calendar" id="inline_calendar">
-							</div>
-						</div>
-						<div class="eight wide column">
-							<div class="ui clearing segment">
-								<h3 class="ui left floated header">
-								   <div class="header" id="lookupDateHeader"><s:text name="lookupDateHeader" /></div>
-								</h3>
-							</div>
-							<div class="ui celled list " id="reserveInfos">
-							  <s:set name="prevGirlInfoId" value="" />
-							  <s:iterator value="reserveInfos" status="status">
-							      <s:if test="%{girlInfoId != #prevGirlInfoId}">
-									  <div class="item">
-									    <img class="ui avatar image" src="<s:property value="girlInfo.pic1" />">
-									    <div class="content">
-									      <div class="header"><s:property value="girlInfo.nickName" /></div>
-									    </div>
-									  </div>
-								  </s:if>
-								  <div class="item">
-								    <div class="right floated content">
-								      <s:property value="startTime" /> - <s:property value="endTime" />
-								    </div>
-								    <div class="content">
-								      <div class="header"><s:property value="clientName" /></div>
-								      <s:property value="mobile" />
-								    </div>
-								  </div>
-								  <s:set name="prevGirlInfoId" value="%{girlInfoId}" />
-							  </s:iterator>
-							</div>
-						</div>
-						</div>
+						<table id="searchList" class="ui table celled compact striped unstackable sortable">
+							<thead class="center aligned">
+								<tr>
+									<th>#</th>
+									<th><s:i18n name="global_th"><s:text name="global.booking_date" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.booking_time" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.booking_name" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.girl_photo" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.nick_name" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
+								</tr>
+							</thead>
+						</table>
 					</div>
 				</div>
 			</div>
@@ -266,5 +204,21 @@
   	<%@include file="/common/common_agent_management_footer.jsp" %>  
 </div>
 </div>
+<script type="text/javascript">
+  <s:iterator value="reserveInfos" status="status">
+		dataSet.push(
+			['<s:property value="#status.count" />', 
+			"<s:date name="reserveDate" format="dd/MM/yyyy" />",
+			"<s:property value="reserveTime" />",
+			"<s:property value="clientName" />",
+			'<img class="image ui tiny centered" src="<s:property value="girlInfo.pic1" />">',
+			"<s:property value="girlInfo.nickName" />",
+			'<a href="<s:url value="/management_agent/reserve/info/%{reserveInfoId}"/>" class="ui icon button small green" ><i class="ui icon info"></i></a>'
+    	]);
+	</s:iterator>
+	columnDefs = [
+	  {  className: "center aligned", targets: [ 0, 1, 2, 4, 6 ] }
+	];
+  </script>
 </body>
 </html>

@@ -77,6 +77,8 @@
 		<mapping class="com.nightclub.model.ShopLocation" />
 		<mapping class="com.nightclub.model.ShopLocationId" />
 		<mapping class="com.nightclub.model.ReserveInfo" />
+		<mapping class="com.nightclub.model.ReserveGirlService" />
+		<mapping class="com.nightclub.model.ReserveGirlServiceId" />
 		<mapping class="com.nightclub.model.NationalityInfo" />
 		<mapping class="com.nightclub.model.CountryInfo" />
 		<mapping class="com.nightclub.model.ProvinceInfo" />

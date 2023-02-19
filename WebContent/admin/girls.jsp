@@ -91,7 +91,7 @@
         ;
       })
     ;
-      $('#allSameForm')
+      $('#allSameForm, #allSameFormTop')
       .form({
           onSuccess: function() { 
               var form = $(this);
@@ -419,6 +419,15 @@
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
+						<div class="ui right aligned one column grid">
+							<div class="column">
+								<form class="ui form " id="allSameFormTop" method="post" action="<s:url value="/admin/girls/update"/>" >
+									<div class="ui right floated small primary submit button">
+										<s:i18n name="global_th"><s:text name="global.submit" /></s:i18n>
+									</div>
+								</form>
+							</div>
+						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
 							<thead class="center aligned">
 								<tr>

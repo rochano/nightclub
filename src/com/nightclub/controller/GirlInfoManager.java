@@ -1044,4 +1044,32 @@ public class GirlInfoManager extends HibernateUtil {
 					.list();
 		return girlLocations;
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<GirlServiceInfo> getGirlServiceInfoListByGirlInfoId(String girlInfoId) {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<GirlServiceInfo> girlServiceInfos = null;
+		try {
+			
+			girlServiceInfos = (List<GirlServiceInfo>)session.createQuery("from GirlServiceInfo order by orderNo").list();
+			if(girlServiceInfos != null) {
+				for(GirlServiceInfo girlServiceInfo : girlServiceInfos) {
+					List<GirlService> girlServices = (List<GirlService>)session
+						.createQuery("from GirlService gs " + 
+						"where gs.primaryKey.girlServiceInfo.girlServiceInfoId = :girlServiceInfoId ")
+						.setParameter("girlServiceInfoId", girlServiceInfo.getGirlServiceInfoId())
+						.list();
+					girlServiceInfo.setGirlServiceList(girlServices);
+				}
+			}
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return girlServiceInfos;
+	}
 }

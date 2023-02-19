@@ -1,8 +1,5 @@
 package com.nightclub.view;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -24,13 +21,16 @@ public class AgentReserveInfoAction extends ActionSupport implements SessionAwar
 	private Map<String, Object> sessionMap;
 	private String menu;
 	private String action;
-	private boolean showInfo = false;
-	private String lookupDate;
-	private String lookupDateHeader;
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	SimpleDateFormat sdfOutput = new SimpleDateFormat("EEEE, d MMM");
+//	private boolean showInfo = false;
+//	private String lookupDate;
+//	private String lookupDateHeader;
+//	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//	SimpleDateFormat sdfOutput = new SimpleDateFormat("EEEE, d MMM");
 	private List<ReserveInfo> reserveInfos;
 	private HomeInfo homeInfo;
+	private String reserveInfoId;
+	private ReserveInfo reserveInfo;
+	private ReserveInfo reserveSearch;
 	
 	private GirlReserveInfoManager girlReserveInfoManager;
 	private HomeInfoManager homeInfoManager;
@@ -44,26 +44,34 @@ public class AgentReserveInfoAction extends ActionSupport implements SessionAwar
 	public String execute() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		
-		Date today = new Date();
-		this.lookupDateHeader = sdfOutput.format(today);
-//		this.reserveInfos = shopReserveInfoManager.getReserveInfosByReserveDate(userInfo.getShopInfoId(), today);
-		this.reserveInfos = girlReserveInfoManager.getReserveInfosByReserveDate(userInfo.getAgentInfoId(), today);
-		homeInfo = homeInfoManager.getHomeInfo("0");
+		this.reserveInfos = girlReserveInfoManager.getReserveInfosByAgentInfoId(userInfo.getAgentInfoId());
 		
 		return SUCCESS;
 	}
 
-	public String girlReserveInfo() {
-		Date date = new Date();
+//	public String girlReserveInfo() {
+//		Date date = new Date();
+//		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
+//		try {
+//			date = sdf.parse(lookupDate);
+//			this.lookupDateHeader = sdfOutput.format(date);
+////			this.reserveInfos = shopReserveInfoManager.getReserveInfosByReserveDate(userInfo.getShopInfoId(), date);
+//			this.reserveInfos = girlReserveInfoManager.getReserveInfosByReserveDate(userInfo.getAgentInfoId(), date);
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+//		return SUCCESS;
+//	}
+
+	public String reserveInfo() {
+		this.reserveInfo = girlReserveInfoManager.getReserveInfo(getReserveInfoId());
+		return SUCCESS;
+	}
+
+	public String search() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
-		try {
-			date = sdf.parse(lookupDate);
-			this.lookupDateHeader = sdfOutput.format(date);
-//			this.reserveInfos = shopReserveInfoManager.getReserveInfosByReserveDate(userInfo.getShopInfoId(), date);
-			this.reserveInfos = girlReserveInfoManager.getReserveInfosByReserveDate(userInfo.getAgentInfoId(), date);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		this.reserveInfos = girlReserveInfoManager.search(userInfo.getAgentInfoId(), getReserveSearch());
+
 		return SUCCESS;
 	}
 
@@ -88,21 +96,21 @@ public class AgentReserveInfoAction extends ActionSupport implements SessionAwar
 		this.action = action;
 	}
 
-	public boolean isShowInfo() {
-		return showInfo;
-	}
+//	public boolean isShowInfo() {
+//		return showInfo;
+//	}
+//
+//	public void setShowInfo(boolean showInfo) {
+//		this.showInfo = showInfo;
+//	}
 
-	public void setShowInfo(boolean showInfo) {
-		this.showInfo = showInfo;
-	}
-
-	public String getLookupDateHeader() {
-		return lookupDateHeader;
-	}
-
-	public void setLookupDateHeader(String lookupDateHeader) {
-		this.lookupDateHeader = lookupDateHeader;
-	}
+//	public String getLookupDateHeader() {
+//		return lookupDateHeader;
+//	}
+//
+//	public void setLookupDateHeader(String lookupDateHeader) {
+//		this.lookupDateHeader = lookupDateHeader;
+//	}
 
 	public List<ReserveInfo> getReserveInfos() {
 		return reserveInfos;
@@ -112,13 +120,13 @@ public class AgentReserveInfoAction extends ActionSupport implements SessionAwar
 		this.reserveInfos = reserveInfos;
 	}
 
-	public String getLookupDate() {
-		return lookupDate;
-	}
+//	public String getLookupDate() {
+//		return lookupDate;
+//	}
 
-	public void setLookupDate(String lookupDate) {
-		this.lookupDate = lookupDate;
-	}
+//	public void setLookupDate(String lookupDate) {
+//		this.lookupDate = lookupDate;
+//	}
 
 	public HomeInfo getHomeInfo() {
 		return homeInfo;
@@ -126,6 +134,30 @@ public class AgentReserveInfoAction extends ActionSupport implements SessionAwar
 
 	public void setHomeInfo(HomeInfo homeInfo) {
 		this.homeInfo = homeInfo;
+	}
+
+	public String getReserveInfoId() {
+		return reserveInfoId;
+	}
+
+	public void setReserveInfoId(String reserveInfoId) {
+		this.reserveInfoId = reserveInfoId;
+	}
+
+	public ReserveInfo getReserveInfo() {
+		return reserveInfo;
+	}
+
+	public void setReservInfo(ReserveInfo reserveInfo) {
+		this.reserveInfo = reserveInfo;
+	}
+
+	public ReserveInfo getReserveSearch() {
+		return reserveSearch;
+	}
+
+	public void setReserveSearch(ReserveInfo reserveSearch) {
+		this.reserveSearch = reserveSearch;
 	}
 
 }

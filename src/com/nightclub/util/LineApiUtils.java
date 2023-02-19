@@ -220,13 +220,15 @@ public class LineApiUtils extends Thread {
 
 	public void run() {
 		ProcessBuilder processBuilder = null;
+		String path = "C:\\Users\\thainightnav\\Desktop\\";
+//		String path = "C:\\Developer\\";
 		if (SEND_MESSAGE_API.equals(getArg1())) {
 			processBuilder = new ProcessBuilder(
-				"C:\\Developer\\apache-tomcat-7.0.28\\batch\\LineService\\LineServiceBatch.bat",
+					path + "apache-tomcat-7.0.28\\batch\\LineService\\LineServiceBatch.bat",
 				SEND_MESSAGE_API, getArg2(), getArg3(), getArg4());
 		} else if (SEND_DATA.equals(getArg1())) {
 			processBuilder = new ProcessBuilder(
-					"C:\\Developer\\apache-tomcat-7.0.28\\batch\\LineService\\LineServiceBatch.bat",
+					path + "apache-tomcat-7.0.28\\batch\\LineService\\LineServiceBatch.bat",
 					SEND_DATA, getArg2(), getArg3());
 		}
 		// Process process = Runtime.getRuntime().exec(

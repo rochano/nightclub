@@ -9,9 +9,11 @@ import net.viralpatel.contact.util.HibernateUtil;
 
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.classic.Session;
 
 import com.nightclub.model.AgentGirlInfo;
+import com.nightclub.model.ReserveGirlService;
 import com.nightclub.model.ReserveInfo;
 
 public class GirlReserveInfoManager extends HibernateUtil {
@@ -113,7 +115,7 @@ public class GirlReserveInfoManager extends HibernateUtil {
 		return reserveInfos;
 	}
 	
-	public List<ReserveInfo> getReserveInfosByReserveDate(String agentInfoId, Date reserveDate) {
+	public List<ReserveInfo> getReserveInfosByAgentInfoId(String agentInfoId) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		List<ReserveInfo> reserveInfos = null;
@@ -121,10 +123,8 @@ public class GirlReserveInfoManager extends HibernateUtil {
 		try {
 			
 			reserveInfos = (List<ReserveInfo>)session.createQuery(
-					"from ReserveInfo where girlInfo.agentInfoId = :agentInfoId "
-					+ "and date_format(reserveDate,'%Y%m%d') = date_format(:reserveDate,'%Y%m%d') order by girlInfoId, startTime ")
+					"from ReserveInfo where girlInfo.agentInfoId = :agentInfoId ")
 					.setParameter("agentInfoId", agentInfoId)
-					.setParameter("reserveDate", reserveDate)
 					.list();
 			Iterator it = reserveInfos.iterator();
 			while(it.hasNext()) {
@@ -154,6 +154,7 @@ public class GirlReserveInfoManager extends HibernateUtil {
 			
 			reserveInfo = (ReserveInfo)session.createQuery("from ReserveInfo where reserveInfoId = :reserveInfoId ")
 					.setParameter("reserveInfoId", reserveInfoId).uniqueResult();
+			reserveInfo.setReserveGirlServices(getReserveGirlServiceListByGirlInfoId(session, reserveInfoId));
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -161,5 +162,59 @@ public class GirlReserveInfoManager extends HibernateUtil {
 		}
 		session.getTransaction().commit();
 		return reserveInfo;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<ReserveGirlService> getReserveGirlServiceListByGirlInfoId(Session session, String reserveInfoId) {
+		List<ReserveGirlService> reserveGirlServices = null;
+		reserveGirlServices = (List<ReserveGirlService>)session.createQuery("from ReserveGirlService rgs where rgs.primaryKey.reserveInfo.reserveInfoId = :reserveInfoId")
+					.setParameter("reserveInfoId", reserveInfoId)
+					.list();
+		
+		return reserveGirlServices;
+	}
+
+	public List<ReserveInfo> search(String agentInfoId, ReserveInfo reserveSearch) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<ReserveInfo> reserveInfos = null;
+		ReserveInfo reserveInfo = null;
+		try {
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("from ReserveInfo r where r.girlInfo.agentInfoId = :agentInfoId ");
+			if(!reserveSearch.getGirlInfo().getNickName().isEmpty()) {
+				sql.append("and r.girlInfo.nickName like :nickName ");
+			}
+			if(reserveSearch.getReserveDate() != null) {
+				sql.append("and date_format(r.reserveDate,'%Y%m%d') = date_format(:reserveDate,'%Y%m%d') ");
+			}
+			Query query = session.createQuery(sql.toString());
+			query.setParameter("agentInfoId", agentInfoId);
+			if(!reserveSearch.getGirlInfo().getNickName().isEmpty()) {
+				query.setParameter("nickName", "%" + reserveSearch.getGirlInfo().getNickName() + "%");
+			}
+			if(reserveSearch.getReserveDate() != null) {
+				query.setParameter("reserveDate", reserveSearch.getReserveDate());
+			}
+			reserveInfos = (List<ReserveInfo>)query.list();
+			Iterator it = reserveInfos.iterator();
+			while(it.hasNext()) {
+				reserveInfo = (ReserveInfo) it.next();
+//				((ShopGirlInfo)reserveInfo.getGirlInfo()).setBasicInfo(null);
+				((AgentGirlInfo)reserveInfo.getGirlInfo()).setGirlLocations(new ArrayList());
+				((AgentGirlInfo)reserveInfo.getGirlInfo()).setGirlProvinces(new ArrayList());
+				((AgentGirlInfo)reserveInfo.getGirlInfo()).setGirlServices(new ArrayList());
+				((AgentGirlInfo)reserveInfo.getGirlInfo()).getCountryInfo().setProvinceInfos(new ArrayList());
+//				reserveInfo.getClientInfo().setGirlFavourite(new ArrayList());
+			}
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		
+		return reserveInfos;
 	}
 }

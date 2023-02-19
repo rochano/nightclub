@@ -280,6 +280,22 @@
    	  	var countryInfoId = $(this).val();
    	  	loadProvince(countryInfoId, '#provinceInfos', 'girlLocations');
        });
+      $(".girlService_chkInclude").click(function() {
+    	  var parentTr = $(this).parents("tr:first");
+    	  if ($(this)[0].checked) {
+              parentTr.find(".girlService_chkExtra").prop( "checked", false );
+              parentTr.find(".input").addClass("disabled");
+          }
+      });
+      $(".girlService_chkExtra").click(function() {
+          var parentTr = $(this).parents("tr:first");
+          if ($(this)[0].checked) {
+	          parentTr.find(".girlService_chkInclude").prop( "checked", false );
+	          parentTr.find(".input").removeClass("disabled");
+          } else {
+              parentTr.find(".input").addClass("disabled");
+          }
+      });
     })
   ;
   function loadProvince(countryInfoId, provinceInfosElmId, girlLocationsId) {
@@ -663,33 +679,90 @@
 								<i class="dropdown icon"></i>
 							</h4>
 							<div class="content">
-								<div class="ui four column grid doubling">
-									<s:iterator value="girlServiceInfos" status="rowstatus">
-										<div class="column">
-											<div class="field ui checkbox">
-												<input type="checkbox" name="girlServices" id="girlServices_<s:property value="#rowstatus.count" />"
-													<s:iterator value="girlServices" >
-														<s:property value="top" />
-														<s:if test="top == girlServiceInfoId">checked="checked"</s:if>
-													</s:iterator>
-													value="<s:property value="girlServiceInfoId" />">
-												<label for="girlServices_<s:property value="#rowstatus.count" />"><s:property value="girlServiceName" /></label>
-											</div>
-										</div>
-									</s:iterator>
-								</div>
+								<table class="ui table celled compact striped unstackable sortable">
+									<thead class="center aligned">
+										<tr>
+											<th>Service</th>
+											<th>Included</th>
+											<th>Extra</th>
+											<th>Price</th>
+											<th width="20%">Currency</th>
+										</tr>
+									</thead>
+									<tbody>
+										<s:iterator value="formGirlServiceInfos" status="rowstatus">
+											<tr>
+												<td>
+													<s:property value="girlServiceInfo.girlServiceName" />
+													<input type="hidden" name="girlServicesInfoId" value="<s:property value="girlServiceInfo.girlServiceInfoId"/>" />
+												</td>
+												<td class="center aligned">
+													<div class="field ui checkbox">
+														<input type="checkbox" name="girlServicesChkInclude" 
+															id="girlService_chkInclude_<s:property value="#rowstatus.count" />" 
+															class="girlService_chkInclude"
+														<s:if test="girlService.chkInclude == 'true'">
+														  checked="checked"
+														</s:if>
+														value="<s:property value="girlServiceInfo.girlServiceInfoId"/>">
+														<label></label>
+													</div>
+												</td>
+												<td class="center aligned">
+													<div class="field ui checkbox">
+														<input type="checkbox" name="girlServicesChkExtra" 
+															id="girlService_chkExtra_<s:property value="#rowstatus.count" />" 
+															class="girlService_chkExtra"
+														<s:if test="girlService.chkExtra == 'true'">
+														  checked="checked"
+														</s:if>
+														value="<s:property value="girlServiceInfo.girlServiceInfoId"/>">
+														<label></label>
+													</div>
+												</td>
+												<td>
+													<div class="ui input
+														<s:if test="girlService.chkExtra == 'true'"></s:if>
+														<s:else>
+															disabled
+														</s:else>
+														 fluid">
+															<input type="text" name="girlServicesPriceExtra" size="7" class="number" id="girlService_priceExtra_<s:property value="#rowstatus.count" />"
+																<s:if test="girlService.priceExtra != 0">
+																	value="<s:text name="format.integer"><s:param name="value" value="girlService.priceExtra"/></s:text>"
+															 	</s:if>
+															 />
+													</div>
+												</td>
+												<td>
+													<div class="ui input
+														<s:if test="girlService.chkExtra == 'true'"></s:if>
+														<s:else>
+															disabled
+														</s:else>
+														 fluid">
+															<input type="text" name="girlServicesCrcy" size="7" class="number" id="girlService_crcy_<s:property value="#rowstatus.count" />"
+																value="<s:property value="girlService.crcy"/>"
+															 />
+													</div>
+												</td>
+											</tr>
+										</s:iterator>
+									</tbody>
+								</table>
 							</div>
 						</div>
 						<h4 class="ui horizontal header">
 							<s:i18n name="global_th"><s:text name="global.price" /></s:i18n>
 						</h4>
 						<div class="column one left aligned">
-							<table class="ui table celled compact striped unstackable unstackable sortable">
+							<table class="ui table celled compact striped unstackable sortable">
 								<thead class="center aligned">
 									<tr>
 										<th width="5%">CH</th>
 										<th width="20%">เวลา</th>
-										<th>เรทราคา</th>
+										<th>Incall</th>
+										<th>Outcall</th>
 										<th width="20%">สกุลเงิน</th>
 									</tr>
 								</thead>
@@ -707,8 +780,18 @@
 											<label for="girlInfo_chk40Mins">40 นาที</label>
 										</td>
 										<td>
-											<input type="text" name="girlInfo.price40Mins" size="7" class="number" id="girlInfo_price40Mins"
-												value="<s:text name="format.integer"><s:param name="value" value="girlInfo.price40Mins"/></s:text>" />
+											<input type="text" name="girlInfo.priceIncall40Mins" size="7" class="number" id="girlInfo_priceIncall40Mins"
+												<s:if test="girlInfo.priceIncall40Mins != 0">
+													value="<s:text name="format.integer"><s:param name="value" value="girlInfo.priceIncall40Mins"/></s:text>" 
+												</s:if>
+											/>
+										</td>
+										<td>
+											<input type="text" name="girlInfo.priceOutcall40Mins" size="7" class="number" id="girlInfo_priceOutcall40Mins"
+												<s:if test="girlInfo.priceOutcall40Mins != 0">
+													value="<s:text name="format.integer"><s:param name="value" value="girlInfo.priceOutcall40Mins"/></s:text>" 
+												</s:if>
+											/>
 										</td>
 										<td>
 											<input type="text" name="girlInfo.crcy40Mins" size="7" id="girlInfo_crcy40Mins"
@@ -719,7 +802,7 @@
 										<td>
 											<div class="field ui checkbox">
 												<input type="checkbox" name="girlInfo.chk60Mins" id="girlInfo_chk60Mins" value="true" 
-												<s:if test="girlInfo.chk60Mins == 'true'">checked="checked"</s:if>
+													<s:if test="girlInfo.chk60Mins == 'true'">checked="checked"</s:if>
 												/>
 												<label></label>
 											</div>
@@ -728,8 +811,18 @@
 											<label for="girlInfo_chk60Mins">60 นาที</label>
 										</td>
 										<td>
-											<input type="text" name="girlInfo.price60Mins" size="7" class="number" id="girlInfo_price60Mins"
-												value="<s:text name="format.integer"><s:param name="value" value="girlInfo.price60Mins"/></s:text>" />
+											<input type="text" name="girlInfo.priceIncall60Mins" size="7" class="number" id="girlInfo_priceIncall60Mins" 
+												<s:if test="girlInfo.priceIncall60Mins != 0">
+													value="<s:text name="format.integer"><s:param name="value" value="girlInfo.priceIncall60Mins"/></s:text>" 
+												</s:if>
+											/>
+										</td>
+										<td>
+											<input type="text" name="girlInfo.priceOutcall60Mins" size="7" class="number" id="girlInfo_priceOutcall60Mins" 
+												<s:if test="girlInfo.priceOutcall60Mins != 0">
+													value="<s:text name="format.integer"><s:param name="value" value="girlInfo.priceOutcall60Mins"/></s:text>" 
+												</s:if>
+											/>
 										</td>
 										<td>
 											<input type="text" name="girlInfo.crcy60Mins" size="7" id="girlInfo_crcy60Mins"
@@ -749,8 +842,18 @@
 											<label for="girlInfo_chk90Mins">90 นาที</label>
 										</td>
 										<td>
-											<input type="text" name="girlInfo.price90Mins" size="7" class="number" id="girlInfo_price90Mins"
-												value="<s:text name="format.integer"><s:param name="value" value="girlInfo.price90Mins"/></s:text>" />
+											<input type="text" name="girlInfo.priceIncall90Mins" size="7" class="number" id="girlInfo_priceIncall90Mins"
+												<s:if test="girlInfo.priceIncall90Mins != 0">
+													value="<s:text name="format.integer"><s:param name="value" value="girlInfo.priceIncall90Mins"/></s:text>" 
+												</s:if>
+											/>
+										</td>
+										<td>
+											<input type="text" name="girlInfo.priceOutcall90Mins" size="7" class="number" id="girlInfo_priceOutcall90Mins"
+												<s:if test="girlInfo.priceOutcall90Mins != 0">
+													value="<s:text name="format.integer"><s:param name="value" value="girlInfo.priceOutcall90Mins"/></s:text>" 
+												</s:if>
+											/>
 										</td>
 										<td>
 											<input type="text" name="girlInfo.crcy90Mins" size="7" id="girlInfo_crcy90Mins"
@@ -770,8 +873,18 @@
 											<label for="girlInfo_chk120Mins">120 นาที</label>
 										</td>
 										<td>
-											<input type="text" name="girlInfo.price120Mins" size="7" class="number" id="girlInfo_price120Mins"
-												value="<s:text name="format.integer"><s:param name="value" value="girlInfo.price120Mins"/></s:text>" />
+											<input type="text" name="girlInfo.priceIncall120Mins" size="7" class="number" id="girlInfo_priceIncall120Mins" 
+												<s:if test="girlInfo.priceIncall120Mins != 0">
+													value="<s:text name="format.integer"><s:param name="value" value="girlInfo.priceIncall120Mins"/></s:text>" 
+												</s:if>
+											/>
+										</td>
+										<td>
+											<input type="text" name="girlInfo.priceOutcall120Mins" size="7" class="number" id="girlInfo_priceOutcall120Mins" 
+												<s:if test="girlInfo.priceOutcall120Mins != 0">
+													value="<s:text name="format.integer"><s:param name="value" value="girlInfo.priceOutcall120Mins"/></s:text>"
+												</s:if>
+											/>
 										</td>
 										<td>
 											<input type="text" name="girlInfo.crcy120Mins" size="7" id="girlInfo_crcy120Mins"
@@ -791,8 +904,18 @@
 											<label for="girlInfo_chk6Hrs">ค้างคืน(6ชม.)</label>
 										</td>
 										<td>
-											<input type="text" name="girlInfo.price6Hrs" size="7" class="number" id="girlInfo_price6Hrs"
-												value="<s:text name="format.integer"><s:param name="value" value="girlInfo.price6Hrs"/></s:text>" />
+											<input type="text" name="girlInfo.priceIncall6Hrs" size="7" class="number" id="girlInfo_priceIncall6Hrs" 
+												<s:if test="girlInfo.priceIncall6Hrs != 0">
+													value="<s:text name="format.integer"><s:param name="value" value="girlInfo.priceIncall6Hrs"/></s:text>" 
+												</s:if>
+											/>
+										</td>
+										<td>
+											<input type="text" name="girlInfo.priceOutcall6Hrs" size="7" class="number" id="girlInfo_priceOutcall6Hrs" 
+												<s:if test="girlInfo.priceOutcall6Hrs != 0">
+													value="<s:text name="format.integer"><s:param name="value" value="girlInfo.priceOutcall6Hrs"/></s:text>" 
+												</s:if>
+											/>
 										</td>
 										<td>
 											<input type="text" name="girlInfo.crcy6Hrs" size="7" id="girlInfo_crcy6Hrs"

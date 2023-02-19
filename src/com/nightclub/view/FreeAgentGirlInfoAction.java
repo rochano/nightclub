@@ -18,6 +18,7 @@ import com.nightclub.controller.ProvinceInfoManager;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.CountryInfo;
+import com.nightclub.model.FormGirlServiceInfo;
 import com.nightclub.model.FreeAgentGirlInfo;
 import com.nightclub.model.GenderInfo;
 import com.nightclub.model.GirlInfo;
@@ -52,8 +53,13 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	private ProvinceInfoManager provinceInfoManager;
 	private GenderInfoManager genderInfoManager;
  
-	private List<GirlServiceInfo> girlServiceInfos;
-	private List<String> girlServices;
+//	private List<GirlServiceInfo> girlServiceInfos;
+	private List<FormGirlServiceInfo> formGirlServiceInfos;
+	private List<String> girlServicesInfoId;
+	private List<String> girlServicesChkInclude;
+	private List<String> girlServicesChkExtra;
+	private List<String> girlServicesPriceExtra;
+	private List<String> girlServicesCrcy;
 	private GirlSetting girlSetting;
 	private ArrayList<String> ageList;
 	private ArrayList<String> bustSizeList;
@@ -81,7 +87,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		girlInfoManager = new FreeAgentGirlInfoManager();
 		girlSettingManager = new GirlSettingManager();
 		zoneInfoManager = new ZoneInfoManager();
-		girlServices = new ArrayList();
+//		girlServices = new ArrayList();
 		nationalityInfoManager = new NationalityInfoManager();
 		countryInfoManager = new CountryInfoManager();
 		provinceInfoManager = new ProvinceInfoManager();
@@ -92,14 +98,15 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.girlInfo = (FreeAgentGirlInfo)girlInfoManager.getGirlInfo(userInfo.getGirlInfoId());
 		sessionMap.put("freeAgentGirlInfo", girlInfo);
-		this.girlServiceInfos = girlInfoManager.getGirlServiceInfoList();
+//		this.girlServiceInfos = girlInfoManager.getGirlServiceInfoList();
 		setFormValue(userInfo);
-		this.girlServices = new ArrayList<String>();
-		if (this.girlInfo != null) {
-			List<GirlService> girlServices = girlInfoManager.getGirlServiceListByGirlInfoId(this.girlInfo.getGirlInfoId());
-			if(girlServices != null) {
+		List<GirlService> girlServices = girlInfoManager.getGirlServiceListByGirlInfoId(this.girlInfo.getGirlInfoId());
+		if(girlServices != null) {
+			for(FormGirlServiceInfo formGirlServiceInfo : this.formGirlServiceInfos) {
 				for(GirlService girlService : girlServices) {
-					this.girlServices.add(girlService.getGirlServiceInfo().getGirlServiceInfoId());
+					if(formGirlServiceInfo.getGirlServiceInfo().getGirlServiceInfoId().equals(girlService.getGirlServiceInfo().getGirlServiceInfoId())) {
+						formGirlServiceInfo.setGirlService(girlService);
+					}
 				}
 			}
 		}
@@ -214,14 +221,31 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	            this.girlInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.girlInfo.getDescription(), sessionMap, userInfo));
 	            this.girlInfo.getGirlServices().clear();
 	            GirlService girlService;
-	            for(String girlServiceInfoId : this.girlServices) {
-	            	GirlServiceInfo girlServiceInfo = new GirlServiceInfo();
-	            	girlServiceInfo.setGirlServiceInfoId(girlServiceInfoId);
-
-	            	girlService = new GirlService();
-	            	girlService.setGirlServiceInfo(girlServiceInfo);
-	            	girlService.setFreeAgentGirlInfo(this.girlInfo);
-	            	this.girlInfo.getGirlServices().add(girlService);
+	            for(int i = 0; i<getGirlServicesInfoId().size(); i++) {
+	            	String girlServiceInfoId = getGirlServicesInfoId().get(i);
+	    			if(getGirlServicesChkInclude().contains(girlServiceInfoId)) {
+		            	GirlServiceInfo girlServiceInfo = new GirlServiceInfo();
+		            	girlServiceInfo.setGirlServiceInfoId(girlServiceInfoId);
+	
+		            	girlService = new GirlService();
+		            	girlService.setGirlServiceInfo(girlServiceInfo);
+		            	girlService.setFreeAgentGirlInfo(this.girlInfo);
+		            	girlService.setChkInclude(Boolean.TRUE.toString().toLowerCase());
+						this.girlInfo.getGirlServices().add(girlService);
+	    			} else if(getGirlServicesChkExtra().contains(girlServiceInfoId)) {
+	    				GirlServiceInfo girlServiceInfo = new GirlServiceInfo();
+	    				girlServiceInfo.setGirlServiceInfoId(girlServiceInfoId);
+	
+		            	girlService = new GirlService();
+		            	girlService.setGirlServiceInfo(girlServiceInfo);
+		            	girlService.setFreeAgentGirlInfo(this.girlInfo);
+		            	girlService.setChkExtra(Boolean.TRUE.toString().toLowerCase());
+		            	try {
+		            		girlService.setPriceExtra(Double.parseDouble(getGirlServicesPriceExtra().get(i).replace(",", "")));
+		            	} catch(NumberFormatException e){}
+		            	girlService.setCrcy(getGirlServicesCrcy().get(i));
+		            	this.girlInfo.getGirlServices().add(girlService);
+	    			}
 				}
 	            this.girlInfo.getGirlLocations().clear();
 	            GirlLocation girlLocation;
@@ -356,12 +380,53 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		this.pic5FileName = pic5FileName;
 	}
 
-	public List<String> getGirlServices() {
-		return girlServices;
+
+	public List<FormGirlServiceInfo> getFormGirlServiceInfos() {
+		return formGirlServiceInfos;
 	}
 
-	public void setGirlServices(List<String> girlServices) {
-		this.girlServices = girlServices;
+	public void setGirlServiceInfos(List<FormGirlServiceInfo> formGirlServiceInfos) {
+		this.formGirlServiceInfos = formGirlServiceInfos;
+	}
+	
+	public List<String> getGirlServicesInfoId() {
+		return girlServicesInfoId;
+	}
+
+	public void setGirlServicesInfoId(List<String> girlServicesInfoId) {
+		this.girlServicesInfoId = girlServicesInfoId;
+	}
+
+	public List<String> getGirlServicesChkInclude() {
+		return girlServicesChkInclude;
+	}
+
+	public void setGirlServicesChkInclude(List<String> girlServicesChkInclude) {
+		this.girlServicesChkInclude = girlServicesChkInclude;
+	}
+	
+	public List<String> getGirlServicesChkExtra() {
+		return girlServicesChkExtra;
+	}
+
+	public void setGirlServicesChkExtra(List<String> girlServicesChkExtra) {
+		this.girlServicesChkExtra = girlServicesChkExtra;
+	}
+	
+	public List<String> getGirlServicesPriceExtra() {
+		return girlServicesPriceExtra;
+	}
+
+	public void setGirlServicesPriceExtra(List<String> girlServicesPriceExtra) {
+		this.girlServicesPriceExtra = girlServicesPriceExtra;
+	}
+
+	public List<String> getGirlServicesCrcy() {
+		return girlServicesCrcy;
+	}
+
+	public void setGirlServicesCrcy(List<String> girlServicesCrcy) {
+		this.girlServicesCrcy = girlServicesCrcy;
 	}
 
 	public UserInfoManager getUserInfoManager() {
@@ -370,14 +435,6 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 
 	public void setUserInfoManager(UserInfoManager userInfoManager) {
 		this.userInfoManager = userInfoManager;
-	}
-
-	public List<GirlServiceInfo> getGirlServiceInfos() {
-		return girlServiceInfos;
-	}
-
-	public void setGirlServiceInfos(List<GirlServiceInfo> girlServiceInfos) {
-		this.girlServiceInfos = girlServiceInfos;
 	}
 
 	public GirlSetting getGirlSetting() {
@@ -453,7 +510,14 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	}
 	
 	private void setFormValue(UserInfo userInfo) {
-		this.girlServiceInfos = girlInfoManager.getGirlServiceInfoList();
+		List<GirlServiceInfo> girlServiceInfos = girlInfoManager.getGirlServiceInfoList();
+		this.formGirlServiceInfos = new ArrayList();
+		FormGirlServiceInfo formGirlServiceInfo;
+		for(GirlServiceInfo girlServiceInfo : girlServiceInfos) {
+			formGirlServiceInfo = new FormGirlServiceInfo();
+			formGirlServiceInfo.setGirlServiceInfo(girlServiceInfo);
+			this.formGirlServiceInfos.add(formGirlServiceInfo);
+		}
 		this.girlSetting = girlSettingManager.getGirlSetting();
 		this.ageList = makeList(girlSetting.getAgeFrom(), girlSetting.getAgeTo());
 		this.bustSizeList = makeList(girlSetting.getBustSizeFrom(), girlSetting.getBustSizeTo());

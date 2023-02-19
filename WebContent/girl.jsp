@@ -70,6 +70,11 @@
   .ui.rating .icon {
     color: #555;
   }
+  .ui.leaderboard.ad {
+  	height: 100%;
+  	padding: 0;
+  	width: 100%;
+  }
   </style>
   <script type="text/javascript">
   $(document)
@@ -441,16 +446,16 @@ function getAvailableList(lookupDate, reserveInfoId) {
 													<td class="center aligned one wide"><p>:</p></td>
 													<td><p><s:property value="girlInfo.nickName" /></p></td>
 												</tr>
+												<tr>
+													<td class="right aligned"><p>Gender</p></td>
+													<td class="center aligned one wide"><p>:</p></td>
+													<td>
+														<p>
+															<s:property value="girlInfo.genderInfo.genderNameJp" />
+														</p>
+													</td>
+												</tr>
 												<s:if test="%{girlInfo instanceof com.nightclub.model.EnGirlInfo}" >
-													<tr>
-														<td class="right aligned"><p>Gender</p></td>
-														<td class="center aligned one wide"><p>:</p></td>
-														<td>
-															<p>
-																<s:property value="girlInfo.genderInfo.genderNameJp" />
-															</p>
-														</td>
-													</tr>
 													<tr>
 														<td class="right aligned"><p>Skin</p></td>
 														<td class="center aligned one wide"><p>:</p></td>
@@ -705,52 +710,139 @@ function getAvailableList(lookupDate, reserveInfoId) {
 										<s:text name="girlInfo.description"></s:text>
 									</div>
 								</div>
+								<%-- <s:if test="%{girlInfo.agentInfoId != null}"> --%>
+									<s:if test="homeInfo.lineNotifyActive == 'true'">
+										<div class="row">
+											<div class="column">
+												<a class="fluid ui attached button blue huge" href="<s:url value="/girl/%{girlInfoId}/booking"/>" >
+													BOOK NOW
+												</a>
+											</div>
+										</div>
+										<div class="row">
+											<div class="column">
+												<table class="ui celled selectable center aligned celled table compact unstackable inverted ">
+													<thead class="center aligned">
+														<tr>
+															<s:iterator value="workingDateList" status="status">
+																<th>
+																	<s:date name="date" format="MMM.dd (E)" />
+																</th>
+															</s:iterator>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<s:iterator value="workingDateList" status="status">
+																<td>
+																	<s:if test="sunday == true" >
+																		<s:if test="girlInfo.chkWorkSun == 'true'" >
+																			<s:property value="girlInfo.workSunTime" />
+																		</s:if>
+																		<s:else>-</s:else>
+																	</s:if>
+																	<s:elseif test="monday == true" >
+																		<s:if test="girlInfo.chkWorkMon == 'true'" >
+																			<s:property value="girlInfo.workMonTime" />
+																		</s:if>
+																		<s:else>-</s:else>
+																	</s:elseif>
+																	<s:elseif test="tuesday == true" >
+																		<s:if test="girlInfo.chkWorkTue == 'true'" >
+																			<s:property value="girlInfo.workTueTime" />
+																		</s:if>
+																		<s:else>-</s:else>
+																	</s:elseif>
+																	<s:elseif test="wednesday == true" >
+																		<s:if test="girlInfo.chkWorkWed == 'true'" >
+																			<s:property value="girlInfo.workWedTime" />
+																		</s:if>
+																		<s:else>-</s:else>
+																	</s:elseif>
+																	<s:elseif test="thursday == true" >
+																		<s:if test="girlInfo.chkWorkThu == 'true'" >
+																			<s:property value="girlInfo.workTueTime" />
+																		</s:if>
+																		<s:else>-</s:else>
+																	</s:elseif>
+																	<s:elseif test="friday == true" >
+																		<s:if test="girlInfo.chkWorkFri == 'true'" >
+																			<s:property value="girlInfo.workFriTime" />
+																		</s:if>
+																		<s:else>-</s:else>
+																	</s:elseif>
+																	<s:elseif test="saturday == true" >
+																		<s:if test="girlInfo.chkWorkSat == 'true'" >
+																			<s:property value="girlInfo.workSatTime" />
+																		</s:if>
+																		<s:else>-</s:else>
+																	</s:elseif>
+																</td>
+															</s:iterator>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									<%-- </s:if> --%>
+								</s:if>
 								<s:if test="%{girlInfo instanceof com.nightclub.model.EnGirlInfo}" >
 								</s:if>
 								<s:else>
 								<div class="row">
-									<div class="four wide column">
-										<h5 class="ui header left aligned inverted">
-											Gender
-										</h5>
-										<div class="ui grid column">
-											<div class="column left aligned">
-												<i class="ui check square icon green"></i>
-												<s:property value="girlInfo.genderInfo.genderNameJp" />
-											</div>
-										</div>
-									</div>
-									<div class="eleven wide column">
+									<div class="column">
 										<h5 class="ui header left aligned inverted">
 											Service
 										</h5>
-										<div class="ui grid doubling four column">
-											<s:iterator value="girlServices" status="rowstatus">
-												<div class="column left aligned">
-													<i class="ui check square icon green"></i>
-													<%--<s:if test="#request.locale.language=='th'">
-														<s:property value="primaryKey.girlServiceInfo.girlServiceName" />
-													</s:if>
-													<s:else>--%>
-														<s:property value="primaryKey.girlServiceInfo.girlServiceNameJp" />
-													<%--</s:else>--%>
-												</div>
-											</s:iterator>
-										</div>
+										<table class="ui celled selectable center aligned celled table compact unstackable inverted ">
+											<thead class="center aligned">
+												<tr>
+													<th width="25%">Service</th>
+													<th width="25%">Included</th>
+													<th width="25%">Extra</th>
+													<th width="25%">Price</th>
+												</tr>
+											</thead>
+											<tbody>
+												<s:iterator value="girlServices" status="rowstatus">
+													<tr>
+														<td>
+															<s:property value="primaryKey.girlServiceInfo.girlServiceNameJp" />
+														</td>
+														<td class="center aligned">
+															<s:if test="chkInclude == 'true'">
+																<i class="ui check teal icon"></i>
+															</s:if>
+														</td>
+														<td class="center aligned">
+															<s:if test="chkExtra == 'true'">
+																<i class="ui check teal icon"></i>
+															</s:if>
+														</td>
+														<td class="center aligned">
+															<s:if test="priceExtra != 0">
+																<s:text name="format.integer"><s:param name="value" value="priceExtra"/></s:text>
+																<s:property value="crcy"/>
+															</s:if>
+														</td>
+													</tr>
+												</s:iterator>
+											</tbody>
+										</table>
 									</div>
 								</div>
 								<div class="row">
 									<div class="column">
-										<div class="ui divider"></div>
 										<h5 class="ui header left aligned inverted">
-											Price List
+											Rate Information
 										</h5>
-										<table class="ui celled center aligned celled table compact unstackable orange">
+										<table class="ui celled selectable center aligned celled table compact unstackable inverted">
 											<thead class="center aligned">
 												<tr>
-													<th><s:text name="global.time" /></th>
-													<th><s:text name="global.price_rate" /></th>
-													<th><s:text name="global.crcy" /></th>
+													<th width="25%"><s:text name="global.time" /></th>
+													<th width="25%"><s:text name="global.price_incall" /></th>
+													<th width="25%"><s:text name="global.price_outcall" /></th>
+													<th width="25%"><s:text name="global.crcy" /></th>
 												</tr>
 											</thead>
 											<tbody>
@@ -760,7 +852,14 @@ function getAvailableList(lookupDate, reserveInfoId) {
 														<label for="girlInfo_chk40Mins"><s:text name="global.price40Mins" /></label>
 													</td>
 													<td class="center aligned">
-														<s:text name="format.integer"><s:param name="value" value="girlInfo.price40Mins"/></s:text>
+														<s:if test="girlInfo.priceIncall40Mins != 0">
+															<s:text name="format.integer"><s:param name="value" value="girlInfo.priceIncall40Mins"/></s:text>
+														</s:if>
+													</td>
+													<td class="center aligned">
+														<s:if test="girlInfo.priceOutcall40Mins != 0">
+															<s:text name="format.integer"><s:param name="value" value="girlInfo.priceOutcall40Mins"/></s:text>
+														</s:if>
 													</td>
 													<td class="center aligned">
 														<s:property value="girlInfo.crcy40Mins" />
@@ -773,7 +872,14 @@ function getAvailableList(lookupDate, reserveInfoId) {
 														<label for="girlInfo_chk60Mins"><s:text name="global.price60Mins" /></label>
 													</td>
 													<td class="center aligned">
-														<s:text name="format.integer"><s:param name="value" value="girlInfo.price60Mins"/></s:text>
+														<s:if test="girlInfo.priceIncall60Mins != 0">
+															<s:text name="format.integer"><s:param name="value" value="girlInfo.priceIncall60Mins"/></s:text>
+														</s:if>
+													</td>
+													<td class="center aligned">
+														<s:if test="girlInfo.priceOutcall60Mins != 0">
+															<s:text name="format.integer"><s:param name="value" value="girlInfo.priceOutcall60Mins"/></s:text>
+														</s:if>
 													</td>
 													<td class="center aligned">
 														<s:property value="girlInfo.crcy60Mins" />
@@ -786,7 +892,14 @@ function getAvailableList(lookupDate, reserveInfoId) {
 														<label for="girlInfo_chk90Mins"><s:text name="global.price90Mins" /></label>
 													</td>
 													<td class="center aligned">
-														<s:text name="format.integer"><s:param name="value" value="girlInfo.price90Mins"/></s:text>
+														<s:if test="girlInfo.priceIncall90Mins != 0">
+															<s:text name="format.integer"><s:param name="value" value="girlInfo.priceIncall90Mins"/></s:text>
+														</s:if>
+													</td>
+													<td class="center aligned">
+														<s:if test="girlInfo.priceOutcall90Mins != 0">
+															<s:text name="format.integer"><s:param name="value" value="girlInfo.priceOutcall90Mins"/></s:text>
+														</s:if>
 													</td>
 													<td class="center aligned">
 														<s:property value="girlInfo.crcy90Mins" />
@@ -799,7 +912,14 @@ function getAvailableList(lookupDate, reserveInfoId) {
 														<label for="girlInfo_chk120Mins"><s:text name="global.price120Mins" /></label>
 													</td>
 													<td class="center aligned">
-														<s:text name="format.integer"><s:param name="value" value="girlInfo.price120Mins"/></s:text>
+														<s:if test="girlInfo.priceIncall120Mins != 0">
+															<s:text name="format.integer"><s:param name="value" value="girlInfo.priceIncall120Mins"/></s:text>
+														</s:if>
+													</td>
+													<td class="center aligned">
+														<s:if test="girlInfo.priceOutcall120Mins != 0">
+															<s:text name="format.integer"><s:param name="value" value="girlInfo.priceOutcall120Mins"/></s:text>
+														</s:if>
 													</td>
 													<td class="center aligned">
 														<s:property value="girlInfo.crcy120Mins" />
@@ -812,7 +932,14 @@ function getAvailableList(lookupDate, reserveInfoId) {
 														<label for="girlInfo_chk6Hrs"><s:text name="global.price6Hrs" /></label>
 													</td>
 													<td class="center aligned">
-														<s:text name="format.integer"><s:param name="value" value="girlInfo.price6Hrs"/></s:text>
+														<s:if test="girlInfo.priceIncall6Hrs != 0">
+															<s:text name="format.integer"><s:param name="value" value="girlInfo.priceIncall6Hrs"/></s:text>
+														</s:if>
+													</td>
+													<td class="center aligned">
+														<s:if test="girlInfo.priceOutcall6Hrs != 0">
+															<s:text name="format.integer"><s:param name="value" value="girlInfo.priceOutcall6Hrs"/></s:text>
+														</s:if>
 													</td>
 													<td class="center aligned">
 														<s:property value="girlInfo.crcy6Hrs" />
@@ -826,7 +953,6 @@ function getAvailableList(lookupDate, reserveInfoId) {
 								</s:else>
 								<div class="row">
 									<div class="column left aligned ">
-										<div class="ui divider"></div>
 										<h5 class="ui header left aligned inverted">
 											Comment
 										</h5>
@@ -855,11 +981,10 @@ function getAvailableList(lookupDate, reserveInfoId) {
 										<br />
 									</div>
 								</div>
-								<s:if test="%{girlInfo.agentInfoId != null}">
+<%-- 								<s:if test="%{girlInfo.agentInfoId != null}">
 									<s:if test="homeInfo.lineNotifyActive == 'true'">
 										<div class="row">
 											<div class="column">
-												<div class="ui divider"></div>
 												<h5 class="ui header left aligned inverted">
 													<s:text name="global.shop_girl_reserve" />
 												</h5>
@@ -901,7 +1026,7 @@ function getAvailableList(lookupDate, reserveInfoId) {
 											</div>
 										</div>
 									</s:if>
-								</s:if>
+								</s:if> --%>
 							</div>
 						</div>
 					</div>

@@ -142,6 +142,18 @@
 			<result name="success">/girl.jsp</result>
 		</action>
 		
+		<action name="girl/*/booking"
+			class="com.nightclub.view.FrontEndAction" method="booking">
+			<param name="girlInfoId">{1}</param>
+			<result name="success">/booking.jsp</result>
+		</action>
+		
+		<action name="girl/*/bookingadd"
+			class="com.nightclub.view.FrontEndAction" method="bookingadd">
+			<result name="success" type="redirect">/girl/{1}</result>
+			<result name="input">/girl/{1}/booking</result>
+		</action>
+		
 		<action name="search"
 			class="com.nightclub.view.FrontEndAction" method="search">
 			<result name="success">/search.jsp</result>
@@ -1651,6 +1663,15 @@
 		    <result name="input">reserve.jsp</result>
 			<result name="login" type="redirect">/login</result>
 			<result name="success" >/management_agent/reserve.jsp</result>
+		</action>
+		
+		<action name="reserve/info/*"
+			class="com.nightclub.view.AgentReserveInfoAction" method="reserveInfo">
+			<param name="menu">reserve</param>
+			<param name="reserveInfoId">{1}</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_agent/reserve_info.jsp</result>
 		</action>
 		
 		<action name="reserve/edit/*"

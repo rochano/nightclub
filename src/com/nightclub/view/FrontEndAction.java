@@ -1,11 +1,10 @@
 package com.nightclub.view;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -38,9 +37,9 @@ import com.nightclub.model.AgentGirlInfo;
 import com.nightclub.model.AgentInfo;
 import com.nightclub.model.BasicInfo;
 import com.nightclub.model.CategoryInfo;
-import com.nightclub.model.ClientInfo;
 import com.nightclub.model.CountryInfo;
 import com.nightclub.model.EnGirlInfo;
+import com.nightclub.model.FormDay;
 import com.nightclub.model.FreeAgentGirlInfo;
 import com.nightclub.model.FrontSearch;
 import com.nightclub.model.GenderInfo;
@@ -48,11 +47,13 @@ import com.nightclub.model.GirlComment;
 import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
+import com.nightclub.model.GirlServiceInfo;
 import com.nightclub.model.HomeInfo;
 import com.nightclub.model.HomeSlideImage;
 import com.nightclub.model.NationalityInfo;
 import com.nightclub.model.NewsInfo;
 import com.nightclub.model.ProvinceInfo;
+import com.nightclub.model.ReserveGirlService;
 import com.nightclub.model.ReserveInfo;
 import com.nightclub.model.ShopGirlInfo;
 import com.nightclub.model.UserInfo;
@@ -105,6 +106,8 @@ public class FrontEndAction extends CommonAction {
 	private String reserveInfoId;
 	private ReserveInfo reserveInfo;
 	private String actionMessage;
+	private List<FormDay> workingDateList;
+	private List<String> girlServicesInfoId;
 
 	private CategoryInfoManager categoryInfoManager;
 	private BasicInfoManager basicInfoManager;
@@ -299,6 +302,23 @@ public class FrontEndAction extends CommonAction {
 				UserInfo userInfo = userInfoManager.getUserByColumnName("agentInfoId", ((AgentGirlInfo) this.girlInfo).getAgentInfoId());
 				userInfo = validateUser(userInfo);
 				((AgentGirlInfo) this.girlInfo).getAgentInfo().setUserInfo(userInfo);
+				
+				Calendar calender = Calendar.getInstance();
+				workingDateList = new ArrayList();
+				FormDay formDay;
+				for(int i=0; i<5; i++) {
+					formDay = new FormDay();
+					formDay.setDate(calender.getTime());
+					formDay.setSunday(calender.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY);
+					formDay.setMonday(calender.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY);
+					formDay.setTuesday(calender.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY);
+					formDay.setWednesday(calender.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY);
+					formDay.setThursday(calender.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY);
+					formDay.setFriday(calender.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY);
+					formDay.setSaturday(calender.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY);
+					workingDateList.add(formDay);
+					calender.add(Calendar.DATE, 1);
+				}
 			} else if (this.girlInfo instanceof FreeAgentGirlInfo) {
 				UserInfo userInfo = userInfoManager.getUserByColumnName("girlInfoId", this.girlInfo.getGirlInfoId());
 				userInfo = validateUser(userInfo);
@@ -407,274 +427,348 @@ public class FrontEndAction extends CommonAction {
 		return SUCCESS;
 	}
 	
-	public String girlAvailable() {
-//		if (getSession().containsKey("userInfo")) {
-//			UserInfo userInfo = (UserInfo)getSession().get("userInfo");
-//			if (userInfo.getClientInfoId() != null) {
-//				String clientInfoId = userInfo.getClientInfoId();
-				Date date = new Date();
-				try {
-					date = sdf.parse(lookupDate);
-					this.reserveInfos = girlReserveInfoManager.getReserveInfosByGirlInfoId(getGirlInfoId(), date);
-					this.availableInfos = new ArrayList();
-					String availableStartTime = "12:00";
-					String availableEndTime = "12:00";
-					SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
-					Iterator it = reserveInfos.iterator();
-					Date availableEndTimeDate = null;
-					Date reserveStartTimeDate = null;
-					boolean isUpdatePreviousReserve = false;
-					while(it.hasNext()) {
-						ReserveInfo reserveInfoData = (ReserveInfo) it.next();
-						availableEndTimeDate = sdfTime.parse(availableEndTime);
-						reserveStartTimeDate = sdfTime.parse(reserveInfoData.getStartTime());
-						availableEndTime = reserveInfoData.getStartTime();
-						if(reserveInfoData.getReserveInfoId().equals(getReserveInfoId())) {
-							availableEndTime = reserveInfoData.getEndTime();
-						}
-						isUpdatePreviousReserve = false;
-						if(availableEndTimeDate.compareTo(reserveStartTimeDate) < 0
-								|| reserveInfoData.getReserveInfoId().equals(getReserveInfoId())) {
-							if (this.availableInfos.size() > 0) {
-								// if previous available end time equals to current available start time, then merge together
-								ReserveInfo previousAvailableInfo = this.availableInfos.get(this.availableInfos.size()-1);
-								if (previousAvailableInfo.getEndTime().equals(availableStartTime)) {
-									previousAvailableInfo.setEndTime(availableEndTime);
-									isUpdatePreviousReserve = true;
-								}
-							}
-							if (!isUpdatePreviousReserve) {
-								ReserveInfo availableInfo = new ReserveInfo();
-								availableInfo.setStartTime(availableStartTime);
-								availableInfo.setEndTime(availableEndTime);
-								this.availableInfos.add(availableInfo);
-							}
-						}
-						availableStartTime = reserveInfoData.getEndTime();
-						availableEndTime = reserveInfoData.getEndTime();
-					}
-					String endTime = "24:00";
-					Date endTimeDate = sdfTime.parse(endTime);
-					availableEndTimeDate = sdfTime.parse(availableEndTime);
-					isUpdatePreviousReserve = false;
-					if(availableEndTimeDate.compareTo(endTimeDate) < 0) {
-						if (this.availableInfos.size() > 0) {
-							// if previous available end time equals to current available start time, then merge together
-							ReserveInfo previousAvailableInfo = this.availableInfos.get(this.availableInfos.size()-1);
-							if (previousAvailableInfo.getEndTime().equals(availableStartTime)) {
-								previousAvailableInfo.setEndTime(endTime);
-								isUpdatePreviousReserve = true;
-							}
-						}
-						if (!isUpdatePreviousReserve) {
-							ReserveInfo availableInfo = new ReserveInfo();
-							availableInfo.setStartTime(availableStartTime);
-							availableInfo.setEndTime(endTime);
-							this.availableInfos.add(availableInfo);
-						}
-					}
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
+//	public String girlAvailable() {
+////		if (getSession().containsKey("userInfo")) {
+////			UserInfo userInfo = (UserInfo)getSession().get("userInfo");
+////			if (userInfo.getClientInfoId() != null) {
+////				String clientInfoId = userInfo.getClientInfoId();
+//				Date date = new Date();
+//				try {
+//					date = sdf.parse(lookupDate);
+//					this.reserveInfos = girlReserveInfoManager.getReserveInfosByGirlInfoId(getGirlInfoId(), date);
+//					this.availableInfos = new ArrayList();
+//					String availableStartTime = "12:00";
+//					String availableEndTime = "12:00";
+//					SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
+//					Iterator it = reserveInfos.iterator();
+//					Date availableEndTimeDate = null;
+//					Date reserveStartTimeDate = null;
+//					boolean isUpdatePreviousReserve = false;
+//					while(it.hasNext()) {
+//						ReserveInfo reserveInfoData = (ReserveInfo) it.next();
+//						availableEndTimeDate = sdfTime.parse(availableEndTime);
+//						reserveStartTimeDate = sdfTime.parse(reserveInfoData.getStartTime());
+//						availableEndTime = reserveInfoData.getStartTime();
+//						if(reserveInfoData.getReserveInfoId().equals(getReserveInfoId())) {
+//							availableEndTime = reserveInfoData.getEndTime();
+//						}
+//						isUpdatePreviousReserve = false;
+//						if(availableEndTimeDate.compareTo(reserveStartTimeDate) < 0
+//								|| reserveInfoData.getReserveInfoId().equals(getReserveInfoId())) {
+//							if (this.availableInfos.size() > 0) {
+//								// if previous available end time equals to current available start time, then merge together
+//								ReserveInfo previousAvailableInfo = this.availableInfos.get(this.availableInfos.size()-1);
+//								if (previousAvailableInfo.getEndTime().equals(availableStartTime)) {
+//									previousAvailableInfo.setEndTime(availableEndTime);
+//									isUpdatePreviousReserve = true;
+//								}
+//							}
+//							if (!isUpdatePreviousReserve) {
+//								ReserveInfo availableInfo = new ReserveInfo();
+//								availableInfo.setStartTime(availableStartTime);
+//								availableInfo.setEndTime(availableEndTime);
+//								this.availableInfos.add(availableInfo);
+//							}
+//						}
+//						availableStartTime = reserveInfoData.getEndTime();
+//						availableEndTime = reserveInfoData.getEndTime();
+//					}
+//					String endTime = "24:00";
+//					Date endTimeDate = sdfTime.parse(endTime);
+//					availableEndTimeDate = sdfTime.parse(availableEndTime);
+//					isUpdatePreviousReserve = false;
+//					if(availableEndTimeDate.compareTo(endTimeDate) < 0) {
+//						if (this.availableInfos.size() > 0) {
+//							// if previous available end time equals to current available start time, then merge together
+//							ReserveInfo previousAvailableInfo = this.availableInfos.get(this.availableInfos.size()-1);
+//							if (previousAvailableInfo.getEndTime().equals(availableStartTime)) {
+//								previousAvailableInfo.setEndTime(endTime);
+//								isUpdatePreviousReserve = true;
+//							}
+//						}
+//						if (!isUpdatePreviousReserve) {
+//							ReserveInfo availableInfo = new ReserveInfo();
+//							availableInfo.setStartTime(availableStartTime);
+//							availableInfo.setEndTime(endTime);
+//							this.availableInfos.add(availableInfo);
+//						}
+//					}
+//				} catch (ParseException e) {
+//					e.printStackTrace();
+//				}
+////			}
+////		}
+//		
+//		return SUCCESS;
+//	}
+	
+//	public String girlReserveExecute() {
+//		if(getAction() != null) {
+//			if(getAction().equals("add")) {
+//				return girlReserveAdd();
+//			} else if(getAction().equals("update")) {
+//				return girlReserveUpdate();
 //			}
 //		}
-		
-		return SUCCESS;
-	}
-	
-	public String girlReserveExecute() {
-		if(getAction() != null) {
-			if(getAction().equals("add")) {
-				return girlReserveAdd();
-			} else if(getAction().equals("update")) {
-				return girlReserveUpdate();
-			}
-		}
-		return SUCCESS;
-	}
-	
-	public String girlReserveAdd() {
+//		return SUCCESS;
+//	}
+
+//	public String girlReserveAdd() {
+////		if (getSession().containsKey("userInfo")) {
+//			try {
+//				this.reserveInfos = girlReserveInfoManager.getReserveInfosByGirlInfoId(reserveInfo.getGirlInfoId(), reserveInfo.getReserveDate());
+//				Iterator it = reserveInfos.iterator();
+//				SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
+//				Date addStartTimeDate = sdfTime.parse(reserveInfo.getStartTime());
+//				Date addEndTimeDate = sdfTime.parse(reserveInfo.getEndTime());
+//				Date reserveStartTimeDate = null;
+//				Date reserveEndTimeDate = null;
+//				boolean isOverlapped = false;
+//				while(it.hasNext()) {
+//					ReserveInfo reserveInfoData = (ReserveInfo) it.next();
+//					reserveStartTimeDate = sdfTime.parse(reserveInfoData.getStartTime());
+//					reserveEndTimeDate = sdfTime.parse(reserveInfoData.getEndTime());
+//					// overlapped left
+//					if (addStartTimeDate.compareTo(reserveStartTimeDate) < 0 
+//						&& addEndTimeDate.compareTo(reserveStartTimeDate) > 0 ) {
+//						isOverlapped = true;
+//						break;
+//					// overlapped inner
+//					} else if (addStartTimeDate.compareTo(reserveStartTimeDate) >= 0 
+//						&& addEndTimeDate.compareTo(reserveEndTimeDate) <= 0 ) {
+//						isOverlapped = true;
+//						break;
+//					// overlapped right	
+//					} else if (addStartTimeDate.compareTo(reserveEndTimeDate) < 0 
+//						&& addEndTimeDate.compareTo(reserveEndTimeDate) > 0 ) {
+//						isOverlapped = true;
+//						break;
+//					// overlapped cover	
+//					} else if (addStartTimeDate.compareTo(reserveStartTimeDate) < 0 
+//						&& addEndTimeDate.compareTo(reserveEndTimeDate) > 0 ) {
+//						isOverlapped = true;
+//						break;
+//					}
+//				}
+//				if (isOverlapped) {
+//					actionMessage = "Your time is overlapped, please check.";
+//				} else {
+////					UserInfo userInfo = (UserInfo)getSession().get("userInfo");
+//					reserveInfo.setReserveInfoId(UUID.randomUUID().toString().toUpperCase());
+////					reserveInfo.setClientInfoId(userInfo.getClientInfoId());
+//					girlReserveInfoManager.add(this.reserveInfo);
+//					GirlInfo girlInfo = girlInfoManager.getGirlInfo(this.reserveInfo.getGirlInfoId());
+//					if (girlInfo instanceof AgentGirlInfo) {
+//						AgentInfo agentInfo = agentInfoManager.getAgentInfo(((AgentGirlInfo) girlInfo).getAgentInfoId());
+//						HomeInfo homeInfo = homeInfoManager.getHomeInfo("0");
+////						ClientInfo clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
+//						String lookupDateHeader = sdfOutput.format(reserveInfo.getReserveDate());
+////						if(homeInfo.getLineChannelAccessToken() != null && !"".equals(homeInfo.getLineChannelAccessToken())) {
+//						if(agentInfo.getLineToken() != null && !"".equals(agentInfo.getLineToken())) {
+//							String message = getTexts("global_th").getString("global.add_reserve_success");
+//							log_.info(StringEscapeUtils.escapeJava(message));
+////							LineApiUtils.sendMessageApi(StringEscapeUtils.escapeJava(message
+////												+ "\\n" + "Test user"
+////												+ "\\n" + lookupDateHeader
+////												+ "\\n" + reserveInfo.getStartTime()
+////												+ " - " + reserveInfo.getEndTime()), homeInfo.getLineChannelAccessToken(), agentInfo.getLineId());
+//							LineApiUtils.sendData(StringEscapeUtils.escapeJava(
+//												"\n" + message
+//												+ "\n" + reserveInfo.getClientName()
+//												+ "\n" + reserveInfo.getMobile()
+//												+ "\n" + lookupDateHeader
+//												+ "\n" + reserveInfo.getStartTime()
+//												+ " - " + reserveInfo.getEndTime()), agentInfo.getLineToken());
+//						}
+//					}
+//				}
+//
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+////		}
+//		return SUCCESS;
+//	}
+//
+//	public String girlReserveUpdate() {
 //		if (getSession().containsKey("userInfo")) {
-			try {
-				this.reserveInfos = girlReserveInfoManager.getReserveInfosByGirlInfoId(reserveInfo.getGirlInfoId(), reserveInfo.getReserveDate());
-				Iterator it = reserveInfos.iterator();
-				SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
-				Date addStartTimeDate = sdfTime.parse(reserveInfo.getStartTime());
-				Date addEndTimeDate = sdfTime.parse(reserveInfo.getEndTime());
-				Date reserveStartTimeDate = null;
-				Date reserveEndTimeDate = null;
-				boolean isOverlapped = false;
-				while(it.hasNext()) {
-					ReserveInfo reserveInfoData = (ReserveInfo) it.next();
-					reserveStartTimeDate = sdfTime.parse(reserveInfoData.getStartTime());
-					reserveEndTimeDate = sdfTime.parse(reserveInfoData.getEndTime());
-					// overlapped left
-					if (addStartTimeDate.compareTo(reserveStartTimeDate) < 0 
-						&& addEndTimeDate.compareTo(reserveStartTimeDate) > 0 ) {
-						isOverlapped = true;
-						break;
-					// overlapped inner
-					} else if (addStartTimeDate.compareTo(reserveStartTimeDate) >= 0 
-						&& addEndTimeDate.compareTo(reserveEndTimeDate) <= 0 ) {
-						isOverlapped = true;
-						break;
-					// overlapped right	
-					} else if (addStartTimeDate.compareTo(reserveEndTimeDate) < 0 
-						&& addEndTimeDate.compareTo(reserveEndTimeDate) > 0 ) {
-						isOverlapped = true;
-						break;
-					// overlapped cover	
-					} else if (addStartTimeDate.compareTo(reserveStartTimeDate) < 0 
-						&& addEndTimeDate.compareTo(reserveEndTimeDate) > 0 ) {
-						isOverlapped = true;
-						break;
-					}
-				}
-				if (isOverlapped) {
-					actionMessage = "Your time is overlapped, please check.";
-				} else {
+//			try {
+//				this.reserveInfos = girlReserveInfoManager.getReserveInfosByGirlInfoId(reserveInfo.getGirlInfoId(), reserveInfo.getReserveDate());
+//				Iterator it = reserveInfos.iterator();
+//				SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
+//				Date addStartTimeDate = sdfTime.parse(reserveInfo.getStartTime());
+//				Date addEndTimeDate = sdfTime.parse(reserveInfo.getEndTime());
+//				Date reserveStartTimeDate = null;
+//				Date reserveEndTimeDate = null;
+//				boolean isOverlapped = false;
+//				while(it.hasNext()) {
+//					ReserveInfo reserveInfoData = (ReserveInfo) it.next();
+//					if (reserveInfo.getReserveInfoId().equals(reserveInfoData.getReserveInfoId())) {
+//						continue;
+//					}
+//					reserveStartTimeDate = sdfTime.parse(reserveInfoData.getStartTime());
+//					reserveEndTimeDate = sdfTime.parse(reserveInfoData.getEndTime());
+//					// overlapped left
+//					if (addStartTimeDate.compareTo(reserveStartTimeDate) < 0 
+//						&& addEndTimeDate.compareTo(reserveStartTimeDate) > 0 ) {
+//						isOverlapped = true;
+//						break;
+//					// overlapped inner
+//					} else if (addStartTimeDate.compareTo(reserveStartTimeDate) >= 0 
+//						&& addEndTimeDate.compareTo(reserveEndTimeDate) <= 0 ) {
+//						isOverlapped = true;
+//						break;
+//					// overlapped right	
+//					} else if (addStartTimeDate.compareTo(reserveEndTimeDate) < 0 
+//						&& addEndTimeDate.compareTo(reserveEndTimeDate) > 0 ) {
+//						isOverlapped = true;
+//						break;
+//					// overlapped cover	
+//					} else if (addStartTimeDate.compareTo(reserveStartTimeDate) < 0 
+//						&& addEndTimeDate.compareTo(reserveEndTimeDate) > 0 ) {
+//						isOverlapped = true;
+//						break;
+//					}
+//				}
+//				if (isOverlapped) {
+//					actionMessage = "Your time is overlapped, please check.";
+//				} else {
 //					UserInfo userInfo = (UserInfo)getSession().get("userInfo");
-					reserveInfo.setReserveInfoId(UUID.randomUUID().toString().toUpperCase());
 //					reserveInfo.setClientInfoId(userInfo.getClientInfoId());
-					girlReserveInfoManager.add(this.reserveInfo);
-					GirlInfo girlInfo = girlInfoManager.getGirlInfo(this.reserveInfo.getGirlInfoId());
-					if (girlInfo instanceof AgentGirlInfo) {
-						AgentInfo agentInfo = agentInfoManager.getAgentInfo(((AgentGirlInfo) girlInfo).getAgentInfoId());
-						HomeInfo homeInfo = homeInfoManager.getHomeInfo("0");
+//					girlReserveInfoManager.update(this.reserveInfo);
+//					GirlInfo girlInfo = girlInfoManager.getGirlInfo(this.reserveInfo.getGirlInfoId());
+//					if (girlInfo instanceof AgentGirlInfo) {
+//						AgentInfo agentInfo = agentInfoManager.getAgentInfo(((AgentGirlInfo) girlInfo).getAgentInfoId());
+//						HomeInfo homeInfo = homeInfoManager.getHomeInfo("0");
 //						ClientInfo clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
-						String lookupDateHeader = sdfOutput.format(reserveInfo.getReserveDate());
+//						String lookupDateHeader = sdfOutput.format(reserveInfo.getReserveDate());
 //						if(homeInfo.getLineChannelAccessToken() != null && !"".equals(homeInfo.getLineChannelAccessToken())) {
-						if(agentInfo.getLineToken() != null && !"".equals(agentInfo.getLineToken())) {
-							String message = getTexts("global_th").getString("global.add_reserve_success");
-							log_.info(StringEscapeUtils.escapeJava(message));
-//							LineApiUtils.sendMessageApi(StringEscapeUtils.escapeJava(message
-//												+ "\\n" + "Test user"
-//												+ "\\n" + lookupDateHeader
-//												+ "\\n" + reserveInfo.getStartTime()
-//												+ " - " + reserveInfo.getEndTime()), homeInfo.getLineChannelAccessToken(), agentInfo.getLineId());
-							LineApiUtils.sendData(StringEscapeUtils.escapeJava(
-												"\n" + message
-												+ "\n" + reserveInfo.getClientName()
-												+ "\n" + reserveInfo.getMobile()
-												+ "\n" + lookupDateHeader
-												+ "\n" + reserveInfo.getStartTime()
-												+ " - " + reserveInfo.getEndTime()), agentInfo.getLineToken());
-						}
-					}
-				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+//							LineApiUtils.sendMessageApi(getTexts("global_th").getString("global.update_reserve_success")
+//									+ "\n" + clientInfo.getNickName() 
+//									+ "\n" + lookupDateHeader
+//									+ "\n" + reserveInfo.getStartTime()
+//									+ " - " + reserveInfo.getEndTime(), homeInfo.getLineChannelAccessToken(), agentInfo.getLineId());
+//						}
+//					}
+//				}
+//
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
 //		}
-		return SUCCESS;
-	}
-
-	public String girlReserveUpdate() {
-		if (getSession().containsKey("userInfo")) {
-			try {
-				this.reserveInfos = girlReserveInfoManager.getReserveInfosByGirlInfoId(reserveInfo.getGirlInfoId(), reserveInfo.getReserveDate());
-				Iterator it = reserveInfos.iterator();
-				SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm");
-				Date addStartTimeDate = sdfTime.parse(reserveInfo.getStartTime());
-				Date addEndTimeDate = sdfTime.parse(reserveInfo.getEndTime());
-				Date reserveStartTimeDate = null;
-				Date reserveEndTimeDate = null;
-				boolean isOverlapped = false;
-				while(it.hasNext()) {
-					ReserveInfo reserveInfoData = (ReserveInfo) it.next();
-					if (reserveInfo.getReserveInfoId().equals(reserveInfoData.getReserveInfoId())) {
-						continue;
-					}
-					reserveStartTimeDate = sdfTime.parse(reserveInfoData.getStartTime());
-					reserveEndTimeDate = sdfTime.parse(reserveInfoData.getEndTime());
-					// overlapped left
-					if (addStartTimeDate.compareTo(reserveStartTimeDate) < 0 
-						&& addEndTimeDate.compareTo(reserveStartTimeDate) > 0 ) {
-						isOverlapped = true;
-						break;
-					// overlapped inner
-					} else if (addStartTimeDate.compareTo(reserveStartTimeDate) >= 0 
-						&& addEndTimeDate.compareTo(reserveEndTimeDate) <= 0 ) {
-						isOverlapped = true;
-						break;
-					// overlapped right	
-					} else if (addStartTimeDate.compareTo(reserveEndTimeDate) < 0 
-						&& addEndTimeDate.compareTo(reserveEndTimeDate) > 0 ) {
-						isOverlapped = true;
-						break;
-					// overlapped cover	
-					} else if (addStartTimeDate.compareTo(reserveStartTimeDate) < 0 
-						&& addEndTimeDate.compareTo(reserveEndTimeDate) > 0 ) {
-						isOverlapped = true;
-						break;
-					}
-				}
-				if (isOverlapped) {
-					actionMessage = "Your time is overlapped, please check.";
-				} else {
-					UserInfo userInfo = (UserInfo)getSession().get("userInfo");
-					reserveInfo.setClientInfoId(userInfo.getClientInfoId());
-					girlReserveInfoManager.update(this.reserveInfo);
-					GirlInfo girlInfo = girlInfoManager.getGirlInfo(this.reserveInfo.getGirlInfoId());
-					if (girlInfo instanceof AgentGirlInfo) {
-						AgentInfo agentInfo = agentInfoManager.getAgentInfo(((AgentGirlInfo) girlInfo).getAgentInfoId());
-						HomeInfo homeInfo = homeInfoManager.getHomeInfo("0");
-						ClientInfo clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
-						String lookupDateHeader = sdfOutput.format(reserveInfo.getReserveDate());
-						if(homeInfo.getLineChannelAccessToken() != null && !"".equals(homeInfo.getLineChannelAccessToken())) {
-							LineApiUtils.sendMessageApi(getTexts("global_th").getString("global.update_reserve_success")
-									+ "\n" + clientInfo.getNickName() 
-									+ "\n" + lookupDateHeader
-									+ "\n" + reserveInfo.getStartTime()
-									+ " - " + reserveInfo.getEndTime(), homeInfo.getLineChannelAccessToken(), agentInfo.getLineId());
-						}
-					}
-				}
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return SUCCESS;
-	}
-	
-	public String girlReserveDelete() {
-//		if (getSession().containsKey("userInfo")) {
-			try {
-				ReserveInfo reserveInfo = girlReserveInfoManager.getReserveInfo(this.reserveInfoId);
-//				UserInfo userInfo = (UserInfo)getSession().get("userInfo");
-				GirlInfo girlInfo = girlInfoManager.getGirlInfo(reserveInfo.getGirlInfoId());
-				if (girlInfo instanceof AgentGirlInfo) {
-					AgentInfo agentInfo = agentInfoManager.getAgentInfo(((AgentGirlInfo) girlInfo).getAgentInfoId());
-					HomeInfo homeInfo = homeInfoManager.getHomeInfo("0");
-//					ClientInfo clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
-					String lookupDateHeader = sdfOutput.format(reserveInfo.getReserveDate());
-//					if(homeInfo.getLineChannelAccessToken() != null && !"".equals(homeInfo.getLineChannelAccessToken())) {
-					if(agentInfo.getLineToken() != null && !"".equals(agentInfo.getLineToken())) {
-						System.out.println(getTexts("global_th").getString("global.delete_reserve_success"));
-//						LineApiUtils.sendMessageApi(getTexts("global_th").getString("global.delete_reserve_success")
-//								+ "\n" + clientInfo.getNickName() 
+//		return SUCCESS;
+//	}
+//	
+//	public String girlReserveDelete() {
+////		if (getSession().containsKey("userInfo")) {
+//			try {
+//				ReserveInfo reserveInfo = girlReserveInfoManager.getReserveInfo(this.reserveInfoId);
+////				UserInfo userInfo = (UserInfo)getSession().get("userInfo");
+//				GirlInfo girlInfo = girlInfoManager.getGirlInfo(reserveInfo.getGirlInfoId());
+//				if (girlInfo instanceof AgentGirlInfo) {
+//					AgentInfo agentInfo = agentInfoManager.getAgentInfo(((AgentGirlInfo) girlInfo).getAgentInfoId());
+//					HomeInfo homeInfo = homeInfoManager.getHomeInfo("0");
+////					ClientInfo clientInfo = clientInfoManager.getClientInfo(userInfo.getClientInfoId());
+//					String lookupDateHeader = sdfOutput.format(reserveInfo.getReserveDate());
+////					if(homeInfo.getLineChannelAccessToken() != null && !"".equals(homeInfo.getLineChannelAccessToken())) {
+//					if(agentInfo.getLineToken() != null && !"".equals(agentInfo.getLineToken())) {
+//						System.out.println(getTexts("global_th").getString("global.delete_reserve_success"));
+////						LineApiUtils.sendMessageApi(getTexts("global_th").getString("global.delete_reserve_success")
+////								+ "\n" + clientInfo.getNickName() 
+////								+ "\n" + lookupDateHeader
+////								+ "\n" + reserveInfo.getStartTime()
+////								+ " - " + reserveInfo.getEndTime(), homeInfo.getLineChannelAccessToken(), agentInfo.getLineId());
+//						String message = getTexts("global_th").getString("global.delete_reserve_success");
+//						LineApiUtils.sendData(StringEscapeUtils.escapeJava(
+//								"\n" + message
+//								+ "\n" + reserveInfo.getClientName()
+//								+ "\n" + reserveInfo.getMobile()
 //								+ "\n" + lookupDateHeader
 //								+ "\n" + reserveInfo.getStartTime()
-//								+ " - " + reserveInfo.getEndTime(), homeInfo.getLineChannelAccessToken(), agentInfo.getLineId());
-						String message = getTexts("global_th").getString("global.delete_reserve_success");
-						LineApiUtils.sendData(StringEscapeUtils.escapeJava(
-								"\n" + message
-								+ "\n" + reserveInfo.getClientName()
-								+ "\n" + reserveInfo.getMobile()
-								+ "\n" + lookupDateHeader
-								+ "\n" + reserveInfo.getStartTime()
-								+ " - " + reserveInfo.getEndTime()), agentInfo.getLineToken());
-					}
+//								+ " - " + reserveInfo.getEndTime()), agentInfo.getLineToken());
+//					}
+//				}
+//				girlReserveInfoManager.delete(this.reserveInfoId);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+////		}
+//		return SUCCESS;
+//	}
+
+	public String booking() {
+		getStatisticInfo();
+
+		this.categoryInfos = categoryInfoManager.list();
+		this.homeSlideImages = homeSlideImageManager.list();
+		this.girlInfo = girlInfoManager.getGirlInfo(girlInfoId);
+		this.homeInfo = homeInfoManager.getHomeInfo("0");
+		if(this.girlInfo != null) {
+			if (this.girlInfo instanceof AgentGirlInfo) {
+				UserInfo userInfo = userInfoManager.getUserByColumnName("agentInfoId", ((AgentGirlInfo) this.girlInfo).getAgentInfoId());
+				userInfo = validateUser(userInfo);
+				((AgentGirlInfo) this.girlInfo).getAgentInfo().setUserInfo(userInfo);
+				
+				Calendar calender = Calendar.getInstance();
+				workingDateList = new ArrayList();
+				FormDay formDay;
+				for(int i=0; i<5; i++) {
+					formDay = new FormDay();
+					formDay.setDate(calender.getTime());
+					formDay.setSunday(calender.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY);
+					formDay.setMonday(calender.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY);
+					formDay.setTuesday(calender.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY);
+					formDay.setWednesday(calender.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY);
+					formDay.setThursday(calender.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY);
+					formDay.setFriday(calender.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY);
+					formDay.setSaturday(calender.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY);
+					workingDateList.add(formDay);
+					calender.add(Calendar.DATE, 1);
 				}
-				girlReserveInfoManager.delete(this.reserveInfoId);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-//		}
+		}
+		this.girlServices = girlInfoManager.getGirlServiceListByGirlInfoId(this.girlInfo.getGirlInfoId());
 		return SUCCESS;
+	}
+
+	public String bookingadd() {
+		try {
+			reserveInfo.setReserveInfoId(UUID.randomUUID().toString().toUpperCase());
+			this.reserveInfo.getReserveGirlServices().clear();
+            ReserveGirlService reserveGirlService;
+            if (getGirlServicesInfoId() != null) {
+	            for(int i = 0; i<getGirlServicesInfoId().size(); i++) {
+	            	String girlServiceInfoId = getGirlServicesInfoId().get(i);
+	            	GirlServiceInfo girlServiceInfo = new GirlServiceInfo();
+	            	girlServiceInfo.setGirlServiceInfoId(girlServiceInfoId);
+	
+	            	reserveGirlService = new ReserveGirlService();
+	            	reserveGirlService.setGirlServiceInfo(girlServiceInfo);
+	            	reserveGirlService.setReserveInfo(this.reserveInfo);
+					this.reserveInfo.getReserveGirlServices().add(reserveGirlService);
+				}
+            }
+			girlReserveInfoManager.add(this.reserveInfo);
+			this.girlInfo = girlInfoManager.getGirlInfo(reserveInfo.getGirlInfoId());
+			AgentInfo agentInfo = agentInfoManager.getAgentInfo(((AgentGirlInfo) girlInfo).getAgentInfoId());
+			if(agentInfo.getLineToken() != null && !"".equals(agentInfo.getLineToken())) {
+				String message = getTexts("global_th").getString("global.add_reserve_success");
+				log_.info(StringEscapeUtils.escapeJava(message));
+				LineApiUtils.sendData(StringEscapeUtils.escapeJava(
+									"\n" + message
+									+ "\n" + reserveInfo.getClientName()
+									+ "\n" + sdfOutput.format(reserveInfo.getReserveDate())
+									+ "\n" + reserveInfo.getReserveTime()), agentInfo.getLineToken());
+			}
+
+			addActionMessage("You have been successfully inserted");
+
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return INPUT;
 	}
 
 	public List<CategoryInfo> getCategoryInfos() {
@@ -987,5 +1081,21 @@ public class FrontEndAction extends CommonAction {
 
 	public void setReserveInfos(List<ReserveInfo> reserveInfos) {
 		this.reserveInfos = reserveInfos;
+	}
+
+	public List<FormDay> getWorkingDateList() {
+		return workingDateList;
+	}
+
+	public void setWorkingDateList(List<FormDay> workingDateList) {
+		this.workingDateList = workingDateList;
+	}
+
+	public List<String> getGirlServicesInfoId() {
+		return girlServicesInfoId;
+	}
+
+	public void setGirlServicesInfoId(List<String> girlServicesInfoId) {
+		this.girlServicesInfoId = girlServicesInfoId;
 	}
 }
