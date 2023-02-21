@@ -16,6 +16,7 @@ import org.hibernate.classic.Session;
 import com.nightclub.model.AgentGirlInfo;
 import com.nightclub.model.AgentInfo;
 import com.nightclub.model.CountryInfo;
+import com.nightclub.model.EnGirlInfo;
 import com.nightclub.model.FreeAgentGirlInfo;
 import com.nightclub.model.FrontSearch;
 import com.nightclub.model.GirlInfo;
@@ -23,12 +24,14 @@ import com.nightclub.model.GirlLocation;
 import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
+import com.nightclub.model.UserInfo;
 
 public class GirlInfoManager extends HibernateUtil {
 	
 	private static Logger log_ = Logger.getLogger(GirlInfoManager.class);
 	private Map mapAgentInfo = new HashMap();
 	private Map mapCountryInfo = new HashMap();
+	private Map mapUserInfo = new HashMap();
 	
 	public GirlInfo add(GirlInfo girlInfo) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -784,6 +787,7 @@ public class GirlInfoManager extends HibernateUtil {
 				while(it.hasNext()) {
 					girlInfo = (GirlInfo) it.next();
 					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
+					((FreeAgentGirlInfo)girlInfo).setUserInfo(getUserInfo(session, girlInfo.getGirlInfoId()));
 					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
 					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
 					while(itGirlLocation.hasNext()) {
@@ -870,6 +874,7 @@ public class GirlInfoManager extends HibernateUtil {
 				while(it.hasNext()) {
 					girlInfo = (GirlInfo) it.next();
 					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
+					((EnGirlInfo)girlInfo).setUserInfo(getUserInfo(session, girlInfo.getGirlInfoId()));
 					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
 					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
 					while(itGirlLocation.hasNext()) {
@@ -1071,5 +1076,17 @@ public class GirlInfoManager extends HibernateUtil {
 		}
 		session.getTransaction().commit();
 		return girlServiceInfos;
+	}
+
+	public UserInfo getUserInfo(Session session, String girlInfoId) {
+		UserInfo userInfo = null;
+		if (!mapUserInfo.containsKey(girlInfoId)) {
+			userInfo = (UserInfo) session.createQuery("from UserInfo where girlInfoId = :girlInfoId")
+					.setParameter("girlInfoId", girlInfoId)
+					.uniqueResult();
+			mapUserInfo.put(girlInfoId, userInfo);
+		}
+		userInfo = (UserInfo) mapUserInfo.get(girlInfoId);
+		return userInfo;
 	}
 }

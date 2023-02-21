@@ -632,10 +632,10 @@
 		<div class="inline fields">
 			<label><s:i18n name="global_th"><s:text name="global.height_weight" /></s:i18n> :</label>
 			<div class="field">
-				<s:select list="heightList" name="girlInfo.height" label="H "></s:select>
+				<s:select list="heightList" name="girlInfo.height" label="H " headerKey="-1" headerValue="-"></s:select>
 			</div>
 			<div class="field">
-				<s:select list="weightList" name="girlInfo.weight" label="W "></s:select>
+				<s:select list="weightList" name="girlInfo.weight" label="W " headerKey="-1" headerValue="-"></s:select>
 			</div>
 		</div>
 		<h4 class="ui horizontal header">
@@ -668,6 +668,9 @@
 			</div>
 		</div>
 		<br />
+		<div class="inline field">
+			<s:i18n name="global_th"><s:textfield name="girlInfo.phone" key="global.mobile"/></s:i18n>
+		</div>
 		<%-- <div class="ui accordion">
 			<h4 class="title">
 				<s:text name="global.location" /> :
@@ -1342,8 +1345,8 @@
 				'<s:property value="primaryKey.provinceInfo.provinceNameEn" />' + 
 				'<br />' + 
 			'</s:iterator>',
-			'<s:text name="format.integer"><s:param name="value" value="height"/></s:text>',
-			'<s:text name="format.integer"><s:param name="value" value="weight"/></s:text>',
+			'<s:if test="height!=-1"><s:text name="format.integer"><s:param name="value" value="height"/></s:text></s:if><s:else>-</s:else>',
+			'<s:if test="weight!=-1"><s:text name="format.integer"><s:param name="value" value="weight"/></s:text></s:if><s:else>-</s:else>',
 			'<s:if test="bustSize!=-1"><s:text name="format.integer"><s:param name="value" value="bustSize"/></s:text></s:if><s:else>-</s:else>',
 			'<s:if test="waistSize!=-1"><s:text name="format.integer"><s:param name="value" value="waistSize"/></s:text></s:if><s:else>-</s:else>',
 			'<s:if test="hipSize!=-1"><s:text name="format.integer"><s:param name="value" value="hipSize"/></s:text></s:if><s:else>-</s:else>',

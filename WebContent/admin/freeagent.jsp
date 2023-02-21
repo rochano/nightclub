@@ -364,7 +364,7 @@
 			'</div>',
 			'<img class="image ui tiny centered" src="<s:property value="freeAgentGirlInfo.pic1" />">',
 			"<s:property value="username" />",
-			"<s:property value="freeAgentGirlInfo.nickName" />",
+			"<s:property value="freeAgentGirlInfo.nickName" /><br/><s:property value="phone" />",
 			'<s:date name="validDateFrom" format="dd/MM/yyyy" />',
 			'<s:date name="validDateTo" format="dd/MM/yyyy" />',
 			"<s:property value="freeAgentGirlInfo.lineId" />",

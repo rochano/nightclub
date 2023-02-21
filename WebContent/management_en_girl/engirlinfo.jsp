@@ -394,11 +394,14 @@
 						<div class="inline fields">
 							<label><s:i18n name="global_th"><s:text name="global.height_weight" /></s:i18n> :</label>
 							<div class="field">
-								<s:select list="heightList" name="girlInfo.height" label="H "></s:select>
+								<s:select list="heightList" name="girlInfo.height" label="H " headerKey="-1" headerValue="-"></s:select>
 							</div>
 							<div class="field">
-								<s:select list="weightList" name="girlInfo.weight" label="W "></s:select>
+								<s:select list="weightList" name="girlInfo.weight" label="W " headerKey="-1" headerValue="-"></s:select>
 							</div>
+						</div>
+						<div class="inline field">
+							<s:i18n name="global_th"><s:textfield name="phone" key="global.mobile"/></s:i18n>
 						</div>
 						<%-- <div class="accordion">
 							<h4 class="title">

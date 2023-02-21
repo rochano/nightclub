@@ -81,6 +81,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
     private String pic4FileName;
     private String pic5FileName;
     private String mov1FileName;
+    private String phone;
 
 	public FreeAgentGirlInfoAction() {
 		userInfoManager = new UserInfoManager();
@@ -97,6 +98,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	public String execute() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.girlInfo = (FreeAgentGirlInfo)girlInfoManager.getGirlInfo(userInfo.getGirlInfoId());
+		this.phone = userInfo.getPhone();
 		sessionMap.put("freeAgentGirlInfo", girlInfo);
 //		this.girlServiceInfos = girlInfoManager.getGirlServiceInfoList();
 		setFormValue(userInfo);
@@ -296,9 +298,10 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 					this.girlInfo.setGirlInfoId(UUID.randomUUID().toString().toUpperCase());
 					girlInfoManager.add(this.girlInfo);
 					userInfo.setGirlInfoId(this.girlInfo.getGirlInfoId());
-					userInfo = userInfoManager.update(userInfo);
 				}
 			}
+			userInfo.setPhone(this.phone);
+			userInfoManager.update(userInfo);
 			
 			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 			execute();
@@ -588,5 +591,13 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 
 	public void setMov1FileName(String mov1FileName) {
 		this.mov1FileName = mov1FileName;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 }

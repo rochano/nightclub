@@ -76,6 +76,7 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
     private String pic4FileName;
     private String pic5FileName;
     private String mov1FileName;
+    private String phone;
 
 	public EnGirlInfoAction() {
 		userInfoManager = new UserInfoManager();
@@ -92,6 +93,7 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 	public String execute() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.girlInfo = (EnGirlInfo)girlInfoManager.getGirlInfo(userInfo.getGirlInfoId());
+		this.phone = userInfo.getPhone();
 		setFormValue(userInfo);
 		this.girlLocations = new ArrayList<String>();
 		if (this.girlInfo != null) {
@@ -252,9 +254,10 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 					this.girlInfo.setGirlInfoId(UUID.randomUUID().toString().toUpperCase());
 					girlInfoManager.add(this.girlInfo);
 					userInfo.setGirlInfoId(this.girlInfo.getGirlInfoId());
-					userInfo = userInfoManager.update(userInfo);
 				}
 			}
+			userInfo.setPhone(this.phone);
+			userInfoManager.update(userInfo);
 			
 			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 			execute();
@@ -496,5 +499,13 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 
 	public void setMov1FileName(String mov1FileName) {
 		this.mov1FileName = mov1FileName;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 }

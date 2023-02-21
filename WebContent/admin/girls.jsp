@@ -477,7 +477,12 @@
 		dataSet.push(
 			['<s:property value="#status.count" />',
 			'<img class="image ui tiny centered" src="<s:property value="pic1" />">',
-			"<s:property value="nickName" />",
+			<s:if test="%{top instanceof com.nightclub.model.AgentGirlInfo}" >
+				"<s:property value="nickName" /><br/><s:property value="phone" />",
+			</s:if>
+			<s:else>
+				"<s:property value="nickName" /><br/><s:property value="userInfo.phone" />",
+			</s:else>
 			<s:if test="%{top instanceof com.nightclub.model.ShopGirlInfo}" >
 				<s:i18n name="global_th">
 					"<s:text name="global.main_menu_service_shop" />" +

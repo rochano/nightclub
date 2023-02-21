@@ -479,7 +479,23 @@ function getAvailableList(lookupDate, reserveInfoId) {
 												<tr>
 													<td class="right aligned"><p>H / W</p></td>
 													<td class="center aligned one wide"><p>:</p></td>
-													<td><p><s:property value="girlInfo.height" /> / <s:property value="girlInfo.weight" /></p></td>
+													<td>
+														<p>
+															<s:if test="girlInfo.height!=-1">
+																<s:property value="girlInfo.height" />
+															</s:if>
+															<s:else>
+																-
+															</s:else>
+															/
+															<s:if test="girlInfo.weight!=-1">
+																<s:property value="girlInfo.weight" />
+															</s:if>
+															<s:else>
+																-
+															</s:else>
+														</p>
+													</td>
 												</tr>
 												<tr>
 													<td class="right aligned"><p>Body size</p></td>
@@ -710,8 +726,8 @@ function getAvailableList(lookupDate, reserveInfoId) {
 										<s:text name="girlInfo.description"></s:text>
 									</div>
 								</div>
-								<%-- <s:if test="%{girlInfo.agentInfoId != null}"> --%>
-									<s:if test="homeInfo.lineNotifyActive == 'true'">
+								<s:if test="%{girlInfo.agentInfoId != null}">
+									<%-- <s:if test="homeInfo.lineNotifyActive == 'true'"> --%>
 										<div class="row">
 											<div class="column">
 												<a class="fluid ui attached button blue huge" href="<s:url value="/girl/%{girlInfoId}/booking"/>" >

@@ -26,6 +26,7 @@ public class AgentGirlInfo extends FreeAgentGirlInfo {
 	private String workThuTime;
 	private String workFriTime;
 	private String workSatTime;
+	private String phone;
 
 	@Column(name="agent_info_id")
 	public String getAgentInfoId() {
@@ -99,6 +100,10 @@ public class AgentGirlInfo extends FreeAgentGirlInfo {
 	public String getWorkSatTime() {
 		return workSatTime;
 	}
+	@Column(name="phone")
+	public String getPhone() {
+		return phone;
+	}
 	public void setAgentInfoId(String agentInfoId) {
 		this.agentInfoId = agentInfoId;
 	}
@@ -146,5 +151,8 @@ public class AgentGirlInfo extends FreeAgentGirlInfo {
 	}
 	public void setWorkSatTime(String workSatTime) {
 		this.workSatTime = workSatTime;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 }

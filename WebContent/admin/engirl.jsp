@@ -380,7 +380,7 @@
 			'</div>',
 			'<img class="image ui tiny centered" src="<s:property value="enGirlInfo.pic1" />">',
 			"<s:property value="username" />",
-			"<s:property value="enGirlInfo.nickName" />",
+			"<s:property value="enGirlInfo.nickName" /><br/><s:property value="phone" />",
 			<s:i18n name="global_th">
 				<s:if test="enGirlInfo.type == 1">"<s:text name="global.en_girl_type_1" />",</s:if>
 				<s:if test="enGirlInfo.type == 2">"<s:text name="global.en_girl_type_2" />",</s:if>
