@@ -262,7 +262,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 				}
 	            this.girlInfo.getGirlProvinces().clear();
 	            GirlProvince girlProvince;
-	            for(String provinceInfoId : this.girlProvinces) {
+	            for(String provinceInfoId : getGirlProvinces()) {
 	            	ProvinceInfo provinceInfo = new ProvinceInfo();
 	            	provinceInfo.setProvinceInfoId(provinceInfoId);
 
@@ -393,6 +393,9 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	}
 	
 	public List<String> getGirlServicesInfoId() {
+		if (girlServicesInfoId == null) {
+			return new ArrayList();
+		}
 		return girlServicesInfoId;
 	}
 
@@ -401,6 +404,9 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	}
 
 	public List<String> getGirlServicesChkInclude() {
+		if (girlServicesChkInclude == null) {
+			return new ArrayList();
+		}
 		return girlServicesChkInclude;
 	}
 
@@ -409,6 +415,9 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	}
 	
 	public List<String> getGirlServicesChkExtra() {
+		if (girlServicesChkExtra == null) {
+			return new ArrayList();
+		}
 		return girlServicesChkExtra;
 	}
 
@@ -417,6 +426,9 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	}
 	
 	public List<String> getGirlServicesPriceExtra() {
+		if (girlServicesPriceExtra == null) {
+			return new ArrayList();
+		}
 		return girlServicesPriceExtra;
 	}
 
@@ -425,6 +437,9 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	}
 
 	public List<String> getGirlServicesCrcy() {
+		if (girlServicesCrcy == null) {
+			return new ArrayList();
+		}
 		return girlServicesCrcy;
 	}
 
@@ -562,6 +577,9 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	}
 
 	public List<String> getGirlProvinces() {
+		if(girlProvinces == null) {
+			return new ArrayList();
+		}
 		return girlProvinces;
 	}
 

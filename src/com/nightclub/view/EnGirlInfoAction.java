@@ -207,7 +207,7 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 	            this.girlInfo.setDescription(UploadFileUtils.uploadImageinDescription(this.girlInfo.getDescription(), sessionMap, userInfo));
 	            this.girlInfo.getGirlLocations().clear();
 	            GirlLocation girlLocation;
-	            for(String zoneInfoId : this.getGirlLocations()) {
+	            for(String zoneInfoId : getGirlLocations()) {
 	            	ZoneInfo zoneInfo = new ZoneInfo();
 	            	zoneInfo.setZoneInfoId(zoneInfoId);
 
@@ -218,7 +218,7 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 				}
 	            this.girlInfo.getGirlProvinces().clear();
 	            GirlProvince girlProvince;
-	            for(String provinceInfoId : this.girlProvinces) {
+	            for(String provinceInfoId : getGirlProvinces()) {
 	            	ProvinceInfo provinceInfo = new ProvinceInfo();
 	            	provinceInfo.setProvinceInfoId(provinceInfoId);
 
@@ -470,6 +470,9 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 	}
 
 	public List<String> getGirlProvinces() {
+		if (provinceInfos == null) {
+			return new ArrayList<String>();
+		}
 		return girlProvinces;
 	}
 

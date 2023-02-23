@@ -203,7 +203,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 				}
 	            this.girlInfo.getGirlLocations().clear();
 	            GirlLocation girlLocation;
-	            for(String zoneInfoId : this.girlLocations) {
+	            for(String zoneInfoId : getGirlLocations()) {
 	            	ZoneInfo zoneInfo = new ZoneInfo();
 	            	zoneInfo.setZoneInfoId(zoneInfoId);
 
@@ -214,7 +214,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 				}
 	            this.girlInfo.getGirlProvinces().clear();
 	            GirlProvince girlProvince;
-	            for(String provinceInfoId : this.girlProvinces) {
+	            for(String provinceInfoId : getGirlProvinces()) {
 	            	ProvinceInfo provinceInfo = new ProvinceInfo();
 	            	provinceInfo.setProvinceInfoId(provinceInfoId);
 
@@ -366,7 +366,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 				}
 	            this.girlInfo.getGirlLocations().clear();
 	            GirlLocation girlLocation;
-	            for(String zoneInfoId : this.girlLocations) {
+	            for(String zoneInfoId : getGirlLocations()) {
 	            	ZoneInfo zoneInfo = new ZoneInfo();
 	            	zoneInfo.setZoneInfoId(zoneInfoId);
 
@@ -377,7 +377,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 				}
 	            this.girlInfo.getGirlProvinces().clear();
 	            GirlProvince girlProvince;
-	            for(String provinceInfoId : this.girlProvinces) {
+	            for(String provinceInfoId : getGirlProvinces()) {
 	            	ProvinceInfo provinceInfo = new ProvinceInfo();
 	            	provinceInfo.setProvinceInfoId(provinceInfoId);
 
@@ -607,6 +607,9 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	}
 	
 	public List<String> getGirlServicesInfoId() {
+		if (girlServicesInfoId == null) {
+			return new ArrayList();
+		}
 		return girlServicesInfoId;
 	}
 
@@ -615,6 +618,9 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	}
 
 	public List<String> getGirlServicesChkInclude() {
+		if (girlServicesChkInclude == null) {
+			return new ArrayList();
+		}
 		return girlServicesChkInclude;
 	}
 
@@ -623,6 +629,9 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	}
 	
 	public List<String> getGirlServicesChkExtra() {
+		if (girlServicesChkExtra == null) {
+			return new ArrayList();
+		}
 		return girlServicesChkExtra;
 	}
 
@@ -631,6 +640,9 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	}
 	
 	public List<String> getGirlServicesPriceExtra() {
+		if (girlServicesPriceExtra == null) {
+			return new ArrayList();
+		}
 		return girlServicesPriceExtra;
 	}
 
@@ -639,6 +651,9 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	}
 
 	public List<String> getGirlServicesCrcy() {
+		if (girlServicesCrcy == null) {
+			return new ArrayList();
+		}
 		return girlServicesCrcy;
 	}
 
@@ -774,6 +789,9 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	}
 	
 	public List<String> getGirlLocations() {
+		if (girlLocations == null) {
+			return new ArrayList();
+		}
 		return girlLocations;
 	}
 
@@ -798,6 +816,9 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 	}
 
 	public List<String> getGirlProvinces() {
+		if(girlProvinces == null) {
+			return new ArrayList();
+		}
 		return girlProvinces;
 	}
 
