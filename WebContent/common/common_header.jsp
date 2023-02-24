@@ -273,21 +273,22 @@
 	}
 
 	function getPrice(obj) {
-		if (obj.chk40Mins == 'true') {
+		if (obj.chk40Mins == 'true' && obj.price40Mins) {
 			return obj.price40Mins.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
 		}
-		if (obj.chk60Mins == 'true') {
+		if (obj.chk60Mins == 'true' && obj.price60Mins) {
 			return obj.price60Mins.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
 		}
-		if (obj.chk90Mins == 'true') {
+		if (obj.chk90Mins == 'true' && obj.price90Mins) {
 			return obj.price90Mins.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
 		}
-		if (obj.chk120Mins == 'true') {
+		if (obj.chk120Mins == 'true' && obj.price120Mins) {
 			return obj.price120Mins.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
 		}
-		if (obj.chk6Hrs == 'true') {
+		if (obj.chk6Hrs == 'true' && obj.price6Hrs) {
 			return obj.price6Hrs.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
 		}
+		return "";
 	}
 
 	function getCustomDescription() {

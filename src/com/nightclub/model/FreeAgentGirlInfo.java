@@ -50,6 +50,9 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	}
 	@Column(name="chk_40_mins")
 	public String getChk40Mins() {
+		if (chk40Mins == null) {
+			return Boolean.FALSE.toString().toLowerCase();
+		}
 		return chk40Mins;
 	}
 	@Column(name="price_incall_40_mins")
@@ -74,6 +77,9 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	}
 	@Column(name="chk_60_mins")
 	public String getChk60Mins() {
+		if (chk60Mins == null) {
+			return Boolean.FALSE.toString().toLowerCase();
+		}
 		return chk60Mins;
 	}
 	@Column(name="price_incall_60_mins")
@@ -98,6 +104,9 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	}
 	@Column(name="chk_90_mins")
 	public String getChk90Mins() {
+		if (chk90Mins == null) {
+			return Boolean.FALSE.toString().toLowerCase();
+		}
 		return chk90Mins;
 	}
 	@Column(name="price_incall_90_mins")
@@ -122,6 +131,9 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	}
 	@Column(name="chk_120_mins")
 	public String getChk120Mins() {
+		if (chk120Mins == null) {
+			return Boolean.FALSE.toString().toLowerCase();
+		}
 		return chk120Mins;
 	}
 	@Column(name="price_incall_120_mins")
@@ -146,6 +158,9 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	}
 	@Column(name="chk_6_hrs")
 	public String getChk6Hrs() {
+		if (chk6Hrs == null) {
+			return Boolean.FALSE.toString().toLowerCase();
+		}
 		return chk6Hrs;
 	}
 	@Column(name="price_incall_6_hrs")
