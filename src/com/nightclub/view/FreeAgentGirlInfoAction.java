@@ -102,12 +102,14 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		sessionMap.put("freeAgentGirlInfo", girlInfo);
 //		this.girlServiceInfos = girlInfoManager.getGirlServiceInfoList();
 		setFormValue(userInfo);
-		List<GirlService> girlServices = girlInfoManager.getGirlServiceListByGirlInfoId(this.girlInfo.getGirlInfoId());
-		if(girlServices != null) {
-			for(FormGirlServiceInfo formGirlServiceInfo : this.formGirlServiceInfos) {
-				for(GirlService girlService : girlServices) {
-					if(formGirlServiceInfo.getGirlServiceInfo().getGirlServiceInfoId().equals(girlService.getGirlServiceInfo().getGirlServiceInfoId())) {
-						formGirlServiceInfo.setGirlService(girlService);
+		if (this.girlInfo != null) {
+			List<GirlService> girlServices = girlInfoManager.getGirlServiceListByGirlInfoId(this.girlInfo.getGirlInfoId());
+			if(girlServices != null) {
+				for(FormGirlServiceInfo formGirlServiceInfo : this.formGirlServiceInfos) {
+					for(GirlService girlService : girlServices) {
+						if(formGirlServiceInfo.getGirlServiceInfo().getGirlServiceInfoId().equals(girlService.getGirlServiceInfo().getGirlServiceInfoId())) {
+							formGirlServiceInfo.setGirlService(girlService);
+						}
 					}
 				}
 			}
