@@ -73,8 +73,8 @@
         ;
       })
     ;
-      $("#addbtn")
-		.on('click', function() {
+      $(".addbtn")
+		.bind('click', function() {
 		  $('.ui.modal .header:first').text("<s:i18n name="global_th"><s:text name="global.add_information" /><s:text name="global.country" /></s:i18n>");
 		  $('#infoForm').find("input[type=text], input[type=hidden], textarea").val("");
 		  $('#infoForm')[0].action.value = "add";
@@ -173,7 +173,7 @@
 					<div class="column one left aligned">
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div id="addbtn" class="ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
+								<div class="addbtn ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
@@ -185,6 +185,17 @@
 									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
+							<tfoot class="full-width">
+								<tr>
+									<th colspan="4">
+										<div class="ui right aligned one column grid">
+											<div class="column">
+												<div class="addbtn ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
+											</div>
+										</div>
+									</th>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 				</div>
@@ -233,6 +244,17 @@
 	columnDefs = [
 	  {  className: "center aligned", targets: [ 0, 3 ] }
 	];
+	if (dataSet.length > 100) {
+		pageLength = 150;
+	} else if (dataSet.length > 75) {
+		pageLength = 100;
+	} else if (dataSet.length > 25) {
+		pageLength = 50;
+	} else if (dataSet.length > 10) {
+		pageLength = 25;
+	} else {
+		pageLength = 10;
+	}
   </script>
 </body>
 </html>

@@ -63,6 +63,10 @@
         ;
       })
     ;
+      $(".girlsupdate")
+		.bind('click', function() {
+			$('.ui.form').submit()
+	  });
       $('.ui.form')
       .form({
           onSuccess: function() { 
@@ -82,8 +86,8 @@
        })
       ;
 	  $("table").tablesort();
-	  $("#addbtn")
-		.on('click', function() {
+	  $(".addbtn")
+		.bind('click', function() {
 			var giCount = dataTable.fnGetData().length;
 			dataTable.fnAddData( [
 			                  		'<div class="center aligned">' + (++giCount) + '<input type="hidden" name="girlServiceInfoId" /></div>',
@@ -208,7 +212,8 @@
 					<div class="column one left aligned">
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div id="addbtn" class="ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
+								<div class="addbtn ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
+								<div class="girlsupdate ui small button purple"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
@@ -223,10 +228,13 @@
 							<tfoot class="full-width">
 								<tr>
 									<th colspan="4">
-										<form class="ui form " method="post" action="<s:url value="/admin/girlservice/update"/>" >
-										<div class="ui right floated small primary submit button">
-											<s:i18n name="global_th"><s:text name="global.submit" /></s:i18n>
+										<div class="ui right aligned one column grid">
+											<div class="column">
+												<div class="addbtn ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
+												<div class="girlsupdate ui small button purple"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
+											</div>
 										</div>
+										<form class="ui form " method="post" action="<s:url value="/admin/girlservice/update"/>" >
 										</form>
 									</th>
 								</tr>
@@ -241,7 +249,7 @@
 </div>
 </div>
   <script type="text/javascript">
-  <s:iterator value="girlServicInfoList" status="status">
+  	<s:iterator value="girlServicInfoList" status="status">
 		dataSet.push(
 			['<div class="center aligned">' +
 				'<span><s:property value="#status.count" /></span>' +
@@ -262,6 +270,17 @@
 			'</div>'
     	]);
 	</s:iterator>
+	if (dataSet.length > 100) {
+		pageLength = 150;
+	} else if (dataSet.length > 75) {
+		pageLength = 100;
+	} else if (dataSet.length > 25) {
+		pageLength = 50;
+	} else if (dataSet.length > 10) {
+		pageLength = 25;
+	} else {
+		pageLength = 10;
+	}
   </script>
 </body>
 </html>

@@ -422,7 +422,7 @@
 						<div class="ui right aligned one column grid">
 							<div class="column">
 								<form class="ui form " id="allSameFormTop" method="post" action="<s:url value="/admin/girls/update"/>" >
-									<div class="ui right floated small primary submit button">
+									<div class="ui right floated small purple submit button">
 										<s:i18n name="global_th"><s:text name="global.submit" /></s:i18n>
 									</div>
 								</form>
@@ -449,7 +449,7 @@
 								<tr>
 									<th colspan="8">
 										<form class="ui form " id="allSameForm" method="post" action="<s:url value="/admin/girls/update"/>" >
-											<div class="ui right floated small primary submit button">
+											<div class="ui right floated small purple submit button">
 												<s:i18n name="global_th"><s:text name="global.submit" /></s:i18n>
 											</div>
 										</form>
@@ -521,6 +521,17 @@
 	columnDefs = [
 	  {  className: "center aligned", targets: [ 0, 6, 7 ] }
 	];
+	if (dataSet.length > 100) {
+		pageLength = 150;
+	} else if (dataSet.length > 75) {
+		pageLength = 100;
+	} else if (dataSet.length > 25) {
+		pageLength = 50;
+	} else if (dataSet.length > 10) {
+		pageLength = 25;
+	} else {
+		pageLength = 10;
+	}
   </script>
 </body>
 </html>

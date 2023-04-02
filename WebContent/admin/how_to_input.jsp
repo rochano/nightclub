@@ -100,6 +100,11 @@
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
 						<form class="ui form " method="post" action="<s:url value="/admin/howtoinput/update"/>" >
+							<div class="ui right aligned one column grid">
+								<div class="column">
+									<div class="ui small button submit blue"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
+								</div>
+							</div>
 							<h4 class="ui horizontal divider header">
 								<i class="building icon"></i>
 								<s:i18n name="global_th"><s:text name="global.menu_shop" /></s:i18n>

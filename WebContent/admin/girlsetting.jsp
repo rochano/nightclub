@@ -224,6 +224,11 @@
 				</h4>
 				<div class="ui centered attached segment active content">
 					<form class="ui form " method="post" action="<s:url value="/admin/girlsetting/update"/>">
+						<div class="ui right aligned one column grid">
+							<div class="column">
+								<div class="ui small button submit blue"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
+							</div>
+						</div>
 						<div class="ui error message"><s:actionerror cssClass="list" /></div>
 						<div class="inline fields">
 							<label><s:i18n name="global_th"><s:text name="global.age" /></s:i18n></label>

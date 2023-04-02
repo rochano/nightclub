@@ -105,6 +105,11 @@
 							</s:i18n>
 						<h2>
 						<form class="ui form " method="post" action="<s:url value="/admin/home/update"/>" >
+							<div class="ui right aligned one column grid">
+								<div class="column">
+									<div class="ui small button submit blue"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
+								</div>
+							</div>
 							<h4 class="ui horizontal divider header">
 								<i class="comment icon"></i>
 								<s:i18n name="global_th">

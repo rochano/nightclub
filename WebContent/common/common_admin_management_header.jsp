@@ -88,10 +88,19 @@
  .label {
     font-style: normal;
 }
+.ui.grid > .column:not(.row).overflow-x {
+	overflow-x: auto;
+	overflow-y: hidden;
+	padding-top: 0;
+	padding-bottom: 0;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
   </style>
   <script>
   var dataSet = [];
   var columnDefs = [];
+  var pageLength = 10;
   $(document)
     .ready(function() {
       $('.ui.menu .ui.dropdown').dropdown({
@@ -107,7 +116,7 @@
         "data" : dataSet,
         "columnDefs" : columnDefs,
   		"ordering":  false,
-  		"dom": '<"ui grid"<"column right floated right aligned"l>><"ui grid"<" one column overflow"t>><"ui grid"<"left aligned eight wide column"i><"right floated eight wide column"p>>',
+  		"dom": '<"ui grid"<"column right floated right aligned"l>><"ui grid"<" one column overflow-x"t>><"ui grid"<"left aligned eight wide column"i><"right floated eight wide column"p>>',
   		"language":{
   		    "lengthMenu": "<s:i18n name="global_th"><s:text name="global.length_menu" /></s:i18n>",
   		    "zeroRecords": "<s:i18n name="global_th"><s:text name="global.zero_records" /></s:i18n>",
@@ -140,8 +149,10 @@
   	        tableA_length.find("label").attr("for", select.attr("name") + "_select");
   	        tableA_length.append(select);
   	        tableA_length.addClass("field");
-  	        select.dropdown();
-  	    }
+  	        select.dropdown('set selected', pageLength);
+  	    },
+  	 	"lengthMenu": [[10, 25, 50, 100, 150], [10, 25, 50, 100, 150]],
+  	 	"pageLength": pageLength,
   	  });
     })
   ;

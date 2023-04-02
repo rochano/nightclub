@@ -63,6 +63,10 @@
         ;
       })
     ;
+      $(".girlsupdate")
+		.bind('click', function() {
+			$('#activeForm').submit()
+	  });
       $('#activeForm')
       .form({
           onSuccess: function() { 
@@ -158,8 +162,8 @@
           fields: {}
       })
       ;
-	  $("#editmultiplebtn")
-		.on('click', function() {
+	  $(".editmultiplebtn")
+		.bind('click', function() {
 		  var selectedItem = $( "input[name=check]:checked", dataTable.fnGetNodes()).length;
 		  if(selectedItem == 0) {
 			alert("กรุณาเลือกข้อมูล")
@@ -178,8 +182,8 @@
 		.on('click', function() {
 			$( "input[name=check]", dataTable.fnGetNodes()).prop('checked', this.checked);
 		});
-	  $("#deletemultiplebtn")
-		.on('click', function() {
+	  $(".deletemultiplebtn")
+		.bind('click', function() {
 		  var selectedItem = $( "input[name=check]:checked", dataTable.fnGetNodes()).length;
 		  if(selectedItem == 0) {
 			alert("กรุณาเลือกข้อมูล")
@@ -257,8 +261,9 @@
 					<div class="column one left aligned">
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div id="editmultiplebtn" class="ui small button blue"><s:i18n name="global_th"><s:text name="global.edit" /></s:i18n></div>
-								<div id="deletemultiplebtn" class="ui small button red"><s:i18n name="global_th"><s:text name="global.delete" /></s:i18n></div>
+								<div class="editmultiplebtn ui small button blue"><s:i18n name="global_th"><s:text name="global.edit" /></s:i18n></div>
+								<div class="deletemultiplebtn ui small button red"><s:i18n name="global_th"><s:text name="global.delete" /></s:i18n></div>
+								<div class="girlsupdate ui small button purple"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
@@ -284,10 +289,14 @@
 							<tfoot class="full-width">
 								<tr>
 									<th colspan="10">
-										<form class="ui form " id="activeForm" method="post" action="<s:url value="/admin/agent/active"/>" >
-											<div class="ui right floated small primary submit button">
-												<s:i18n name="global_th"><s:text name="global.submit" /></s:i18n>
+										<div class="ui right aligned one column grid">
+											<div class="column">
+												<div class="editmultiplebtn ui small button blue"><s:i18n name="global_th"><s:text name="global.edit" /></s:i18n></div>
+												<div class="deletemultiplebtn ui small button red"><s:i18n name="global_th"><s:text name="global.delete" /></s:i18n></div>
+												<div class="girlsupdate ui small button purple"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
 											</div>
+										</div>
+										<form class="ui form " id="activeForm" method="post" action="<s:url value="/admin/agent/active"/>" >
 										</form>
 									</th>
 								</tr>
@@ -383,6 +392,17 @@
 	columnDefs = [
 	  {  className: "center aligned", targets: [ 0, 5, 6, 8, 9 ] }
 	];
+	if (dataSet.length > 100) {
+		pageLength = 150;
+	} else if (dataSet.length > 75) {
+		pageLength = 100;
+	} else if (dataSet.length > 25) {
+		pageLength = 50;
+	} else if (dataSet.length > 10) {
+		pageLength = 25;
+	} else {
+		pageLength = 10;
+	}
   </script>
 </body>
 </html>

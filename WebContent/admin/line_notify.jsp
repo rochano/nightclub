@@ -83,6 +83,11 @@
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
 						<form class="ui form " method="post" action="<s:url value="/admin/lineNotify/update"/>" >
+							<div class="ui right aligned one column grid">
+								<div class="column">
+									<div class="ui small button submit blue"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
+								</div>
+							</div>
 							<div class="inline field">
 								<s:i18n name="global_th"><s:textfield name="homeInfo.lineClientId" key="global.line_client_id" /></s:i18n>
 							</div>

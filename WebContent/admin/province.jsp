@@ -73,8 +73,8 @@
         ;
       })
     ;
-      $("#addbtn")
-		.on('click', function() {
+      $(".addbtn")
+		.bind('click', function() {
 		  $('.ui.modal .header:first').text("<s:i18n name="global_th"><s:text name="global.add_information" /><s:text name="global.province" /></s:i18n>");
 		  $('#infoForm').find("input[type=text], input[type=hidden], textarea").val("");
 		  $('#infoForm')[0].action.value = "add";
@@ -173,7 +173,7 @@
 					<div class="column one left aligned">
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div id="addbtn" class="ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
+								<div class="addbtn ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
@@ -186,6 +186,17 @@
 									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
+							<tfoot class="full-width">
+								<tr>
+									<th colspan="5">
+										<div class="ui right aligned one column grid">
+											<div class="column">
+												<div class="addbtn ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
+											</div>
+										</div>
+									</th>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 				</div>

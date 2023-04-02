@@ -110,8 +110,8 @@
           }
       });
 
-	  $("#addbtn")
-		.on('click', function() {
+	  $(".addbtn")
+		.bind('click', function() {
 			$('.ui.modal .header:first').text("<s:i18n name="global_th"><s:text name="global.add_information" /><s:text name="global.menu_girls" /></s:i18n>");
 		  $('#infoForm').find("input[type=text], textarea").val("");
 		  CKEDITOR.instances.girlInfo_description.setData('');
@@ -343,6 +343,10 @@
 	        	console.log(error);
 	        }
 	  });
+	  $(".girlsupdate")
+		.bind('click', function() {
+			$('#girlsupdateForm').submit()
+	  });
       $('#girlsupdateForm')
       .form({
           onSuccess: function() { 
@@ -550,7 +554,8 @@
 					<div class="column one left aligned">
 						<div class="ui right aligned one column grid">
 							<div class="column">
-								<div id="addbtn" class="ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
+								<div class="addbtn ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
+								<div class="girlsupdate ui small button purple"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable sortable">
@@ -574,10 +579,13 @@
 							<tfoot class="full-width">
 								<tr>
 									<th colspan="13">
-										<form id="girlsupdateForm" class="ui form " method="post" action="<s:url value="/management_agent/girl/girlsupdate"/>" >
-											<div class="ui right floated small primary submit button">
-												<s:i18n name="global_th"><s:text name="global.submit" /></s:i18n>
+										<div class="ui right aligned one column grid">
+											<div class="column">
+												<div class="addbtn ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
+												<div class="girlsupdate ui small button purple"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
 											</div>
+										</div>
+										<form id="girlsupdateForm" class="ui form " method="post" action="<s:url value="/management_agent/girl/girlsupdate"/>" >
 										</form>
 									</th>
 								</tr>
