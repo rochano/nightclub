@@ -88,6 +88,7 @@
   <script>
   var dataSet = [];
   var columnDefs = [];
+  var pageLength = 10;
   $(document)
     .ready(function() {
       $('.ui.menu .ui.dropdown').dropdown({
@@ -136,8 +137,10 @@
   	        tableA_length.find("label").attr("for", select.attr("name") + "_select");
   	        tableA_length.append(select);
   	        tableA_length.addClass("field");
-  	        select.dropdown();
-  	    }
+  	        select.dropdown('set selected', pageLength);
+  	    },
+  	 	"lengthMenu": [[10, 25, 50, 100, 150], [10, 25, 50, 100, 150]],
+  	 	"pageLength": pageLength,
   	  });
     })
   ;

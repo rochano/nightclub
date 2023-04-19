@@ -1332,16 +1332,6 @@
   </div>
 </div>
 <script type="text/javascript">
-	CKEDITOR.replace("girlInfo.description", {
-		/*filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
-		filebrowserImageBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Images',
-		filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',*/
-		filebrowserUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
-		/*filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
-		filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'*/
-	});
-</script>
-<script type="text/javascript">
   <s:iterator value="girlInfos" status="status">
 		dataSet.push(
 			['<s:property value="#status.count" />', 
@@ -1373,6 +1363,27 @@
 	columnDefs = [
 	  {  className: "center aligned", targets: [ 0, 3, 6, 7, 8, 9, 10, 11, 12 ] }
 	];
+	if (dataSet.length > 100) {
+		pageLength = 150;
+	} else if (dataSet.length > 75) {
+		pageLength = 100;
+	} else if (dataSet.length > 25) {
+		pageLength = 50;
+	} else if (dataSet.length > 10) {
+		pageLength = 25;
+	} else {
+		pageLength = 10;
+	}
   </script>
+<script type="text/javascript">
+	CKEDITOR.replace("girlInfo.description", {
+		/*filebrowserBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html',
+		filebrowserImageBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Images',
+		filebrowserFlashBrowseUrl : '${pageContext.request.contextPath }/ckfinder/ckfinder.html?type=Flash',*/
+		filebrowserUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Files',
+		/*filebrowserImageUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Images',
+		filebrowserFlashUploadUrl : '${pageContext.request.contextPath }/ckfinder/core/connector/java/connector.java?command=QuickUpload&type=Flash'*/
+	});
+</script>
 </body>
 </html>
