@@ -83,7 +83,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private List<GirlComment> girlComments;
 	private String girlInfoId;
 	private GirlInfo girlInfo;
-	
+
 	private HomeInfoManager homeInfoManager;
 	private HomeSlideImageManager homeSlideImageManager;
 	private GirlInfoManager girlInfoManager;

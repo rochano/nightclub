@@ -21,6 +21,7 @@ public class FrontSearch implements Serializable {
 	private List<String> nationalityInfos;
 	private String countryInfoId;
 	private List<String> provinceInfos;
+	private int searchRandom;
 
 	public String getChkCategory() {
 		return chkCategory;
@@ -105,6 +106,12 @@ public class FrontSearch implements Serializable {
 	}
 	public void setProvinceInfos(List<String> provinceInfos) {
 		this.provinceInfos = provinceInfos;
+	}
+	public int getSearchRandom() {
+		return searchRandom;
+	}
+	public void setSearchRandom(int searchRandom) {
+		this.searchRandom = searchRandom;
 	}
 	
 }

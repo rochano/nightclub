@@ -33,7 +33,8 @@ public class UserInfo implements Serializable{
 	private Date validDateTo;
 	private String phone;
 	private String deleteFlg;
-	
+	private String email;
+
 	private BasicInfo shopInfo;
 	private AgentInfo agentInfo;
 	private FreeAgentGirlInfo freeAgentGirlInfo;
@@ -136,6 +137,10 @@ public class UserInfo implements Serializable{
 	public String getDeleteFlg() {
 		return deleteFlg;
 	}
+	@Column(name="email")
+	public String getEmail() {
+		return email;
+	}
 	public void setUserInfoId(String userInfoId) {
 		this.userInfoId = userInfoId;
 	}
@@ -189,6 +194,9 @@ public class UserInfo implements Serializable{
 	}
 	public void setDeleteFlg(String deleteFlg) {
 		this.deleteFlg = deleteFlg;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

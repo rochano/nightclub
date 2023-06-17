@@ -1,5 +1,6 @@
 package com.nightclub.view;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -194,6 +195,7 @@ public class FrontEndAction extends CommonAction {
 			this.frontSearch = new FrontSearch();
 			this.frontSearch.setChkAgents(Boolean.TRUE.toString().toLowerCase());
 		}
+		this.frontSearch.setSearchRandom(new BigDecimal((Math.random()*36+1)).intValue());
 		this.girlInfos = girlInfoManager.search(this.frontSearch, this.feedLimit, this.feedOffset);
 		this.agentInfos = agentInfoManager.list();
 		this.zoneInfos = zoneInfoManager.list();
@@ -217,6 +219,7 @@ public class FrontEndAction extends CommonAction {
 			this.frontSearch = new FrontSearch();
 			this.frontSearch.setChkFreeAgents(Boolean.TRUE.toString().toLowerCase());
 		}
+		this.frontSearch.setSearchRandom(new BigDecimal((Math.random()*36+1)).intValue());
 		this.girlInfos = girlInfoManager.search(this.frontSearch, this.feedLimit, this.feedOffset);
 		this.zoneInfos = zoneInfoManager.list();
 		this.nationalityInfos = nationalityInfoManager.list();
@@ -263,6 +266,7 @@ public class FrontEndAction extends CommonAction {
 			this.frontSearch = new FrontSearch();
 			this.frontSearch.setChkEnGirls(Boolean.TRUE.toString().toLowerCase());
 		}
+		this.frontSearch.setSearchRandom(new BigDecimal((Math.random()*36+1)).intValue());
 		this.girlInfos = girlInfoManager.search(this.frontSearch, this.feedLimit, this.feedOffset);
 		this.zoneInfos = zoneInfoManager.list();
 		this.nationalityInfos = nationalityInfoManager.list();

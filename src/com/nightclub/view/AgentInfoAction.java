@@ -31,6 +31,8 @@ public class AgentInfoAction extends ActionSupport implements SessionAware {
     private String lineToken;
     private String lineOauthUrl;
     private HomeInfo homeInfo;
+    private String phone;
+    private String email;
  
 	private AgentInfoManager agentInfoManager;
 	private UserInfoManager userInfoManager;
@@ -45,6 +47,8 @@ public class AgentInfoAction extends ActionSupport implements SessionAware {
 	public String execute() {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.agentInfo = agentInfoManager.getAgentInfo(userInfo.getAgentInfoId());
+		this.phone = userInfo.getPhone();
+		this.email = userInfo.getEmail();
 		sessionMap.put("agentInfo", agentInfo);
 		
 		homeInfo = homeInfoManager.getHomeInfo("0");
@@ -58,6 +62,19 @@ public class AgentInfoAction extends ActionSupport implements SessionAware {
 		
 		try {
 //			String filePath = ResourceBundleUtil.getUploadPath();
+			
+			if (!phone.isEmpty()) {
+				if (userInfoManager.checkPhoneOtherInUsed(userInfo.getUsername(), phone)) {
+					addActionError(getTexts("global_th").getString("global.phone_exists")); 
+	    			return INPUT;
+				}
+			}
+			if (!email.isEmpty()) {
+				if (userInfoManager.checkEmailOtherInUsed(userInfo.getUsername(), email)) {
+					addActionError(getTexts("global_th").getString("global.email_exists")); 
+	    			return INPUT;
+				}
+			}
             
             AgentInfo currentAgentInfo = agentInfoManager.getAgentInfo(userInfo.getAgentInfoId());
             if(currentAgentInfo != null) {
@@ -116,7 +133,10 @@ public class AgentInfoAction extends ActionSupport implements SessionAware {
 				userInfo = userInfoManager.update(userInfo);
 			}
 		}
-		
+		userInfo.setPhone(this.phone);
+		userInfo.setEmail(this.email);
+		userInfoManager.update(userInfo);
+
 		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 		
 		this.execute();
@@ -201,5 +221,21 @@ public class AgentInfoAction extends ActionSupport implements SessionAware {
 
 	public void setHomeInfo(HomeInfo homeInfo) {
 		this.homeInfo = homeInfo;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

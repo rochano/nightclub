@@ -111,6 +111,9 @@
 	  .ui.modal, .ui.modal>.actions {
 	  	text-align: center;
 	  }
+	  .ui.breadcrumb.segment.attached {
+	  	margin-top: 1rem;
+	  }
   </style>
   <script>
   $(document)
@@ -131,7 +134,7 @@
        })
       .sidebar('attach events', '.toc.item')
     	;
-      $('.form > .ui.accordion')
+      $('.container > .ui.accordion')
       .accordion()
     ;
       var key = 'thainightnavi_cookies', value = 'accept', age_days = 90;

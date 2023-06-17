@@ -26,7 +26,7 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	private Map<String, Object> sessionMap;
 	private UserInfo userInfo;
 	private String username;
-	private String phone;
+	private String email;
 	private String password;
 	private String chkUserType;
 	private String userType;
@@ -170,17 +170,17 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
     }
     
     public String signup() {
-    	if (username != null && phone != null && password != null) {
+    	if (username != null && email != null && password != null) {
     		
-    		if(linkController.getUserInfo(username, phone) != null) {
-    			addActionError(getText("global.username_phone_no_exists")); 
+    		if(linkController.getUserInfo(username, email) != null) {
+    			addActionError(getText("global.username_email_exists")); 
     			return INPUT;
     			
     		} else {
 	    		this.userInfo = new UserInfo();
 	    		this.userInfo.setUserInfoId(UUID.randomUUID().toString().toUpperCase());
 	    		this.userInfo.setUsername(username);
-	    		this.userInfo.setPhone(phone);
+	    		this.userInfo.setEmail(email);
 	    		this.userInfo.setPassword(password);
 	    		if(IConstants.USER_TYPE_CLIENT.equals(chkUserType)) {
 	    			userType = IConstants.USER_TYPE_CLIENT;
@@ -241,12 +241,12 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 		this.username = username;
 	}
 	
-	public String getPhone() {
-		return phone;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	public String getPassword() {

@@ -96,6 +96,19 @@
                      },
                   ]
                 },
+                email: {
+                    identifier  : 'email',
+                    rules: [
+                      {
+                        type   : 'empty',
+                        prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.email" /></s:i18n>'
+                      },
+                      {
+                        type   : 'email',
+                        prompt : '<s:i18n name="global_th"><s:text name="global.message_please_enter_valid_email" /></s:i18n>'
+                      }
+                    ]
+                  },
      	   },
      	  onFailure: function() {
      		  window.scrollTo(0,0);
@@ -402,6 +415,9 @@
 						</div>
 						<div class="inline field">
 							<s:i18n name="global_th"><s:textfield name="phone" key="global.mobile"/></s:i18n>
+						</div>
+						<div class="inline field">
+							<s:i18n name="global_th"><s:textfield name="email" key="global.email"/></s:i18n>
 						</div>
 						<%-- <div class="accordion">
 							<h4 class="title">

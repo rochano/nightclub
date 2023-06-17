@@ -49,7 +49,7 @@
               rules: [
                 {
                   type   : 'empty',
-                  prompt : '<s:text name="global.username_or_phone" /><s:text name="global.message_please_input_jp" />'
+                  prompt : '<s:text name="global.username_or_phone_or_email" /><s:text name="global.message_please_input_jp" />'
                 }/* ,
                 {
                   type   : 'email',
@@ -149,9 +149,9 @@
 					<form class="ui large form inverted" name="form1" method="post" action="<s:url value="/login"/>">
 						<div class="ui segment basic">
 							<div class="field">
-								<label><s:text name="global.username_or_phone" /></label>
+								<label><s:text name="global.username_or_phone_or_email" /></label>
 								<div class="ui input">
-									<input type="text" name="username" value="" id="username" placeholder="<s:text name="global.username_or_phone" />" />
+									<input type="text" name="username" value="" id="username" placeholder="<s:text name="global.username_or_phone_or_email" />" />
 								</div>
 							</div>
 							<div class="field">

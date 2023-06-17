@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import org.apache.struts2.interceptor.SessionAware;
 
+import com.nightclub.common.IConstants;
 import com.nightclub.controller.CountryInfoManager;
 import com.nightclub.controller.EnGirlInfoManager;
 import com.nightclub.controller.GenderInfoManager;
@@ -77,6 +78,7 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
     private String pic5FileName;
     private String mov1FileName;
     private String phone;
+    private String email;
 
 	public EnGirlInfoAction() {
 		userInfoManager = new UserInfoManager();
@@ -94,34 +96,8 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.girlInfo = (EnGirlInfo)girlInfoManager.getGirlInfo(userInfo.getGirlInfoId());
 		this.phone = userInfo.getPhone();
+		this.email = userInfo.getEmail();
 		setFormValue(userInfo);
-		this.girlLocations = new ArrayList<String>();
-		if (this.girlInfo != null) {
-			List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
-			if(girlLocations != null) {
-				for(GirlLocation girlLocation : girlLocations) {
-					this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
-				}
-			}
-		}
-		if (this.girlInfo != null) {
-			if(this.girlInfo.getCountryInfoId() != null && !"".equals(this.girlInfo.getCountryInfoId())) {
-				this.provinceInfos = provinceInfoManager.listByCountry(this.girlInfo.getCountryInfoId());
-			} else if(this.countryInfos.size() > 0){
-				this.provinceInfos = provinceInfoManager.listByCountry(this.countryInfos.get(0).getCountryInfoId());
-			}
-			this.girlProvinces = new ArrayList<String>();
-			List<GirlProvince> girlProvinces = girlInfoManager.getGirlProvinceListByGirlInfoId(this.girlInfo.getGirlInfoId());
-			if(girlProvinces != null) {
-				for(GirlProvince girlProvince : girlProvinces) {
-					this.girlProvinces.add(girlProvince.getProvinceInfo().getProvinceInfoId());
-				}
-			}
-		}
-		sessionMap.put("enGirlInfo", girlInfo);
-		if (this.girlInfo == null) {
-			this.girlInfo = new EnGirlInfo();
-		}
 
 		return SUCCESS;
 	}
@@ -130,6 +106,21 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		
 		try {
+			if (!phone.isEmpty()) {
+				if (userInfoManager.checkPhoneOtherInUsed(userInfo.getUsername(), phone)) {
+					addActionError(getTexts("global_th").getString("global.phone_exists")); 
+					setFormValue(userInfo);
+	    			return INPUT;
+				}
+			}
+			if (!email.isEmpty()) {
+				if (userInfoManager.checkEmailOtherInUsed(userInfo.getUsername(), email)) {
+					addActionError(getTexts("global_th").getString("global.email_exists")); 
+					setFormValue(userInfo);
+	    			return INPUT;
+				}
+			}
+
 			GirlInfo currentGirlInfo = girlInfoManager.getGirlInfo(userInfo.getGirlInfoId());
 			if (currentGirlInfo == null) {
 				currentGirlInfo = new FreeAgentGirlInfo();
@@ -257,6 +248,7 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 				}
 			}
 			userInfo.setPhone(this.phone);
+			userInfo.setEmail(this.email);
 			userInfoManager.update(userInfo);
 			
 			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
@@ -432,6 +424,34 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 		this.nationalityInfos = nationalityInfoManager.list();
 		this.countryInfos = countryInfoManager.list();
 		this.genderInfos = genderInfoManager.list();
+		
+		this.girlLocations = new ArrayList<String>();
+		if (this.girlInfo != null) {
+			List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
+			if(girlLocations != null) {
+				for(GirlLocation girlLocation : girlLocations) {
+					this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
+				}
+			}
+		}
+		if (this.girlInfo != null) {
+			if(this.girlInfo.getCountryInfoId() != null && !"".equals(this.girlInfo.getCountryInfoId())) {
+				this.provinceInfos = provinceInfoManager.listByCountry(this.girlInfo.getCountryInfoId());
+			} else if(this.countryInfos.size() > 0){
+				this.provinceInfos = provinceInfoManager.listByCountry(this.countryInfos.get(0).getCountryInfoId());
+			}
+			this.girlProvinces = new ArrayList<String>();
+			List<GirlProvince> girlProvinces = girlInfoManager.getGirlProvinceListByGirlInfoId(this.girlInfo.getGirlInfoId());
+			if(girlProvinces != null) {
+				for(GirlProvince girlProvince : girlProvinces) {
+					this.girlProvinces.add(girlProvince.getProvinceInfo().getProvinceInfoId());
+				}
+			}
+		}
+		sessionMap.put("enGirlInfo", girlInfo);
+		if (this.girlInfo == null) {
+			this.girlInfo = new EnGirlInfo();
+		}
 	}
 
 	public List<SkinInfo> getSkinInfos() {
@@ -510,5 +530,13 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

@@ -82,6 +82,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
     private String pic5FileName;
     private String mov1FileName;
     private String phone;
+    private String email;
 
 	public FreeAgentGirlInfoAction() {
 		userInfoManager = new UserInfoManager();
@@ -99,47 +100,10 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		this.girlInfo = (FreeAgentGirlInfo)girlInfoManager.getGirlInfo(userInfo.getGirlInfoId());
 		this.phone = userInfo.getPhone();
+		this.email = userInfo.getEmail();
 		sessionMap.put("freeAgentGirlInfo", girlInfo);
 //		this.girlServiceInfos = girlInfoManager.getGirlServiceInfoList();
 		setFormValue(userInfo);
-		if (this.girlInfo != null) {
-			List<GirlService> girlServices = girlInfoManager.getGirlServiceListByGirlInfoId(this.girlInfo.getGirlInfoId());
-			if(girlServices != null) {
-				for(FormGirlServiceInfo formGirlServiceInfo : this.formGirlServiceInfos) {
-					for(GirlService girlService : girlServices) {
-						if(formGirlServiceInfo.getGirlServiceInfo().getGirlServiceInfoId().equals(girlService.getGirlServiceInfo().getGirlServiceInfoId())) {
-							formGirlServiceInfo.setGirlService(girlService);
-						}
-					}
-				}
-			}
-		}
-		this.girlLocations = new ArrayList<String>();
-		if (this.girlInfo != null) {
-			List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
-			if(girlLocations != null) {
-				for(GirlLocation girlLocation : girlLocations) {
-					this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
-				}
-			}
-		}
-		if (this.girlInfo != null) {
-			if(this.girlInfo.getCountryInfoId() != null && !"".equals(this.girlInfo.getCountryInfoId())) {
-				this.provinceInfos = provinceInfoManager.listByCountry(this.girlInfo.getCountryInfoId());
-			} else if(this.countryInfos.size() > 0){
-				this.provinceInfos = provinceInfoManager.listByCountry(this.countryInfos.get(0).getCountryInfoId());
-			}
-			this.girlProvinces = new ArrayList<String>();
-			List<GirlProvince> girlProvinces = girlInfoManager.getGirlProvinceListByGirlInfoId(this.girlInfo.getGirlInfoId());
-			if(girlProvinces != null) {
-				for(GirlProvince girlProvince : girlProvinces) {
-					this.girlProvinces.add(girlProvince.getProvinceInfo().getProvinceInfoId());
-				}
-			}
-		}
-		if (this.girlInfo == null) {
-			this.girlInfo = new FreeAgentGirlInfo();
-		}
 
 		return SUCCESS;
 	}
@@ -148,6 +112,21 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		UserInfo userInfo = (UserInfo)sessionMap.get("userInfo");
 		
 		try {
+			if (!phone.isEmpty()) {
+				if (userInfoManager.checkPhoneOtherInUsed(userInfo.getUsername(), phone)) {
+					addActionError(getTexts("global_th").getString("global.phone_exists"));
+					setFormValue(userInfo);
+	    			return INPUT;
+				}
+			}
+			if (!email.isEmpty()) {
+				if (userInfoManager.checkEmailOtherInUsed(userInfo.getUsername(), email)) {
+					addActionError(getTexts("global_th").getString("global.email_exists"));
+					setFormValue(userInfo);
+	    			return INPUT;
+				}
+			}
+			
 			GirlInfo currentGirlInfo = girlInfoManager.getGirlInfo(userInfo.getGirlInfoId());
 			if (currentGirlInfo == null) {
 				currentGirlInfo = new FreeAgentGirlInfo();
@@ -303,6 +282,7 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 				}
 			}
 			userInfo.setPhone(this.phone);
+			userInfo.setEmail(this.email);
 			userInfoManager.update(userInfo);
 			
 			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
@@ -532,9 +512,8 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	private void setFormValue(UserInfo userInfo) {
 		List<GirlServiceInfo> girlServiceInfos = girlInfoManager.getGirlServiceInfoList();
 		this.formGirlServiceInfos = new ArrayList();
-		FormGirlServiceInfo formGirlServiceInfo;
 		for(GirlServiceInfo girlServiceInfo : girlServiceInfos) {
-			formGirlServiceInfo = new FormGirlServiceInfo();
+			FormGirlServiceInfo formGirlServiceInfo = new FormGirlServiceInfo();
 			formGirlServiceInfo.setGirlServiceInfo(girlServiceInfo);
 			this.formGirlServiceInfos.add(formGirlServiceInfo);
 		}
@@ -549,6 +528,45 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		this.nationalityInfos = nationalityInfoManager.list();
 		this.countryInfos = countryInfoManager.list();
 		this.genderInfos = genderInfoManager.list();
+		
+		if (this.girlInfo != null) {
+			List<GirlService> girlServices = girlInfoManager.getGirlServiceListByGirlInfoId(this.girlInfo.getGirlInfoId());
+			if(girlServices != null) {
+				for(FormGirlServiceInfo formGirlServiceInfo : this.formGirlServiceInfos) {
+					for(GirlService girlService : girlServices) {
+						if(formGirlServiceInfo.getGirlServiceInfo().getGirlServiceInfoId().equals(girlService.getGirlServiceInfo().getGirlServiceInfoId())) {
+							formGirlServiceInfo.setGirlService(girlService);
+						}
+					}
+				}
+			}
+		}
+		this.girlLocations = new ArrayList<String>();
+		if (this.girlInfo != null) {
+			List<GirlLocation> girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
+			if(girlLocations != null) {
+				for(GirlLocation girlLocation : girlLocations) {
+					this.girlLocations.add(girlLocation.getZoneInfo().getZoneInfoId());
+				}
+			}
+		}
+		if (this.girlInfo != null) {
+			if(this.girlInfo.getCountryInfoId() != null && !"".equals(this.girlInfo.getCountryInfoId())) {
+				this.provinceInfos = provinceInfoManager.listByCountry(this.girlInfo.getCountryInfoId());
+			} else if(this.countryInfos.size() > 0){
+				this.provinceInfos = provinceInfoManager.listByCountry(this.countryInfos.get(0).getCountryInfoId());
+			}
+			this.girlProvinces = new ArrayList<String>();
+			List<GirlProvince> girlProvinces = girlInfoManager.getGirlProvinceListByGirlInfoId(this.girlInfo.getGirlInfoId());
+			if(girlProvinces != null) {
+				for(GirlProvince girlProvince : girlProvinces) {
+					this.girlProvinces.add(girlProvince.getProvinceInfo().getProvinceInfoId());
+				}
+			}
+		}
+		if (this.girlInfo == null) {
+			this.girlInfo = new FreeAgentGirlInfo();
+		}
 	}
 
 	public List<String> getGirlLocations() {
@@ -619,5 +637,13 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

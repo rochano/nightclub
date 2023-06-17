@@ -62,7 +62,21 @@
       ;
 	  $('.ui.form')
       .form({
-          fields: {},
+          fields: {
+        	  email: {
+                  identifier  : 'email',
+                  rules: [
+                    {
+                      type   : 'empty',
+                      prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.email" /></s:i18n>'
+                    },
+                    {
+                      type   : 'email',
+                      prompt : '<s:i18n name="global_th"><s:text name="global.message_please_enter_valid_email" /></s:i18n>'
+                    }
+                  ]
+                },
+          },
      	  onFailure: function() {
      		  window.scrollTo(0,0);
      		  return false;
@@ -185,6 +199,12 @@
 								</div>
 							</div>
 						</s:if>
+						<div class="inline field">
+							<s:i18n name="global_th"><s:textfield name="phone" key="global.mobile"/></s:i18n>
+						</div>
+						<div class="inline field">
+							<s:i18n name="global_th"><s:textfield name="email" key="global.email"/></s:i18n>
+						</div>
 						<div class="ui right aligned one column grid">
 							<div class="column">
 								<div class="ui small button submit blue"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>

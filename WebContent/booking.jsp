@@ -103,6 +103,14 @@
 							type   : 'empty',
 						}
 					]
+				},
+				reserveInfo_reserveDate : {
+					identifier : 'reserveInfo_reserveDate',
+					rules : [ 
+						{
+							type   : 'empty',
+						}
+					]
 				}
 			},
 		});
@@ -122,7 +130,6 @@
 			<div class="ui centered grid">
 				<div class="eleven wide column container" id="container">
 					<%@include file="/common/common_statistic_info.jsp"%>
-					<%@include file="/common/common_new_menu.jsp"%>
 					<br />
 					<div class="ui breadcrumb segment attached inverted">
 						<a class="section" href="<s:url value="/" />"> <s:text

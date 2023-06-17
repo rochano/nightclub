@@ -120,14 +120,14 @@
 			});
    }
   </script>
-				<div class="center aligned column">
-					<div class="ui segment header">
+				<div class="center aligned column ui accordion">
+					<div class="ui segment header title">
 						<h4 class="ui top header">
 							<i class="filter icon"></i>
 							<s:text name="global.search_condition" />
 						</h4>
 					</div>
-					<div class="ui grid attached segment">
+					<div class="ui grid attached segment content">
 						<div class="column one left aligned">
 							<form class="ui inverted form" id="searchForm" method="post" action="<s:url value=""/>" style="display:none;">
 								<s:set var="userTypeShop"><%=IConstants.USER_TYPE_SHOP%></s:set>
@@ -331,6 +331,7 @@
 									</div>
 								</div>
 								<s:hidden name="action" value="search"></s:hidden>
+								<s:hidden name="frontSearch.searchRandom" ></s:hidden>
 								<div class="ui error message"></div>
 								<div class="ui right aligned one column grid">
 									<div class="column">

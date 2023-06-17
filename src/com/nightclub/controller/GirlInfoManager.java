@@ -570,6 +570,9 @@ public class GirlInfoManager extends HibernateUtil {
 					sql += "and gp.primaryKey.provinceInfo.provinceInfoId in (:provinceInfoIdList)) ";
 				}
 				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
+				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
+					sql += "order by substring(girlInfo.girlInfoId,:searchrandom,1) ";
+				}
 				query = session.createQuery(sql.toString());
 				query = query.setParameter("availableShopGirlInfo", Boolean.TRUE.toString().toLowerCase());
 				if (frontSearch.getCategoryInfoId() != null && !frontSearch.getCategoryInfoId().isEmpty()) {
@@ -600,6 +603,9 @@ public class GirlInfoManager extends HibernateUtil {
 				if (feedLimit != -1) {
 					query = query.setFirstResult(feedOffset);
 					query = query.setMaxResults(feedLimit);
+				}
+				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
+					query = query.setParameter("searchrandom", frontSearch.getSearchRandom());
 				}
 				shopGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = shopGirlInfoList.iterator();
@@ -662,6 +668,9 @@ public class GirlInfoManager extends HibernateUtil {
 					sql += "and gp.primaryKey.provinceInfo.provinceInfoId in (:provinceInfoIdList)) ";
 				}
 				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
+				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
+					sql += "order by substring(girlInfo.girlInfoId,:searchrandom,1) ";
+				}
 				query = session.createQuery(sql.toString());
 				query = query.setParameter("availableAgentGirlInfo", Boolean.TRUE.toString().toLowerCase());
 				if (frontSearch.getChkAgents() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkAgents())) {
@@ -694,6 +703,9 @@ public class GirlInfoManager extends HibernateUtil {
 				if (feedLimit != -1) {
 					query = query.setFirstResult(feedOffset);
 					query = query.setMaxResults(feedLimit);
+				}
+				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
+					query = query.setParameter("searchrandom", frontSearch.getSearchRandom());
 				}
 				agentGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = agentGirlInfoList.iterator();
@@ -755,6 +767,9 @@ public class GirlInfoManager extends HibernateUtil {
 					sql += "and gp.primaryKey.provinceInfo.provinceInfoId in (:provinceInfoIdList)) ";
 				}
 				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
+				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
+					sql += "order by substring(girlInfo.girlInfoId,:searchrandom,1) ";
+				}
 				query = session.createQuery(sql.toString());
 				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
 					query = query.setParameter("genderInfoId", frontSearch.getGenderInfoId());
@@ -781,6 +796,9 @@ public class GirlInfoManager extends HibernateUtil {
 				if (feedLimit != -1) {
 					query = query.setFirstResult(feedOffset);
 					query = query.setMaxResults(feedLimit);
+				}
+				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
+					query = query.setParameter("searchrandom", frontSearch.getSearchRandom());
 				}
 				freeAgentGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = freeAgentGirlInfoList.iterator();
@@ -842,6 +860,9 @@ public class GirlInfoManager extends HibernateUtil {
 					sql += "and gp.primaryKey.provinceInfo.provinceInfoId in (:provinceInfoIdList)) ";
 				}
 				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
+				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
+					sql += "order by substring(girlInfo.girlInfoId,:searchrandom,1) ";
+				}
 				query = session.createQuery(sql.toString());
 				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
 					query = query.setParameter("genderInfoId", frontSearch.getGenderInfoId());
@@ -868,6 +889,9 @@ public class GirlInfoManager extends HibernateUtil {
 				if (feedLimit != -1) {
 					query = query.setFirstResult(feedOffset);
 					query = query.setMaxResults(feedLimit);
+				}
+				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
+					query = query.setParameter("searchrandom", frontSearch.getSearchRandom());
 				}
 				enGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = enGirlInfoList.iterator();

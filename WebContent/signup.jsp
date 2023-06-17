@@ -43,7 +43,7 @@
               rules: [
                 {
                   type   : 'empty',
-                  prompt : '<s:text name="global.username_or_phone" /><s:text name="global.message_please_input_jp" />'
+                  prompt : '<s:text name="global.username_or_email" /><s:text name="global.message_please_input_jp" />'
                 }/* ,
                 {
                   type   : 'email',
@@ -51,12 +51,16 @@
                 } */
               ]
             },
-            phone: {
-                identifier  : 'phone',
+            email: {
+                identifier  : 'email',
                 rules: [
                   {
                     type   : 'empty',
-                    prompt : '<s:text name="global.phone_no" /><s:text name="global.message_please_input_jp" />'
+                    prompt : '<s:text name="global.email" /><s:text name="global.message_please_input_jp" />'
+                  },
+                  {
+                    type   : 'email',
+                    prompt : '<s:text name="global.message_please_enter_valid_email" />'
                   }
                 ]
               },
@@ -157,9 +161,9 @@
 						</div>
 					</div>
 					<div class="field">
-						<label><s:text name="global.phone_no" /></label>
+						<label><s:text name="global.email" /></label>
 						<div class="ui input">
-							<input type="text" name="phone" value="" id="phone" placeholder="<s:text name="global.phone_no" />" />
+							<input type="text" name="email" value="" id="email" placeholder="<s:text name="global.email" />" />
 						</div>
 					</div>
 					<div class="field">

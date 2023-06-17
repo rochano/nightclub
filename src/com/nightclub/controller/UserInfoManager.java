@@ -68,7 +68,7 @@ public class UserInfoManager extends HibernateUtil {
 			
 			userInfo = (UserInfo)session
 					.createQuery("from UserInfo " + 
-						"where (username = :username or phone = :username) " + 
+						"where (username = :username or phone = :username or email = :username) " + 
 						"and password = :password " + 
 						"and COALESCE(deleteFlg, :deleteFlg) = :deleteFlg ")
 					.setParameter("username", username)
@@ -404,5 +404,59 @@ public class UserInfoManager extends HibernateUtil {
 			session.getTransaction().rollback();
 		}
 		session.getTransaction().commit();
+	}
+
+	public boolean checkPhoneOtherInUsed(String username, String phone) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		boolean exists = false;
+		try {
+			String sql = "from UserInfo " + 
+					"where username != :username ";
+			if (!phone.isEmpty()) {
+				sql += "and phone = :phone ";
+			}
+			Query query = session.createQuery(sql);
+			query = query.setParameter("username", username);
+			if (!phone.isEmpty()) {
+				query = query.setParameter("phone", phone);
+			}
+			List list = query.list();
+			if (list != null && list.size() > 0) {
+				exists = true;
+			}
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		return exists;
+	}
+
+	public boolean checkEmailOtherInUsed(String username, String email) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		boolean exists = false;
+		try {
+			String sql = "from UserInfo " + 
+					"where username != :username ";
+			if (!email.isEmpty()) {
+				sql += "and email = :email ";
+			}
+			Query query = session.createQuery(sql);
+			query = query.setParameter("username", username);
+			if (!email.isEmpty()) {
+				query = query.setParameter("email", email);
+			}
+			List list = query.list();
+			if (list != null && list.size() > 0) {
+				exists = true;
+			}
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		return exists;
 	}
 }
