@@ -20,6 +20,9 @@ public class LineApiUtils extends Thread {
 	public static final String SEND_MESSAGE_API = "com.nightclub.main.SendMessageApi";
 	public static final String SEND_DATA = "com.nightclub.main.SendData";
 
+	public static final String BATCH_ROOT_PATH = "C:\\Users\\thainightnav\\Desktop\\";
+	// String path = "C:\\Developer\\";
+
 	private String arg1;
 	private String arg2;
 	private String arg3;
@@ -192,7 +195,7 @@ public class LineApiUtils extends Thread {
 		ProcessBuilder processBuilder = null;
 		try {
 			processBuilder = new ProcessBuilder(
-					"C:\\Developer\\apache-tomcat-7.0.28\\batch\\LineService\\LineServiceBatch.bat",
+					BATCH_ROOT_PATH + "apache-tomcat-7.0.28\\batch\\LineService\\LineServiceBatch.bat",
 					REQUEST_TOKEN, code, clientId, clientSecret, redirectUrl);
 			Process process = processBuilder.start();
 			StringBuilder output = new StringBuilder();
@@ -220,15 +223,15 @@ public class LineApiUtils extends Thread {
 
 	public void run() {
 		ProcessBuilder processBuilder = null;
-		String path = "C:\\Users\\thainightnav\\Desktop\\";
+		
 //		String path = "C:\\Developer\\";
 		if (SEND_MESSAGE_API.equals(getArg1())) {
 			processBuilder = new ProcessBuilder(
-					path + "apache-tomcat-7.0.28\\batch\\LineService\\LineServiceBatch.bat",
+					BATCH_ROOT_PATH + "apache-tomcat-7.0.28\\batch\\LineService\\LineServiceBatch.bat",
 				SEND_MESSAGE_API, getArg2(), getArg3(), getArg4());
 		} else if (SEND_DATA.equals(getArg1())) {
 			processBuilder = new ProcessBuilder(
-					path + "apache-tomcat-7.0.28\\batch\\LineService\\LineServiceBatch.bat",
+					BATCH_ROOT_PATH + "apache-tomcat-7.0.28\\batch\\LineService\\LineServiceBatch.bat",
 					SEND_DATA, getArg2(), getArg3());
 		}
 		// Process process = Runtime.getRuntime().exec(
