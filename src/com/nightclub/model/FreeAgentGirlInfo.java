@@ -73,6 +73,9 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	}
 	@Column(name="crcy_40_mins")
 	public String getCrcy40Mins() {
+		if (crcy40Mins == null) {
+			return "";
+		}
 		return crcy40Mins;
 	}
 	@Column(name="chk_60_mins")
@@ -100,6 +103,9 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	}
 	@Column(name="crcy_60_mins")
 	public String getCrcy60Mins() {
+		if (crcy60Mins == null) {
+			return "";
+		}
 		return crcy60Mins;
 	}
 	@Column(name="chk_90_mins")
@@ -127,6 +133,9 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	}
 	@Column(name="crcy_90_mins")
 	public String getCrcy90Mins() {
+		if (crcy90Mins == null) {
+			return "";
+		}
 		return crcy90Mins;
 	}
 	@Column(name="chk_120_mins")
@@ -154,6 +163,9 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	}
 	@Column(name="crcy_120_mins")
 	public String getCrcy120Mins() {
+		if (crcy120Mins == null) {
+			return "";
+		}
 		return crcy120Mins;
 	}
 	@Column(name="chk_6_hrs")
@@ -181,6 +193,9 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	}
 	@Column(name="crcy_6_hrs")
 	public String getCrcy6Hrs() {
+		if (crcy6Hrs == null) {
+			return "";
+		}
 		return crcy6Hrs;
 	}
 	@OneToOne

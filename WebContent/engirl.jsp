@@ -93,7 +93,7 @@
 	</s:if>
 	
   	function getPrice(obj) {
-  		return obj.price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+  		return obj.price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " " + obj.crcy;
 	}
 
   	function getCustomDescription(obj) {
@@ -180,6 +180,7 @@
 									<div class="content left aligned label pink circular ui">
 										<span class="right floated">
 											<s:text name="format.integer"><s:param name="value" value="price"/></s:text>
+											<s:property value="crcy" />
 										</span>
 										<s:if test="allSame == 'true'">
 											<s:text name="global.all_same" />

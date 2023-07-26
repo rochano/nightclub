@@ -16,7 +16,8 @@ public class EnGirlInfo extends GirlInfo {
 	private Double price;
 	private String skinInfoId;
 	private String type;
-	
+	private String crcy;
+
 	private SkinInfo skinInfo;
 	private UserInfo userInfo;
 
@@ -35,6 +36,13 @@ public class EnGirlInfo extends GirlInfo {
 	@Column(name="skin_info_id")
 	public String getSkinInfoId() {
 		return skinInfoId;
+	}
+	@Column(name="crcy")
+	public String getCrcy() {
+		if (crcy == null) {
+			return "";
+		}
+		return crcy;
 	}
 	@OneToOne
 	@NotFound(action = NotFoundAction.IGNORE)
@@ -56,6 +64,9 @@ public class EnGirlInfo extends GirlInfo {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public void setCrcy(String crcy) {
+		this.crcy = crcy;
 	}
 	public void setSkinInfo(SkinInfo skinInfo) {
 		this.skinInfo = skinInfo;

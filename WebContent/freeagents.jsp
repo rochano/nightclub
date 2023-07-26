@@ -157,46 +157,58 @@
 										</a>
 									</div>
 									<div class="content left aligned label pink circular ui">
-										<s:if test="chk40Mins == 'true'">
+										<span class="right floated">
+											<s:if test="chk40Mins == 'true'">
 												<s:if test="priceIncall40Mins != 0">
 													<s:text name="format.integer"><s:param name="value" value="priceIncall40Mins"/></s:text>
+													<s:property value="crcy40Mins" />
 												</s:if>
 												<s:elseif test="priceOutcall40Mins != 0">
 													<s:text name="format.integer"><s:param name="value" value="priceOutcall40Mins"/></s:text>
+													<s:property value="crcy40Mins" />
 												</s:elseif>
 											</s:if>
 											<s:elseif test="chk60Mins == 'true'">
 												<s:if test="priceIncall60Mins != 0">
 													<s:text name="format.integer"><s:param name="value" value="priceIncall60Mins"/></s:text>
+													<s:property value="crcy60Mins" />
 												</s:if>
 												<s:elseif test="priceOutcall60Mins != 0">
 													<s:text name="format.integer"><s:param name="value" value="priceOutcall60Mins"/></s:text>
+													<s:property value="crcy60Mins" />
 												</s:elseif>
 											</s:elseif>
 											<s:elseif test="chk90Mins == 'true'">
 												<s:if test="priceIncall90Mins != 0">
 													<s:text name="format.integer"><s:param name="value" value="priceIncall90Mins"/></s:text>
+													<s:property value="crcy90Mins" />
 												</s:if>
 												<s:elseif test="priceOutcall90Mins != 0">
 													<s:text name="format.integer"><s:param name="value" value="priceOutcall90Mins"/></s:text>
+													<s:property value="crcy90Mins" />
 												</s:elseif>
 											</s:elseif>
 											<s:elseif test="chk120Mins == 'true'">
 												<s:if test="priceIncall120Mins != 0">
 													<s:text name="format.integer"><s:param name="value" value="priceIncall120Mins"/></s:text>
+													<s:property value="crcy120Mins" />
 												</s:if>
 												<s:elseif test="priceOutcall120Mins != 0">
 													<s:text name="format.integer"><s:param name="value" value="priceOutcall120Mins"/></s:text>
+													<s:property value="crcy120Mins" />
 												</s:elseif>
 											</s:elseif>
 											<s:elseif test="chk6Hrs == 'true'">
 												<s:if test="priceIncall6Hrs != 0">
 													<s:text name="format.integer"><s:param name="value" value="priceIncall6Hrs"/></s:text>
+													<s:property value="crcy6Hrs" />
 												</s:if>
 												<s:elseif test="priceOutcall6Hrs != 0">
 													<s:text name="format.integer"><s:param name="value" value="priceOutcall6Hrs"/></s:text>
+													<s:property value="crcy6Hrs" />
 												</s:elseif>
 											</s:elseif>
+										</span>
 										<s:if test="allSame == 'true'">
 											<s:text name="global.all_same" />
 										</s:if>

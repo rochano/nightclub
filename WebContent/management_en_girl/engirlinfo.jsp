@@ -515,6 +515,9 @@
 												value="<s:text name="format.integer"><s:param name="value" value="girlInfo.price"/></s:text>" />
 						</div>
 						<div class="inline field">
+							<s:i18n name="global_th"><s:textfield name="girlInfo.crcy" key="global.crcy"/></s:i18n>
+						</div>
+						<div class="inline field">
 							<s:i18n name="global_th"><s:textfield name="girlInfo.lineId" key="global.line_id"/></s:i18n>
 						</div>
 						<div class="ui grid five column">

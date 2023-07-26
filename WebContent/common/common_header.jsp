@@ -276,20 +276,24 @@
 	}
 
 	function getPrice(obj) {
-		if (obj.chk40Mins == 'true' && obj.price40Mins) {
-			return obj.price40Mins.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
-		}
-		if (obj.chk60Mins == 'true' && obj.price60Mins) {
-			return obj.price60Mins.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
-		}
-		if (obj.chk90Mins == 'true' && obj.price90Mins) {
-			return obj.price90Mins.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
-		}
-		if (obj.chk120Mins == 'true' && obj.price120Mins) {
-			return obj.price120Mins.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
-		}
-		if (obj.chk6Hrs == 'true' && obj.price6Hrs) {
-			return obj.price6Hrs.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+		var conditions = [
+			{chk: obj.chk40Mins, price: obj.priceIncall40Mins, crcy: obj.crcy40Mins},
+			{chk: obj.chk40Mins, price: obj.priceOutcall40Mins, crcy: obj.crcy40Mins},
+			{chk: obj.chk60Mins, price: obj.priceIncall60Mins, crcy: obj.crcy60Mins},
+			{chk: obj.chk60Mins, price: obj.priceOutcall60Mins, crcy: obj.crcy60Mins},
+			{chk: obj.chk90Mins, price: obj.priceIncall90Mins, crcy: obj.crcy90Mins},
+			{chk: obj.chk90Mins, price: obj.priceOutcall90Mins, crcy: obj.crcy90Mins},
+			{chk: obj.chk120Mins, price: obj.priceIncall120Mins, crcy: obj.crcy120Mins},
+			{chk: obj.chk120Mins, price: obj.priceOutcall120Mins, crcy: obj.crcy120Mins},
+			{chk: obj.chk6Hrs, price: obj.priceIncall6Hrs, crcy: obj.crcy6Hrs},
+			{chk: obj.chk6Hrs, price: obj.priceOutcall6Hrs, crcy: obj.crcy6Hrs},
+		];
+
+		for(var i in conditions) {
+			var cond = conditions[i];
+			if (cond.chk == 'true' && cond.price) {
+				return cond.price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " " + cond.crcy;
+			}
 		}
 		return "";
 	}
