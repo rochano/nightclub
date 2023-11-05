@@ -62,6 +62,36 @@
   [name=provinceInfos] {
   	display: none;
   }
+  .ui.ui.ui.red.label {
+/*     width: 30px;
+    height: 30px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50%;
+    text-wrap: balance;
+    word-break: break-word; */
+    font-size: 10px;
+  }
+  .ui.multiple.dropdown>.label {
+/*   	position: relative;
+  	margin: 0;
+  	background: #fff;
+    box-shadow: none; */
+  }
+  .ui.label>.delete.icon {
+/*   	position: absolute;
+  	top: 0;
+  	right: 3px; */
+  }
+  .ui.multiple.dropdown>.label {
+    font-size: 10px;
+    text-wrap: nowrap;
+  }
+  .ui.ui.multiple.dropdown {
+    padding: 0px;
+  }
   </style>
 
   <!--- Example Javascript -->
@@ -99,6 +129,11 @@
               $( "input[name=allSame]", dataTable.fnGetNodes()).each(function(i, item) {
                   var obj = {id: item.value, checked: item.checked};
             	  form.append("<input name='allsamelist' value='" + JSON.stringify(obj) + "' type='hidden' />")
+              })
+              form.find("[name=girlTagList]").remove()
+              $( "input[name=girlTag]", dataTable.fnGetNodes()).each(function(i, item) {
+                  var obj = {id: item.dataset.girl_id, value: item.value};
+            	  form.append("<input name='girlTagList' value='" + JSON.stringify(obj) + "' type='hidden' />")
               })
               return true; 
           }
@@ -442,12 +477,13 @@
 											<s:text name="global.all_same" />
 										</s:i18n>
 									</th>
+									<th><s:i18n name="global_th"><s:text name="global.girl_tag" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.detail" /></s:i18n></th>
 								</tr>
 							</thead>
 							<tfoot class="full-width">
 								<tr>
-									<th colspan="8">
+									<th colspan="9">
 										<form class="ui form " id="allSameForm" method="post" action="<s:url value="/admin/girls/update"/>" >
 											<div class="ui right floated small purple submit button">
 												<s:i18n name="global_th"><s:text name="global.submit" /></s:i18n>
@@ -463,16 +499,51 @@
 			</div>
   	</div>
   	</div>
-  	<%@include file="/common/common_admin_management_footer.jsp" %>  
+  	<%@include file="/common/common_admin_management_footer.jsp" %>
 </div>
 </div>
   <script type="text/javascript">
   var girlProvinces = '';
+  var girlTagInfos = '';
+	girlTagInfos += '<div class="ui multiple two column dropdown">';
+	girlTagInfos += '<input type="hidden" name="girlTag" data-girl_id="[girlInfoId]" value="[girlTagInfoId]">';
+	girlTagInfos += '<i class="tag icon"></i>';
+	girlTagInfos += '<span class="text"><s:i18n name="global_th"><s:text name="global.girl_tag" /></s:i18n></span>';
+	girlTagInfos += '<div class="menu">';
+	girlTagInfos += '<div class="ui icon search input">';
+	girlTagInfos += '<i class="search icon"></i>';
+	girlTagInfos += '<input type="text" placeholder="Search tags...">';
+	girlTagInfos += '</div>';
+	girlTagInfos += '<div class="divider"></div>';
+	girlTagInfos += '<div class="header">';
+	girlTagInfos += '<i class="tags icon"></i>';
+	girlTagInfos += 'Tag Label';
+	girlTagInfos += '</div>';
+	girlTagInfos += '<div class="scrolling menu">';
+	<s:iterator value="girlTagInfos" >
+		girlTagInfos += '<div class="item" data-value="<s:property value="girlTagInfoId" />">';
+		girlTagInfos += '<div class="ui <s:property value="color" /> empty circular label">';
+		girlTagInfos += '</div>';
+		girlTagInfos += '<div style="display:inline-block"><s:property value="girlTagNameEn" />';
+		girlTagInfos += '</div>';
+		girlTagInfos += '</div>';
+	</s:iterator>
+	girlTagInfos += '</div>';
+	girlTagInfos += '</div>';
+	girlTagInfos += '</div>';
+
   <s:iterator value="girlInfos" status="status">
   		girlProvinces = '';
 	<s:iterator value="girlProvinces" >
 	  	girlProvinces += '<s:property value="primaryKey.provinceInfo.provinceNameEn" />';
 	  	girlProvinces += '<br />';
+	</s:iterator>
+		girlTags = '';
+	<s:iterator value="girlTags" status="status" >
+		<s:if test="#status.index > 0">
+		girlTags += ',';
+		</s:if>
+		girlTags += '<s:property value="primaryKey.girlTagInfo.girlTagInfoId" />';
 	</s:iterator>
 		dataSet.push(
 			['<s:property value="#status.count" />',
@@ -515,6 +586,8 @@
 				'value="<s:property value="girlInfoId" />">' +
 				'<label></label>' +
 			'</div>',
+			girlTagInfos.replace("[girlInfoId]", "<s:property value="girlInfoId" />")
+					.replace("[girlTagInfoId]", girlTags),
 			'<a href="<s:url value="/admin/girls/info/%{girlInfoId}"/>" class="ui icon button small green" ><i class="ui icon info"></i></a>'
     	]);
 	</s:iterator>

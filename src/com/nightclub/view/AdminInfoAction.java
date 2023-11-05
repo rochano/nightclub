@@ -3,6 +3,7 @@ package com.nightclub.view;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import com.nightclub.controller.GenderInfoManager;
 import com.nightclub.controller.GirlCommentManager;
 import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.GirlSettingManager;
+import com.nightclub.controller.GirlTagInfoManager;
 import com.nightclub.controller.HomeInfoManager;
 import com.nightclub.controller.HomeSlideImageManager;
 import com.nightclub.controller.NationalityInfoManager;
@@ -39,6 +41,9 @@ import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
 import com.nightclub.model.GirlSetting;
+import com.nightclub.model.GirlTag;
+import com.nightclub.model.GirlTagId;
+import com.nightclub.model.GirlTagInfo;
 import com.nightclub.model.HomeInfo;
 import com.nightclub.model.HomeSlideImage;
 import com.nightclub.model.NationalityInfo;
@@ -83,6 +88,8 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private List<GirlComment> girlComments;
 	private String girlInfoId;
 	private GirlInfo girlInfo;
+	private List<GirlTagInfo> girlTagInfos;
+	private List<String> girlTagList;
 
 	private HomeInfoManager homeInfoManager;
 	private HomeSlideImageManager homeSlideImageManager;
@@ -98,6 +105,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private GenderInfoManager genderInfoManager;
 	private NationalityInfoManager nationalityInfoManager;
 	private GirlCommentManager girlCommentManager;
+	private GirlTagInfoManager girlTagInfoManager;
 
 	public AdminInfoAction() {
 		homeInfoManager = new HomeInfoManager();
@@ -114,6 +122,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		genderInfoManager = new GenderInfoManager();
 		nationalityInfoManager = new NationalityInfoManager();
 		girlCommentManager = new GirlCommentManager();
+		girlTagInfoManager = new GirlTagInfoManager();
 	}
 	
 	public String execute() {
@@ -536,6 +545,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		this.countryInfos = countryInfoManager.list();
 		this.genderInfos = genderInfoManager.list();
 		this.nationalityInfos = nationalityInfoManager.list();
+		this.girlTagInfos = girlTagInfoManager.list();
 		
 		return SUCCESS;
 	}
@@ -544,6 +554,9 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		
 		if(getAllsamelist() == null) {
 			setAllsamelist(new ArrayList<String>());
+		}
+		if(getGirlTagList() == null) {
+			setGirlTagList(new ArrayList<String>());
 		}
 
 		Iterator<String> it = getAllsamelist().iterator();
@@ -557,6 +570,33 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			}
 		}
 		girlInfoManager.allSameByGirlInfoId(allGirlInfoIdList, allSameGirlInfoIdList);
+
+		Iterator<String> itAllGirlTag = getGirlTagList().iterator();
+		List<String> allGirlInfoIdTagList = new ArrayList<String>();
+		List<GirlTag> allTagGirlInfoIdTagList = new ArrayList<GirlTag>();
+		while(itAllGirlTag.hasNext()) {
+			JSONObject jsonData = new JSONObject(itAllGirlTag.next());
+			allGirlInfoIdTagList.add(jsonData.getString("id"));
+			if (!jsonData.getString("value").equals("")) {
+				GirlInfo girlInfo = new GirlInfo();
+				girlInfo.setGirlInfoId(jsonData.getString("id"));
+				List girlTags = Arrays.asList(jsonData.getString("value").split(","));
+				Iterator itGirlTag = girlTags.iterator();
+				while(itGirlTag.hasNext()) {
+					String girlTagInfoId = (String) itGirlTag.next();
+					GirlTagId girlTagId = new GirlTagId();
+					girlTagId.setGirlInfo(girlInfo);
+					GirlTagInfo girlTagInfo = new GirlTagInfo();
+					girlTagInfo.setGirlTagInfoId(girlTagInfoId);
+					girlTagId.setGirlTagInfo(girlTagInfo);
+					GirlTag girlTag = new GirlTag();
+					girlTag.setPrimaryKey(girlTagId);
+					allTagGirlInfoIdTagList.add(girlTag);
+				}
+			}
+		}
+		girlInfoManager.allTagByGirlInfoId(allGirlInfoIdTagList, allTagGirlInfoIdTagList);
+
 		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 		return girllist();
 	}
@@ -572,6 +612,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		}
 		this.genderInfos = genderInfoManager.list();
 		this.nationalityInfos = nationalityInfoManager.list();
+		this.girlTagInfos = girlTagInfoManager.list();
 		
 		return SUCCESS;
 	}
@@ -917,6 +958,22 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 
 	public void setGirlInfo(GirlInfo girlInfo) {
 		this.girlInfo = girlInfo;
+	}
+
+	public List<GirlTagInfo> getGirlTagInfos() {
+		return girlTagInfos;
+	}
+
+	public void setGirlTagInfos(List<GirlTagInfo> girlTagInfos) {
+		this.girlTagInfos = girlTagInfos;
+	}
+
+	public List<String> getGirlTagList() {
+		return girlTagList;
+	}
+
+	public void setGirlTagList(List<String> girlTagList) {
+		this.girlTagList = girlTagList;
 	}
 
 

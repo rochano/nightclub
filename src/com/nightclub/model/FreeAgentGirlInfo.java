@@ -42,6 +42,8 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	private UserInfo userInfo;
 	private String incall;
 	private String outcall;
+	private String skinInfoId;
+	private String type;
 
 	@OneToMany(mappedBy = "primaryKey.freeAgentGirlInfo",
             cascade = CascadeType.ALL)
@@ -212,6 +214,14 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	public String getOutcall() {
 		return outcall;
 	}
+	@Column(name="type")
+	public String getType() {
+		return type;
+	}
+	@Column(name="skin_info_id")
+	public String getSkinInfoId() {
+		return skinInfoId;
+	}
 	public void setGirlServices(List<GirlService> girlServices) {
 		this.girlServices = girlServices;
 	}
@@ -283,5 +293,11 @@ public class FreeAgentGirlInfo extends GirlInfo {
 	}
 	public void setOutcall(String outcall) {
 		this.outcall = outcall;
+	}
+	public void setSkinInfoId(String skinInfoId) {
+		this.skinInfoId = skinInfoId;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 }

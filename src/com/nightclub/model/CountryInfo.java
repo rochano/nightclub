@@ -22,6 +22,7 @@ public class CountryInfo implements Serializable {
 	private String countryInfoId;
 	private String countryNameEn;
 	private String countryNameJp;
+	private String active;
 
 	private List<ProvinceInfo> provinceInfos = new ArrayList<ProvinceInfo>();
 	
@@ -44,6 +45,13 @@ public class CountryInfo implements Serializable {
 	public List<ProvinceInfo> getProvinceInfos() {
 		return provinceInfos;
 	}
+	@Column(name="active")
+	public String getActive() {
+		if (active == null || "".equals(active)) {
+			return Boolean.FALSE.toString();
+		}
+		return active;
+	}
 	public void setCountryInfoId(String countryInfoId) {
 		this.countryInfoId = countryInfoId;
 	}
@@ -55,5 +63,8 @@ public class CountryInfo implements Serializable {
 	}
 	public void setProvinceInfos(List<ProvinceInfo> provinceInfos) {
 		this.provinceInfos = provinceInfos;
+	}
+	public void setActive(String active) {
+		this.active = active;
 	}
 }

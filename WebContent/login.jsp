@@ -167,9 +167,8 @@
 							<div class="grouped fields">
 								<div class="field">
 									<div class="ui left icon input">
-										<s:select list="#{'2':getText('global.main_menu_agents'), 
-														'3':getText('global.main_menu_free_agents'), 
-														'5':getText('global.main_menu_en_girls')}"
+										<s:select list="#{'2':getText('global.main_menu_agents'),  
+														'6':getText('global.main_menu_independent')}"
 											name="userType">
 										</s:select>
 										<input type="hidden" name="chkUserType" id="userType_list"

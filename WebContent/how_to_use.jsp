@@ -63,19 +63,40 @@
 					<div class="active section"><s:text name="global.main_menu_how_to_use" /></div>
 				</div>
 
-	  			<div class="center aligned column">
+				<div class="center aligned column">
 		  			<div class="ui segment header">
 						<h2 class="ui top header">
 							<i class="bookmark icon yellow"></i>
-							<div class="content"><s:text name="global.main_menu_how_to_use_title" /></div>
+							<div class="content"><s:text name="global.precautions_for_use" /></div>
 						</h2>
 					</div>
 					<div class="ui grid attached segment">
 						<div class="column one left aligned">
-							<s:text name="homeInfo.howToUse"></s:text>
-							<a href="<s:property value="homeInfo.lineContactUrl" />">
-								<img height="36" border="0" src="https://scdn.line-apps.com/n/line_add_friends/btn/th.png">
-							</a>
+							<%--<s:if test="#request.locale.language=='th'">
+								<s:text name="homeInfo.descriptionEn"></s:text>
+							</s:if>
+							<s:else>--%>
+								<s:text name="homeInfo.description"></s:text>
+							<%--</s:else>--%>
+				 		</div>
+					</div>
+				</div>
+
+				<div class="center aligned column">
+					<div class="ui segment header">
+						<h2 class="ui top header">
+							<i class="idea icon orange"></i>
+							<div class="content"><s:text name="global.what_is_thainightnavi" /></div>
+						</h2>
+					</div>
+					<div class="ui grid attached segment">
+						<div class="column one left aligned">
+							<%--<s:if test="#request.locale.language=='th'">
+								<s:text name="homeInfo.descriptionEn2"></s:text>
+							</s:if>
+							<s:else>--%>
+								<s:text name="homeInfo.description2"></s:text>
+							<%--</s:else>--%>
 				 		</div>
 					</div>
 				</div>

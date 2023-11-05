@@ -45,16 +45,20 @@
 	justify-content: flex-start;
   }
   .slide-image {
-  	height: 350px;
+  	height: 500px;
   	overflow: hidden;
   }
   .slide-image img.ui.fluid.image {
-  	height: 350px;
+  	height: 500px;
   	width:auto;
   }
   .inform {
 	display: block;
 	text-align: left;
+  }
+  .ui.table tr td:first-child > p,
+  .ui.table tr td:nth-child(2) > p {
+  	color: #686868;
   }
   @media only screen and (max-width: 767px) {
   	.ui.menu:not(.vertical):not(.fixed)/*,
@@ -163,55 +167,41 @@
 				this_.empty()
 				this_.text('...');
 				this_.attr("disabled","disabled");
-				$.getJSON("<s:url value="/ajax/loadMoreGirlInfos/" />" + userType + "/" + feedOffset,
+				$.getJSON("<s:url value="/ajax/loadMoreGirlInfos/" />" + feedOffset,
 					$("#searchForm").serialize(),
 					function(jsonResponse) {
 						$.each(jsonResponse.girlInfos, function(i, obj) {
 							var infoHtml = '';
 							infoHtml += '<div class="ui red card">';
+							infoHtml += '<div class="ui left red corner label girl-tag toggleGirlTag"';
+							infoHtml += '	data-variation="tiny">';
+							$.each(obj.girlTags, function(j, objGirlTag) {
+								infoHtml += '		<div class="ui ' + objGirlTag.primaryKey.girlTagInfo.color + ' circular label">';
+								infoHtml += '			' + objGirlTag.primaryKey.girlTagInfo.girlTagNameJp;
+								infoHtml += '			<br />';
+								infoHtml += '		</div>';
+							});
+							infoHtml += '</div>';
 							infoHtml += '<div class="image ui centered corner labeled pic" >';
-							infoHtml += '<a class="ui right corner label toggleFavourite link" ';
-							infoHtml += 'data-girlInfoId="' + obj.girlInfoId + '"';
-							infoHtml += '				data-content="Please login first" data-variation="tiny">';
-							infoHtml += '			<i class="heart ';
-							if (jsonResponse.girlFavourites.indexOf(obj.girlInfoId) != -1) {
-								infoHtml += 'red';
-							} else {
-								infoHtml += 'outline';
-							}
-							infoHtml += '				icon"></i>';
-							infoHtml += '		</a>';
 							infoHtml += '		<a href="' + getUrl('girl/' + obj.girlInfoId) + '">';
 							infoHtml += getPic(obj);
 							infoHtml += '		</a>';
+							if (obj.allSame == 'true') {
+								infoHtml += '<div class="ui right corner label green verified">';
+								infoHtml += '<i class="icon"><s:text name="global.all_same" /></i>';
+								infoHtml += '</div>';
+							}
 							infoHtml += '	</div>';
 							infoHtml += '	<div class="content left aligned label pink circular ui">';
 							infoHtml += '		<span class="right floated">';
 							infoHtml += getPrice(obj);
 							infoHtml += '		</span>';
-							if (obj.allSame == 'true') {
-								infoHtml += '<s:text name="global.all_same" />';
-							}
 							infoHtml += '	</div>';
 							infoHtml += '	<div class="content left aligned">';
 							infoHtml += '		<a class="ui header " href="' + getUrl('girl/' + obj.girlInfoId) + '">' + obj.nickName + '</a>';
 							infoHtml += '		<div class="description">';
 							infoHtml += getCustomDescription(obj);
 							infoHtml += '			<i class="marker icon"></i>';
-							<%-- <s:if test="#request.locale.language=='th'">
-								$.each(obj.girlLocations, function(j, objLocation) {
-									infoHtml += '					<div class="ui medium label">';
-									infoHtml += objLocation.primaryKey.zoneInfo.zoneNameEn;
-									infoHtml += '					</div>';
-								});
-							</s:if>
-							<s:else> --%>
-							<%-- 	$.each(obj.girlLocations, function(j, objLocation) {
-									infoHtml += '					<div class="ui medium label">';
-									infoHtml += objLocation.primaryKey.zoneInfo.zoneNameJp;
-									infoHtml += '					</div>';
-								}); --%>
-							<%-- </s:else> --%>
 							if (obj.countryInfo) {
 								infoHtml += '		' + obj.countryInfo.countryNameJp;
 							}
@@ -228,15 +218,6 @@
 						this_.empty()
 						this_.text('LOAD MORE');
 						this_.removeAttr("disabled");
-						<s:if test="clientInfo != null"></s:if>
-						<s:else>
-						$('.toggleFavourite').popup('destroy');
-						$('.toggleFavourite')
-							.popup({
-								on: 'click'
-							})
-						;
-						</s:else>
 				});
 	    })
 	});

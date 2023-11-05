@@ -131,20 +131,7 @@
                      prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.price6Hrs" /><s:text name="global.message_correctly" /></s:i18n>'
                     },
                  ]
-               },
-            email: {
-                   identifier  : 'email',
-                   rules: [
-                     {
-                       type   : 'empty',
-                       prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.email" /></s:i18n>'
-                     },
-                     {
-                       type   : 'email',
-                       prompt : '<s:i18n name="global_th"><s:text name="global.message_please_enter_valid_email" /></s:i18n>'
-                     }
-                   ]
-                 },
+               }
      	   },
      	  onFailure: function() {
      		  window.scrollTo(0,0);
@@ -545,6 +532,21 @@
 						<br />
 						<div class="inline field">
 							<s:i18n name="global_th"><s:textfield name="girlInfo.lineId" key="global.line_id"/></s:i18n>
+						</div>
+						<div class="inline field">
+							<s:i18n name="global_th"><s:textfield name="girlInfo.telegramId" key="global.telegram_id"/></s:i18n>
+						</div>
+						<div class="inline field">
+							<s:i18n name="global_th"><s:textfield name="girlInfo.skypeId" key="global.skype_id"/></s:i18n>
+						</div>
+						<div class="inline field">
+							<s:i18n name="global_th"><s:textfield name="girlInfo.twitterId" key="global.twitter_id"/></s:i18n>
+						</div>
+						<div class="inline field">
+							<s:i18n name="global_th"><s:textfield name="girlInfo.wechatId" key="global.wechat_id"/></s:i18n>
+						</div>
+						<div class="inline field">
+							<s:i18n name="global_th"><s:textfield name="girlInfo.whatsAppId" key="global.whats_app_id"/></s:i18n>
 						</div>
 						<div class="ui grid five column">
 							<div class="image ui small column">

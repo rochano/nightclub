@@ -99,6 +99,23 @@
 	    .modal('show')
 	  ;
 	  </s:if>
+      $(".countriesupdate")
+		.bind('click', function() {
+			$('#activeForm').submit()
+	  });
+    $('#activeForm')
+    .form({
+        onSuccess: function() { 
+            var form = $(this);
+            form.find("[name=activelist]").remove()
+            $( "input[name=active]", dataTable.fnGetNodes()).each(function(i, item) {
+                var obj = {id: item.value, checked: item.checked};
+          	  form.append("<input name='activelist' value='" + JSON.stringify(obj) + "' type='hidden' />")
+            })
+            return true; 
+        }
+     })
+    ;
     })
   ;
   </script>
@@ -174,6 +191,7 @@
 						<div class="ui right aligned one column grid">
 							<div class="column">
 								<div class="addbtn ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
+								<div class="countriesupdate ui small button purple"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
@@ -182,17 +200,21 @@
 									<th>#</th>
 									<th><s:i18n name="global_th"><s:text name="global.japanese_name" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.english_name" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.active" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
 							<tfoot class="full-width">
 								<tr>
-									<th colspan="4">
+									<th colspan="5">
 										<div class="ui right aligned one column grid">
 											<div class="column">
 												<div class="addbtn ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
+												<div class="countriesupdate ui small button purple"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
 											</div>
 										</div>
+										<form class="ui form " id="activeForm" method="post" action="<s:url value="/admin/country/active"/>" >
+										</form>
 									</th>
 								</tr>
 							</tfoot>
@@ -235,6 +257,12 @@
 		['<s:property value="#status.count" />', 
 		"<s:property value="countryNameJp" />",
 		"<s:property value="countryNameEn" />",
+		'<div class="ui toggle fitted checkbox">' +
+			'<input type="checkbox" name="active" ' +
+			<s:if test="active == 'true'">'checked="checked" ' + </s:if>
+			'value="<s:property value="countryInfoId" />">' +
+			'<label></label>' +
+		'</div>',
 		'<div class="ui buttons">' +
 			'<a href="<s:url value="/admin/country/edit/%{countryInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
 			'<a href="<s:url value="/admin/country/delete/%{countryInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>' +

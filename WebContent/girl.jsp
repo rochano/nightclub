@@ -48,9 +48,12 @@
     padding-top: 10px;
     padding-bottom: 0;
   }
-  .ui.table, .ui.table tr th, .ui.table tr td {
+  .ui.table , .ui.table  tr th, .ui.table  tr td {
   	border-width:1px 0px!important; 
   	vertical-align: text-top;
+  }
+  .ui.table.girl-info tr td  {
+ 	border-width:0px 0px!important; 
   }
   .ui.segment.clearing, #availableInfos {
     margin:0px;
@@ -75,46 +78,144 @@
   	padding: 0;
   	width: 100%;
   }
+  .ui.left.corner.label.girl-tag {
+  	border-color: transparent;
+  }
+  .girl-tag .ui.circular.label {
+  	width: 50px;
+  	height: 50px;
+  	overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 70%;
+    text-wrap: balance;
+    word-break: break-word;
+  }
+	.ui.corner.label.verified {
+  	width: 6em;
+  	height: 6em;
+  }
+  .ui.corner.label.verified:after {
+    border-right-width: 6em;
+    border-bottom-width: 6em;
+    background-image: linear-gradient(red, yellow);
+  }
+  .ui.corner.label.verified .icon {
+  	top: 20px;
+    left: 20px;
+    transform: rotate(45deg);
+    font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+  .icon.linechat {
+	color: #00b300;
+  }
+  .icon.telegram {
+    color: #2ea0d5;
+    
+  }
+  .icon.skype {
+    color: #00aae8;
+  }
+  .fa-x-twitter {
+    color: #fff;
+    display: inline-block;
+    opacity: 1;
+    margin: 0 0.25rem 0 0;
+    width: 1.18em;
+    height: 1em;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    text-align: center;
+    speak: none;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    font-size: 4em;
+    vertical-align: middle;
+  }
+  .icon.wechat {
+    color: #2dbb01;
+  }
+  .icon.whatsapp {
+    color: #fff;
+  }
+  .icon.linechat::before,
+  .icon.telegram::before,
+  .icon.skype::before,
+  .fa-x-twitter::before,
+  .icon.wechat::before,
+  .icon.whatsapp::before {
+    position: relative;
+    z-index: 2;
+  }
+  .icon.linechat::after {
+	content: "";
+    background: #fff;
+    position: absolute;
+    width: 39px;
+    height: 36px;
+    display: block;
+    top: 10px;
+    left: 14px;
+    z-index: 1;
+  }
+  .icon.telegram::after {
+    content: "";
+    background: #fff;
+    position: absolute;
+    width: 35px;
+    height: 30px;
+    display: block;
+    top: 15px;
+    left: 15px;
+    z-index: 1;
+  }
+  .icon.skype::after {
+    content: "";
+    background: #fff;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    display: block;
+    top: 13px;
+    left: 19px;
+    z-index: 1;
+  }
+  .icon.wechat::after {
+    content: "";
+    position: absolute;
+    width: 66px;
+    height: 54px;
+    display: block;
+    top: 1px;
+    left: 14px;
+    z-index: 1;
+    border-radius: 5px;
+  }
+  .icon.whatsapp::after {
+    content: "";
+    background: #2dbb01;
+    position: absolute;
+    width: 48px;
+    height: 45px;
+    display: block;
+    top: 6px;
+    left: 10px;
+    z-index: 1;
+    border-radius: 50px;
+  }
+  .ui.grid.social-icon > .row > .column {
+  	padding: 0;
+  }
+  
   </style>
   <script type="text/javascript">
   $(document)
     .ready(function() {
-    	<s:if test="clientInfo != null">
-		$(".toggleFavourite").click(function() {
-			var favouriteIcon = $(this).find("i");
-			var girlInfoId = $(this).attr("data-girlInfoId");
-			var favourite = 0;
-			if (favouriteIcon.hasClass("outline")) {
-				favouriteIcon.removeClass("outline");
-				/* toggleFavourite.addClass("red") */
-				favourite = 1;
-			} else {
-				favouriteIcon.removeClass("red");
-				/* toggleFavourite.addClass("outline") */
-			}
-			favouriteIcon.removeClass("heart");
-			favouriteIcon.addClass("spinner");
-			$.getJSON("<s:url value="/ajax/toggleFavouriteJson/" />" + girlInfoId + "/" + favourite,
-			function(jsonResponse) {
-				favouriteIcon.removeClass("spinner");
-				favouriteIcon.addClass("heart");
-				if (jsonResponse.favourite === '1') {
-					favouriteIcon.removeClass("outline");
-					favouriteIcon.addClass("red")
-				} else {
-					favouriteIcon.removeClass("red");
-					favouriteIcon.addClass("outline")
-				}
-  			});
-		});
-		</s:if>
-		<s:else>
-		$('.toggleFavourite')
-			.popup({
-				on: 'click'
-			})
-		;
-		</s:else>
 <s:if test="%{girlInfo.agentInfoId != null}">
 		$('.ui.modal').modal({
 		    onApprove : function() {
@@ -146,14 +247,16 @@
   		  $(".ui.error.message").html("");
   		  $("#infoForm").removeClass("error");
 
-  		  var lookupDate = $('#inline_calendar').calendar("get date").toISOString().substring(0, 10);
-  		  getAvailableList(lookupDate);
-  		  var reserveDate = lookupDate.split("-");
-  		  $('#reserveInfo_reserveDate').val(reserveDate[2] + "/" + reserveDate[1] + "/" + reserveDate[0]);
-  		  
-          $('.ui.modal')
-  		    .modal('show')
-  		  ;
+  		  if ($('#inline_calendar').length > 0) {
+	  		  var lookupDate = $('#inline_calendar').calendar("get date").toISOString().substring(0, 10);
+	  		  getAvailableList(lookupDate);
+	  		  var reserveDate = lookupDate.split("-");
+	  		  $('#reserveInfo_reserveDate').val(reserveDate[2] + "/" + reserveDate[1] + "/" + reserveDate[0]);
+	  		  
+	          $('.ui.modal')
+	  		    .modal('show')
+	  		  ;
+  		  }
         });
   	  $('#reserveInfo_startTime, #reserveInfo_endTime').timeEntry({show24Hours: true, spinnerImage: ''});
   	  $('#infoForm')
@@ -264,8 +367,10 @@
 		  	}
 		  })
 	  	;
-  		var lookupDate = $('#inline_calendar').calendar("get date").toISOString().substring(0, 10);
-	  	getReserveList(lookupDate);
+	  	if ($('#inline_calendar').length > 0) {
+	  		var lookupDate = $('#inline_calendar').calendar("get date").toISOString().substring(0, 10);
+		  	getReserveList(lookupDate);
+	  	}
 	});
 <s:if test="%{girlInfo.agentInfoId != null}">
   $(".edit-reserve")
@@ -355,26 +460,6 @@ function getAvailableList(lookupDate, reserveInfoId) {
 						<s:text name="global.shop_menu_home" />
 					</a>
 					<i class="right chevron icon divider"></i>
-					<s:if test="%{girlInfo.agentInfoId != null}">
-					<a class="section" href="<s:url value="/agents" />" >
-						<s:text name="global.main_menu_agents" />
-					</a>
-					<%-- <i class="right chevron icon divider"></i>
-					<a class="section" href="<s:url value="/agents/%{girlInfo.agentInfoId}"/>" >
-						<s:text name="girlInfo.agentInfo.agentName" />
-					</a> --%>
-					</s:if>
-					<s:elseif test="%{girlInfo instanceof com.nightclub.model.FreeAgentGirlInfo}" >
-					<a class="section" href="<s:url value="/freeagents" />" >
-						<s:text name="global.main_menu_free_agents" />
-					</a>
-					</s:elseif>
-					<s:elseif test="%{girlInfo instanceof com.nightclub.model.EnGirlInfo}" >
-					<a class="section" href="<s:url value="/engirls" />" >
-						<s:text name="global.main_menu_en_girls" />
-					</a>
-					</s:elseif>
-					<i class="right chevron icon divider"></i>
 					<div class="active section"><s:property value="girlInfo.nickName" /></div>
 				</div>
 
@@ -384,15 +469,20 @@ function getAvailableList(lookupDate, reserveInfoId) {
 							<div class="ui aligned stackable grid container">
 								<div class="row">
 									<div class="seven wide column corner labeled">
-										<a class="ui right corner label toggleFavourite link huge" 
-												data-girlInfoId="<s:property value="girlInfoId" />"
-												data-content="Please login first" data-variation="tiny">
-											<i class="heart 
-												<s:if test="girlFavourites.indexOf(girlInfoId) != -1">red</s:if>
-												<s:else>outline</s:else>
-												icon"></i>
-										</a>
+										<div class="ui left corner label girl-tag">
+											<s:iterator value="girlInfo.girlTags" >
+												<div class="ui <s:property value="primaryKey.girlTagInfo.color" /> circular label">
+													<s:property value="primaryKey.girlTagInfo.girlTagNameJp" />
+													<br />
+												</div>
+											</s:iterator>
+										</div>
 										<div class="center aligned sixteen wide column slide-image">
+											<s:if test="girlInfo.allSame == 'true'">
+												<div class="ui right corner label green verified">
+													<i class="icon"><s:text name="global.all_same" /></i>
+												</div>
+											</s:if>
 											<div class="single-item">
 												<s:if test="girlInfo.pic1 != null && girlInfo.pic1 != ''">
 													<div><img class="ui image fluid centered" src="<s:property value="girlInfo.pic1" />" /></div>
@@ -431,7 +521,7 @@ function getAvailableList(lookupDate, reserveInfoId) {
 										</s:if>
 									</div>
 									<div class="seven wide right floated centered column">
-										<table class="ui compact table unstackable">
+										<table class="ui compact basic table unstackable girl-info">
 											<tbody>
 												<s:if test="girlInfo.agentInfo != null">
 												<tr>
@@ -520,27 +610,27 @@ function getAvailableList(lookupDate, reserveInfoId) {
 													<td class="right aligned"><p>Location</p></td>
 													<td class="center aligned one wide"><p>:</p></td>
 													<td>
-														<p>
-															<%--<s:if test="#request.locale.language=='th'">
-																<s:iterator value="girlInfo.girlLocations" >
-																	<s:property value="primaryKey.zoneInfo.zoneNameEn" />
-																	<br />
-																</s:iterator>
-															</s:if>
-															<s:else>--%>
-																<%-- <s:iterator value="girlInfo.girlLocations" >
-																	<s:property value="primaryKey.zoneInfo.zoneNameJp" />
-																	<br />
-																</s:iterator> --%>
-															<%--</s:else>--%>
-															<div class="ui inverted list">
-																<div class="item">
-																	<div class="content">
-																		<div class="header">
-																			<h5 class="ui header left aligned inverted">
-																				<s:property value="girlInfo.countryInfo.countryNameJp" />
-																			</h5>
-																		</div>
+														<%--<s:if test="#request.locale.language=='th'">
+															<s:iterator value="girlInfo.girlLocations" >
+																<s:property value="primaryKey.zoneInfo.zoneNameEn" />
+																<br />
+															</s:iterator>
+														</s:if>
+														<s:else>--%>
+															<%-- <s:iterator value="girlInfo.girlLocations" >
+																<s:property value="primaryKey.zoneInfo.zoneNameJp" />
+																<br />
+															</s:iterator> --%>
+														<%--</s:else>--%>
+														<div class="ui inverted list">
+															<div class="item">
+																<div class="content">
+																	<div class="header">
+																		<h5 class="ui header left aligned inverted">
+																			<s:property value="girlInfo.countryInfo.countryNameJp" />
+																		</h5>
+																	</div>
+																	<s:if test="girlProvinces.size() > 0" >
 																		<div class="list">
 																			<s:iterator value="girlProvinces" >
 																				<div class="item">
@@ -548,25 +638,27 @@ function getAvailableList(lookupDate, reserveInfoId) {
 																						<div class="description">
 																							<s:property value="primaryKey.provinceInfo.provinceNameJp" />
 																						</div>
-																						<div class="list">
-																							<s:iterator value="primaryKey.provinceInfo.zoneInfos" >
-																								<div class="item">
-																									<div class="content">
-																										<div class="ui medium label">
-																											<s:property value="primaryKey.zoneInfo.zoneNameJp" />
+																						<s:if test="primaryKey.provinceInfo.zoneInfos.size() > 0" >
+																							<div class="list">
+																								<s:iterator value="primaryKey.provinceInfo.zoneInfos" >
+																									<div class="item">
+																										<div class="content">
+																											<div class="ui medium label">
+																												<s:property value="primaryKey.zoneInfo.zoneNameJp" />
+																											</div>
 																										</div>
 																									</div>
-																								</div>
-																							</s:iterator>
-																						</div>
+																								</s:iterator>
+																							</div>
+																						</s:if>
 																					</div>
 																				</div>
 																			</s:iterator>
 																		</div>
-																	</div>
+																	</s:if>
 																</div>
 															</div>
-														</p>
+														</div>
 													</td>
 												</tr>
 												<s:if test="%{girlInfo instanceof com.nightclub.model.EnGirlInfo}" >
@@ -613,12 +705,64 @@ function getAvailableList(lookupDate, reserveInfoId) {
 															</td>
 														</tr> --%>
 														<tr>
-															<td colspan="3">
-																<p class="centered" style="text-align: -webkit-center;">
-																	<a href="https://line.me/ti/p/~<s:property value="girlInfo.lineId" />">
-																		<img class="ui small image" src="https://scdn.line-apps.com/n/line_add_friends/btn/th.png">
-																	</a>
+															<td class="right aligned"><p>Phone</p></td>
+															<td class="center aligned one wide"><p>:</p></td>
+															<td>
+																<p>
+																	<s:if test="girlInfo.agentInfo.userInfo.phone!=''">
+																		<s:property value="girlInfo.agentInfo.userInfo.phone" />
+																	</s:if>
 																</p>
+															</td>
+														</tr>
+														<tr>
+															<td colspan="3">
+																<div class="ui centered grid social-icon">
+																	<div class="six column row">
+																		<s:if test="girlInfo.agentInfo.lineId != ''">
+																			<div class="center aligned column">
+																				<a href="https://line.me/ti/p/~<s:property value="girlInfo.agentInfo.lineId" />">
+																					<i class="icon huge linechat"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																		<s:if test="girlInfo.agentInfo.telegramId != ''">
+																			<div class="center aligned column">
+																				<a href="https://t.me/s/<s:property value="girlInfo.agentInfo.telegramId" />">
+																					<i class="icon huge telegram"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																		<s:if test="girlInfo.agentInfo.skypeId != ''">
+																			<div class="center aligned column">
+																				<a href="skype:<s:property value="girlInfo.agentInfo.skypeId" />">
+																					<i class="icon huge skype"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																		<s:if test="girlInfo.agentInfo.twitterId != ''">
+																			<div class="center aligned column">
+																				<a href="https://twitter.com/<s:property value="girlInfo.agentInfo.twitterId" />">
+																					<i class="fa-brands fa-x-twitter"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																		<s:if test="girlInfo.agentInfo.wechatId != ''">
+																			<div class="center aligned column">
+																				<a href="weixin://dl/chat?<s:property value="girlInfo.agentInfo.wechatId" />">
+																					<i class="icon huge wechat"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																		<s:if test="girlInfo.agentInfo.whatsAppId != ''">
+																			<div class="center aligned column">
+																				<a href="https://wa.me/<s:property value="girlInfo.agentInfo.whatsAppId" />">
+																					<i class="icon huge whatsapp"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																	</div>
+																</div>
 															</td>
 														</tr>
 													</s:if>
@@ -646,11 +790,52 @@ function getAvailableList(lookupDate, reserveInfoId) {
 														</tr> --%>
 														<tr>
 															<td colspan="3">
-																<p class="centered" style="text-align: -webkit-center;">
-																	<a href="https://line.me/ti/p/~<s:property value="girlInfo.lineId" />">
-																		<img class="ui small image" src="https://scdn.line-apps.com/n/line_add_friends/btn/th.png">
-																	</a>
-																</p>
+																<div class="ui centered grid social-icon">
+																	<div class="six column row">
+																		<s:if test="girlInfo.lineId != ''">
+																			<div class="center aligned column">
+																				<a href="https://line.me/ti/p/~<s:property value="girlInfo.lineId" />">
+																					<i class="icon huge linechat"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																		<s:if test="girlInfo.telegramId != ''">
+																			<div class="center aligned column">
+																				<a href="https://t.me/s/<s:property value="girlInfo.telegramId" />">
+																					<i class="icon huge telegram"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																		<s:if test="girlInfo.skypeId != ''">
+																			<div class="center aligned column">
+																				<a href="skype:<s:property value="girlInfo.skypeId" />">
+																					<i class="icon huge skype"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																		<s:if test="girlInfo.twitterId != ''">
+																			<div class="center aligned column">
+																				<a href="https://twitter.com/<s:property value="girlInfo.twitterId" />">
+																					<i class="fa-brands fa-x-twitter"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																		<s:if test="girlInfo.wechatId != ''">
+																			<div class="center aligned column">
+																				<a href="weixin://dl/chat?<s:property value="girlInfo.wechatId" />">
+																					<i class="icon huge wechat"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																		<s:if test="girlInfo.whatsAppId != ''">
+																			<div class="center aligned column">
+																				<a href="https://wa.me/<s:property value="girlInfo.whatsAppId" />">
+																					<i class="icon huge whatsapp"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																	</div>
+																</div>
 															</td>
 														</tr>
 													</s:if>
@@ -677,46 +862,68 @@ function getAvailableList(lookupDate, reserveInfoId) {
 															</td>
 														</tr> --%>
 														<tr>
-															<td colspan="3">
-																<p class="centered" style="text-align: -webkit-center;">
-																	<a href="https://line.me/ti/p/~<s:property value="girlInfo.lineId" />">
-																		<img class="ui small image" src="https://scdn.line-apps.com/n/line_add_friends/btn/th.png">
-																	</a>
+															<td class="right aligned"><p>Phone</p></td>
+															<td class="center aligned one wide"><p>:</p></td>
+															<td>
+																<p>
+																	<s:if test="girlInfo.userInfo.phone!=''">
+																		<s:property value="girlInfo.userInfo.phone" />
+																	</s:if>
 																</p>
+															</td>
+														</tr>
+														<tr>
+															<td colspan="3">
+																<div class="ui centered grid social-icon">
+																	<div class="six column row">
+																		<s:if test="girlInfo.lineId != ''">
+																			<div class="center aligned column">
+																				<a href="https://line.me/ti/p/~<s:property value="girlInfo.lineId" />">
+																					<i class="icon huge linechat"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																		<s:if test="girlInfo.telegramId != ''">
+																			<div class="center aligned column">
+																				<a href="https://line.me/ti/p/~<s:property value="girlInfo.telegramId" />">
+																					<i class="icon huge telegram"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																		<s:if test="girlInfo.skypeId != ''">
+																			<div class="center aligned column">
+																				<a href="https://line.me/ti/p/~<s:property value="girlInfo.skypeId" />">
+																					<i class="icon huge skype"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																		<s:if test="girlInfo.twitterId != ''">
+																			<div class="center aligned column">
+																				<a href="https://line.me/ti/p/~<s:property value="girlInfo.twitterId" />">
+																					<i class="fa-brands fa-x-twitter"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																		<s:if test="girlInfo.wechatId != ''">
+																			<div class="center aligned column">
+																				<a href="weixin://dl/chat?<s:property value="girlInfo.wechatId" />">
+																					<i class="icon huge wechat"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																		<s:if test="girlInfo.whatsAppId != ''">
+																			<div class="center aligned column">
+																				<a href="https://wa.me/<s:property value="girlInfo.whatsAppId" />">
+																					<i class="icon huge whatsapp"></i>
+																				</a>
+																			</div>
+																		</s:if>
+																	</div>
+																</div>
 															</td>
 														</tr>
 													</s:if>
 												</s:else>
-												<s:if test="%{clientInfo != null}">
-													<s:if test="%{clientInfo.userInfo.active  == 'true'}">
-														<s:if test="%{girlInfo.agentInfoId != null}">
-															<s:if test="%{girlInfo.agentInfo.userInfo.active  == 'true'}">
-																<tr>
-																	<td colspan="3">
-																		<p class="centered" style="text-align: -webkit-center;">
-																			<a href="https://line.me/ti/p/~<s:property value="girlInfo.lineId" />">
-																				<img class="ui small image" src="https://scdn.line-apps.com/n/line_add_friends/btn/th.png">
-																			</a>
-																		</p>
-																	</td>
-																</tr>
-															</s:if>
-														</s:if>
-														<s:else>
-															<s:if test="%{girlInfo.userInfo.active  == 'true'}">
-																<tr>
-																	<td colspan="3">
-																		<p class="centered" style="text-align: -webkit-center;">
-																			<a href="https://line.me/ti/p/~<s:property value="girlInfo.lineId" />">
-																				<img class="ui small image" src="https://scdn.line-apps.com/n/line_add_friends/btn/th.png">
-																			</a>
-																		</p>
-																	</td>
-																</tr>
-															</s:if>
-														</s:else>
-													</s:if>
-												</s:if>
 											</tbody>
 										</table>
 										<h5 class="ui horizontal left aligned header">

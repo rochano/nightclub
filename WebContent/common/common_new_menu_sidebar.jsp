@@ -29,9 +29,9 @@
 				</s:else>
 			</div>
 		</div> --%>
-		<a href="<s:url value="/agents"/>" class="ui item"><s:text name="global.main_menu_agents" /></a>
+		<%-- <a href="<s:url value="/agents"/>" class="ui item"><s:text name="global.main_menu_agents" /></a>
 		<a href="<s:url value="/freeagents"/>" class="ui item"><s:text name="global.main_menu_free_agents" /></a>
-		<a href="<s:url value="/engirls"/>" class="ui item"><s:text name="global.main_menu_en_girls" /></a>
+		<a href="<s:url value="/engirls"/>" class="ui item"><s:text name="global.main_menu_en_girls" /></a> --%>
 		<%-- <a href="<s:url value="/search"/>" class="ui item"><s:text name="global.main_menu_search" /></a>
 		<a href="<s:url value="/contact"/>" class="ui item"><s:text name="global.main_menu_contact" /></a> --%>
 		<a href="<s:url value="/howtouse"/>" class="ui item"><s:text name="global.main_menu_how_to_use" /></a>

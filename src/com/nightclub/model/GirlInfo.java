@@ -48,6 +48,11 @@ public class GirlInfo extends BaseModel implements Serializable{
 	private String countryInfoId;
 	private String genderInfoId;
 	private String mov1;
+	private String telegramId;
+	private String skypeId;
+	private String twitterId;
+	private String wechatId;
+	private String whatsAppId;
 
 	private NationalityInfo nationalityInfo;
 	private CountryInfo countryInfo;
@@ -59,7 +64,8 @@ public class GirlInfo extends BaseModel implements Serializable{
 	
 	private List<GirlLocation> girlLocations = new ArrayList<GirlLocation>();
 	private List<GirlProvince> girlProvinces = new ArrayList<GirlProvince>();
-	
+	private List<GirlTag> girlTags = new ArrayList<GirlTag>();
+
 	@Id
 	@Column(name="girl_info_id")
 	@Length(max=40)
@@ -206,6 +212,46 @@ public class GirlInfo extends BaseModel implements Serializable{
 		}
 		return mov1;
 	}
+	@Column(name="telegram_id")
+	public String getTelegramId() {
+		if (telegramId == null) {
+			return "";
+		}
+		return telegramId;
+	}
+	@Column(name="skype_id")
+	public String getSkypeId() {
+		if (skypeId == null) {
+			return "";
+		}
+		return skypeId;
+	}
+	@Column(name="twitter_id")
+	public String getTwitterId() {
+		if (twitterId == null) {
+			return "";
+		}
+		return twitterId;
+	}
+	@Column(name="wechat_id")
+	public String getWechatId() {
+		if (wechatId == null) {
+			return "";
+		}
+		return wechatId;
+	}
+	@Column(name="whatsapp_id")
+	public String getWhatsAppId() {
+		if (whatsAppId == null) {
+			return "";
+		}
+		return whatsAppId;
+	}
+	@OneToMany(mappedBy = "primaryKey.girlInfo",
+            cascade = CascadeType.ALL)
+	public List<GirlTag> getGirlTags() {
+		return girlTags;
+	}
 	public void setGirlInfoId(String girlInfoId) {
 		this.girlInfoId = girlInfoId;
 	}
@@ -310,5 +356,23 @@ public class GirlInfo extends BaseModel implements Serializable{
 	}
 	public void setMov1(String mov1) {
 		this.mov1 = mov1;
+	}
+	public void setGirlTags(List<GirlTag> girlTags) {
+		this.girlTags = girlTags;
+	}
+	public void setTelegramId(String telegramId) {
+		this.telegramId = telegramId;
+	}
+	public void setSkypeId(String skypeId) {
+		this.skypeId = skypeId;
+	}
+	public void setTwitterId(String twitterId) {
+		this.twitterId = twitterId;
+	}
+	public void setWechatId(String wechatId) {
+		this.wechatId = wechatId;
+	}
+	public void setWhatsAppId(String whatsAppId) {
+		this.whatsAppId = whatsAppId;
 	}
 }

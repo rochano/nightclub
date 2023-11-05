@@ -72,6 +72,27 @@ public class CountryInfoManager extends HibernateUtil {
 		List<CountryInfo> countryInfos = null;
 		try {
 			
+			countryInfos = (List<CountryInfo>)session.createQuery("from CountryInfo where active = :active ")
+					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+					.list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		
+		return countryInfos;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<CountryInfo> listAll() {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<CountryInfo> countryInfos = null;
+		try {
+			
 			countryInfos = (List<CountryInfo>)session.createQuery("from CountryInfo").list();
 			
 		} catch (HibernateException e) {
@@ -136,5 +157,31 @@ public class CountryInfoManager extends HibernateUtil {
 		}
 		session.getTransaction().commit();
 		return countryInfo;
+	}
+
+	public void activeByCountryInfoId(List<String> allCountryInfoIdList, List<String> availableCountryInfoIdList) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			
+			if(allCountryInfoIdList.size()> 0) {
+				session.createQuery("update CountryInfo set active = :active where countryInfoId in (:countryInfoIdList) ")
+						.setParameter("active", Boolean.FALSE.toString().toLowerCase())
+						.setParameterList("countryInfoIdList", allCountryInfoIdList.toArray())
+						.executeUpdate();
+
+				if(availableCountryInfoIdList.size()> 0) {
+					session.createQuery("update CountryInfo set active = :active where countryInfoId in (:countryInfoIdList) ")
+							.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+							.setParameterList("countryInfoIdList", availableCountryInfoIdList.toArray())
+							.executeUpdate();
+				}
+			}
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
 	}
 }

@@ -85,16 +85,16 @@
                   prompt : '<s:text name="global.signup_confirm_password" /><s:text name="global.message_match_password" />'
                 },
               ]
-            },
-            chk_over18: {
-                identifier  : 'chk_over18',
-                rules: [
-                  {
-                    type   : 'checked',
-                    prompt : '<s:text name="global.must_over_18" />'
-                  },
-                ]
-              }
+            }
+          },
+          onSuccess: function(event, fields){
+              $("[name='form2'").empty();
+              $.each(fields, function(key, value) {
+                  var input = $("<input name='" + key + "' type='hidden' value='" + value + "' />");
+            	  $("[name='form2'").append(input)
+              });
+              $('.ui.modal').modal('show');
+              return false;
           }
         })
       ;
@@ -129,6 +129,12 @@
         }
       })
     ;
+      $('.ui.modal').modal({
+          onApprove : function() {
+            $("[name='form2']").submit();
+            return false;
+          }
+      });
     })
   ;
   </script>
@@ -152,7 +158,7 @@
 					<s:text name="global.main_menu_register" />
 				</div>
 			</h2>
-			<form class="ui large form inverted" name="form1" method="post" action="<s:url value="/signup"/>">
+			<form class="ui large form inverted" name="form1">
 				<div class="ui segment basic">
 					<div class="field">
 						<label><s:text name="global.username" /></label>
@@ -180,33 +186,41 @@
 							<input type="password" name="confirmpassword" id="confirmpassword" placeholder="<s:text name="global.signup_confirm_password" />" />
 						</div>
 					</div>
-							<div class="field">
-								<label><s:text name="global.user_type" /></label>
+					<div class="field">
+						<label><s:text name="global.user_type" /></label>
+					</div>
+					<div class="grouped fields">
+						<div class="field">
+							<div class="ui left icon input">
+								<s:select list="#{'2':getText('global.main_menu_agents'), 
+												'6':getText('global.main_menu_independent')}"
+									name="userType">
+								</s:select>
+								<input type="hidden" name="chkUserType" id="userType_list"
+										checked value="list">
 							</div>
-							<div class="grouped fields">
-								<div class="field">
-									<div class="ui left icon input">
-										<s:select list="#{'2':getText('global.main_menu_agents'), 
-														'3':getText('global.main_menu_free_agents'), 
-														'5':getText('global.main_menu_en_girls')}"
-											name="userType">
-										</s:select>
-										<input type="hidden" name="chkUserType" id="userType_list"
-												checked value="list">
-									</div>
-								</div>
-							</div>
-							<div class="field inverted">
-							 	<div class="ui left icon input">
-									<div class="ui checkbox">
-										<input type="checkbox" name="chk_over18" id="chk_over18">
-										<label for="chk_over18"><s:text name="global.over_18_years_old" /></label>
-									</div>
-								</div>
-							</div>
+						</div>
+					</div>
 					<div class="ui fluid large teal submit button"><s:text name="global.main_menu_register" /></div>
 				</div>
 				<div class="ui error message"><s:actionerror cssClass="list" /></div>
+			</form>
+			<div class="ui basic modal">
+				<div class="center aligned content">
+					<h3><s:text name="global.over_18_years_old" /></h3>
+				</div>
+				<div class="center aligned actions">
+					<div class="ui huge green basic ok inverted labeled icon button">
+						YES
+						<i class="checkmark icon"></i>
+					</div>
+					<div class="ui huge red basic cancel inverted labeled icon button">
+						NO
+						<i class="remove icon"></i>
+					</div>
+				</div>
+			</div>
+			<form name="form2" method="post" action="<s:url value="/signup"/>">
 			</form>
 		</div>
 	</div>

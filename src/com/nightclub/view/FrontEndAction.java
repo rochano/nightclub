@@ -26,6 +26,7 @@ import com.nightclub.controller.GirlCommentManager;
 import com.nightclub.controller.GirlFavouriteManager;
 import com.nightclub.controller.GirlInfoManager;
 import com.nightclub.controller.GirlReserveInfoManager;
+import com.nightclub.controller.GirlTagInfoManager;
 import com.nightclub.controller.HomeInfoManager;
 import com.nightclub.controller.HomeSlideImageManager;
 import com.nightclub.controller.NationalityInfoManager;
@@ -49,6 +50,7 @@ import com.nightclub.model.GirlInfo;
 import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
+import com.nightclub.model.GirlTagInfo;
 import com.nightclub.model.HomeInfo;
 import com.nightclub.model.HomeSlideImage;
 import com.nightclub.model.NationalityInfo;
@@ -109,6 +111,7 @@ public class FrontEndAction extends CommonAction {
 	private String actionMessage;
 	private List<FormDay> workingDateList;
 	private List<String> girlServicesInfoId;
+	private List<GirlTagInfo> girlTagInfos;
 
 	private CategoryInfoManager categoryInfoManager;
 	private BasicInfoManager basicInfoManager;
@@ -127,6 +130,7 @@ public class FrontEndAction extends CommonAction {
 	private GenderInfoManager genderInfoManager;
 	private GirlCommentManager girlCommentManager;
 	private GirlReserveInfoManager girlReserveInfoManager;
+	private GirlTagInfoManager girlTagInfoManager;
 
 	public FrontEndAction() {
 		super();
@@ -147,6 +151,7 @@ public class FrontEndAction extends CommonAction {
 		genderInfoManager = new GenderInfoManager();
 		girlCommentManager = new GirlCommentManager();
 		girlReserveInfoManager = new GirlReserveInfoManager();
+		girlTagInfoManager = new GirlTagInfoManager();
 	}
 	
 	public String execute() {
@@ -157,6 +162,23 @@ public class FrontEndAction extends CommonAction {
 		this.newsInfos = newsInfoManager.list();
 		this.homeInfo = homeInfoManager.getHomeInfo("0");
 		this.adsInfos = adsInfoManager.active();
+
+		girlInfoManager = new AgentGirlInfoManager();
+		if(this.frontSearch == null) {
+			this.frontSearch = new FrontSearch();
+		}
+		this.frontSearch.setSearchRandom(new BigDecimal((Math.random()*36+1)).intValue());
+		this.girlInfos = girlInfoManager.searchAllGirls(this.frontSearch, this.feedLimit, this.feedOffset);
+		this.agentInfos = agentInfoManager.list();
+		this.zoneInfos = zoneInfoManager.list();
+		this.nationalityInfos = nationalityInfoManager.list();
+		this.countryInfos = countryInfoManager.list();
+		if(this.frontSearch.getCountryInfoId() != null && !"".equals(this.frontSearch.getCountryInfoId())) {
+			this.provinceInfos = provinceInfoManager.listByCountry(this.frontSearch.getCountryInfoId());
+		}
+		this.genderInfos = genderInfoManager.list();
+		this.homeInfo = homeInfoManager.getHomeInfo("0");
+		this.girlTagInfos = girlTagInfoManager.list();
 		
 		return SUCCESS;
 	}
@@ -206,6 +228,7 @@ public class FrontEndAction extends CommonAction {
 		}
 		this.genderInfos = genderInfoManager.list();
 		this.homeInfo = homeInfoManager.getHomeInfo("0");
+		this.girlTagInfos = girlTagInfoManager.list();
 		return SUCCESS;
 	}
 	
@@ -229,30 +252,34 @@ public class FrontEndAction extends CommonAction {
 		}
 		this.genderInfos = genderInfoManager.list();
 		this.homeInfo = homeInfoManager.getHomeInfo("0");
+		this.girlTagInfos = girlTagInfoManager.list();
 		return SUCCESS;
 	}
 	
 	public String loadMoreGirlInfos() {
-		if (IConstants.USER_TYPE_AGENT.equals(getUserType())) {
-			girlInfoManager = new FreeAgentGirlInfoManager();
-			if(this.frontSearch == null) {
-				this.frontSearch = new FrontSearch();
-				this.frontSearch.setChkFreeAgents(Boolean.TRUE.toString().toLowerCase());
-			}
-		} else if (IConstants.USER_TYPE_FREE_AGENT.equals(getUserType())) {
-			girlInfoManager = new FreeAgentGirlInfoManager();
-			if(this.frontSearch == null) {
-				this.frontSearch = new FrontSearch();
-				this.frontSearch.setChkFreeAgents(Boolean.TRUE.toString().toLowerCase());
-			}
-		} else if (IConstants.USER_TYPE_EN_GIRL.equals(getUserType())) {
-			girlInfoManager = new EnGirlInfoManager();
-			if(this.frontSearch == null) {
-				this.frontSearch = new FrontSearch();
-				this.frontSearch.setChkEnGirls(Boolean.TRUE.toString().toLowerCase());
-			}
+//		if (IConstants.USER_TYPE_AGENT.equals(getUserType())) {
+//			girlInfoManager = new FreeAgentGirlInfoManager();
+//			if(this.frontSearch == null) {
+//				this.frontSearch = new FrontSearch();
+//				this.frontSearch.setChkFreeAgents(Boolean.TRUE.toString().toLowerCase());
+//			}
+//		} else if (IConstants.USER_TYPE_FREE_AGENT.equals(getUserType())) {
+//			girlInfoManager = new FreeAgentGirlInfoManager();
+//			if(this.frontSearch == null) {
+//				this.frontSearch = new FrontSearch();
+//				this.frontSearch.setChkFreeAgents(Boolean.TRUE.toString().toLowerCase());
+//			}
+//		} else if (IConstants.USER_TYPE_EN_GIRL.equals(getUserType())) {
+//			girlInfoManager = new EnGirlInfoManager();
+//			if(this.frontSearch == null) {
+//				this.frontSearch = new FrontSearch();
+//				this.frontSearch.setChkEnGirls(Boolean.TRUE.toString().toLowerCase());
+//			}
+//		}
+		if(this.frontSearch == null) {
+			this.frontSearch = new FrontSearch();
 		}
-		this.girlInfos = girlInfoManager.search(this.frontSearch, this.feedLimit, this.feedOffset);
+		this.girlInfos = girlInfoManager.searchAllGirls(this.frontSearch, this.feedLimit, this.feedOffset);
 		return SUCCESS;
 	}
 	
@@ -276,6 +303,7 @@ public class FrontEndAction extends CommonAction {
 		}
 		this.genderInfos = genderInfoManager.list();
 		this.homeInfo = homeInfoManager.getHomeInfo("0");
+		this.girlTagInfos = girlTagInfoManager.list();
 		return SUCCESS;
 	}
 	
@@ -341,6 +369,7 @@ public class FrontEndAction extends CommonAction {
 		this.girlProvinces = girlInfoManager.getGirlProvinceListByGirlInfoId(this.girlInfo.getGirlInfoId());
 		Date today = new Date();
 		this.lookupDateHeader = sdfOutput.format(today);
+		this.girlTagInfos = girlTagInfoManager.list();
 		return SUCCESS;
 	}
 	
@@ -1101,5 +1130,13 @@ public class FrontEndAction extends CommonAction {
 
 	public void setGirlServicesInfoId(List<String> girlServicesInfoId) {
 		this.girlServicesInfoId = girlServicesInfoId;
+	}
+
+	public List<GirlTagInfo> getGirlTagInfos() {
+		return girlTagInfos;
+	}
+
+	public void setGirlTagInfos(List<GirlTagInfo> girlTagInfos) {
+		this.girlTagInfos = girlTagInfos;
 	}
 }

@@ -1,11 +1,17 @@
 package com.nightclub.view;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import org.cloudinary.json.JSONObject;
+
+import com.nightclub.common.IConstants;
 import com.nightclub.controller.CountryInfoManager;
 import com.nightclub.model.CountryInfo;
+import com.nightclub.model.UserInfo;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class CountryInfoAction extends ActionSupport {
@@ -20,6 +26,7 @@ public class CountryInfoAction extends ActionSupport {
 	private String menu;
 	private String action;
 	private boolean showInfo = false;
+	private List<String> activelist;
 	
 	private CountryInfoManager countryInfoManager;
 
@@ -95,6 +102,27 @@ public class CountryInfoAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	public String active() {
+		
+		if(getActivelist() == null) {
+			setActivelist(new ArrayList<String>());
+		}
+
+		Iterator<String> it = getActivelist().iterator();
+		List<String> allCountryInfoIdList = new ArrayList<String>();
+		List<String> availableCountryInfoIdList = new ArrayList<String>();
+		while(it.hasNext()) {
+			JSONObject jsonData = new JSONObject(it.next());
+			allCountryInfoIdList.add(jsonData.getString("id"));
+			if (jsonData.getBoolean("checked")) {
+				availableCountryInfoIdList.add(jsonData.getString("id"));
+			}
+		}
+		countryInfoManager.activeByCountryInfoId(allCountryInfoIdList, availableCountryInfoIdList);
+		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
+		return SUCCESS;
+	}
+
 	public String getMenu() {
 		return menu;
 	}
@@ -151,5 +179,12 @@ public class CountryInfoAction extends ActionSupport {
 		this.countrySearch = countrySearch;
 	}
 
+	public List<String> getActivelist() {
+		return activelist;
+	}
+
+	public void setActivelist(List<String> activelist) {
+		this.activelist = activelist;
+	}
 
 }

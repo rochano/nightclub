@@ -15,6 +15,7 @@ import com.nightclub.controller.GenderInfoManager;
 import com.nightclub.controller.GirlSettingManager;
 import com.nightclub.controller.NationalityInfoManager;
 import com.nightclub.controller.ProvinceInfoManager;
+import com.nightclub.controller.SkinInfoManager;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.CountryInfo;
@@ -29,6 +30,7 @@ import com.nightclub.model.GirlServiceInfo;
 import com.nightclub.model.GirlSetting;
 import com.nightclub.model.NationalityInfo;
 import com.nightclub.model.ProvinceInfo;
+import com.nightclub.model.SkinInfo;
 import com.nightclub.model.UserInfo;
 import com.nightclub.model.ZoneInfo;
 import com.nightclub.util.UploadFileUtils;
@@ -274,9 +276,11 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 			} else {
 				if(userInfo.getGirlInfoId() != null) {
 					this.girlInfo.setGirlInfoId(userInfo.getGirlInfoId());
+					this.girlInfo.setCreatedDate(new Date());
 					girlInfoManager.add(this.girlInfo);
 				} else {
 					this.girlInfo.setGirlInfoId(UUID.randomUUID().toString().toUpperCase());
+					this.girlInfo.setCreatedDate(new Date());
 					girlInfoManager.add(this.girlInfo);
 					userInfo.setGirlInfoId(this.girlInfo.getGirlInfoId());
 				}
@@ -646,4 +650,5 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 }

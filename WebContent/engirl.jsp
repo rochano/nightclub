@@ -48,50 +48,38 @@
   	-webkit-flex-grow: 0;
   	-ms-flex-positive: 0;
   }
+  .girl-tag .ui.circular.label {
+  	width: 25px;
+  	height: 25px;
+  	overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40%;
+    text-wrap: balance;
+    word-break: break-word;
+  }
+  .ui.list.girl-tag .ui.ui.ui.label {
+  	width: 25px;
+  	height: 25px;
+  	overflow: hidden;
+    font-size: 40%;
+    text-wrap: balance;
+    word-break: break-word;
+    margin: auto;
+  }
+  .ui.list.girl-tag .content {
+  	text-wrap: nowrap;
+  }
+  .ui.corner.label.verified .icon {
+	top: 14px;
+	right: -1px;
+	transform: rotate(45deg);
+	font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+	font-size: 9px;
+  }
   </style>
   <script type="text/javascript">
-  $(document)
-    .ready(function() {
-    	<s:if test="clientInfo != null"></s:if>
-		<s:else>
-		$('.toggleFavourite')
-			.popup({
-				on: 'click'
-			})
-		;
-		</s:else>
-	});
-
-	<s:if test="clientInfo != null">
-		$(".toggleFavourite").live('click', function() {
-			var favouriteIcon = $(this).find("i");
-			var girlInfoId = $(this).attr("data-girlInfoId");
-			var favourite = 0;
-			if (favouriteIcon.hasClass("outline")) {
-				favouriteIcon.removeClass("outline");
-				/* toggleFavourite.addClass("red") */
-				favourite = 1;
-			} else {
-				favouriteIcon.removeClass("red");
-				/* toggleFavourite.addClass("outline") */
-			}
-			favouriteIcon.removeClass("heart");
-			favouriteIcon.addClass("spinner");
-			$.getJSON("<s:url value="/ajax/toggleFavouriteJson/" />" + girlInfoId + "/" + favourite,
-			function(jsonResponse) {
-				favouriteIcon.removeClass("spinner");
-				favouriteIcon.addClass("heart");
-				if (jsonResponse.favourite === '1') {
-					favouriteIcon.removeClass("outline");
-					favouriteIcon.addClass("red")
-				} else {
-					favouriteIcon.removeClass("red");
-					favouriteIcon.addClass("outline")
-				}
-			});
-		});
-	</s:if>
-	
   	function getPrice(obj) {
   		return obj.price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " " + obj.crcy;
 	}
@@ -143,19 +131,37 @@
 
 				<div class="center aligned column">
 					<div class="ui centered attached segment soft">
+						<div class="ui list inverted girl-tag horizontal">
+						<s:iterator value="girlTagInfos" >
+							<div class="item">
+							<div class="ui <s:property value="color" /> circular label">
+							<s:property value="girlTagNameJp" />
+							</div>
+							<div class="content">
+							<s:property value="girlTagNameJp" />
+							</div>
+							</div>
+						</s:iterator>
+						</div>
 						<div class="ui centered four doubling cards ">
 						<s:if test="%{girlInfos.size gte 0}">
 							<s:iterator value="girlInfos" status="status">
 								<div class="ui red card">
+									<div class="ui left red corner label girl-tag"
+										data-variation="tiny">
+										<s:iterator value="girlTags" >
+											<div class="ui <s:property value="primaryKey.girlTagInfo.color" /> circular label">
+												<s:property value="primaryKey.girlTagInfo.girlTagNameJp" />
+												<br />
+											</div>
+										</s:iterator>
+									</div>
 									<div class="image ui centered corner labeled pic" >
-										<a class="ui right corner label toggleFavourite link" 
-												data-girlInfoId="<s:property value="girlInfoId" />"
-												data-content="Please login first" data-variation="tiny">
-											<i class="heart 
-												<s:if test="girlFavourites.indexOf(girlInfoId) != -1">red</s:if>
-												<s:else>outline</s:else>
-												icon"></i>
-										</a>
+										<s:if test="allSame == 'true'">
+											<div class="ui right corner label green verified">
+												<i class="icon"><s:text name="global.all_same" /></i>
+											</div>
+										</s:if>
 										<a href="<s:url value="/girl/%{girlInfoId}"/>" >
 											<s:if test="pic1 != null && pic1 != ''">
 												<img class="image ui centered" src="<s:property value="pic1" />">
@@ -182,9 +188,6 @@
 											<s:text name="format.integer"><s:param name="value" value="price"/></s:text>
 											<s:property value="crcy" />
 										</span>
-										<s:if test="allSame == 'true'">
-											<s:text name="global.all_same" />
-										</s:if>
 									</div>
 									<div class="content left aligned">
 										<a class="ui header " href="<s:url value="/girl/%{girlInfoId}"/>"><s:property value="nickName" /></a>

@@ -62,21 +62,7 @@
       ;
 	  $('.ui.form')
       .form({
-          fields: {
-        	  email: {
-                  identifier  : 'email',
-                  rules: [
-                    {
-                      type   : 'empty',
-                      prompt : '<s:i18n name="global_th"><s:text name="global.message_please_input" /><s:text name="global.email" /></s:i18n>'
-                    },
-                    {
-                      type   : 'email',
-                      prompt : '<s:i18n name="global_th"><s:text name="global.message_please_enter_valid_email" /></s:i18n>'
-                    }
-                  ]
-                },
-          },
+          fields: {},
      	  onFailure: function() {
      		  window.scrollTo(0,0);
      		  return false;
@@ -204,6 +190,21 @@
 						</div>
 						<div class="inline field">
 							<s:i18n name="global_th"><s:textfield name="email" key="global.email"/></s:i18n>
+						</div>
+						<div class="inline field">
+							<s:i18n name="global_th"><s:textfield name="agentInfo.telegramId" key="global.telegram_id"/></s:i18n>
+						</div>
+						<div class="inline field">
+							<s:i18n name="global_th"><s:textfield name="agentInfo.skypeId" key="global.skype_id"/></s:i18n>
+						</div>
+						<div class="inline field">
+							<s:i18n name="global_th"><s:textfield name="agentInfo.twitterId" key="global.twitter_id"/></s:i18n>
+						</div>
+						<div class="inline field">
+							<s:i18n name="global_th"><s:textfield name="agentInfo.wechatId" key="global.wechat_id"/></s:i18n>
+						</div>
+						<div class="inline field">
+							<s:i18n name="global_th"><s:textfield name="agentInfo.whatsAppId" key="global.whats_app_id"/></s:i18n>
 						</div>
 						<div class="ui right aligned one column grid">
 							<div class="column">

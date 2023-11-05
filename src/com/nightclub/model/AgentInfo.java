@@ -25,7 +25,12 @@ public class AgentInfo implements Serializable {
 	private UserInfo userInfo;
 	private String lineId;
 	private String lineToken;
-	
+	private String telegramId;
+	private String skypeId;
+	private String twitterId;
+	private String wechatId;
+	private String whatsAppId;
+
 	public AgentInfo() {}
 	
 	protected AgentInfo(AgentInfo agentInfo) {
@@ -62,6 +67,41 @@ public class AgentInfo implements Serializable {
 	public String getLineToken() {
 		return lineToken;
 	}
+	@Column(name="telegram_id")
+	public String getTelegramId() {
+		if (telegramId == null) {
+			return "";
+		}
+		return telegramId;
+	}
+	@Column(name="skype_id")
+	public String getSkypeId() {
+		if (skypeId == null) {
+			return "";
+		}
+		return skypeId;
+	}
+	@Column(name="twitter_id")
+	public String getTwitterId() {
+		if (twitterId == null) {
+			return "";
+		}
+		return twitterId;
+	}
+	@Column(name="wechat_id")
+	public String getWechatId() {
+		if (wechatId == null) {
+			return "";
+		}
+		return wechatId;
+	}
+	@Column(name="whatsapp_id")
+	public String getWhatsAppId() {
+		if (whatsAppId == null) {
+			return "";
+		}
+		return whatsAppId;
+	}
 	public void setAgentInfoId(String agentInfoId) {
 		this.agentInfoId = agentInfoId;
 	}
@@ -82,5 +122,20 @@ public class AgentInfo implements Serializable {
 	}
 	public void setLineToken(String lineToken) {
 		this.lineToken = lineToken;
+	}
+	public void setTelegramId(String telegramId) {
+		this.telegramId = telegramId;
+	}
+	public void setSkypeId(String skypeId) {
+		this.skypeId = skypeId;
+	}
+	public void setTwitterId(String twitterId) {
+		this.twitterId = twitterId;
+	}
+	public void setWechatId(String wechatId) {
+		this.wechatId = wechatId;
+	}
+	public void setWhatsAppId(String whatsAppId) {
+		this.whatsAppId = whatsAppId;
 	}
 }

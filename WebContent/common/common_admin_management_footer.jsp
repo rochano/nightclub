@@ -26,6 +26,7 @@
 			<a href="<s:url value="/admin/province"/>"><span><s:i18n name="global_th"><s:text name="global.province" /></s:i18n></span></a> |
 			<a href="<s:url value="/admin/gender"/>"><span><s:i18n name="global_th"><s:text name="global.gender" /></s:i18n></span></a> |
 			<a href="<s:url value="/admin/description"/>"><span><s:i18n name="global_th"><s:text name="global.description" /></s:i18n></span></a>
+			<a href="<s:url value="/admin/girltag"/>"><span><s:i18n name="global_th"><s:text name="global.girl_tag" /></s:i18n></span></a>
 		</p></div>
 		<p class="copy">COPYRIGHT(C) ALL RIGHTS RESERVED.</p>
 	</div>

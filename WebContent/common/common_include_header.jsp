@@ -26,11 +26,13 @@
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/statistic.css"/>">
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/card.css"/>">
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/statistic.css"/>">
-  <link rel="stylesheet" type="text/css" href="<s:url value="/assets/fontawesome/css/solid.min.css"/>">
-  <link rel="stylesheet" type="text/css" href="<s:url value="/assets/fontawesome/css/fontawesome.min.css"/>">
+ <%--  <link rel="stylesheet" type="text/css" href="<s:url value="/assets/fontawesome/css/solid.min.css"/>">
+  <link rel="stylesheet" type="text/css" href="<s:url value="/assets/fontawesome/css/fontawesome.min.css"/>"> --%>
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/calendar.css"/>">
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/flag.css"/>">
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/rating.css"/>">
+  <link rel="stylesheet" type="text/css" href="<s:url value="/assets/fontawesome-free-6.4.2-web/css/fontawesome.min.css"/>">
+  <link rel="stylesheet" type="text/css" href="<s:url value="/assets/fontawesome-free-6.4.2-web/css/brands.min.css"/>">
 <sj:head />
 
   <!--- Example Libs -->

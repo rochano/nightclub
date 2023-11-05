@@ -1,6 +1,8 @@
 package com.nightclub.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -24,6 +26,9 @@ import com.nightclub.model.GirlLocation;
 import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
+import com.nightclub.model.GirlTag;
+import com.nightclub.model.GirlTagId;
+import com.nightclub.model.GirlTagInfo;
 import com.nightclub.model.UserInfo;
 
 public class GirlInfoManager extends HibernateUtil {
@@ -314,6 +319,7 @@ public class GirlInfoManager extends HibernateUtil {
 		GirlInfo girlInfo = null;
 		List<GirlLocation> girlLocations;
 		List<GirlProvince> girlProvinces;
+		List<GirlTag> girlTags;
 		try {
 			
 			girlInfo = (GirlInfo)session.createQuery("from GirlInfo where girlInfoId = :girlInfoId ")
@@ -323,6 +329,8 @@ public class GirlInfoManager extends HibernateUtil {
 				girlInfo.setGirlLocations(girlLocations);
 				girlProvinces = getGirlProvinceListByGirlInfoId(session, girlInfo.getGirlInfoId());
 				girlInfo.setGirlProvinces(girlProvinces);
+				girlTags = getGirlTagListByGirlInfoId(session, girlInfo);
+				girlInfo.setGirlTags(girlTags);
 			}
 			
 		} catch (HibernateException e) {
@@ -508,13 +516,11 @@ public class GirlInfoManager extends HibernateUtil {
 		List<GirlInfo> girlInfos = new ArrayList();
 		try {
 			String sql = "";
-			List<GirlInfo> shopGirlInfoList = new ArrayList();
+//			List<GirlInfo> shopGirlInfoList = new ArrayList();
 			List<GirlInfo> agentGirlInfoList = new ArrayList();
 			List<GirlInfo> freeAgentGirlInfoList = new ArrayList();
 			List<GirlInfo> enGirlInfoList = new ArrayList();
 			GirlInfo girlInfo;
-			List<GirlLocation> girlLocations;
-			List<GirlProvince> girlProvinces;
 			Query query;
 			boolean uncheckAll = false;
 			boolean chkCategoey = false;
@@ -536,105 +542,107 @@ public class GirlInfoManager extends HibernateUtil {
 			if (chkCategoey == false && chkAgents == false && chkFreeAgents == false && chkEnGirls == false) {
 				uncheckAll = true;
 			}
-			
-			if (chkCategoey || uncheckAll) {
-				sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo, BasicInfo basicInfo ";
-				sql += "where DTYPE = 'ShopGirlInfo' and girlInfo.shopInfoId = userInfo.shopInfoId and girlInfo.available = :availableShopGirlInfo ";
-				sql += "and girlInfo.shopInfoId = basicInfo.shopInfoId ";
-				if (frontSearch.getCategoryInfoId() != null && !frontSearch.getCategoryInfoId().isEmpty()) {
-					sql += " and basicInfo.categoryInfoId = :categoryInfoId ";
-				}
-				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
-					sql += " and girlInfo.genderInfoId = :genderInfoId ";
-				}
-				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
-					sql += " and exists(select 1 from GirlLocation gl ";
-					sql += "where gl.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
-					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
-				}
-				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-					sql += " and girlInfo." + frontSearch.getIncallOutcall() + " = :incallOutcall ";
-				}
-				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
-					sql += " and girlInfo.nickName like :nickName ";
-				}
-				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
-					sql += " and girlInfo.nationalityInfoId in (:nationalityInfoIdList) ";
-				}
-				if (frontSearch.getCountryInfoId() != null && !frontSearch.getCountryInfoId().isEmpty()) {
-					sql += " and girlInfo.countryInfoId like :countryInfoId ";
-				}
-				if (frontSearch.getProvinceInfos() != null && !frontSearch.getProvinceInfos().isEmpty()) {
-					sql += " and exists(select 1 from GirlProvince gp ";
-					sql += "where gp.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
-					sql += "and gp.primaryKey.provinceInfo.provinceInfoId in (:provinceInfoIdList)) ";
-				}
-				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
-				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
-					sql += "order by substring(girlInfo.girlInfoId,:searchrandom,1) ";
-				}
-				query = session.createQuery(sql.toString());
-				query = query.setParameter("availableShopGirlInfo", Boolean.TRUE.toString().toLowerCase());
-				if (frontSearch.getCategoryInfoId() != null && !frontSearch.getCategoryInfoId().isEmpty()) {
-					query = query.setParameter("categoryInfoId", frontSearch.getCategoryInfoId());
-				}
-				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
-					query = query.setParameter("genderInfoId", frontSearch.getGenderInfoId());
-				}
-				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
-					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
-				}
-				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-					query = query.setParameter("incallOutcall", Boolean.TRUE.toString().toLowerCase());
-				}
-				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
-					query = query.setParameter("nickName", "%" + frontSearch.getNickName() + "%");
-				}
-				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
-					query = query.setParameterList("nationalityInfoIdList", frontSearch.getNationalityInfos().toArray());
-				}
-				if (frontSearch.getCountryInfoId() != null && !frontSearch.getCountryInfoId().isEmpty()) {
-					query = query.setParameter("countryInfoId", "%" + frontSearch.getCountryInfoId() + "%");
-				}
-				if (frontSearch.getProvinceInfos() != null && !frontSearch.getProvinceInfos().isEmpty()) {
-					query = query.setParameterList("provinceInfoIdList", frontSearch.getProvinceInfos().toArray());
-				}
-				query = query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
-				if (feedLimit != -1) {
-					query = query.setFirstResult(feedOffset);
-					query = query.setMaxResults(feedLimit);
-				}
-				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
-					query = query.setParameter("searchrandom", frontSearch.getSearchRandom());
-				}
-				shopGirlInfoList = (List<GirlInfo>)query.list();
-				Iterator it = shopGirlInfoList.iterator();
-				while(it.hasNext()) {
-					girlInfo = (GirlInfo) it.next();
-					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
-					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
-					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
-					while(itGirlLocation.hasNext()) {
-						GirlLocation girlLocation = itGirlLocation.next();
-						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
-						if(girlLocation.getZoneInfo().getProvinceInfo() != null) {
-							girlLocation.getZoneInfo().getProvinceInfo().setZoneInfos(new ArrayList());
-						}
-					}
-					girlInfo.setGirlLocations(girlLocations);
-					if (girlInfo.getCountryInfo() != null) {
-						girlInfo.getCountryInfo().setProvinceInfos(new ArrayList());
-					}
-					girlProvinces = getGirlProvinceListByGirlInfoId(session, girlInfo.getGirlInfoId());
-					java.util.Iterator<GirlProvince> itGirlProvinces = girlProvinces.iterator();
-					while(itGirlProvinces.hasNext()) {
-						GirlProvince girlProvince = itGirlProvinces.next();
-						girlProvince.getProvinceInfo().setZoneInfos(new ArrayList());
-					}
-					girlInfo.setGirlProvinces(girlProvinces);
-				}
-				girlInfos.addAll(shopGirlInfoList);
-			}
+
+//			if (chkCategoey || uncheckAll) {
+//				sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo, BasicInfo basicInfo ";
+//				sql += "where DTYPE = 'ShopGirlInfo' and girlInfo.shopInfoId = userInfo.shopInfoId and girlInfo.available = :availableShopGirlInfo ";
+//				sql += "and girlInfo.shopInfoId = basicInfo.shopInfoId ";
+//				if (frontSearch.getCategoryInfoId() != null && !frontSearch.getCategoryInfoId().isEmpty()) {
+//					sql += " and basicInfo.categoryInfoId = :categoryInfoId ";
+//				}
+//				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
+//					sql += " and girlInfo.genderInfoId = :genderInfoId ";
+//				}
+//				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
+//					sql += " and exists(select 1 from GirlLocation gl ";
+//					sql += "where gl.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
+//					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
+//				}
+//				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
+//					sql += " and girlInfo." + frontSearch.getIncallOutcall() + " = :incallOutcall ";
+//				}
+//				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
+//					sql += " and girlInfo.nickName like :nickName ";
+//				}
+//				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
+//					sql += " and girlInfo.nationalityInfoId in (:nationalityInfoIdList) ";
+//				}
+//				if (frontSearch.getCountryInfoId() != null && !frontSearch.getCountryInfoId().isEmpty()) {
+//					sql += " and girlInfo.countryInfoId like :countryInfoId ";
+//				}
+//				if (frontSearch.getProvinceInfos() != null && !frontSearch.getProvinceInfos().isEmpty()) {
+//					sql += " and exists(select 1 from GirlProvince gp ";
+//					sql += "where gp.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
+//					sql += "and gp.primaryKey.provinceInfo.provinceInfoId in (:provinceInfoIdList)) ";
+//				}
+//				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
+//				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
+//					sql += "order by substring(girlInfo.girlInfoId,:searchrandom,1) ";
+//				}
+//				query = session.createQuery(sql.toString());
+//				query = query.setParameter("availableShopGirlInfo", Boolean.TRUE.toString().toLowerCase());
+//				if (frontSearch.getCategoryInfoId() != null && !frontSearch.getCategoryInfoId().isEmpty()) {
+//					query = query.setParameter("categoryInfoId", frontSearch.getCategoryInfoId());
+//				}
+//				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
+//					query = query.setParameter("genderInfoId", frontSearch.getGenderInfoId());
+//				}
+//				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
+//					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
+//				}
+//				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
+//					query = query.setParameter("incallOutcall", Boolean.TRUE.toString().toLowerCase());
+//				}
+//				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
+//					query = query.setParameter("nickName", "%" + frontSearch.getNickName() + "%");
+//				}
+//				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
+//					query = query.setParameterList("nationalityInfoIdList", frontSearch.getNationalityInfos().toArray());
+//				}
+//				if (frontSearch.getCountryInfoId() != null && !frontSearch.getCountryInfoId().isEmpty()) {
+//					query = query.setParameter("countryInfoId", "%" + frontSearch.getCountryInfoId() + "%");
+//				}
+//				if (frontSearch.getProvinceInfos() != null && !frontSearch.getProvinceInfos().isEmpty()) {
+//					query = query.setParameterList("provinceInfoIdList", frontSearch.getProvinceInfos().toArray());
+//				}
+//				query = query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
+//				if (feedLimit != -1) {
+//					query = query.setFirstResult(feedOffset);
+//					query = query.setMaxResults(feedLimit);
+//				}
+//				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
+//					query = query.setParameter("searchrandom", frontSearch.getSearchRandom());
+//				}
+//				shopGirlInfoList = (List<GirlInfo>)query.list();
+//				Iterator it = shopGirlInfoList.iterator();
+//				while(it.hasNext()) {
+//					girlInfo = (GirlInfo) it.next();
+//					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
+//					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+//					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
+//					while(itGirlLocation.hasNext()) {
+//						GirlLocation girlLocation = itGirlLocation.next();
+//						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
+//						if(girlLocation.getZoneInfo().getProvinceInfo() != null) {
+//							girlLocation.getZoneInfo().getProvinceInfo().setZoneInfos(new ArrayList());
+//						}
+//					}
+//					girlInfo.setGirlLocations(girlLocations);
+//					if (girlInfo.getCountryInfo() != null) {
+//						girlInfo.getCountryInfo().setProvinceInfos(new ArrayList());
+//					}
+//					girlProvinces = getGirlProvinceListByGirlInfoId(session, girlInfo.getGirlInfoId());
+//					java.util.Iterator<GirlProvince> itGirlProvinces = girlProvinces.iterator();
+//					while(itGirlProvinces.hasNext()) {
+//						GirlProvince girlProvince = itGirlProvinces.next();
+//						girlProvince.getProvinceInfo().setZoneInfos(new ArrayList());
+//					}
+//					girlInfo.setGirlProvinces(girlProvinces);
+//					girlTags = getGirlTagListByGirlInfoId(session, girlInfo);
+//					girlInfo.setGirlTags(girlTags);
+//				}
+//				girlInfos.addAll(shopGirlInfoList);
+//			}
 
 			if (chkAgents || uncheckAll) {
 				sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo ";
@@ -642,35 +650,7 @@ public class GirlInfoManager extends HibernateUtil {
 				if (frontSearch.getAgentInfoId() != null && !frontSearch.getAgentInfoId().isEmpty()) {
 					sql += " and girlInfo.agentInfoId = :agentInfoId ";
 				}
-				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
-					sql += " and girlInfo.genderInfoId = :genderInfoId ";
-				}
-				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
-					sql += " and exists(select 1 from GirlLocation gl ";
-					sql += "where gl.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
-					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
-				}
-				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-					sql += " and girlInfo." + frontSearch.getIncallOutcall() + " = :incallOutcall ";
-				}
-				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
-					sql += " and girlInfo.nickName like :nickName ";
-				}
-				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
-					sql += " and girlInfo.nationalityInfoId in (:nationalityInfoIdList) ";
-				}
-				if (frontSearch.getCountryInfoId() != null && !frontSearch.getCountryInfoId().isEmpty()) {
-					sql += " and girlInfo.countryInfoId like :countryInfoId ";
-				}
-				if (frontSearch.getProvinceInfos() != null && !frontSearch.getProvinceInfos().isEmpty()) {
-					sql += " and exists(select 1 from GirlProvince gp ";
-					sql += "where gp.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
-					sql += "and gp.primaryKey.provinceInfo.provinceInfoId in (:provinceInfoIdList)) ";
-				}
-				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
-				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
-					sql += "order by substring(girlInfo.girlInfoId,:searchrandom,1) ";
-				}
+				sql = appendSearchCommonSQL(frontSearch, sql);
 				query = session.createQuery(sql.toString());
 				query = query.setParameter("availableAgentGirlInfo", Boolean.TRUE.toString().toLowerCase());
 				if (frontSearch.getChkAgents() != null && Boolean.TRUE.toString().toLowerCase().equals(frontSearch.getChkAgents())) {
@@ -678,155 +658,32 @@ public class GirlInfoManager extends HibernateUtil {
 						query = query.setParameter("agentInfoId", frontSearch.getAgentInfoId());
 					}
 				}
-				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
-					query = query.setParameter("genderInfoId", frontSearch.getGenderInfoId());
-				}
-				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
-					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
-				}
-				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-					query = query.setParameter("incallOutcall", Boolean.TRUE.toString().toLowerCase());
-				}
-				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
-					query = query.setParameter("nickName", "%" + frontSearch.getNickName() + "%");
-				}
-				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
-					query = query.setParameterList("nationalityInfoIdList", frontSearch.getNationalityInfos().toArray());
-				}
-				if (frontSearch.getCountryInfoId() != null && !frontSearch.getCountryInfoId().isEmpty()) {
-					query = query.setParameter("countryInfoId", "%" + frontSearch.getCountryInfoId() + "%");
-				}
-				if (frontSearch.getProvinceInfos() != null && !frontSearch.getProvinceInfos().isEmpty()) {
-					query = query.setParameterList("provinceInfoIdList", frontSearch.getProvinceInfos().toArray());
-				}
-				query = query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
-				if (feedLimit != -1) {
-					query = query.setFirstResult(feedOffset);
-					query = query.setMaxResults(feedLimit);
-				}
-				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
-					query = query.setParameter("searchrandom", frontSearch.getSearchRandom());
-				}
+				query = setSearchCommonParameter(frontSearch, feedLimit, feedOffset, query);
 				agentGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = agentGirlInfoList.iterator();
 				while(it.hasNext()) {
 					girlInfo = (GirlInfo) it.next();
 					((AgentGirlInfo)girlInfo).setAgentInfo(getAgentInfo(session, ((AgentGirlInfo)girlInfo).getAgentInfoId()));
-					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
-					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
-					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
-					while(itGirlLocation.hasNext()) {
-						GirlLocation girlLocation = itGirlLocation.next();
-						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
-						if(girlLocation.getZoneInfo().getProvinceInfo() != null) {
-							girlLocation.getZoneInfo().getProvinceInfo().setZoneInfos(new ArrayList());
-						}
-					}
-					girlInfo.setGirlLocations(girlLocations);
 					((AgentGirlInfo)girlInfo).setGirlServices(new ArrayList());
-					if (girlInfo.getCountryInfo() != null) {
-						girlInfo.getCountryInfo().setProvinceInfos(new ArrayList());
-					}
-					girlProvinces = getGirlProvinceListByGirlInfoId(session, girlInfo.getGirlInfoId());
-					java.util.Iterator<GirlProvince> itGirlProvinces = girlProvinces.iterator();
-					while(itGirlProvinces.hasNext()) {
-						GirlProvince girlProvince = itGirlProvinces.next();
-						girlProvince.getProvinceInfo().setZoneInfos(new ArrayList());
-					}
-					girlInfo.setGirlProvinces(girlProvinces);
+					girlInfo = setSearchCommonLoadGirlInfo(session, girlInfo);
 				}
 				girlInfos.addAll(agentGirlInfoList);
 			}
-			
+
 			if (chkFreeAgents || uncheckAll) {
 				sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo ";
 				sql += "where DTYPE = 'FreeAgentGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId ";
-				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
-					sql += " and girlInfo.genderInfoId = :genderInfoId ";
-				}
-				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
-					sql += " and exists(select 1 from GirlLocation gl ";
-					sql += "where gl.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
-					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
-				}
-				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-					sql += " and girlInfo." + frontSearch.getIncallOutcall() + " = :incallOutcall ";
-				}
-				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
-					sql += " and girlInfo.nickName like :nickName ";
-				}
-				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
-					sql += " and girlInfo.nationalityInfoId in (:nationalityInfoIdList) ";
-				}
-				if (frontSearch.getCountryInfoId() != null && !frontSearch.getCountryInfoId().isEmpty()) {
-					sql += " and girlInfo.countryInfoId like :countryInfoId ";
-				}
-				if (frontSearch.getProvinceInfos() != null && !frontSearch.getProvinceInfos().isEmpty()) {
-					sql += " and exists(select 1 from GirlProvince gp ";
-					sql += "where gp.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
-					sql += "and gp.primaryKey.provinceInfo.provinceInfoId in (:provinceInfoIdList)) ";
-				}
-				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
-				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
-					sql += "order by substring(girlInfo.girlInfoId,:searchrandom,1) ";
-				}
+				sql = appendSearchCommonSQL(frontSearch, sql);
 				query = session.createQuery(sql.toString());
-				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
-					query = query.setParameter("genderInfoId", frontSearch.getGenderInfoId());
-				}
-				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
-					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
-				}
-				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-					query = query.setParameter("incallOutcall", Boolean.TRUE.toString().toLowerCase());
-				}
-				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
-					query = query.setParameter("nickName", "%" + frontSearch.getNickName() + "%");
-				}
-				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
-					query = query.setParameterList("nationalityInfoIdList", frontSearch.getNationalityInfos().toArray());
-				}
-				if (frontSearch.getCountryInfoId() != null && !frontSearch.getCountryInfoId().isEmpty()) {
-					query = query.setParameter("countryInfoId", "%" + frontSearch.getCountryInfoId() + "%");
-				}
-				if (frontSearch.getProvinceInfos() != null && !frontSearch.getProvinceInfos().isEmpty()) {
-					query = query.setParameterList("provinceInfoIdList", frontSearch.getProvinceInfos().toArray());
-				}
-				query = query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
-				if (feedLimit != -1) {
-					query = query.setFirstResult(feedOffset);
-					query = query.setMaxResults(feedLimit);
-				}
-				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
-					query = query.setParameter("searchrandom", frontSearch.getSearchRandom());
-				}
+				query = setSearchCommonParameter(frontSearch, feedLimit, feedOffset, query);
 				freeAgentGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = freeAgentGirlInfoList.iterator();
 				while(it.hasNext()) {
 					girlInfo = (GirlInfo) it.next();
 					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
 					((FreeAgentGirlInfo)girlInfo).setUserInfo(getUserInfo(session, girlInfo.getGirlInfoId()));
-					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
-					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
-					while(itGirlLocation.hasNext()) {
-						GirlLocation girlLocation = itGirlLocation.next();
-						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
-						if(girlLocation.getZoneInfo().getProvinceInfo() != null) {
-							girlLocation.getZoneInfo().getProvinceInfo().setZoneInfos(new ArrayList());
-						}
-					}
-					girlInfo.setGirlLocations(girlLocations);
 					((FreeAgentGirlInfo)girlInfo).setGirlServices(new ArrayList());
-					if (girlInfo.getCountryInfo() != null) {
-						girlInfo.getCountryInfo().setProvinceInfos(new ArrayList());
-					}
-					girlProvinces = getGirlProvinceListByGirlInfoId(session, girlInfo.getGirlInfoId());
-					java.util.Iterator<GirlProvince> itGirlProvinces = girlProvinces.iterator();
-					while(itGirlProvinces.hasNext()) {
-						GirlProvince girlProvince = itGirlProvinces.next();
-						girlProvince.getProvinceInfo().setZoneInfos(new ArrayList());
-					}
-					girlInfo.setGirlProvinces(girlProvinces);
+					girlInfo = setSearchCommonLoadGirlInfo(session, girlInfo);
 				}
 				girlInfos.addAll(freeAgentGirlInfoList);
 			}
@@ -834,95 +691,19 @@ public class GirlInfoManager extends HibernateUtil {
 			if (chkEnGirls || uncheckAll) {
 				sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo ";
 				sql += "where DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId ";
-				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
-					sql += " and girlInfo.genderInfoId = :genderInfoId ";
-				}
-				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
-					sql += " and exists(select 1 from GirlLocation gl ";
-					sql += "where gl.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
-					sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
-				}
-				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-					sql += " and girlInfo." + frontSearch.getIncallOutcall() + " = :incallOutcall ";
-				}
-				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
-					sql += " and girlInfo.nickName like :nickName ";
-				}
-				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
-					sql += " and girlInfo.nationalityInfoId in (:nationalityInfoIdList) ";
-				}
-				if (frontSearch.getCountryInfoId() != null && !frontSearch.getCountryInfoId().isEmpty()) {
-					sql += " and girlInfo.countryInfoId like :countryInfoId ";
-				}
-				if (frontSearch.getProvinceInfos() != null && !frontSearch.getProvinceInfos().isEmpty()) {
-					sql += " and exists(select 1 from GirlProvince gp ";
-					sql += "where gp.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
-					sql += "and gp.primaryKey.provinceInfo.provinceInfoId in (:provinceInfoIdList)) ";
-				}
-				sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
-				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
-					sql += "order by substring(girlInfo.girlInfoId,:searchrandom,1) ";
-				}
+				sql = appendSearchCommonSQL(frontSearch, sql);
 				query = session.createQuery(sql.toString());
-				if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
-					query = query.setParameter("genderInfoId", frontSearch.getGenderInfoId());
-				}
-				if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
-					query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
-				}
-				if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-					query = query.setParameter("incallOutcall", Boolean.TRUE.toString().toLowerCase());
-				}
-				if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
-					query = query.setParameter("nickName", "%" + frontSearch.getNickName() + "%");
-				}
-				if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
-					query = query.setParameterList("nationalityInfoIdList", frontSearch.getNationalityInfos().toArray());
-				}
-				if (frontSearch.getCountryInfoId() != null && !frontSearch.getCountryInfoId().isEmpty()) {
-					query = query.setParameter("countryInfoId", "%" + frontSearch.getCountryInfoId() + "%");
-				}
-				if (frontSearch.getProvinceInfos() != null && !frontSearch.getProvinceInfos().isEmpty()) {
-					query = query.setParameterList("provinceInfoIdList", frontSearch.getProvinceInfos().toArray());
-				}
-				query = query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
-				if (feedLimit != -1) {
-					query = query.setFirstResult(feedOffset);
-					query = query.setMaxResults(feedLimit);
-				}
-				if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
-					query = query.setParameter("searchrandom", frontSearch.getSearchRandom());
-				}
+				query = setSearchCommonParameter(frontSearch, feedLimit, feedOffset, query);
 				enGirlInfoList = (List<GirlInfo>)query.list();
 				Iterator it = enGirlInfoList.iterator();
 				while(it.hasNext()) {
 					girlInfo = (GirlInfo) it.next();
 					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
 					((EnGirlInfo)girlInfo).setUserInfo(getUserInfo(session, girlInfo.getGirlInfoId()));
-					girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
-					java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
-					while(itGirlLocation.hasNext()) {
-						GirlLocation girlLocation = itGirlLocation.next();
-						girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
-						if(girlLocation.getZoneInfo().getProvinceInfo() != null) {
-							girlLocation.getZoneInfo().getProvinceInfo().setZoneInfos(new ArrayList());
-						}
-					}
-					girlInfo.setGirlLocations(girlLocations);
-					if (girlInfo.getCountryInfo() != null) {
-						girlInfo.getCountryInfo().setProvinceInfos(new ArrayList());
-					}
-					girlProvinces = getGirlProvinceListByGirlInfoId(session, girlInfo.getGirlInfoId());
-					java.util.Iterator<GirlProvince> itGirlProvinces = girlProvinces.iterator();
-					while(itGirlProvinces.hasNext()) {
-						GirlProvince girlProvince = itGirlProvinces.next();
-						girlProvince.getProvinceInfo().setZoneInfos(new ArrayList());
-					}
-					girlInfo.setGirlProvinces(girlProvinces);
+					girlInfo = setSearchCommonLoadGirlInfo(session, girlInfo);
 				}
 				girlInfos.addAll(enGirlInfoList);
 			}
-
 
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -931,7 +712,102 @@ public class GirlInfoManager extends HibernateUtil {
 		session.getTransaction().commit();
 		return girlInfos;
 	}
-	
+
+	private String appendSearchCommonSQL(FrontSearch frontSearch, String sql) {
+		if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
+			sql += " and girlInfo.genderInfoId = :genderInfoId ";
+		}
+		if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
+			sql += " and exists(select 1 from GirlLocation gl ";
+			sql += "where gl.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
+			sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
+		}
+		if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
+			sql += " and girlInfo." + frontSearch.getIncallOutcall() + " = :incallOutcall ";
+		}
+		if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
+			sql += " and girlInfo.nickName like :nickName ";
+		}
+		if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
+			sql += " and girlInfo.nationalityInfoId in (:nationalityInfoIdList) ";
+		}
+		if (frontSearch.getCountryInfoId() != null && !frontSearch.getCountryInfoId().isEmpty()) {
+			sql += " and girlInfo.countryInfoId like :countryInfoId ";
+		}
+		if (frontSearch.getProvinceInfos() != null && !frontSearch.getProvinceInfos().isEmpty()) {
+			sql += " and exists(select 1 from GirlProvince gp ";
+			sql += "where gp.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
+			sql += "and gp.primaryKey.provinceInfo.provinceInfoId in (:provinceInfoIdList)) ";
+		}
+		sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
+		if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
+			sql += "order by substring(girlInfo.girlInfoId,:searchrandom,1) ";
+		}
+		return sql;
+	}
+
+	private Query setSearchCommonParameter(FrontSearch frontSearch, int feedLimit, int feedOffset, Query query) {
+		if (frontSearch.getGenderInfoId() != null && !frontSearch.getGenderInfoId().isEmpty()) {
+			query = query.setParameter("genderInfoId", frontSearch.getGenderInfoId());
+		}
+		if (frontSearch.getZoneInfos() != null && !frontSearch.getZoneInfos().isEmpty()) {
+			query = query.setParameterList("zoneInfoIdList", frontSearch.getZoneInfos().toArray());
+		}
+		if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
+			query = query.setParameter("incallOutcall", Boolean.TRUE.toString().toLowerCase());
+		}
+		if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
+			query = query.setParameter("nickName", "%" + frontSearch.getNickName() + "%");
+		}
+		if (frontSearch.getNationalityInfos() != null && !frontSearch.getNationalityInfos().isEmpty()) {
+			query = query.setParameterList("nationalityInfoIdList", frontSearch.getNationalityInfos().toArray());
+		}
+		if (frontSearch.getCountryInfoId() != null && !frontSearch.getCountryInfoId().isEmpty()) {
+			query = query.setParameter("countryInfoId", "%" + frontSearch.getCountryInfoId() + "%");
+		}
+		if (frontSearch.getProvinceInfos() != null && !frontSearch.getProvinceInfos().isEmpty()) {
+			query = query.setParameterList("provinceInfoIdList", frontSearch.getProvinceInfos().toArray());
+		}
+		query = query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
+		if (feedLimit != -1) {
+			query = query.setFirstResult(feedOffset);
+			query = query.setMaxResults(feedLimit);
+		}
+		if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
+			query = query.setParameter("searchrandom", frontSearch.getSearchRandom());
+		}
+		return query;
+	}
+
+	private GirlInfo setSearchCommonLoadGirlInfo(Session session, GirlInfo girlInfo) {
+		List<GirlLocation> girlLocations;
+		List<GirlProvince> girlProvinces;
+		List<GirlTag> girlTags;
+		girlLocations = getGirlLocationListByGirlInfoId(session, girlInfo.getGirlInfoId());
+		java.util.Iterator<GirlLocation> itGirlLocation = girlLocations.iterator();
+		while(itGirlLocation.hasNext()) {
+			GirlLocation girlLocation = itGirlLocation.next();
+			girlLocation.getZoneInfo().setCategoryZones(new ArrayList());
+			if(girlLocation.getZoneInfo().getProvinceInfo() != null) {
+				girlLocation.getZoneInfo().getProvinceInfo().setZoneInfos(new ArrayList());
+			}
+		}
+		girlInfo.setGirlLocations(girlLocations);
+		if (girlInfo.getCountryInfo() != null) {
+			girlInfo.getCountryInfo().setProvinceInfos(new ArrayList());
+		}
+		girlProvinces = getGirlProvinceListByGirlInfoId(session, girlInfo.getGirlInfoId());
+		java.util.Iterator<GirlProvince> itGirlProvinces = girlProvinces.iterator();
+		while(itGirlProvinces.hasNext()) {
+			GirlProvince girlProvince = itGirlProvinces.next();
+			girlProvince.getProvinceInfo().setZoneInfos(new ArrayList());
+		}
+		girlInfo.setGirlProvinces(girlProvinces);
+		girlTags = getGirlTagListByGirlInfoId(session, girlInfo);
+		girlInfo.setGirlTags(girlTags);
+		return girlInfo;
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<GirlLocation> getGirlLocationListByGirlInfoId(String girlInfoId) {
 		
@@ -1112,5 +988,117 @@ public class GirlInfoManager extends HibernateUtil {
 		}
 		userInfo = (UserInfo) mapUserInfo.get(girlInfoId);
 		return userInfo;
+	}
+
+	public void allTagByGirlInfoId(List<String> allGirlInfoIdList, List<GirlTag> allTagGirlInfoIdList) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			
+			if(allGirlInfoIdList.size()> 0) {
+				session.createQuery("delete GirlTag where primaryKey.girlInfo.girlInfoId in (:girlInfoIdList) ")
+						.setParameterList("girlInfoIdList", allGirlInfoIdList.toArray())
+						.executeUpdate();
+				
+				if(allTagGirlInfoIdList.size()> 0) {
+					Iterator itGirlTag = allTagGirlInfoIdList.iterator();
+					while(itGirlTag.hasNext()) {
+						session.save(itGirlTag.next());
+					}
+				}
+			}
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<GirlTag> getGirlTagListByGirlInfoId(Session session, GirlInfo girlInfo) {
+		List<GirlTag> girlTags = null;
+		girlTags = (List<GirlTag>)session.createQuery("from GirlTag gt where gt.primaryKey.girlInfo.girlInfoId = :girlInfoId")
+					.setParameter("girlInfoId", girlInfo.getGirlInfoId())
+					.list();
+		// check created within 1 month
+		Calendar c = Calendar.getInstance();
+		c.add(Calendar.MONTH, -1);
+		Date previousMonth = c.getTime();
+		if (girlInfo.getCreatedDate() != null) {
+			if (girlInfo.getCreatedDate().after(previousMonth)) {
+				boolean isFoundNew = false;
+				Iterator it = girlTags.iterator();
+				while(it.hasNext()) {
+					GirlTag girlTag = (GirlTag) it.next();
+					if (girlTag.getGirlTagInfo().getGirlTagNameEn().equals("NEW")) {
+						isFoundNew = true;
+						break;
+					}
+				}
+				if (!isFoundNew) {
+					List<GirlTagInfo> girlTagInfos = (List<GirlTagInfo>)session.createQuery("from GirlTagInfo where girlTagNameEn = :NEW")
+							.setParameter("NEW", "NEW")
+							.list();
+					Iterator itGirlTagInfos = girlTagInfos.iterator();
+					while (itGirlTagInfos.hasNext()) {
+						GirlTagInfo girlTagInfo = (GirlTagInfo) itGirlTagInfos.next();
+						GirlTagId girlTagId = new GirlTagId();
+						girlTagId.setGirlInfo(girlInfo);
+						girlTagId.setGirlTagInfo(girlTagInfo);
+						GirlTag girlTag = new GirlTag();
+						girlTag.setPrimaryKey(girlTagId);
+						girlTags.add(girlTag);
+					}
+				}
+			}
+		}
+		
+		return girlTags;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<GirlInfo> searchAllGirls(FrontSearch frontSearch, int feedLimit, int feedOffset) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<GirlInfo> girlInfos = new ArrayList();
+		try {
+			String sql = "";
+			GirlInfo girlInfo;
+			Query query;
+			List<GirlInfo> girlInfoList;
+
+			sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo ";
+			sql += "where (DTYPE = 'AgentGirlInfo' and girlInfo.agentInfoId = userInfo.agentInfoId and girlInfo.available = :availableAgentGirlInfo) ";
+			sql += "or (DTYPE = 'FreeAgentGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId) ";
+			sql += "or (DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId) ";
+			sql = appendSearchCommonSQL(frontSearch, sql);
+			query = session.createQuery(sql.toString());
+			query = query.setParameter("availableAgentGirlInfo", Boolean.TRUE.toString().toLowerCase());
+			query = setSearchCommonParameter(frontSearch, feedLimit, feedOffset, query);
+			girlInfoList = (List<GirlInfo>)query.list();
+			Iterator it = girlInfoList.iterator();
+			while(it.hasNext()) {
+				girlInfo = (GirlInfo) it.next();
+				if (girlInfo instanceof AgentGirlInfo) {
+					((AgentGirlInfo)girlInfo).setAgentInfo(getAgentInfo(session, ((AgentGirlInfo)girlInfo).getAgentInfoId()));
+					((AgentGirlInfo)girlInfo).setGirlServices(new ArrayList());
+				} else if (girlInfo instanceof FreeAgentGirlInfo) {
+					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
+					((FreeAgentGirlInfo)girlInfo).setUserInfo(getUserInfo(session, girlInfo.getGirlInfoId()));
+					((FreeAgentGirlInfo)girlInfo).setGirlServices(new ArrayList());
+				} else if (girlInfo instanceof EnGirlInfo) {
+					girlInfo.setCountryInfo(getCountryInfo(session, girlInfo.getCountryInfoId()));
+					((EnGirlInfo)girlInfo).setUserInfo(getUserInfo(session, girlInfo.getGirlInfoId()));
+				}
+				girlInfo = setSearchCommonLoadGirlInfo(session, girlInfo);
+			}
+			girlInfos.addAll(girlInfoList);
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return girlInfos;
 	}
 }

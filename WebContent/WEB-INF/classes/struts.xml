@@ -97,6 +97,7 @@
 			<result name="freeAgent" type="redirect">/management_free_agent</result>
 			<result name="client" type="redirect">/</result>
 			<result name="enGirl" type="redirect">/management_en_girl</result>
+			<result name="independent" type="redirect">/management_independent</result>
 		</action>
 
 		<action name="logout"
@@ -113,6 +114,7 @@
 			<result name="freeAgent" type="redirect">/management_free_agent</result>
 			<result name="client" type="redirect">/</result>
 			<result name="enGirl" type="redirect">/management_en_girl</result>
+			<result name="independent" type="redirect">/management_independent</result>
 		</action>
 		
 		<action name="agents"
@@ -235,8 +237,7 @@
 		
 		<action name="loadMoreGirlInfos/*/*"
 			class="com.nightclub.view.FrontEndAction" method="loadMoreGirlInfos">
-			<param name="userType">{1}</param>
-			<param name="feedOffset">{2}</param>
+			<param name="feedOffset">{1}</param>
 			<result type="json" />
 		</action>
 		
@@ -1494,6 +1495,49 @@
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/description.jsp</result>
 		</action>
+		
+		<action name="girltag"
+			class="com.nightclub.view.GirlTagInfoAction" method="execute">
+			<param name="menu">girltag</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">girl_tag.jsp</result>
+		</action>
+		
+		<action name="girltag/*"
+			class="com.nightclub.view.GirlTagInfoAction" method="{1}">
+			<param name="menu">girltag</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" type="redirect">girltag</result>
+		</action>
+		
+		<action name="girltag/edit/*"
+			class="com.nightclub.view.GirlTagInfoAction" method="edit">
+			<param name="menu">girltag</param>
+			<param name="girlTagInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" >/admin/girl_tag.jsp</result>
+		</action>
+		
+		<action name="girltag/delete/*"
+			class="com.nightclub.view.GirlTagInfoAction" method="delete">
+			<param name="menu">girltag</param>
+			<param name="girlTagInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="input" >/admin/girl_tag.jsp</result>
+			<result name="success" type="redirect">girltag</result>
+		</action>
+		
+		<action name="girltag/search"
+			class="com.nightclub.view.GirlTagInfoAction" method="search">
+			<param name="menu">girltag</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/girl_tag.jsp</result>
+		</action>
 	</package>
 
 	<package name="api" extends="rest-default" namespace="/api" >
@@ -1939,6 +1983,81 @@
 			<interceptor-ref name="myStack" />
 			<result name="login" type="redirect">/login</result>
 			<result name="success">/management_en_girl/how_to_input.jsp</result>
+		</action>
+
+	</package>
+
+	<package name="management_independent" extends="struts-default" namespace="/management_independent">
+	    
+	    <interceptors>
+			<interceptor class="com.nightclub.interceptor.LoginInterceptor" name="loginInterceptor">
+			</interceptor>
+			<interceptor name="i18n" class="org.apache.struts2.interceptor.I18nInterceptor"/>
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="i18n" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+			
+			<interceptor name="redirectMessage"
+      			class="com.nightclub.interceptor.RedirectMessageInterceptor" />
+			<interceptor-stack name="myStack">
+			    <interceptor-ref name="redirectMessage" />
+			    <interceptor-ref name="loginStack" />
+			    <interceptor-ref name="paramsPrepareParamsStack" />
+			</interceptor-stack>
+		</interceptors>
+		
+	    <default-action-ref name="home"/>
+		
+	    <action name="home" 
+			class="net.viralpatel.contact.view.CommonAction" method="execute">
+			<param name="menu">index</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">home.jsp</result>
+		</action>
+		
+		<action name="information"
+			class="com.nightclub.view.IndependentGirlInfoAction" method="execute">
+			<param name="menu">information</param>
+			<interceptor-ref name="myStack" />
+			<result name="input" type="redirect">information</result>
+			<result name="login" type="redirect">/login</result>
+			<result name="success" >independentinfo.jsp</result>
+		</action>
+		
+		<action name="information/*"
+			class="com.nightclub.view.IndependentGirlInfoAction" method="{1}">
+			<param name="menu">information</param>
+			<interceptor-ref name="myStack" />
+			<!-- <interceptor-ref name="fileUpload">
+		        <param name="maximumSize">2097152</param>
+		        <param name="allowedTypes">
+		            image/png,image/gif,image/jpeg,image/pjpeg
+		        </param>
+		    </interceptor-ref> -->
+		    <result name="input">/management_independent/independentinfo.jsp</result>
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_independent/independentinfo.jsp</result>
+		</action>
+		
+		<action name="changepassword"
+			class="com.nightclub.view.UserInfoAction" method="execute">
+			<param name="menu">changepassword</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="success">/management_independent/changepassword.jsp</result>
+		</action>
+		
+		<action name="changepassword/update"
+			class="com.nightclub.view.UserInfoAction" method="changePassword">
+			<param name="menu">changepassword</param>
+			<param name="userType">3</param>
+			<interceptor-ref name="myStack" />
+			<result name="login" type="redirect">/login</result>
+			<result name="input">/management_independent/changepassword.jsp</result>
+			<result name="success">/management_independent/changepassword.jsp</result>
 		</action>
 
 	</package>

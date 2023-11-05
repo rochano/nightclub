@@ -240,9 +240,11 @@ public class EnGirlInfoAction extends ActionSupport implements SessionAware {
 			} else {
 				if(userInfo.getGirlInfoId() != null) {
 					this.girlInfo.setGirlInfoId(userInfo.getGirlInfoId());
+					this.girlInfo.setCreatedDate(new Date());
 					girlInfoManager.add(this.girlInfo);
 				} else {
 					this.girlInfo.setGirlInfoId(UUID.randomUUID().toString().toUpperCase());
+					this.girlInfo.setCreatedDate(new Date());
 					girlInfoManager.add(this.girlInfo);
 					userInfo.setGirlInfoId(this.girlInfo.getGirlInfoId());
 				}

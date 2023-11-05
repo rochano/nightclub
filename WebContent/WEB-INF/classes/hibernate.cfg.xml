@@ -86,6 +86,9 @@
 		<mapping class="com.nightclub.model.GirlProvinceId" />
 		<mapping class="com.nightclub.model.GenderInfo" />
 		<mapping class="com.nightclub.model.GirlComment" />
+		<mapping class="com.nightclub.model.GirlTag" />
+		<mapping class="com.nightclub.model.GirlTagId" />
+		<mapping class="com.nightclub.model.GirlTagInfo" />
 
 	</session-factory>
 

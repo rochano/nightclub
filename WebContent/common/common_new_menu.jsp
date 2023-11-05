@@ -40,9 +40,12 @@
 					</s:else>
 				</div>
 			</div> --%>
-			<a href="<s:url value="/agents"/>" class="ui item"><s:text name="global.main_menu_agents" /></a>
+			<%-- <a href="<s:url value="/agents"/>" class="ui item"><s:text name="global.main_menu_agents" /></a>
 			<a href="<s:url value="/freeagents"/>" class="ui item"><s:text name="global.main_menu_free_agents" /></a>
-			<a href="<s:url value="/engirls"/>" class="ui item"><s:text name="global.main_menu_en_girls" /></a>
+			<a href="<s:url value="/engirls"/>" class="ui item"><s:text name="global.main_menu_en_girls" /></a> --%>
+			<a href="<s:url value="/howtouse"/>" class="ui item"><s:text name="global.main_menu_how_to_use" /></a>
+			<a href="<s:url value="/signup"/>" class="ui item"><s:text name="global.main_menu_register" /></a>
+			<a href="<s:url value="/login"/>" class="ui item"><s:text name="global.main_menu_login" /></a>
 		</div>
 		<div class="ui centered grid menu-slide-image">
 	  		<div class="center aligned sixteen wide column slide-image">
@@ -53,12 +56,13 @@
 				</div>
 			</div>
 		</div>
-		<div class="ui menu inverted stackable">
-			<%-- <a href="<s:url value="/search"/>" class="ui item"><s:text name="global.main_menu_search" /></a>
-			<a href="<s:url value="/contact"/>" class="ui item"><s:text name="global.main_menu_contact" /></a> --%>
+		<%-- <div class="ui menu inverted stackable">
+			<a href="<s:url value="/search"/>" class="ui item"><s:text name="global.main_menu_search" /></a>
+			<a href="<s:url value="/contact"/>" class="ui item"><s:text name="global.main_menu_contact" /></a>
 			<a href="<s:url value="/howtouse"/>" class="ui item"><s:text name="global.main_menu_how_to_use" /></a>
 			<a href="<s:url value="/signup"/>" class="ui item"><s:text name="global.main_menu_register" /></a>
 			<a href="<s:url value="/login"/>" class="ui item"><s:text name="global.main_menu_login" /></a>
-		</div>
+		</div> --%>
+		<br />
 	  </div>
   </div>

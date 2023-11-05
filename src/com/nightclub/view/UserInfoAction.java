@@ -46,6 +46,7 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	public static final String FREE_AGENT = "freeAgent";
 	public static final String CLIENT = "client";
 	public static final String EN_GIRL = "enGirl";
+	public static final String INDEPENDENT = "independent";
 
 	public UserInfoAction() {
 		linkController = new UserInfoManager();
@@ -63,7 +64,12 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
         	this.userInfo = linkController.authenticate(username, password);
         	
         	if(this.userInfo != null) {
-        		if (!this.userInfo.getUserType().equals(userType)) {
+        		if ((IConstants.USER_TYPE_AGENT.equals(userType)
+        				&& !this.userInfo.getUserType().equals(userType))
+        				|| (IConstants.USER_TYPE_INDEPENDENT.equals(userType)
+        						&& !(IConstants.USER_TYPE_FREE_AGENT.equals(this.userInfo.getUserType())
+        								|| IConstants.USER_TYPE_EN_GIRL.equals(this.userInfo.getUserType())
+        								|| IConstants.USER_TYPE_INDEPENDENT.equals(this.userInfo.getUserType())))) {
         			addActionError(getText("global.user_type_not_correct"));
         			return LOGIN;
         		}
@@ -140,6 +146,14 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
         				sessionMap.put("enGirlInfo", girlInfo);
         			}
 					return EN_GIRL;
+				// free agent + entertain girl
+				} else if(IConstants.USER_TYPE_INDEPENDENT.equals(userType)) {
+					sessionMap.put("userInfo", userInfo);
+					GirlInfo girlInfo = girlInfoManager.getGirlInfo(userInfo.getGirlInfoId());
+					if (girlInfo != null) {
+        				sessionMap.put("independentGirlInfo", girlInfo);
+        			}
+					return INDEPENDENT;
 				}
         	} else {
         		addActionError(getText("global.username_password_not_correct"));
@@ -164,6 +178,7 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
     		sessionMap.remove("agentInfo");
     		sessionMap.remove("freeAgentGirlInfo");
     		sessionMap.remove("enGirlInfo");
+    		sessionMap.remove("independentGirlInfo");
     	}
         addActionMessage("You have been successfully logged out");
         return SUCCESS;

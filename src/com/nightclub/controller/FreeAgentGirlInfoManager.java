@@ -94,7 +94,7 @@ public class FreeAgentGirlInfoManager extends GirlInfoManager {
 		session.getTransaction().commit();
 		return girlInfos;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<GirlServiceInfo> getGirlServiceInfoList() {
 		
