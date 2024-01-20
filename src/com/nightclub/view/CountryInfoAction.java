@@ -8,10 +8,9 @@ import java.util.logging.Logger;
 
 import org.cloudinary.json.JSONObject;
 
-import com.nightclub.common.IConstants;
 import com.nightclub.controller.CountryInfoManager;
 import com.nightclub.model.CountryInfo;
-import com.nightclub.model.UserInfo;
+import com.nightclub.model.ProvinceInfo;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class CountryInfoAction extends ActionSupport {
@@ -27,7 +26,9 @@ public class CountryInfoAction extends ActionSupport {
 	private String action;
 	private boolean showInfo = false;
 	private List<String> activelist;
-	
+	private String countryInfoIdThai;
+	private String countryClassification;
+
 	private CountryInfoManager countryInfoManager;
 
 	public CountryInfoAction() {
@@ -44,7 +45,11 @@ public class CountryInfoAction extends ActionSupport {
 			}
 		}
 		
-		this.countryInfos = countryInfoManager.list();
+		if ("overseas".equals(getMenu())) {
+			this.countryInfos = countryInfoManager.listOverseas(getCountryInfoIdThai());
+		} else {
+			this.countryInfos = countryInfoManager.list();
+		}
 		
 		return SUCCESS;
 	}
@@ -79,7 +84,11 @@ public class CountryInfoAction extends ActionSupport {
 	public String edit() {
 		this.countryInfo = countryInfoManager.getCountryInfo(this.countryInfoId);
 		this.showInfo = true;
-		this.countryInfos = countryInfoManager.list();
+		if ("overseas".equals(getMenu())) {
+			this.countryInfos = countryInfoManager.listOverseas(getCountryInfoIdThai());
+		} else {
+			this.countryInfos = countryInfoManager.list();
+		}
 		return SUCCESS;
 	}
 
@@ -93,12 +102,20 @@ public class CountryInfoAction extends ActionSupport {
 			addActionError(getTexts("global_th").getString("global.message_country_delete_fail"));
 			result = INPUT;
 		}
-		this.countryInfos = countryInfoManager.list();
+		if ("overseas".equals(getMenu())) {
+			this.countryInfos = countryInfoManager.listOverseas(getCountryInfoIdThai());
+		} else {
+			this.countryInfos = countryInfoManager.list();
+		}
 		return result;
 	}
 	
 	public String search() {
-		this.countryInfos = countryInfoManager.search(this.countrySearch);
+		if ("overseas".equals(getMenu())) {
+			this.countryInfos = countryInfoManager.searchOverseas(this.countrySearch, getCountryInfoIdThai());
+		} else {
+			this.countryInfos = countryInfoManager.search(this.countrySearch);
+		}
 		return SUCCESS;
 	}
 
@@ -120,6 +137,25 @@ public class CountryInfoAction extends ActionSupport {
 		}
 		countryInfoManager.activeByCountryInfoId(allCountryInfoIdList, availableCountryInfoIdList);
 		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
+		return SUCCESS;
+	}
+	
+	public String loadCountryByClassification() {
+		if ("1".equals(getCountryClassification())) {
+			this.countryInfos = new ArrayList();
+			CountryInfo countryInfoThai = countryInfoManager.getCountryInfo(getCountryInfoIdThai());
+			this.countryInfos.add(countryInfoThai);
+		} else if ("2".equals(getCountryClassification())) {
+			this.countryInfos = countryInfoManager.searchOverseas(new CountryInfo(), getCountryInfoIdThai());
+		} else {
+			this.countryInfos = new ArrayList();
+		}
+		Iterator it = this.countryInfos.iterator();
+		CountryInfo countryInfo;
+		while(it.hasNext()) {
+			countryInfo = (CountryInfo) it.next();
+			countryInfo.setProvinceInfos(new ArrayList());
+		}
 		return SUCCESS;
 	}
 
@@ -185,6 +221,22 @@ public class CountryInfoAction extends ActionSupport {
 
 	public void setActivelist(List<String> activelist) {
 		this.activelist = activelist;
+	}
+	
+	public String getCountryInfoIdThai() {
+		return countryInfoIdThai;
+	}
+
+	public void setCountryInfoIdThai(String countryInfoIdThai) {
+		this.countryInfoIdThai = countryInfoIdThai;
+	}
+
+	public String getCountryClassification() {
+		return countryClassification;
+	}
+
+	public void setCountryClassification(String countryClassification) {
+		this.countryClassification = countryClassification;
 	}
 
 }

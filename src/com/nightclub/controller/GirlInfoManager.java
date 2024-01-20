@@ -739,6 +739,13 @@ public class GirlInfoManager extends HibernateUtil {
 			sql += "where gp.primaryKey.girlInfo.girlInfoId = girlInfo.girlInfoId ";
 			sql += "and gp.primaryKey.provinceInfo.provinceInfoId in (:provinceInfoIdList)) ";
 		}
+		if (frontSearch.getCountryClassification() != null && !frontSearch.getCountryClassification().isEmpty()) {
+			if ("1".equals(frontSearch.getCountryClassification())) {
+				sql += " and girlInfo.countryInfoId in (:countryInfoIdThai) ";
+			} else if ("2".equals(frontSearch.getCountryClassification())) {
+				sql += " and girlInfo.countryInfoId not in (:countryInfoIdThai) ";
+			}
+		}
 		sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
 		if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
 			sql += "order by substring(girlInfo.girlInfoId,:searchrandom,1) ";
@@ -767,6 +774,9 @@ public class GirlInfoManager extends HibernateUtil {
 		}
 		if (frontSearch.getProvinceInfos() != null && !frontSearch.getProvinceInfos().isEmpty()) {
 			query = query.setParameterList("provinceInfoIdList", frontSearch.getProvinceInfos().toArray());
+		}
+		if (frontSearch.getCountryClassification() != null && !frontSearch.getCountryClassification().isEmpty()) {
+			query = query.setParameter("countryInfoIdThai", frontSearch.getCountryInfoIdThai());
 		}
 		query = query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
 		if (feedLimit != -1) {
@@ -1069,9 +1079,9 @@ public class GirlInfoManager extends HibernateUtil {
 			List<GirlInfo> girlInfoList;
 
 			sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo ";
-			sql += "where (DTYPE = 'AgentGirlInfo' and girlInfo.agentInfoId = userInfo.agentInfoId and girlInfo.available = :availableAgentGirlInfo) ";
+			sql += "where ((DTYPE = 'AgentGirlInfo' and girlInfo.agentInfoId = userInfo.agentInfoId and girlInfo.available = :availableAgentGirlInfo) ";
 			sql += "or (DTYPE = 'FreeAgentGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId) ";
-			sql += "or (DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId) ";
+			sql += "or (DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId)) ";
 			sql = appendSearchCommonSQL(frontSearch, sql);
 			query = session.createQuery(sql.toString());
 			query = query.setParameter("availableAgentGirlInfo", Boolean.TRUE.toString().toLowerCase());

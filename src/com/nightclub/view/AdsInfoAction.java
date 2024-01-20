@@ -1,7 +1,5 @@
 package com.nightclub.view;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -32,15 +30,9 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
 	
 	private AdsInfoManager adsInfoManager;
 	
-    private String adsImageFileName;
-    private String adsImageMobileFileName;
-    private String autoSubscribe;;
+    private String adsImageFileName1;
+    private String adsImageFileName2;
     private String active;
-    private String currentRangeFrom = "";
-    private String currentRangeTo = "";
-    private String nextRangeFrom = "";
-    private String nextRangeTo = "";
-    private SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
 	public AdsInfoAction() {
 		adsInfoManager = new AdsInfoManager();
@@ -66,17 +58,15 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
 			UserInfo userInfo = (UserInfo)sessionMap.get("adminInfo");
 			adsInfo.setAdsInfoId(UUID.randomUUID().toString().toUpperCase());
 			
-			if(!getAdsImageFileName().isEmpty()) {
-				this.adsImageFileName = UploadFileUtils.uploadImageApi(getAdsImageFileName(), sessionMap, userInfo);
-				this.adsInfo.setAdsImg(this.adsImageFileName);
+			if(!getAdsImageFileName1().isEmpty()) {
+				this.adsImageFileName1 = UploadFileUtils.uploadImageApi(getAdsImageFileName1(), sessionMap, userInfo);
+				this.adsInfo.setAdsImg1(this.adsImageFileName1);
 			}
-			
-			if(getAutoSubscribe() != null) {
-				this.adsInfo.setAutoSubscribe(Boolean.TRUE.toString().toLowerCase());
-			} else {
-				this.adsInfo.setAutoSubscribe(Boolean.FALSE.toString().toLowerCase());
+			if(!getAdsImageFileName2().isEmpty()) {
+				this.adsImageFileName2 = UploadFileUtils.uploadImageApi(getAdsImageFileName2(), sessionMap, userInfo);
+				this.adsInfo.setAdsImg2(this.adsImageFileName2);
 			}
-			
+
 			if(getActive() != null) {
 				this.adsInfo.setActive(Boolean.TRUE.toString().toLowerCase());
 			} else {
@@ -99,20 +89,32 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
 			UserInfo userInfo = (UserInfo)sessionMap.get("adminInfo");
 			AdsInfo currentAdsInfo = adsInfoManager.getAdsInfo(this.adsInfo.getAdsInfoId());
 			
-			if(!getAdsImageFileName().isEmpty()) {
-				this.adsImageFileName = UploadFileUtils.uploadImageApi(getAdsImageFileName(), sessionMap, userInfo);
-				this.adsInfo.setAdsImg(this.adsImageFileName);
+			if(!getAdsImageFileName1().isEmpty()) {
+				this.adsImageFileName1 = UploadFileUtils.uploadImageApi(getAdsImageFileName1(), sessionMap, userInfo);
+				this.adsInfo.setAdsImg1(this.adsImageFileName1);
 			}
-			else if(currentAdsInfo.getAdsImg() != null && !currentAdsInfo.getAdsImg().isEmpty()) {
-            	this.adsInfo.setAdsImg(currentAdsInfo.getAdsImg());
+			else if(currentAdsInfo.getAdsImg1() != null && !currentAdsInfo.getAdsImg1().isEmpty()) {
+				if(this.adsInfo.getAdsImg1().isEmpty()) {
+					UploadFileUtils.deleteImageApi(currentAdsInfo.getAdsImg1());
+					this.adsInfo.setAdsImg1("");
+				} else {
+					this.adsInfo.setAdsImg1(currentAdsInfo.getAdsImg1());
+				}
             }
 			
-			if(getAutoSubscribe() != null) {
-				this.adsInfo.setAutoSubscribe(Boolean.TRUE.toString().toLowerCase());
-			} else {
-				this.adsInfo.setAutoSubscribe(Boolean.FALSE.toString().toLowerCase());
+			if(!getAdsImageFileName2().isEmpty()) {
+				this.adsImageFileName2 = UploadFileUtils.uploadImageApi(getAdsImageFileName2(), sessionMap, userInfo);
+				this.adsInfo.setAdsImg2(this.adsImageFileName2);
 			}
-			
+			else if(currentAdsInfo.getAdsImg2() != null && !currentAdsInfo.getAdsImg2().isEmpty()) {
+				if(this.adsInfo.getAdsImg2().isEmpty()) {
+					UploadFileUtils.deleteImageApi(currentAdsInfo.getAdsImg2());
+					this.adsInfo.setAdsImg2("");
+				} else {
+					this.adsInfo.setAdsImg2(currentAdsInfo.getAdsImg2());
+				}
+            }
+
 			if(getActive() != null) {
 				this.adsInfo.setActive(Boolean.TRUE.toString().toLowerCase());
 			} else {
@@ -133,41 +135,16 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
 	public String edit() {
 		this.adsInfo = adsInfoManager.getAdsInfo(this.adsInfoId);
 		
-		if(this.adsInfo.getAdsImg() == null){// || !new File(filePath, this.girlInfo.getPic1()).exists()) {
-        	this.adsInfo.setAdsImg("");
+		if(this.adsInfo.getAdsImg1() == null){// || !new File(filePath, this.girlInfo.getPic1()).exists()) {
+        	this.adsInfo.setAdsImg1("");
         }
-
-		if(this.adsInfo.getAdsDateFrom() != null) {
-			Calendar calCurrentRangeFrom = Calendar.getInstance();
-			calCurrentRangeFrom.add(Calendar.MONTH, -1);
-			calCurrentRangeFrom = findDateRange(calCurrentRangeFrom);
-			calCurrentRangeFrom.add(Calendar.DATE, 1);
-			Calendar calCurrentRangeTo = findDateRange(calCurrentRangeFrom);
-			Calendar calNextRangeFrom = (Calendar) calCurrentRangeTo.clone();
-			calNextRangeFrom.add(Calendar.DATE, 1);
-			Calendar calNextRangeTo = findDateRange(calNextRangeFrom);
-			this.currentRangeFrom = df.format(calCurrentRangeFrom.getTime());
-			this.currentRangeTo = df.format(calCurrentRangeTo.getTime());
-			this.nextRangeFrom = df.format(calNextRangeFrom.getTime());
-			this.nextRangeTo = df.format(calNextRangeTo.getTime());
-		}
+		if(this.adsInfo.getAdsImg2() == null){// || !new File(filePath, this.girlInfo.getPic1()).exists()) {
+        	this.adsInfo.setAdsImg2("");
+        }
 
 		this.showInfo = true;
 		this.adsInfos = adsInfoManager.list();
 		return SUCCESS;
-	}
-
-	private Calendar findDateRange(Calendar calRangeFrom) {
-		Calendar calRangeTo = (Calendar) calRangeFrom.clone();
-		calRangeTo.set(Calendar.DATE, 1);
-		calRangeTo.add(Calendar.MONTH, 1);
-		if (calRangeTo.getMaximum(Calendar.DATE) > this.adsInfo.getAdsDateFrom().getDate()) {
-			calRangeTo.set(Calendar.DATE, this.adsInfo.getAdsDateFrom().getDate());
-		} else {
-			calRangeTo.set(Calendar.DATE, calRangeTo.getMaximum(Calendar.DATE));
-		}
-		calRangeTo.add(Calendar.DATE, -1);
-		return calRangeTo;
 	}
 
 	public String delete() {
@@ -243,67 +220,27 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
 		this.sessionMap = sessionMap;
 	}
 
-	public String getAdsImageFileName() {
-		return adsImageFileName;
-	}
-	
-	public String getAdsImageMobileFileName() {
-		return adsImageMobileFileName;
-	}
-	
-	public void setAdsImageFileName(String adsImageFileName) {
-		this.adsImageFileName = adsImageFileName;
-	}
-	
-	public void setAdsImageMobileFileName(String adsImageMobileFileName) {
-		this.adsImageMobileFileName = adsImageMobileFileName;
+	public String getAdsImageFileName1() {
+		return adsImageFileName1;
 	}
 
-	public String getAutoSubscribe() {
-		return autoSubscribe;
-	}
-
-	public void setAutoSubscribe(String autoSubscribe) {
-		this.autoSubscribe = autoSubscribe;
+	public void setAdsImageFileName1(String adsImageFileName1) {
+		this.adsImageFileName1 = adsImageFileName1;
 	}
 	
+	public String getAdsImageFileName2() {
+		return adsImageFileName2;
+	}
+
+	public void setAdsImageFileName2(String adsImageFileName2) {
+		this.adsImageFileName2 = adsImageFileName2;
+	}
+
 	public String getActive() {
 		return active;
 	}
 
 	public void setActive(String active) {
 		this.active = active;
-	}
-
-	public String getCurrentRangeFrom() {
-		return currentRangeFrom;
-	}
-
-	public String getCurrentRangeTo() {
-		return currentRangeTo;
-	}
-
-	public String getNextRangeFrom() {
-		return nextRangeFrom;
-	}
-
-	public String getNextRangeTo() {
-		return nextRangeTo;
-	}
-
-	public void setCurrentRangeFrom(String currentRangeFrom) {
-		this.currentRangeFrom = currentRangeFrom;
-	}
-
-	public void setCurrentRangeTo(String currentRangeTo) {
-		this.currentRangeTo = currentRangeTo;
-	}
-
-	public void setNextRangeFrom(String nextRangeFrom) {
-		this.nextRangeFrom = nextRangeFrom;
-	}
-
-	public void setNextRangeTo(String nextRangeTo) {
-		this.nextRangeTo = nextRangeTo;
 	}
 }

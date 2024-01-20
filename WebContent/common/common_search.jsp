@@ -58,7 +58,14 @@
       })
       ;
      $(".clear").click(function() {
-    	 $("#frontSearch_incallOutcall").val($("#frontSearch_incallOutcall option:first").val());
+		$("#frontSearch_incallOutcall").val($("#frontSearch_incallOutcall option:first").val());
+		var countryInfos = $("#frontSearch_countryInfoId");
+		countryInfos.empty();
+		var html = '';
+		html += '<option value=""></option>';
+		$(html).appendTo(countryInfos);
+		var provinceInfos = $("#provinceInfos");
+		provinceInfos.empty();
      })
      $("#searchForm").submit(function() {
     	 $("#frontSearch_chkCategory").val("true");
@@ -67,9 +74,13 @@
     	 $("#frontSearch_chkEnGirls").val("true");
      });
      $('#searchForm.ui.form').slideDown('slow');
+     $("#frontSearch_countryClassification").change(function() {
+ 	  	var countryClassification = $(this).val();
+ 	  	loadCountry(countryClassification, '#frontSearch_countryInfoId', '#provinceInfos');
+	  });
      $("#frontSearch_countryInfoId").change(function() {
-    	  	var countryInfoId = $(this).val();
-    	  	loadProvince(countryInfoId, '#provinceInfos', 'zoneInfos');
+		var countryInfoId = $(this).val();
+		loadProvince(countryInfoId, '#provinceInfos', 'zoneInfos');
  	  });
      $("[name='frontSearch.zoneInfos']").change(function() {
    	  	 var parents = $(this).parents(".accordion:first");
@@ -81,6 +92,30 @@
      });
     })
   ;
+  function loadCountry(countryClassification, countryInfosElmId, provinceInfosElmId) {
+	  $.getJSON("<s:url value="/ajax/loadCountryByClassification/" />" + countryClassification, 
+			function(jsonResponse) {
+				var countryInfos = $(countryInfosElmId);
+				countryInfos.empty();
+				var html = '';
+				html += '<option value=""></option>';
+				$(html).appendTo(countryInfos);
+				$.each(jsonResponse.countryInfos, function(i, obj) {
+					html = '';
+					html += '<option value="' + obj.countryInfoId + '">' + obj.countryNameJp + '</option>';
+					$(html).appendTo(countryInfos);
+				});
+				if (countryClassification == '1') {
+					countryInfos.val(jsonResponse.countryInfoIdThai)
+				}
+				var provinceInfos = $(provinceInfosElmId);
+				if (countryClassification != '1') {
+					provinceInfos.empty();
+				} else {
+					loadProvince(jsonResponse.countryInfoIdThai, '#provinceInfos', 'zoneInfos');
+				}
+			});
+   }
   function loadProvince(countryInfoId, provinceInfosElmId, girlLocationsId) {
 	  $.getJSON("<s:url value="/ajax/loadProvinceByCountry/" />" + countryInfoId, 
 			function(jsonResponse) {
@@ -180,13 +215,115 @@
 								<s:if test="%{#userType == #userTypeEnGirl}">
 									<input type="hidden" name="frontSearch.chkEnGirls" id="frontSearch_chkEnGirls" value="true" />
 								</s:if>
+								<%-- <div class="ui inverted accordion">
+									<div class="title">
+										<label><s:text name="global.location_specify" /></label>
+										<i class="dropdown icon"></i>
+									</div>
+									<div class="content">
+										<div class="ui four column grid doubling">
+											<s:if test="#request.locale.language=='th'">
+												<s:iterator value="zoneInfos" status="rowstatus">
+													<div class="column">
+														<div class="field ui checkbox">
+															<input type="checkbox" name="frontSearch.zoneInfos" id="zoneInfos_<s:property value="#rowstatus.count" />"
+																<s:iterator value="frontSearch.zoneInfos" >
+																	<s:property value="top" />
+																	<s:if test="top == zoneInfoId">checked="checked"</s:if>
+																</s:iterator>
+																value="<s:property value="zoneInfoId" />">
+															<label for="zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
+														</div>
+													</div>
+												</s:iterator>
+											</s:if>
+											<s:else>
+												<s:iterator value="zoneInfos" status="rowstatus">
+													<div class="column">
+														<div class="field ui checkbox">
+															<input type="checkbox" name="frontSearch.zoneInfos" id="zoneInfos_<s:property value="#rowstatus.count" />"
+																<s:iterator value="frontSearch.zoneInfos" >
+																	<s:property value="top" />
+																	<s:if test="top == zoneInfoId">checked="checked"</s:if>
+																</s:iterator>
+																value="<s:property value="zoneInfoId" />">
+															<label for="zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameJp" /></label>
+														</div>
+													</div>
+												</s:iterator>
+											</s:else>
+										</div>
+									</div>
+								</div> --%>
 								<div class="field">
-									<s:select list="genderInfos"
-										listKey="genderInfoId" listValue="genderNameJp"
-										key="global.gender_specify" 
+									<label for="frontSearch_countryClassification" class="label"><s:text name="global.country_classication" />:</label>
+									<s:select list="#{'1':getText('global.domestic'),  
+														'2':getText('global.overseas')}"
 										headerKey="" headerValue=""
-										name="frontSearch.genderInfoId">
+										name="frontSearch.countryClassification">
 									</s:select>
+								</div>
+								<div class="field">
+									<s:select list="countryInfos"
+										listKey="countryInfoId" listValue="countryNameJp"
+										key="global.country" 
+										headerKey="" headerValue=""
+										name="frontSearch.countryInfoId">
+									</s:select>
+								</div>
+								<div class="ui inverted accordion">
+									<div class="title">
+										<s:text name="global.province" /> :
+										<i class="dropdown icon"></i>
+									</div>
+									<div class="content">
+										<div class="ui one column grid doubling" id="provinceInfos">
+											<s:iterator value="provinceInfos" status="rowstatus">
+												<div class="column">
+													<div class="ui">
+														<div class="ui accordion">
+															<div class="title ui">
+																<input type="checkbox" name="provinceInfos" id="provinceInfos_<s:property value="#rowstatus.count" />"
+																<s:iterator value="frontSearch.provinceInfos" >
+																	<s:property value="top" />
+																	<s:if test="top == provinceInfoId">checked="checked"</s:if>
+																</s:iterator>
+																value="<s:property value="provinceInfoId" />">
+																<label><s:property value="provinceNameJp" /></label>
+																<i class="dropdown icon"></i>
+															</div>
+															<div class="content">
+																<div class="ui four column grid" class="zoneInfos">
+																	<s:iterator value="top.zoneInfos" status="rowstatus">
+																		<div class="column">
+																			<div class="field ui checkbox">
+																				<input type="checkbox" name="frontSearch.zoneInfos" id="<s:property value="provinceInfoId" />_zoneInfos_<s:property value="#rowstatus.count" />"
+																				<s:iterator value="frontSearch.zoneInfos" >
+																					<s:property value="top" />
+																					<s:if test="top == zoneInfoId">checked="checked"</s:if>
+																				</s:iterator>
+																				value="<s:property value="zoneInfoId" />">
+																				<label for="<s:property value="provinceInfoId" />_zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameJp" /></label>
+																			</div>
+																		</div>
+																	</s:iterator>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</s:iterator>
+										</div>
+									</div>
+								</div>
+								<br />
+								<div class="field">
+									<label><s:text name="global.incall_outcall_specify" /></label>
+									<select name="frontSearch.incallOutcall" id="frontSearch_incallOutcall">
+										<option value=""></option>
+										<option value="incall" <s:if test="frontSearch.incallOutcall == 'incall'">selected="selected"</s:if>><s:text name="global.incall" /></option>
+										<option value="outcall" <s:if test="frontSearch.incallOutcall == 'outcall'">selected="selected"</s:if>><s:text name="global.outcall" /></option>
+									</select>
 								</div>
 								<div class="ui inverted accordion">
 									<div class="title">
@@ -230,105 +367,12 @@
 								</div>
 								<br/>
 								<div class="field">
-									<label><s:text name="global.incall_outcall_specify" /></label>
-									<select name="frontSearch.incallOutcall" id="frontSearch_incallOutcall">
-										<option value=""></option>
-										<option value="incall" <s:if test="frontSearch.incallOutcall == 'incall'">selected="selected"</s:if>><s:text name="global.incall" /></option>
-										<option value="outcall" <s:if test="frontSearch.incallOutcall == 'outcall'">selected="selected"</s:if>><s:text name="global.outcall" /></option>
-									</select>
-								</div>
-								<%-- <div class="ui inverted accordion">
-									<div class="title">
-										<label><s:text name="global.location_specify" /></label>
-										<i class="dropdown icon"></i>
-									</div>
-									<div class="content">
-										<div class="ui four column grid doubling">
-											<s:if test="#request.locale.language=='th'">
-												<s:iterator value="zoneInfos" status="rowstatus">
-													<div class="column">
-														<div class="field ui checkbox">
-															<input type="checkbox" name="frontSearch.zoneInfos" id="zoneInfos_<s:property value="#rowstatus.count" />"
-																<s:iterator value="frontSearch.zoneInfos" >
-																	<s:property value="top" />
-																	<s:if test="top == zoneInfoId">checked="checked"</s:if>
-																</s:iterator>
-																value="<s:property value="zoneInfoId" />">
-															<label for="zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
-														</div>
-													</div>
-												</s:iterator>
-											</s:if>
-											<s:else>
-												<s:iterator value="zoneInfos" status="rowstatus">
-													<div class="column">
-														<div class="field ui checkbox">
-															<input type="checkbox" name="frontSearch.zoneInfos" id="zoneInfos_<s:property value="#rowstatus.count" />"
-																<s:iterator value="frontSearch.zoneInfos" >
-																	<s:property value="top" />
-																	<s:if test="top == zoneInfoId">checked="checked"</s:if>
-																</s:iterator>
-																value="<s:property value="zoneInfoId" />">
-															<label for="zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameJp" /></label>
-														</div>
-													</div>
-												</s:iterator>
-											</s:else>
-										</div>
-									</div>
-								</div> --%>
-								<div class="field">
-									<s:select list="countryInfos"
-										listKey="countryInfoId" listValue="countryNameJp"
-										key="global.country" 
+									<s:select list="genderInfos"
+										listKey="genderInfoId" listValue="genderNameJp"
+										key="global.gender_specify" 
 										headerKey="" headerValue=""
-										name="frontSearch.countryInfoId">
+										name="frontSearch.genderInfoId">
 									</s:select>
-								</div>
-								<div class="ui inverted accordion">
-									<h4 class="title">
-										<s:text name="global.province" /> :
-										<i class="dropdown icon"></i>
-									</h4>
-									<div class="content">
-										<div class="ui one column grid doubling" id="provinceInfos">
-											<s:iterator value="provinceInfos" status="rowstatus">
-												<div class="column">
-													<div class="ui">
-														<div class="ui accordion">
-															<div class="title ui">
-																<input type="checkbox" name="provinceInfos" id="provinceInfos_<s:property value="#rowstatus.count" />"
-																<s:iterator value="frontSearch.provinceInfos" >
-																	<s:property value="top" />
-																	<s:if test="top == provinceInfoId">checked="checked"</s:if>
-																</s:iterator>
-																value="<s:property value="provinceInfoId" />">
-																<label><s:property value="provinceNameJp" /></label>
-																<i class="dropdown icon"></i>
-															</div>
-															<div class="content">
-																<div class="ui four column grid" class="zoneInfos">
-																	<s:iterator value="top.zoneInfos" status="rowstatus">
-																		<div class="column">
-																			<div class="field ui checkbox">
-																				<input type="checkbox" name="frontSearch.zoneInfos" id="<s:property value="provinceInfoId" />_zoneInfos_<s:property value="#rowstatus.count" />"
-																				<s:iterator value="frontSearch.zoneInfos" >
-																					<s:property value="top" />
-																					<s:if test="top == zoneInfoId">checked="checked"</s:if>
-																				</s:iterator>
-																				value="<s:property value="zoneInfoId" />">
-																				<label for="<s:property value="provinceInfoId" />_zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameJp" /></label>
-																			</div>
-																		</div>
-																	</s:iterator>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</s:iterator>
-										</div>
-									</div>
 								</div>
 								<s:hidden name="action" value="search"></s:hidden>
 								<s:hidden name="frontSearch.searchRandom" ></s:hidden>

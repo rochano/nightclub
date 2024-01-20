@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import com.nightclub.controller.ProvinceInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
+import com.nightclub.model.CountryInfo;
 import com.nightclub.model.ProvinceInfo;
 import com.nightclub.model.ZoneInfo;
 import com.opensymphony.xwork2.ActionSupport;
@@ -23,6 +24,8 @@ public class ZoneInfoAction extends ActionSupport {
 	private String action;
 	private boolean showInfo = false;
 	private List<ProvinceInfo> provinceInfos;
+	private String provinceInfoId;
+	private ProvinceInfo provinceInfo;
 
 	private ZoneInfoManager zoneInfoManager;
 	private ProvinceInfoManager provinceInfoManager;
@@ -42,7 +45,14 @@ public class ZoneInfoAction extends ActionSupport {
 			}
 		}
 		
-		this.zoneInfos = zoneInfoManager.list();
+		if (!"".equals(getProvinceInfoId())) {
+			this.provinceInfo = provinceInfoManager.getProvinceInfo(getProvinceInfoId());
+			this.zoneSearch = new ZoneInfo();
+			this.zoneSearch.setProvinceInfoId(getProvinceInfoId());
+			this.zoneInfos = zoneInfoManager.search(this.zoneSearch);
+		} else {
+			this.zoneInfos = zoneInfoManager.list();
+		}
 		this.provinceInfos = provinceInfoManager.list();
 		
 		return SUCCESS;
@@ -78,7 +88,14 @@ public class ZoneInfoAction extends ActionSupport {
 	public String edit() {
 		this.zoneInfo = zoneInfoManager.getZoneInfo(this.zoneInfoId);
 		this.showInfo = true;
-		this.zoneInfos = zoneInfoManager.list();
+		if (!"".equals(getProvinceInfoId())) {
+			this.provinceInfo = provinceInfoManager.getProvinceInfo(getProvinceInfoId());
+			this.zoneSearch = new ZoneInfo();
+			this.zoneSearch.setProvinceInfoId(getProvinceInfoId());
+			this.zoneInfos = zoneInfoManager.search(this.zoneSearch);
+		} else {
+			this.zoneInfos = zoneInfoManager.list();
+		}
 		this.provinceInfos = provinceInfoManager.list();
 		return SUCCESS;
 	}
@@ -93,12 +110,23 @@ public class ZoneInfoAction extends ActionSupport {
 			addActionError(getTexts("global_th").getString("global.message_location_delete_fail"));
 			result = INPUT;
 		}
-		this.zoneInfos = zoneInfoManager.list();
+		if (!"".equals(getProvinceInfoId())) {
+			this.provinceInfo = provinceInfoManager.getProvinceInfo(getProvinceInfoId());
+			this.zoneSearch = new ZoneInfo();
+			this.zoneSearch.setProvinceInfoId(getProvinceInfoId());
+			this.zoneInfos = zoneInfoManager.search(this.zoneSearch);
+		} else {
+			this.zoneInfos = zoneInfoManager.list();
+		}
 		this.provinceInfos = provinceInfoManager.list();
 		return result;
 	}
 	
 	public String search() {
+		if (!"".equals(getProvinceInfoId())) {
+			this.provinceInfo = provinceInfoManager.getProvinceInfo(getProvinceInfoId());
+			this.zoneSearch.setProvinceInfoId(getProvinceInfoId());
+		}
 		this.zoneInfos = zoneInfoManager.search(this.zoneSearch);
 		this.provinceInfos = provinceInfoManager.list();
 		return SUCCESS;
@@ -168,5 +196,22 @@ public class ZoneInfoAction extends ActionSupport {
 		this.provinceInfos = provinceInfos;
 	}
 
+	public String getProvinceInfoId() {
+		if (provinceInfoId == null) { 
+			return "";
+		}
+		return provinceInfoId;
+	}
 
+	public void setProvinceInfoId(String provinceInfoId) {
+		this.provinceInfoId = provinceInfoId;
+	}
+	
+	public ProvinceInfo getProvinceInfo() {
+		return provinceInfo;
+	}
+
+	public void setProvinceInfo(ProvinceInfo provinceInfo) {
+		this.provinceInfo = provinceInfo;
+	}
 }

@@ -60,6 +60,33 @@
   .ui.table tr td:nth-child(2) > p {
   	color: #686868;
   }
+  #adv1, #adv2 {
+	display: none;
+  }
+    .ui.leaderboard.ad {
+  	padding: 0;
+  	width: 100%;
+  	background: url('<s:url value="/assets/images/black_mamba.png" />');
+  }
+  .ui.leaderboard.ad img {
+  	width: 100%;
+  	max-height: 90px;
+  	max-width: 660px;
+  }
+  .ui.leaderboard.ad.active {
+  	background: inherit;
+  }
+  .ui.skyscraper.ad {
+  	background: url('<s:url value="/assets/images/black_mamba.png" />')
+  }
+  .ui.skyscraper.ad img {
+  	height: 100%;
+  	max-height: 600px;
+  	max-width: 160px;
+  }
+  .ui.skyscraper.ad.active {
+  	background: inherit;
+  }
   @media only screen and (max-width: 767px) {
   	.ui.menu:not(.vertical):not(.fixed)/*,
   	.ui.grid.menu-slide-image*/ {
@@ -73,6 +100,21 @@
   	}
   	/* .ui.inverted.menu .active.item {overflow: auto ;}
 	.ui.inverted.menu .active.item:hover {width: 100%;} */
+	.ui[class*="wide skyscraper"].ad {
+		display: none;
+	}
+	#wrapper > .ui.centered.grid > .row > .three.wide.column,
+	#wrapper > .ui.centered.grid > .three.wide.column {
+		display: none;
+	}
+	#adv1, #adv2 {
+		display: block;
+	}
+  }
+  @media only screen and (max-width: 992px) {
+  	.ui[class*="wide skyscraper"].ad {
+		width: 100% !important;
+	}
   }
   .ui.menu .dropdown.item .menu {
     background: rgba(27,27,27,1);
@@ -96,6 +138,7 @@
 	}
 	.ui.leaderboard.ad {
 	    width: auto;
+	    margin: 1em 0;
 	}
 	  .ui.header.segment.header {
 	  	margin-bottom: 0;
@@ -117,6 +160,9 @@
 	  }
 	  .ui.breadcrumb.segment.attached {
 	  	margin-top: 1rem;
+	  }
+	  .ui.fixed.menu {
+	  	z-index:999;
 	  }
   </style>
   <script>
@@ -141,6 +187,11 @@
       $('.container > .ui.accordion')
       .accordion()
     ;
+      $('.ui.sticky')
+	    .sticky({
+	      offset: 70,
+	      context: '#wrapper'
+	    });
       var key = 'thainightnavi_cookies', value = 'accept', age_days = 90;
       if(!document.cookie.includes(key + '=' + value)) {
 				$('.ui.cookie.sidebar').sidebar('setting', {
@@ -218,6 +269,9 @@
 						this_.empty()
 						this_.text('LOAD MORE');
 						this_.removeAttr("disabled");
+						$('.ui.sticky')
+						  .sticky('refresh')
+						;
 				});
 	    })
 	});

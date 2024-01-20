@@ -78,7 +78,18 @@
 		  $('.ui.modal .header:first').text("<s:i18n name="global_th"><s:text name="global.add_information" /><s:text name="global.location" /></s:i18n>");
 		  $('#infoForm').find("input[type=text], input[type=hidden], textarea").val("");
 		  $('#infoForm')[0].action.value = "add";
-		  $('#infoForm')[0].action = "<s:url value="/admin/zone/add"/>";
+		  <s:if test="%{menu.equalsIgnoreCase('domestic')}">
+			  $('#infoForm')[0].action = "<s:url value="/admin/domestic/%{provinceInfoId}/zone/add"/>";
+		  	  $('#zoneInfo_provinceInfoId').val("<s:property value="provinceInfoId" />");
+		  </s:if>
+		  <s:elseif test="%{menu.equalsIgnoreCase('overseas')}">
+		  	  $('#infoForm')[0].action = "<s:url value="/admin/overseas/%{provinceInfo.countryInfoId}/province/%{provinceInfoId}/zone/add"/>";
+		  	$('#zoneInfo_provinceInfoId').val("<s:property value="provinceInfoId" />");
+		  </s:elseif>
+		  <s:else>
+		  	  $('#infoForm')[0].action = "<s:url value="/admin/zone/add"/>";
+		  </s:else>
+		  
         $('.ui.modal')
 		    .modal('show')
 		  ;
@@ -126,6 +137,28 @@
 			<div class="ui menu inverted stackable toc left aligned">
 		  		<a class="toc item"><i class="sidebar icon"></i></a>
 		  	</div>
+		  	<s:if test="%{menu.equalsIgnoreCase('domestic')}">
+				<div class="ui breadcrumb segment attached inverted">
+					<a class="section" href="<s:url value="/admin/domestic" />" >
+						<s:i18n name="global_th"><s:text name="global.country" />(<s:text name="global.domestic" />)</s:i18n>
+					</a>
+					<i class="right chevron icon divider"></i>
+					<div class="active section"><s:property value="provinceInfo.provinceNameEn" /></div>
+				</div>
+		  	</s:if>
+		  	<s:elseif test="%{menu.equalsIgnoreCase('overseas')}">
+				<div class="ui breadcrumb segment attached inverted">
+					<a class="section" href="<s:url value="/admin/overseas" />" >
+						<s:i18n name="global_th"><s:text name="global.country" />(<s:text name="global.overseas" />)</s:i18n>
+					</a>
+					<i class="right chevron icon divider"></i>
+					<a class="section" href="<s:url value="/admin/overseas/%{provinceInfo.countryInfoId}/province" />" >
+						<s:property value="provinceInfo.countryInfo.countryNameEn" />
+					</a>
+					<i class="right chevron icon divider"></i>
+					<div class="active section"><s:property value="provinceInfo.provinceNameEn" /></div>
+				</div>
+		  	</s:elseif>
 			<s:if test="hasActionMessages()">
 				<div class="ui success message green">
 					<i class="close icon"></i>
@@ -150,7 +183,17 @@
 					</s:i18n>
 				</h4>
 				<div class="ui left aligned attached segment active content">
-					<form class="ui form" id="searchForm" method="post" action="<s:url value="/admin/zone/search"/>">
+					<form class="ui form" id="searchForm" method="post" 
+					<s:if test="%{menu.equalsIgnoreCase('domestic')}">
+						action="<s:url value="/admin/domestic/%{provinceInfoId}/zone/search"/>"
+					</s:if>
+					<s:elseif test="%{menu.equalsIgnoreCase('overseas')}">
+						action="<s:url value="/admin/overseas/%{provinceInfo.countryInfoId}/province/%{provinceInfoId}/zone/search"/>"
+					</s:elseif>
+					<s:else>
+						action="<s:url value="/admin/zone/search"/>"
+					</s:else>
+					>
 						<div class="inline field">
 							<s:i18n name="global_th"><s:textfield name="zoneSearch.zoneNameJp" key="global.japanese_location_name"/></s:i18n>
 						</div>
@@ -182,13 +225,20 @@
 									<th>#</th>
 									<th><s:i18n name="global_th"><s:text name="global.japanese_location_name" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.english_location_name" /></s:i18n></th>
-									<th><s:i18n name="global_th"><s:text name="global.province" /></s:i18n></th>
+									<s:if test="%{''.equals(provinceInfoId)}">
+										<th><s:i18n name="global_th"><s:text name="global.province" /></s:i18n></th>
+									</s:if>
 									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
 							<tfoot class="full-width">
 								<tr>
-									<th colspan="5">
+									<s:if test="%{!''.equals(provinceInfoId)}">
+										<th colspan="4">
+									</s:if>
+									<s:else>
+										<th colspan="5">
+									</s:else>
 										<div class="ui right aligned one column grid">
 											<div class="column">
 												<div class="addbtn ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
@@ -213,23 +263,38 @@
     <s:i18n name="global_th"><s:text name="global.edit_information" /><s:text name="global.location" /></s:i18n>
   </div>
   <div class="content">
-    <form class="ui form" id="infoForm" method="post" action="<s:url value="/admin/zone/update"/>">
+    <form class="ui form" id="infoForm" method="post" 
+    <s:if test="%{menu.equalsIgnoreCase('domestic')}">
+		action="<s:url value="/admin/domestic/%{provinceInfoId}/zone/update"/>"
+	</s:if>
+	<s:elseif test="%{menu.equalsIgnoreCase('overseas')}">
+		action="<s:url value="/admin/overseas/%{provinceInfo.countryInfoId}/province/%{provinceInfoId}/zone/update"/>"
+	</s:elseif>
+	<s:else>
+		 action="<s:url value="/admin/zone/update"/>"
+	</s:else>
+    >
 		<div class="inline field">
 			<s:i18n name="global_th"><s:textfield name="zoneInfo.zoneNameJp" key="global.japanese_location_name" /></s:i18n>
 		</div>
 		<div class="inline field">
 			<s:i18n name="global_th"><s:textfield name="zoneInfo.zoneNameEn" key="global.english_location_name" /></s:i18n>
 		</div>
-		<div class="inline field">
-			<s:i18n name="global_th">
-				<s:select list="provinceInfos"
-					listKey="provinceInfoId" listValue="provinceNameEn"
-					key="global.province" 
-					cssClass="ui search dropdown" 
-					name="zoneInfo.provinceInfoId">
-				</s:select>
-			</s:i18n>
-		</div>
+		<s:if test="%{!''.equals(provinceInfoId)}">
+			<s:hidden name="zoneInfo.provinceInfoId" value="%{provinceInfoId}"></s:hidden>
+		</s:if>
+		<s:else>
+			<div class="inline field">
+				<s:i18n name="global_th">
+					<s:select list="provinceInfos"
+						listKey="provinceInfoId" listValue="provinceNameEn"
+						key="global.province" 
+						cssClass="ui search dropdown" 
+						name="zoneInfo.provinceInfoId">
+					</s:select>
+				</s:i18n>
+			</div>
+		</s:else>
 		<s:hidden name="action" value="update"></s:hidden>
 		<s:hidden name="zoneInfo.zoneInfoId"></s:hidden>
 		<div class="ui error message"></div>
@@ -246,13 +311,26 @@
 			['<s:property value="#status.count" />', 
 			"<s:property value="zoneNameJp" />",
 			"<s:property value="zoneNameEn" />",
-			"<s:property value="provinceInfo.provinceNameEn" />",
-			'<a href="<s:url value="/admin/zone/edit/%{zoneInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
-			'<a href="<s:url value="/admin/zone/delete/%{zoneInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>'
-    	]);
+			<s:if test="%{menu.equalsIgnoreCase('domestic')}">
+				'<a href="<s:url value="/admin/domestic/%{provinceInfoId}/zone/edit/%{zoneInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
+				'<a href="<s:url value="/admin/domestic/%{provinceInfoId}/zone/delete/%{zoneInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>'
+			</s:if>
+			<s:elseif test="%{menu.equalsIgnoreCase('overseas')}">
+				'<a href="<s:url value="/admin/overseas/%{provinceInfo.countryInfoId}/province/%{provinceInfoId}/zone/edit/%{zoneInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
+				'<a href="<s:url value="/admin/overseas/%{provinceInfo.countryInfoId}/province/%{provinceInfoId}/zone/delete/%{zoneInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>'
+			</s:elseif>
+			<s:else>
+				"<s:property value="provinceInfo.provinceNameEn" />",
+				'<a href="<s:url value="/admin/zone/edit/%{zoneInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
+				'<a href="<s:url value="/admin/zone/delete/%{zoneInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>'
+			</s:else>
+	    	]);
 	</s:iterator>
 	columnDefs = [
-	  {  className: "center aligned", targets: [ 0, 4 ] }
+	  {  className: "center aligned", targets: [ 0, 
+	     <s:if test="%{!''.equals(provinceInfoId)}">3</s:if>
+		 <s:else>4</s:else>
+		] }
 	];
 	if (dataSet.length > 100) {
 		pageLength = 150;

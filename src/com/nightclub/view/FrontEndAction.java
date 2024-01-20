@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-import com.nightclub.common.IConstants;
 import com.nightclub.controller.AdsInfoManager;
 import com.nightclub.controller.AgentGirlInfoManager;
 import com.nightclub.controller.AgentInfoManager;
@@ -112,6 +111,7 @@ public class FrontEndAction extends CommonAction {
 	private List<FormDay> workingDateList;
 	private List<String> girlServicesInfoId;
 	private List<GirlTagInfo> girlTagInfos;
+	private String countryInfoIdThai;
 
 	private CategoryInfoManager categoryInfoManager;
 	private BasicInfoManager basicInfoManager;
@@ -161,10 +161,22 @@ public class FrontEndAction extends CommonAction {
 		this.homeSlideImages = homeSlideImageManager.list();
 		this.newsInfos = newsInfoManager.list();
 		this.homeInfo = homeInfoManager.getHomeInfo("0");
-		this.adsInfos = adsInfoManager.active();
-
+		this.adsInfos = adsInfoManager.list();
+		
 		girlInfoManager = new AgentGirlInfoManager();
-		if(this.frontSearch == null) {
+		this.countryInfos = new ArrayList();
+		if(this.frontSearch != null) {
+			this.frontSearch.setCountryInfoIdThai(getCountryInfoIdThai());
+			
+			if (frontSearch.getCountryClassification() != null && !frontSearch.getCountryClassification().isEmpty()) {
+				if ("1".equals(frontSearch.getCountryClassification())) {
+					CountryInfo countryInfoThai = countryInfoManager.getCountryInfo(getCountryInfoIdThai());
+					this.countryInfos.add(countryInfoThai);
+				} else if ("2".equals(frontSearch.getCountryClassification())) {
+					this.countryInfos = countryInfoManager.searchOverseas(new CountryInfo(), getCountryInfoIdThai());
+				}
+			}
+		} else if(this.frontSearch == null) {
 			this.frontSearch = new FrontSearch();
 		}
 		this.frontSearch.setSearchRandom(new BigDecimal((Math.random()*36+1)).intValue());
@@ -172,7 +184,6 @@ public class FrontEndAction extends CommonAction {
 		this.agentInfos = agentInfoManager.list();
 		this.zoneInfos = zoneInfoManager.list();
 		this.nationalityInfos = nationalityInfoManager.list();
-		this.countryInfos = countryInfoManager.list();
 		if(this.frontSearch.getCountryInfoId() != null && !"".equals(this.frontSearch.getCountryInfoId())) {
 			this.provinceInfos = provinceInfoManager.listByCountry(this.frontSearch.getCountryInfoId());
 		}
@@ -279,6 +290,7 @@ public class FrontEndAction extends CommonAction {
 		if(this.frontSearch == null) {
 			this.frontSearch = new FrontSearch();
 		}
+		this.frontSearch.setCountryInfoIdThai(getCountryInfoIdThai());
 		this.girlInfos = girlInfoManager.searchAllGirls(this.frontSearch, this.feedLimit, this.feedOffset);
 		return SUCCESS;
 	}
@@ -394,7 +406,18 @@ public class FrontEndAction extends CommonAction {
 		this.zoneInfos = zoneInfoManager.list();
 		
 		if(this.frontSearch != null) {
-			this.girlInfos = girlInfoManager.search(this.frontSearch, this.feedLimit, this.feedOffset);
+			this.frontSearch.setCountryInfoIdThai(getCountryInfoIdThai());
+			this.girlInfos = girlInfoManager.searchAllGirls(this.frontSearch, this.feedLimit, this.feedOffset);
+			this.countryInfos = new ArrayList();
+			if (frontSearch.getCountryClassification() != null && !frontSearch.getCountryClassification().isEmpty()) {
+				if ("1".equals(frontSearch.getCountryClassification())) {
+					this.countryInfos = new ArrayList();
+					CountryInfo countryInfoThai = countryInfoManager.getCountryInfo(getCountryInfoIdThai());
+					this.countryInfos.add(countryInfoThai);
+				} else if ("2".equals(frontSearch.getCountryClassification())) {
+					this.countryInfos = countryInfoManager.searchOverseas(new CountryInfo(), getCountryInfoIdThai());
+				}
+			}
 		}
 		
 		return SUCCESS;
@@ -1138,5 +1161,13 @@ public class FrontEndAction extends CommonAction {
 
 	public void setGirlTagInfos(List<GirlTagInfo> girlTagInfos) {
 		this.girlTagInfos = girlTagInfos;
+	}
+
+	public String getCountryInfoIdThai() {
+		return countryInfoIdThai;
+	}
+
+	public void setCountryInfoIdThai(String countryInfoIdThai) {
+		this.countryInfoIdThai = countryInfoIdThai;
 	}
 }

@@ -72,8 +72,7 @@ public class CountryInfoManager extends HibernateUtil {
 		List<CountryInfo> countryInfos = null;
 		try {
 			
-			countryInfos = (List<CountryInfo>)session.createQuery("from CountryInfo where active = :active ")
-					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+			countryInfos = (List<CountryInfo>)session.createQuery("from CountryInfo")
 					.list();
 			
 		} catch (HibernateException e) {
@@ -183,5 +182,65 @@ public class CountryInfoManager extends HibernateUtil {
 			session.getTransaction().rollback();
 		}
 		session.getTransaction().commit();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CountryInfo> listOverseas(String countryInfoIdThai) {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<CountryInfo> countryInfos = null;
+		try {
+			
+			countryInfos = (List<CountryInfo>)session.createQuery("from CountryInfo where countryInfoId  != :countryInfoId ")
+					.setParameter("countryInfoId", countryInfoIdThai)
+					.list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		
+		return countryInfos;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CountryInfo> searchOverseas(CountryInfo countryInfo, String countryInfoIdThai) {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<CountryInfo> countryInfos = null;
+		try {
+			
+			log_.info("country name jp >> [" + countryInfo.getCountryNameJp() + "]");
+			log_.info("country name en >> [" + countryInfo.getCountryNameEn() + "]");
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("from CountryInfo where countryInfoId  != :countryInfoId ");
+			if(countryInfo.getCountryNameJp() != null && countryInfo.getCountryNameJp().isEmpty()) {
+				sql.append("and countryNameJp like :countryNameJp ");
+			}
+			if(countryInfo.getCountryNameEn() != null && !countryInfo.getCountryNameEn().isEmpty()) {
+				sql.append("and countryNameEn like :countryNameEn ");
+			}
+			
+			Query query = session.createQuery(sql.toString());
+			query.setParameter("countryInfoId", countryInfoIdThai);
+			if(countryInfo.getCountryNameJp() != null && !countryInfo.getCountryNameJp().isEmpty()) {
+				query.setParameter("countryNameJp", '%'+countryInfo.getCountryNameJp()+'%');
+			}
+			if(countryInfo.getCountryNameEn() != null && !countryInfo.getCountryNameEn().isEmpty()) {
+				query.setParameter("countryNameEn", '%'+countryInfo.getCountryNameEn()+'%');
+			}
+			
+			countryInfos = (List<CountryInfo>)query.list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return countryInfos;
 	}
 }

@@ -78,7 +78,13 @@
 		  $('.ui.modal .header:first').text("<s:i18n name="global_th"><s:text name="global.add_information" /><s:text name="global.country" /></s:i18n>");
 		  $('#infoForm').find("input[type=text], input[type=hidden], textarea").val("");
 		  $('#infoForm')[0].action.value = "add";
-		  $('#infoForm')[0].action = "<s:url value="/admin/country/add"/>";
+		  <s:if test="%{menu.equalsIgnoreCase('overseas')}">
+		  	$('#infoForm')[0].action = "<s:url value="/admin/overseas/add"/>";
+		  </s:if>
+		  <s:else>
+		  	$('#infoForm')[0].action = "<s:url value="/admin/country/add"/>";
+		  </s:else>
+		  
         $('.ui.modal')
 		    .modal('show')
 		  ;
@@ -103,19 +109,6 @@
 		.bind('click', function() {
 			$('#activeForm').submit()
 	  });
-    $('#activeForm')
-    .form({
-        onSuccess: function() { 
-            var form = $(this);
-            form.find("[name=activelist]").remove()
-            $( "input[name=active]", dataTable.fnGetNodes()).each(function(i, item) {
-                var obj = {id: item.value, checked: item.checked};
-          	  form.append("<input name='activelist' value='" + JSON.stringify(obj) + "' type='hidden' />")
-            })
-            return true; 
-        }
-     })
-    ;
     })
   ;
   </script>
@@ -167,7 +160,14 @@
 					</s:i18n>
 				</h4>
 				<div class="ui left aligned attached segment active content">
-					<form class="ui form" id="searchForm" method="post" action="<s:url value="/admin/country/search"/>">
+					<form class="ui form" id="searchForm" method="post" 
+						<s:if test="%{menu.equalsIgnoreCase('overseas')}">
+							action="<s:url value="/admin/overseas/search"/>"
+						</s:if>
+						<s:else>
+							action="<s:url value="/admin/country/search"/>"
+						</s:else>
+					>
 						<div class="inline field">
 							<s:i18n name="global_th"><s:textfield name="countrySearch.countryNameJp" key="global.japanese_name"/></s:i18n>
 						</div>
@@ -191,7 +191,6 @@
 						<div class="ui right aligned one column grid">
 							<div class="column">
 								<div class="addbtn ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
-								<div class="countriesupdate ui small button purple"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
 							</div>
 						</div>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
@@ -200,21 +199,17 @@
 									<th>#</th>
 									<th><s:i18n name="global_th"><s:text name="global.japanese_name" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.english_name" /></s:i18n></th>
-									<th><s:i18n name="global_th"><s:text name="global.active" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
 							<tfoot class="full-width">
 								<tr>
-									<th colspan="5">
+									<th colspan="4">
 										<div class="ui right aligned one column grid">
 											<div class="column">
 												<div class="addbtn ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
-												<div class="countriesupdate ui small button purple"><s:i18n name="global_th"><s:text name="global.submit" /></s:i18n></div>
 											</div>
 										</div>
-										<form class="ui form " id="activeForm" method="post" action="<s:url value="/admin/country/active"/>" >
-										</form>
 									</th>
 								</tr>
 							</tfoot>
@@ -234,7 +229,14 @@
     <s:i18n name="global_th"><s:text name="global.edit_information" /><s:text name="global.country" /></s:i18n>
   </div>
   <div class="content">
-    <form class="ui form" id="infoForm" method="post" action="<s:url value="/admin/country/update"/>">
+    <form class="ui form" id="infoForm" method="post" 
+    	<s:if test="%{menu.equalsIgnoreCase('overseas')}">
+			action="<s:url value="/admin/overseas/update"/>"
+		</s:if>
+		<s:else>
+			action="<s:url value="/admin/country/update"/>"
+		</s:else>
+    >
 		<div class="inline field">
 			<s:i18n name="global_th"><s:textfield name="countryInfo.countryNameJp" key="global.japanese_name" /></s:i18n>
 		</div>
@@ -257,15 +259,16 @@
 		['<s:property value="#status.count" />', 
 		"<s:property value="countryNameJp" />",
 		"<s:property value="countryNameEn" />",
-		'<div class="ui toggle fitted checkbox">' +
-			'<input type="checkbox" name="active" ' +
-			<s:if test="active == 'true'">'checked="checked" ' + </s:if>
-			'value="<s:property value="countryInfoId" />">' +
-			'<label></label>' +
-		'</div>',
 		'<div class="ui buttons">' +
+		<s:if test="%{menu.equalsIgnoreCase('overseas')}">
+			'<a href="<s:url value="/admin/overseas/edit/%{countryInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
+			'<a href="<s:url value="/admin/overseas/%{countryInfoId}/province"/>" class="ui icon button small green" ><i class="ui icon compass"></i></a>' +
+			'<a href="<s:url value="/admin/overseas/delete/%{countryInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>' +
+		</s:if>
+		<s:else>
 			'<a href="<s:url value="/admin/country/edit/%{countryInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
 			'<a href="<s:url value="/admin/country/delete/%{countryInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>' +
+		</s:else>
 		'</div>'
 	]);
   </s:iterator>

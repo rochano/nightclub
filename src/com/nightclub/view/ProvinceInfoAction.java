@@ -24,6 +24,7 @@ public class ProvinceInfoAction extends ActionSupport {
 	private List<CountryInfo> countryInfos;
 	private List<ProvinceInfo> provinceInfos;
 	private String countryInfoId;
+	private CountryInfo countryInfo;
 	
 	private ProvinceInfoManager provinceInfoManager;
 	private CountryInfoManager countryInfoManager;
@@ -43,7 +44,14 @@ public class ProvinceInfoAction extends ActionSupport {
 			}
 		}
 		
-		this.provinceInfos = provinceInfoManager.list();
+		if (getCountryInfoId() != null && !getCountryInfoId().isEmpty()) {
+			this.countryInfo = countryInfoManager.getCountryInfo(getCountryInfoId());
+			this.provinceSearch = new ProvinceInfo();
+			this.provinceSearch.setCountryInfoId(getCountryInfoId());
+			this.provinceInfos = provinceInfoManager.search(this.provinceSearch);
+		} else {
+			this.provinceInfos = provinceInfoManager.list();
+		}
 		this.countryInfos = countryInfoManager.list();
 		
 		return SUCCESS;
@@ -53,7 +61,6 @@ public class ProvinceInfoAction extends ActionSupport {
 		try {
 			provinceInfo.setProvinceInfoId(UUID.randomUUID().toString().toUpperCase());
 			provinceInfoManager.add(this.provinceInfo);
-			
 			addActionMessage(getTexts("global_th").getString("global.message_success_add"));
 			
 			return SUCCESS;
@@ -79,7 +86,14 @@ public class ProvinceInfoAction extends ActionSupport {
 	public String edit() {
 		this.provinceInfo = provinceInfoManager.getProvinceInfo(this.provinceInfoId);
 		this.showInfo = true;
-		this.provinceInfos = provinceInfoManager.list();
+		if (getCountryInfoId() != null && !getCountryInfoId().isEmpty()) {
+			this.countryInfo = countryInfoManager.getCountryInfo(getCountryInfoId());
+			this.provinceSearch = new ProvinceInfo();
+			this.provinceSearch.setCountryInfoId(getCountryInfoId());
+			this.provinceInfos = provinceInfoManager.search(this.provinceSearch);
+		} else {
+			this.provinceInfos = provinceInfoManager.list();
+		}
 		this.countryInfos = countryInfoManager.list();
 		return SUCCESS;
 	}
@@ -94,12 +108,23 @@ public class ProvinceInfoAction extends ActionSupport {
 			addActionError(getTexts("global_th").getString("global.message_province_delete_fail"));
 			result = INPUT;
 		}
-		this.provinceInfos = provinceInfoManager.list();
+		if (getCountryInfoId() != null && !getCountryInfoId().isEmpty()) {
+			this.countryInfo = countryInfoManager.getCountryInfo(getCountryInfoId());
+			this.provinceSearch = new ProvinceInfo();
+			this.provinceSearch.setCountryInfoId(getCountryInfoId());
+			this.provinceInfos = provinceInfoManager.search(this.provinceSearch);
+		} else {
+			this.provinceInfos = provinceInfoManager.list();
+		}
 		this.countryInfos = countryInfoManager.list();
 		return result;
 	}
 	
 	public String search() {
+		if (getCountryInfoId() != null && !getCountryInfoId().isEmpty()) {
+			this.countryInfo = countryInfoManager.getCountryInfo(getCountryInfoId());
+			this.provinceSearch.setCountryInfoId(getCountryInfoId());
+		}
 		this.provinceInfos = provinceInfoManager.search(this.provinceSearch);
 		this.countryInfos = countryInfoManager.list();
 		return SUCCESS;
@@ -180,6 +205,14 @@ public class ProvinceInfoAction extends ActionSupport {
 
 	public void setCountryInfoId(String countryInfoId) {
 		this.countryInfoId = countryInfoId;
+	}
+
+	public CountryInfo getCountryInfo() {
+		return countryInfo;
+	}
+
+	public void setCountryInfo(CountryInfo countryInfo) {
+		this.countryInfo = countryInfo;
 	}
 
 }

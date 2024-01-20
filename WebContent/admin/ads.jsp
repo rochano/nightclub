@@ -35,14 +35,22 @@
 	display: block;
     padding: 1.5em 0em 0em;
   }
-  .ui.form .inline.field>:first-child, .ui.form .inline.fields>label {
-  	width: 150px;
+  .ui.form .inline.field>:first-child, .ui.form .inline.fields>label:first-child {
+  	width: 200px;
+  	vertical-align: top;
   }
   .ui.leaderboard.ad {
   	height: 100%;
   }
-  .ui.leaderboard.ad image {
-  	height: 100px;
+  .ui.leaderboard.ad img {
+  	width: 100%;
+  	max-height: 90px;
+  	max-width: 660px;
+  }
+  .ui.skyscraper.ad img {
+  	height: 100%;
+  	max-height: 600px;
+  	max-width: 160px;
   }
   </style>
 
@@ -78,7 +86,7 @@
 		  $('#infoForm').find("input[type=text], textarea").val("");
 		  $('#infoForm')[0].action.value = "add";
 		  $('#infoForm')[0].action = "<s:url value="/admin/ads/add"/>";
-		  $("#adsImg,#current_range_from,#current_range_to,#next_range_from,#next_range_to").html("");
+		  $("#adsImg").html("");
 		  $('#infoForm').find("input[type=checkbox]").prop("checked", false);
           $('.ui.modal')
 		    .modal('show')
@@ -126,7 +134,7 @@
 	  <s:if test="adsInfo.adsDateTo != null">
 	  $("#adsInfo_adsDateTo").val("<s:date name="adsInfo.adsDateTo" format="dd/MM/yyyy" />");
 	  </s:if>
-      $('#fileAdsImg').fileupload({
+      $('#fileAdsImg1').fileupload({
 			url: '<s:url value="/UploadFileServlet"/>',
 			dataType: 'json',
 			add: function (e, data) {
@@ -137,16 +145,40 @@
 				console.log(response.fileName);
 		        var fileName = response.fileName;
 				var filePath = response.path;
+				$("#adsImg1").html("");
+				$("#adsImg1").append('<a class="ui right corner label removeImg1 link" data-variation="tiny"><i class="remove icon"></i></a>');
 				var image = "<img src='" + filePath + fileName + "' />";
-				$("#adsImg").html(image);
-				$('#adsImageFileName').val(fileName);
+				$("#adsImg1").append(image);
+				$('#adsImageFileName1').val(fileName);
 	        	console.log('success');
 	        },
 	        error:function(error){
 	        	console.log(error);
 	        }
 		});
-      $("#autoSubscribe")
+      $('#fileAdsImg2').fileupload({
+			url: '<s:url value="/UploadFileServlet"/>',
+			dataType: 'json',
+			add: function (e, data) {
+				data.submit();
+			},
+	        success:function(response,status) {
+		        console.log(arguments)
+				console.log(response.fileName);
+		        var fileName = response.fileName;
+				var filePath = response.path;
+				$("#adsImg2").html("");
+				$("#adsImg2").append('<a class="ui right corner label removeImg2 link" data-variation="tiny"><i class="remove icon"></i></a>');
+				var image = "<img src='" + filePath + fileName + "' />";
+				$("#adsImg2").append(image);
+				$('#adsImageFileName2').val(fileName);
+	        	console.log('success');
+	        },
+	        error:function(error){
+	        	console.log(error);
+	        }
+		});
+/*       $("#autoSubscribe")
 		.on('click', function() {console.log($(this).is(":checked"))
 			if ($(this).is(":checked")) {
 				$('#adsInfo_adsDateTo').attr("readonly", "readonly");
@@ -178,17 +210,26 @@
 			$("#next_range_from").text(nextRangeFrom.getDate() + "/" + (nextRangeFrom.getMonth()+1) + "/" + nextRangeFrom.getFullYear());
 			$("#next_range_to").text(nextRangeTo.getDate() + "/" + (nextRangeTo.getMonth()+1) + "/" + nextRangeTo.getFullYear());
 		}
-      });
+      }); */
     })
   ;
-  function findDateRange(rangeFrom, dateAdsDateFrom) {
+  	$('.removeImg1').live('click', function () {
+		$("#adsImg1").empty();
+		$('#adsImageFileName1').val("");
+		$('#adsInfo_AdsImg1').val("");
+	});
+  	$('.removeImg2').live('click', function () {
+		$("#adsImg2").empty();
+		$('#adsInfo_AdsImg2').val("");
+	});
+/*   function findDateRange(rangeFrom, dateAdsDateFrom) {
 	var rangeTo = new Date(rangeFrom.getFullYear(), rangeFrom.getMonth()+2, 0);
 	if (rangeTo.getDate() > dateAdsDateFrom.getDate()) {
 		rangeTo.setDate(dateAdsDateFrom.getDate());
 	}
 	rangeTo.setDate(rangeTo.getDate()-1);
 	return rangeTo;
-  }
+  } */
   </script>
 </head>
 <body class="menu pushable">
@@ -259,11 +300,11 @@
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one left aligned">
-						<div class="ui right aligned one column grid">
+						<%-- <div class="ui right aligned one column grid">
 							<div class="column">
 								<div class="addbtn ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
 							</div>
-						</div>
+						</div> --%>
 						<table id="searchList" class="ui table celled compact striped unstackable sortable">
 							<thead class="center aligned">
 								<tr>
@@ -275,17 +316,6 @@
 									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
-							<tfoot class="full-width">
-								<tr>
-									<th colspan="6">
-										<div class="ui right aligned one column grid">
-											<div class="column">
-												<div class="addbtn ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
-											</div>
-										</div>
-									</th>
-								</tr>
-							</tfoot>
 						</table>
 					</div>
 				</div>
@@ -312,33 +342,9 @@
 				<s:textfield name="adsInfo.adsDateFrom" placeholder="DD/MM/YYYY" />
 			</div>
 			<label>-</label>
-			<div class="field <s:if test="adsInfo.autoSubscribe == 'true'">disabled</s:if>">
-				<s:set var="readonly" value="%{adsInfo.autoSubscribe == 'true'}"/>
-				<s:textfield name="adsInfo.adsDateTo" placeholder="DD/MM/YYYY" readonly="%{readonly}"/>
+			<div class="field">
+				<s:textfield name="adsInfo.adsDateTo" placeholder="DD/MM/YYYY"/>
 			</div>
-		</div>
-		<div class="inline field">
-			<label><s:i18n name="global_th"><s:text name="global.ads_auto_subscribe" /></s:i18n>:</label>
-			<div class="ui toggle fitted checkbox">
-				<input type="checkbox" name="autoSubscribe" id="autoSubscribe" 
-				<s:if test="adsInfo.autoSubscribe == 'true'">checked="checked"</s:if>
-				 value="<s:property value="adsInfoId" />">
-				<label></label>
-			</div>
-		</div>
-		<div class="inline field">
-			<label></label>
-			<label><s:i18n name="global_th"><s:text name="global.ads_current_range" /></s:i18n>:</label>
-			<label id="current_range_from"><s:i18n name="global_th"><s:text name="currentRangeFrom" /></s:i18n></label>
-			<label>-</label>
-			<label id="current_range_to"><s:i18n name="global_th"><s:text name="currentRangeTo" /></s:i18n></label>
-		</div>
-		<div class="inline field">
-			<label></label>
-			<label><s:i18n name="global_th"><s:text name="global.ads_next_range" /></s:i18n>:</label>
-			<label id="next_range_from"><s:i18n name="global_th"><s:text name="nextRangeFrom" /></s:i18n></label>
-			<label>-</label>
-			<label id="next_range_to"><s:i18n name="global_th"><s:text name="nextRangeTo" /></s:i18n></label>
 		</div>
 		<div class="inline field">
 			<label><s:i18n name="global_th"><s:text name="global.active" /></s:i18n>:</label>
@@ -354,23 +360,55 @@
 			<s:textfield name="adsInfo.customUrl" size="50" />
 		</div>
 		<div class="inline field">
-			<label><s:i18n name="global_th"><s:text name="global.ads_image" /></s:i18n>:</label>
-			<div class="image ui small">
-				<div id="adsImg" class="ui leaderboard ad">
-					<s:if test="%{adsInfo.AdsImg != ''}">
-						<img src="<s:property value="adsInfo.AdsImg" />">
+			<label><s:i18n name="global_th"><s:text name="global.ads_image_1" /></s:i18n>:</label>
+			<div class="image ui">
+				<div id="adsImg1" class="ui leaderboard ad">
+					<s:if test="%{adsInfo.AdsImg1 != ''}">
+						<a class="ui right corner label removeImg1 link" data-variation="tiny">
+							<i class="remove icon"></i>
+						</a>
+						<img src="<s:property value="adsInfo.AdsImg1" />">
 					</s:if>
 				</div>
+			</div>
+			<div class="ui horizontal divider very basic">
+				<label for="fileAdsImg1" class="ui basic button">
+					<i class="icon upload"></i>
+				  	<s:i18n name="global_th"><s:text name="global.upload" /></s:i18n>
+				</label>
+			    <input type="file" id="fileAdsImg1" style="display:none">
+			</div>
+			<s:hidden name="adsImageFileName1"></s:hidden>
+			<s:hidden name="adsInfo.AdsImg1"></s:hidden>
+		</div>
+		<s:if test="%{adsInfo.adsInfoId == 1 || adsInfo.adsInfoId == 2}">
+			<div class="inline field">
+				<label><s:i18n name="global_th"><s:text name="global.ads_image_2" /></s:i18n>:</label>
+				<div class="image ui">
+					<div id="adsImg2" class="ui wide skyscraper ad">
+						<s:if test="%{adsInfo.AdsImg2 != ''}">
+							<a class="ui right corner label removeImg2 link" data-variation="tiny">
+								<i class="remove icon"></i>
+							</a>
+							<img src="<s:property value="adsInfo.AdsImg2" />">
+						</s:if>
+					</div>
+				</div>
 				<div class="ui horizontal divider very basic">
-					<label for="fileAdsImg" class="ui basic button">
+					<label for="fileAdsImg2" class="ui basic button">
 						<i class="icon upload"></i>
 					  	<s:i18n name="global_th"><s:text name="global.upload" /></s:i18n>
 					</label>
-				    <input type="file" id="fileAdsImg" style="display:none">
+				    <input type="file" id="fileAdsImg2" style="display:none">
 				</div>
+				<s:hidden name="adsImageFileName2"></s:hidden>
+				<s:hidden name="adsInfo.AdsImg2"></s:hidden>
 			</div>
-			<s:hidden name="adsImageFileName"></s:hidden>
-		</div>
+		</s:if>
+		<s:else>
+			<s:hidden name="adsImageFileName2"></s:hidden>
+			<s:hidden name="adsInfo.AdsImg2"></s:hidden>
+		</s:else>
 		<s:hidden name="action" value="update"></s:hidden>
 		<s:hidden name="adsInfo.adsInfoId"></s:hidden>
 		<div class="ui error message"></div>
@@ -386,18 +424,15 @@
 		dataSet.push(
 			['<s:property value="#status.count" />', 
 			"<s:property value="title" />",
-			<s:if test="autoSubscribe != 'true'">'<s:date name="adsDateFrom" format="dd/MM/yyyy" />',</s:if>
-			<s:if test="autoSubscribe == 'true'">'<s:date name="currentRangeFrom" format="dd/MM/yyyy" />',</s:if>
-			<s:if test="autoSubscribe != 'true'">'<s:date name="adsDateTo" format="dd/MM/yyyy" />',</s:if>
-			<s:if test="autoSubscribe == 'true'">'<s:date name="currentRangeTo" format="dd/MM/yyyy" />',</s:if>
+			'<s:date name="adsDateFrom" format="dd/MM/yyyy" />',
+			'<s:date name="adsDateTo" format="dd/MM/yyyy" />',
 			'<div class="ui toggle fitted checkbox">' +
 				'<input type="checkbox" disabled="disabled"' +
 				<s:if test="active == 'true'">'checked="checked" ' +</s:if>
 				'value="<s:property value="adsInfoId" />">' +
 				'<label></label>' +
 			'</div>',
-			'<a href="<s:url value="/admin/ads/edit/%{adsInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
-			'<a href="<s:url value="/admin/ads/delete/%{adsInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>'
+			'<a href="<s:url value="/admin/ads/edit/%{adsInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>'
     	]);
 	</s:iterator>
 	columnDefs = [

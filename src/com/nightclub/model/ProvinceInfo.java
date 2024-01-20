@@ -37,10 +37,16 @@ public class ProvinceInfo implements Serializable {
 	}
 	@Column(name="province_name_en")
 	public String getProvinceNameEn() {
+		if (provinceNameEn == null) {
+			return "";
+		}
 		return provinceNameEn;
 	}
 	@Column(name="province_name_jp")
 	public String getProvinceNameJp() {
+		if (provinceNameJp == null) {
+			return "";
+		}
 		return provinceNameJp;
 	}
 	@Column(name="country_info_id")

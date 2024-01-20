@@ -30,14 +30,6 @@
 	}
   .ui.green.button {width: 50%;}
   .ui.red.button {width: 45%;}
-  .ui.leaderboard.ad {
-  	height: 100%;
-  	padding: 0;
-  	width: 100%;
-  }
-  .ui.leaderboard.ad img {
-  	height: auto;
-  }
   .ui.grid.segment.banner {
   	padding: 1em 0;
   }
@@ -130,155 +122,159 @@
 <s:set name="base_url" value="%{'shoplist/'}" />
 <%@include file="/common/common_new_menu_sidebar.jsp" %>
 <div class="pusher">
-	<div class="ui segment very basic">
+	<div class="ui segment very basic" id="wrapper">
 		<div class="ui centered grid">
-			<div class="eleven wide column container" id="container">
-				<%@include file="/common/common_statistic_info.jsp" %>
-				<%@include file="/common/common_new_menu.jsp" %>
-
-				<%@include file="/common/common_search.jsp" %>
-
-				<div class="center aligned column">
-					<div class="ui centered attached segment soft">
-						<div class="ui list inverted girl-tag horizontal">
-						<s:iterator value="girlTagInfos" >
-							<div class="item">
-							<div class="ui <s:property value="color" /> circular label">
-							<s:property value="girlTagNameJp" />
+			<div class="row">
+				<%@include file="/common/common_ads.jsp" %>
+				<div class="ten wide column container" id="container">
+					<%@include file="/common/common_statistic_info.jsp" %>
+					<%@include file="/common/common_new_menu.jsp" %>
+	
+					<%@include file="/common/common_search.jsp" %>
+	
+					<div class="center aligned column">
+						<div class="ui centered attached segment soft">
+							<div class="ui list inverted girl-tag horizontal">
+							<s:iterator value="girlTagInfos" >
+								<div class="item">
+								<div class="ui <s:property value="color" /> circular label">
+								<s:property value="girlTagNameJp" />
+								</div>
+								<div class="content">
+								<s:property value="girlTagNameJp" />
+								</div>
+								</div>
+							</s:iterator>
 							</div>
-							<div class="content">
-							<s:property value="girlTagNameJp" />
-							</div>
-							</div>
-						</s:iterator>
-						</div>
-						<div class="ui centered four doubling cards ">
-						<s:if test="%{girlInfos.size gte 0}">
-							<s:iterator value="girlInfos" status="status">
-								<div class="ui red card">
-									<div class="ui left red corner label girl-tag"
-										data-variation="tiny">
-										<s:iterator value="girlTags" >
-											<div class="ui <s:property value="primaryKey.girlTagInfo.color" /> circular label">
-												<s:property value="primaryKey.girlTagInfo.girlTagNameJp" />
-												<br />
-											</div>
-										</s:iterator>
-									</div>
-									<div class="image ui centered corner labeled pic" >
-										<s:if test="allSame == 'true'">
-											<div class="ui right corner label green verified">
-												<i class="icon"><s:text name="global.all_same" /></i>
-											</div>
-										</s:if>
-										<a href="<s:url value="/girl/%{girlInfoId}"/>" >
-											<s:if test="pic1 != null && pic1 != ''">
-												<img class="image ui centered" src="<s:property value="pic1" />">
-											</s:if>
-											<s:elseif test="pic2 != null && pic2 != ''">
-												<img class="image ui centered" src="<s:property value="pic2" />">
-											</s:elseif>
-											<s:elseif test="pic3 != null && pic3 != ''">
-												<img class="image ui centered" src="<s:property value="pic3" />">
-											</s:elseif>
-											<s:elseif test="pic4 != null && pic4 != ''">
-												<img class="image ui centered" src="<s:property value="pic4" />">
-											</s:elseif>
-											<s:elseif test="pic5 != null && pic5 != ''">
-												<img class="image ui centered" src="<s:property value="pic5" />">
-											</s:elseif>
-											<s:else>
-												<img class="image ui centered" src="<s:url value="/assets/images/wireframe/square-image.png" />">
-											</s:else>
-										</a>
-									</div>
-									<div class="content left aligned label pink circular ui">
-										<span class="right floated">
-											<s:if test="chk40Mins == 'true'">
-												<s:if test="priceIncall40Mins != 0">
-													<s:text name="format.integer"><s:param name="value" value="priceIncall40Mins"/></s:text>
-													<s:property value="crcy40Mins" />
-												</s:if>
-												<s:elseif test="priceOutcall40Mins != 0">
-													<s:text name="format.integer"><s:param name="value" value="priceOutcall40Mins"/></s:text>
-													<s:property value="crcy40Mins" />
-												</s:elseif>
-											</s:if>
-											<s:elseif test="chk60Mins == 'true'">
-												<s:if test="priceIncall60Mins != 0">
-													<s:text name="format.integer"><s:param name="value" value="priceIncall60Mins"/></s:text>
-													<s:property value="crcy60Mins" />
-												</s:if>
-												<s:elseif test="priceOutcall60Mins != 0">
-													<s:text name="format.integer"><s:param name="value" value="priceOutcall60Mins"/></s:text>
-													<s:property value="crcy60Mins" />
-												</s:elseif>
-											</s:elseif>
-											<s:elseif test="chk90Mins == 'true'">
-												<s:if test="priceIncall90Mins != 0">
-													<s:text name="format.integer"><s:param name="value" value="priceIncall90Mins"/></s:text>
-													<s:property value="crcy90Mins" />
-												</s:if>
-												<s:elseif test="priceOutcall90Mins != 0">
-													<s:text name="format.integer"><s:param name="value" value="priceOutcall90Mins"/></s:text>
-													<s:property value="crcy90Mins" />
-												</s:elseif>
-											</s:elseif>
-											<s:elseif test="chk120Mins == 'true'">
-												<s:if test="priceIncall120Mins != 0">
-													<s:text name="format.integer"><s:param name="value" value="priceIncall120Mins"/></s:text>
-													<s:property value="crcy120Mins" />
-												</s:if>
-												<s:elseif test="priceOutcall120Mins != 0">
-													<s:text name="format.integer"><s:param name="value" value="priceOutcall120Mins"/></s:text>
-													<s:property value="crcy120Mins" />
-												</s:elseif>
-											</s:elseif>
-											<s:elseif test="chk6Hrs == 'true'">
-												<s:if test="priceIncall6Hrs != 0">
-													<s:text name="format.integer"><s:param name="value" value="priceIncall6Hrs"/></s:text>
-													<s:property value="crcy6Hrs" />
-												</s:if>
-												<s:elseif test="priceOutcall6Hrs != 0">
-													<s:text name="format.integer"><s:param name="value" value="priceOutcall6Hrs"/></s:text>
-													<s:property value="crcy6Hrs" />
-												</s:elseif>
-											</s:elseif>
-										</span>
-									</div>
-									<div class="content left aligned">
-										<a class="ui header " href="<s:url value="/girl/%{girlInfoId}"/>">
-											<s:property value="nickName" />
-										</a>
-										<div class="description">
-											<s:property value="agentInfo.agentName" />
-											<br/>
-											<i class="marker icon"></i>
-											<s:property value="countryInfo.countryNameJp" />
-											<s:iterator value="girlProvinces" >
-												<div class="ui medium label">
-													<s:property value="primaryKey.provinceInfo.provinceNameJp" />
+							<div class="ui centered four doubling cards ">
+							<s:if test="%{girlInfos.size gte 0}">
+								<s:iterator value="girlInfos" status="status">
+									<div class="ui red card">
+										<div class="ui left red corner label girl-tag"
+											data-variation="tiny">
+											<s:iterator value="girlTags" >
+												<div class="ui <s:property value="primaryKey.girlTagInfo.color" /> circular label">
+													<s:property value="primaryKey.girlTagInfo.girlTagNameJp" />
+													<br />
 												</div>
 											</s:iterator>
 										</div>
+										<div class="image ui centered corner labeled pic" >
+											<s:if test="allSame == 'true'">
+												<div class="ui right corner label green verified">
+													<i class="icon"><s:text name="global.all_same" /></i>
+												</div>
+											</s:if>
+											<a href="<s:url value="/girl/%{girlInfoId}"/>" >
+												<s:if test="pic1 != null && pic1 != ''">
+													<img class="image ui centered" src="<s:property value="pic1" />">
+												</s:if>
+												<s:elseif test="pic2 != null && pic2 != ''">
+													<img class="image ui centered" src="<s:property value="pic2" />">
+												</s:elseif>
+												<s:elseif test="pic3 != null && pic3 != ''">
+													<img class="image ui centered" src="<s:property value="pic3" />">
+												</s:elseif>
+												<s:elseif test="pic4 != null && pic4 != ''">
+													<img class="image ui centered" src="<s:property value="pic4" />">
+												</s:elseif>
+												<s:elseif test="pic5 != null && pic5 != ''">
+													<img class="image ui centered" src="<s:property value="pic5" />">
+												</s:elseif>
+												<s:else>
+													<img class="image ui centered" src="<s:url value="/assets/images/wireframe/square-image.png" />">
+												</s:else>
+											</a>
+										</div>
+										<div class="content left aligned label pink circular ui">
+											<span class="right floated">
+												<s:if test="chk40Mins == 'true'">
+													<s:if test="priceIncall40Mins != 0">
+														<s:text name="format.integer"><s:param name="value" value="priceIncall40Mins"/></s:text>
+														<s:property value="crcy40Mins" />
+													</s:if>
+													<s:elseif test="priceOutcall40Mins != 0">
+														<s:text name="format.integer"><s:param name="value" value="priceOutcall40Mins"/></s:text>
+														<s:property value="crcy40Mins" />
+													</s:elseif>
+												</s:if>
+												<s:elseif test="chk60Mins == 'true'">
+													<s:if test="priceIncall60Mins != 0">
+														<s:text name="format.integer"><s:param name="value" value="priceIncall60Mins"/></s:text>
+														<s:property value="crcy60Mins" />
+													</s:if>
+													<s:elseif test="priceOutcall60Mins != 0">
+														<s:text name="format.integer"><s:param name="value" value="priceOutcall60Mins"/></s:text>
+														<s:property value="crcy60Mins" />
+													</s:elseif>
+												</s:elseif>
+												<s:elseif test="chk90Mins == 'true'">
+													<s:if test="priceIncall90Mins != 0">
+														<s:text name="format.integer"><s:param name="value" value="priceIncall90Mins"/></s:text>
+														<s:property value="crcy90Mins" />
+													</s:if>
+													<s:elseif test="priceOutcall90Mins != 0">
+														<s:text name="format.integer"><s:param name="value" value="priceOutcall90Mins"/></s:text>
+														<s:property value="crcy90Mins" />
+													</s:elseif>
+												</s:elseif>
+												<s:elseif test="chk120Mins == 'true'">
+													<s:if test="priceIncall120Mins != 0">
+														<s:text name="format.integer"><s:param name="value" value="priceIncall120Mins"/></s:text>
+														<s:property value="crcy120Mins" />
+													</s:if>
+													<s:elseif test="priceOutcall120Mins != 0">
+														<s:text name="format.integer"><s:param name="value" value="priceOutcall120Mins"/></s:text>
+														<s:property value="crcy120Mins" />
+													</s:elseif>
+												</s:elseif>
+												<s:elseif test="chk6Hrs == 'true'">
+													<s:if test="priceIncall6Hrs != 0">
+														<s:text name="format.integer"><s:param name="value" value="priceIncall6Hrs"/></s:text>
+														<s:property value="crcy6Hrs" />
+													</s:if>
+													<s:elseif test="priceOutcall6Hrs != 0">
+														<s:text name="format.integer"><s:param name="value" value="priceOutcall6Hrs"/></s:text>
+														<s:property value="crcy6Hrs" />
+													</s:elseif>
+												</s:elseif>
+											</span>
+										</div>
+										<div class="content left aligned">
+											<a class="ui header " href="<s:url value="/girl/%{girlInfoId}"/>">
+												<s:property value="nickName" />
+											</a>
+											<div class="description">
+												<s:property value="agentInfo.agentName" />
+												<br/>
+												<i class="marker icon"></i>
+												<s:property value="countryInfo.countryNameJp" />
+												<s:iterator value="girlProvinces" >
+													<div class="ui medium label">
+														<s:property value="primaryKey.provinceInfo.provinceNameJp" />
+													</div>
+												</s:iterator>
+											</div>
+										</div>
 									</div>
-								</div>
-							</s:iterator>
-						</s:if>
-						<s:if test="%{girlInfos.size eq 0}">
-							<s:text name="global.no_data" />
-						</s:if>
+								</s:iterator>
+							</s:if>
+							<s:if test="%{girlInfos.size eq 0}">
+								<s:text name="global.no_data" />
+							</s:if>
+							</div>
+							<s:if test="%{girlInfos.size gt 0}">
+								<br />
+								<button class="centered ui basic inverted button loadMore">LOAD MORE</button>
+							</s:if>
 						</div>
-						<s:if test="%{girlInfos.size gt 0}">
-							<br />
-							<button class="centered ui basic inverted button loadMore">LOAD MORE</button>
-						</s:if>
 					</div>
+					<%@include file="/common/common_ads_2.jsp" %>
 				</div>
-	  
+				<%@include file="/common/common_ads_3.jsp" %>
 			</div>
 		</div>
-	</div><br />
+	</div>
 	 <%@include file="/common/common_footer.jsp" %>
 </div>
 </body>

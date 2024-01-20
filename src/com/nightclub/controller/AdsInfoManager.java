@@ -54,21 +54,7 @@ public class AdsInfoManager extends HibernateUtil {
 		List<AdsInfo> adsInfos = null;
 		try {
 			
-			adsInfos = (List<AdsInfo>)session.createQuery("from AdsInfo").list();
-			Iterator it = adsInfos.iterator();
-			while(it.hasNext()) {
-				AdsInfo adsInfo = (AdsInfo)it.next();
-				if (Boolean.TRUE.toString().toLowerCase().equals(adsInfo.getAutoSubscribe())) {
-					Calendar calCurrentRangeFrom = Calendar.getInstance();
-					calCurrentRangeFrom.add(Calendar.MONTH, -1);
-					calCurrentRangeFrom = findDateRange(calCurrentRangeFrom, adsInfo);
-					calCurrentRangeFrom.add(Calendar.DATE, 1);
-					adsInfo.setCurrentRangeFrom(calCurrentRangeFrom.getTime());
-
-					Calendar calCurrentRangeTo = findDateRange(calCurrentRangeFrom, adsInfo);
-					adsInfo.setCurrentRangeTo(calCurrentRangeTo.getTime());
-				}
-			}
+			adsInfos = (List<AdsInfo>)session.createQuery("from AdsInfo order by adsInfoId").list();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
@@ -121,52 +107,21 @@ public class AdsInfoManager extends HibernateUtil {
 
 			while(it.hasNext()) {
 				AdsInfo adsInfo = (AdsInfo)it.next();
-				if (Boolean.TRUE.toString().toLowerCase().equals(adsInfo.getAutoSubscribe())) {
-					Calendar calCurrentRangeFrom = Calendar.getInstance();
-					calCurrentRangeFrom.set(Calendar.HOUR_OF_DAY, 0);
-					calCurrentRangeFrom.set(Calendar.MINUTE, 0);
-					calCurrentRangeFrom.set(Calendar.SECOND, 0);
-					calCurrentRangeFrom.set(Calendar.MILLISECOND, 0);
-					calCurrentRangeFrom.add(Calendar.MONTH, -1);
-					calCurrentRangeFrom = findDateRange(calCurrentRangeFrom, adsInfo);
-					calCurrentRangeFrom.add(Calendar.DATE, 1);
-					adsInfo.setCurrentRangeFrom(calCurrentRangeFrom.getTime());
-					Calendar calCurrentRangeTo = findDateRange(calCurrentRangeFrom, adsInfo);
-					adsInfo.setCurrentRangeTo(calCurrentRangeTo.getTime());
-
-					if (adsSearch.getAdsDateFrom() != null && adsSearch.getAdsDateTo() != null) {
-						if (adsSearch.getAdsDateFrom().compareTo(adsInfo.getCurrentRangeFrom()) <= 0
-								&& adsSearch.getAdsDateTo().compareTo(adsInfo.getCurrentRangeTo()) >= 0) {
-							adsInfos.add(adsInfo);
-						}
-					} else if (adsSearch.getAdsDateFrom() != null) {
-						if (adsSearch.getAdsDateFrom().compareTo(adsInfo.getCurrentRangeFrom()) <= 0) {
-							adsInfos.add(adsInfo);
-						}
-					} else if (adsSearch.getAdsDateTo() != null) {
-						if (adsSearch.getAdsDateTo().compareTo(adsInfo.getCurrentRangeTo()) >= 0) {
-							adsInfos.add(adsInfo);
-						}
-					} else {
+				if (adsSearch.getAdsDateFrom() != null && adsSearch.getAdsDateTo() != null) {
+					if (adsSearch.getAdsDateFrom().compareTo(adsInfo.getAdsDateFrom()) <= 0
+							&& adsSearch.getAdsDateTo().compareTo(adsInfo.getAdsDateTo()) >= 0) {
+						adsInfos.add(adsInfo);
+					}
+				} else if (adsSearch.getAdsDateFrom() != null) {
+					if (adsSearch.getAdsDateFrom().compareTo(adsInfo.getAdsDateFrom()) <= 0) {
+						adsInfos.add(adsInfo);
+					}
+				} else if (adsSearch.getAdsDateTo() != null) {
+					if (adsSearch.getAdsDateTo().compareTo(adsInfo.getAdsDateTo()) >= 0) {
 						adsInfos.add(adsInfo);
 					}
 				} else {
-					if (adsSearch.getAdsDateFrom() != null && adsSearch.getAdsDateTo() != null) {
-						if (adsSearch.getAdsDateFrom().compareTo(adsInfo.getAdsDateFrom()) <= 0
-								&& adsSearch.getAdsDateTo().compareTo(adsInfo.getAdsDateTo()) >= 0) {
-							adsInfos.add(adsInfo);
-						}
-					} else if (adsSearch.getAdsDateFrom() != null) {
-						if (adsSearch.getAdsDateFrom().compareTo(adsInfo.getAdsDateFrom()) <= 0) {
-							adsInfos.add(adsInfo);
-						}
-					} else if (adsSearch.getAdsDateTo() != null) {
-						if (adsSearch.getAdsDateTo().compareTo(adsInfo.getAdsDateTo()) >= 0) {
-							adsInfos.add(adsInfo);
-						}
-					} else {
-						adsInfos.add(adsInfo);
-					}
+					adsInfos.add(adsInfo);
 				}
 			}
 			
@@ -202,7 +157,7 @@ public class AdsInfoManager extends HibernateUtil {
 		List<AdsInfo> adsInfos = null;
 		try {
 			
-			adsInfos = (List<AdsInfo>)session.createQuery("from AdsInfo where active = 'true'").list();
+			adsInfos = (List<AdsInfo>)session.createQuery("from AdsInfo where active = 'true' order by adsInfoId ").list();
 
 		} catch (HibernateException e) {
 			e.printStackTrace();

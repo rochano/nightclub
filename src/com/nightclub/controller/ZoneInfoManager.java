@@ -117,6 +117,7 @@ public class ZoneInfoManager extends HibernateUtil {
 //			log_.info("zone code >> [" + zoneInfo.getZoneCode() + "]");
 			log_.info("zone name jp >> [" + zoneInfo.getZoneNameJp() + "]");
 			log_.info("zone name en >> [" + zoneInfo.getZoneNameEn() + "]");
+			log_.info("province info id >> [" + zoneInfo.getProvinceInfoId() + "]");
 			
 			StringBuffer sql = new StringBuffer();
 			sql.append("from ZoneInfo where 1 = 1 ");
@@ -129,6 +130,9 @@ public class ZoneInfoManager extends HibernateUtil {
 			if(!zoneInfo.getZoneNameEn().isEmpty()) {
 				sql.append("and zoneNameEn like :zoneNameEn ");
 			}
+			if(zoneInfo.getProvinceInfoId() != null && !zoneInfo.getProvinceInfoId().isEmpty()) {
+				sql.append("and provinceInfoId = :provinceInfoId ");
+			}
 			
 			Query query = session.createQuery(sql.toString());
 //			if(!zoneInfo.getZoneCode().isEmpty()) {
@@ -139,6 +143,9 @@ public class ZoneInfoManager extends HibernateUtil {
 			}
 			if(!zoneInfo.getZoneNameEn().isEmpty()) {
 				query.setParameter("zoneNameEn", '%'+zoneInfo.getZoneNameEn()+'%');
+			}
+			if(zoneInfo.getProvinceInfoId() != null && !zoneInfo.getProvinceInfoId().isEmpty()) {
+				query.setParameter("provinceInfoId", zoneInfo.getProvinceInfoId());
 			}
 			
 			zoneInfos = (List<ZoneInfo>)query.list();

@@ -33,6 +33,7 @@
   <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/rating.css"/>">
   <link rel="stylesheet" type="text/css" href="<s:url value="/assets/fontawesome-free-6.4.2-web/css/fontawesome.min.css"/>">
   <link rel="stylesheet" type="text/css" href="<s:url value="/assets/fontawesome-free-6.4.2-web/css/brands.min.css"/>">
+  <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/components/sticky.css"/>">
 <sj:head />
 
   <!--- Example Libs -->
@@ -57,3 +58,4 @@
   <script type="text/javascript" src="<s:url value="/assets/library/jquery.timeentry.min.js"/>"></script>
   <script type="text/javascript" src="<s:url value="/assets/library/jquery.dateentry.min.js"/>"></script>
   <script type="text/javascript" src="<s:url value="/Semantic-UI-master/dist/components/calendar.js"/>"></script>
+  <script type="text/javascript" src="<s:url value="/Semantic-UI-master/dist/components/sticky.js"/>"></script>

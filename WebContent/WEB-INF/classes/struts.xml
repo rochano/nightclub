@@ -51,6 +51,7 @@
 	    
 		<action name="home"
 			class="com.nightclub.view.FrontEndAction" method="execute">
+			<param name="countryInfoIdThai">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
 			<result name="success">/home.jsp</result>
 		</action>
 		
@@ -158,6 +159,7 @@
 		
 		<action name="search"
 			class="com.nightclub.view.FrontEndAction" method="search">
+			<param name="countryInfoIdThai">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
 			<result name="success">/search.jsp</result>
 		</action>
 		
@@ -238,12 +240,20 @@
 		<action name="loadMoreGirlInfos/*/*"
 			class="com.nightclub.view.FrontEndAction" method="loadMoreGirlInfos">
 			<param name="feedOffset">{1}</param>
+			<param name="countryInfoIdThai">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
 			<result type="json" />
 		</action>
 		
 		<action name="loadProvinceByCountry/*"
 			class="com.nightclub.view.ProvinceInfoAction" method="loadProvinceByCountry">
 			<param name="countryInfoId">{1}</param>
+			<result type="json" />
+		</action>
+		
+		<action name="loadCountryByClassification/*"
+			class="com.nightclub.view.CountryInfoAction" method="loadCountryByClassification">
+			<param name="countryClassification">{1}</param>
+			<param name="countryInfoIdThai">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
 			<result type="json" />
 		</action>
     </package>
@@ -1333,47 +1343,283 @@
 			<result name="success">/admin/nationality.jsp</result>
 		</action>
 		
-		<action name="country"
+		<action name="domestic"
+			class="com.nightclub.view.ProvinceInfoAction" method="execute">
+			<param name="menu">domestic</param>
+			<param name="countryInfoId">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">province.jsp</result>
+		</action>
+		
+		<action name="domestic/*"
+			class="com.nightclub.view.ProvinceInfoAction" method="{1}">
+			<param name="menu">domestic</param>
+			<param name="countryInfoId">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" type="redirect">domestic</result>
+		</action>
+		
+		<action name="domestic/edit/*"
+			class="com.nightclub.view.ProvinceInfoAction" method="edit">
+			<param name="menu">domestic</param>
+			<param name="countryInfoId">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
+			<param name="provinceInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" >/admin/province.jsp</result>
+		</action>
+		
+		<action name="domestic/delete/*"
+			class="com.nightclub.view.ProvinceInfoAction" method="delete">
+			<param name="menu">domestic</param>
+			<param name="countryInfoId">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
+			<param name="provinceInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="input" >/admin/province.jsp</result>
+			<result name="success" type="redirect">domestic</result>
+		</action>
+		
+		<action name="domestic/search"
+			class="com.nightclub.view.ProvinceInfoAction" method="search">
+			<param name="menu">domestic</param>
+			<param name="countryInfoId">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/province.jsp</result>
+		</action>
+		
+		<action name="domestic/*/zone"
+			class="com.nightclub.view.ZoneInfoAction" method="execute">
+			<param name="menu">domestic</param>
+			<param name="provinceInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/zone.jsp</result>
+		</action>
+
+		<action name="domestic/*/zone/edit/*"
+			class="com.nightclub.view.ZoneInfoAction" method="edit">
+			<param name="menu">domestic</param>
+			<param name="provinceInfoId">{1}</param>
+			<param name="zoneInfoId">{2}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" >/admin/zone.jsp</result>
+		</action>
+		
+		<action name="domestic/*/zone/delete/*"
+			class="com.nightclub.view.ZoneInfoAction" method="delete">
+			<param name="menu">domestic</param>
+			<param name="provinceInfoId">{1}</param>
+			<param name="zoneInfoId">{2}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="input" >/admin/zone.jsp</result>
+			<result name="success">/admin/zone.jsp</result>
+		</action>
+		
+		<action name="domestic/*/zone/search"
+			class="com.nightclub.view.ZoneInfoAction" method="search">
+			<param name="menu">domestic</param>
+			<param name="provinceInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/zone.jsp</result>
+		</action>
+		
+		<action name="domestic/*/zone/add"
+			class="com.nightclub.view.ZoneInfoAction" method="execute">
+			<param name="menu">domestic</param>
+			<param name="provinceInfoId">{1}</param>
+			<param name="action">add</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/zone.jsp</result>
+		</action>
+		
+		<action name="domestic/*/zone/update"
+			class="com.nightclub.view.ZoneInfoAction" method="execute">
+			<param name="menu">domestic</param>
+			<param name="provinceInfoId">{1}</param>
+			<param name="action">update</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/zone.jsp</result>
+		</action>
+		
+		<action name="overseas"
 			class="com.nightclub.view.CountryInfoAction" method="execute">
-			<param name="menu">country</param>
+			<param name="menu">overseas</param>
+			<param name="countryInfoIdThai">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
 			<interceptor-ref name="adminStack" />
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">country.jsp</result>
 		</action>
 		
-		<action name="country/*"
+		<action name="overseas/*"
 			class="com.nightclub.view.CountryInfoAction" method="{1}">
-			<param name="menu">country</param>
+			<param name="menu">overseas</param>
+			<param name="countryInfoIdThai">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
 			<interceptor-ref name="adminStack" />
 			<result name="login" type="redirect">/admin/login</result>
-			<result name="success" type="redirect">country</result>
+			<result name="success" type="redirect">overseas</result>
 		</action>
 		
-		<action name="country/edit/*"
+		<action name="overseas/edit/*"
 			class="com.nightclub.view.CountryInfoAction" method="edit">
-			<param name="menu">country</param>
+			<param name="menu">overseas</param>
+			<param name="countryInfoIdThai">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
 			<param name="countryInfoId">{1}</param>
 			<interceptor-ref name="adminStack" />
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success" >/admin/country.jsp</result>
 		</action>
 		
-		<action name="country/delete/*"
+		<action name="overseas/delete/*"
 			class="com.nightclub.view.CountryInfoAction" method="delete">
-			<param name="menu">country</param>
+			<param name="menu">overseas</param>
+			<param name="countryInfoIdThai">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
 			<param name="countryInfoId">{1}</param>
 			<interceptor-ref name="adminStack" />
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="input" >/admin/country.jsp</result>
-			<result name="success" type="redirect">country</result>
+			<result name="success" type="redirect">overseas</result>
 		</action>
 		
-		<action name="country/search"
+		<action name="overseas/search"
 			class="com.nightclub.view.CountryInfoAction" method="search">
-			<param name="menu">country</param>
+			<param name="menu">overseas</param>
+			<param name="countryInfoIdThai">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
 			<interceptor-ref name="adminStack" />
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/country.jsp</result>
+		</action>
+		
+		<action name="overseas/*/province"
+			class="com.nightclub.view.ProvinceInfoAction" method="execute">
+			<param name="menu">overseas</param>
+			<param name="countryInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/province.jsp</result>
+		</action>
+
+		<action name="overseas/*/province/edit/*"
+			class="com.nightclub.view.ProvinceInfoAction" method="edit">
+			<param name="menu">overseas</param>
+			<param name="countryInfoId">{1}</param>
+			<param name="provinceInfoId">{2}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" >/admin/province.jsp</result>
+		</action>
+		
+		<action name="overseas/*/province/delete/*"
+			class="com.nightclub.view.ProvinceInfoAction" method="delete">
+			<param name="menu">overseas</param>
+			<param name="countryInfoId">{1}</param>
+			<param name="provinceInfoId">{2}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="input" >/admin/province.jsp</result>
+			<result name="success" >/admin/province.jsp</result>
+		</action>
+		
+		<action name="overseas/*/province/search"
+			class="com.nightclub.view.ProvinceInfoAction" method="search">
+			<param name="menu">overseas</param>
+			<param name="countryInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/province.jsp</result>
+		</action>
+		
+		<action name="overseas/*/province/add"
+			class="com.nightclub.view.ProvinceInfoAction" method="execute">
+			<param name="menu">overseas</param>
+			<param name="countryInfoId">{1}</param>
+			<param name="action">add</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/province.jsp</result>
+		</action>
+		
+		<action name="overseas/*/province/update"
+			class="com.nightclub.view.ProvinceInfoAction" method="execute">
+			<param name="menu">overseas</param>
+			<param name="countryInfoId">{1}</param>
+			<param name="action">update</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/province.jsp</result>
+		</action>
+		
+		<action name="overseas/*/province/*/zone"
+			class="com.nightclub.view.ZoneInfoAction" method="execute">
+			<param name="menu">overseas</param>
+			<param name="countryInfoId">{1}</param>
+			<param name="provinceInfoId">{2}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/zone.jsp</result>
+		</action>
+
+		<action name="overseas/*/province/*/zone/edit/*"
+			class="com.nightclub.view.ZoneInfoAction" method="edit">
+			<param name="menu">overseas</param>
+			<param name="countryInfoId">{1}</param>
+			<param name="provinceInfoId">{2}</param>
+			<param name="zoneInfoId">{3}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" >/admin/zone.jsp</result>
+		</action>
+		
+		<action name="overseas/*/province/*/zone/delete/*"
+			class="com.nightclub.view.ZoneInfoAction" method="delete">
+			<param name="menu">overseas</param>
+			<param name="countryInfoId">{1}</param>
+			<param name="provinceInfoId">{2}</param>
+			<param name="zoneInfoId">{3}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="input" >/admin/zone.jsp</result>
+			<result name="success">/admin/zone.jsp</result>
+		</action>
+		
+		<action name="overseas/*/province/*/zone/search"
+			class="com.nightclub.view.ZoneInfoAction" method="search">
+			<param name="menu">overseas</param>
+			<param name="countryInfoId">{1}</param>
+			<param name="provinceInfoId">{2}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/zone.jsp</result>
+		</action>
+		
+		<action name="overseas/*/province/*/zone/add"
+			class="com.nightclub.view.ZoneInfoAction" method="execute">
+			<param name="menu">overseas</param>
+			<param name="countryInfoId">{1}</param>
+			<param name="provinceInfoId">{2}</param>
+			<param name="action">add</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/zone.jsp</result>
+		</action>
+		
+		<action name="overseas/*/province/*/zone/update"
+			class="com.nightclub.view.ZoneInfoAction" method="execute">
+			<param name="menu">overseas</param>
+			<param name="countryInfoId">{1}</param>
+			<param name="provinceInfoId">{2}</param>
+			<param name="action">update</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/zone.jsp</result>
 		</action>
 		
 		<action name="province"

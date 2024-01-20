@@ -48,10 +48,16 @@ public class ZoneInfo implements Serializable {
 	
 	@Column(name="zone_name_en")
 	public String getZoneNameEn() {
+		if (zoneNameEn == null) {
+			return "";
+		}
 		return zoneNameEn;
 	}
 	@Column(name="zone_name_jp")
 	public String getZoneNameJp() {
+		if (zoneNameJp == null) {
+			return "";
+		}
 		return zoneNameJp;
 	}
 	@OneToMany(mappedBy = "primaryKey.zoneInfo",

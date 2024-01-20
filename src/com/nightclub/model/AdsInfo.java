@@ -20,12 +20,10 @@ public class AdsInfo implements Serializable {
 	private String title;
 	private Date adsDateFrom;
 	private Date adsDateTo;
-	private String autoSubscribe;
 	private String active;
 	private String customUrl;
-	private String adsImg;
-	private Date currentRangeFrom;
-	private Date currentRangeTo;
+	private String adsImg1;
+	private String adsImg2;
 
 	@Id
 	@Column(name="ads_info_id")
@@ -45,29 +43,24 @@ public class AdsInfo implements Serializable {
 	public Date getAdsDateTo() {
 		return adsDateTo;
 	}
-	@Column(name="auto_subscribe")
-	public String getAutoSubscribe() {
-		return autoSubscribe;
-	}
 	@Column(name="active")
 	public String getActive() {
 		return active;
 	}
 	@Column(name="custom_url")
 	public String getCustomUrl() {
+		if (customUrl == null) {
+			return "";
+		}
 		return customUrl;
 	}
-	@Column(name="ads_img")
-	public String getAdsImg() {
-		return adsImg;
+	@Column(name="ads_img_1")
+	public String getAdsImg1() {
+		return adsImg1;
 	}
-	@javax.persistence.Transient
-	public Date getCurrentRangeFrom() {
-		return currentRangeFrom;
-	}
-	@javax.persistence.Transient
-	public Date getCurrentRangeTo() {
-		return currentRangeTo;
+	@Column(name="ads_img_2")
+	public String getAdsImg2() {
+		return adsImg2;
 	}
 	public void setAdsInfoId(String adsInfoId) {
 		this.adsInfoId = adsInfoId;
@@ -81,22 +74,16 @@ public class AdsInfo implements Serializable {
 	public void setAdsDateTo(Date adsDateTo) {
 		this.adsDateTo = adsDateTo;
 	}
-	public void setAutoSubscribe(String autoSubscribe) {
-		this.autoSubscribe = autoSubscribe;
-	}
 	public void setActive(String active) {
 		this.active = active;
 	}
 	public void setCustomUrl(String customUrl) {
 		this.customUrl = customUrl;
 	}
-	public void setAdsImg(String adsImg) {
-		this.adsImg = adsImg;
+	public void setAdsImg1(String adsImg1) {
+		this.adsImg1 = adsImg1;
 	}
-	public void setCurrentRangeFrom(Date currentRangeFrom) {
-		this.currentRangeFrom = currentRangeFrom;
-	}
-	public void setCurrentRangeTo(Date currentRangeTo) {
-		this.currentRangeTo = currentRangeTo;
+	public void setAdsImg2(String adsImg2) {
+		this.adsImg2 = adsImg2;
 	}
 }

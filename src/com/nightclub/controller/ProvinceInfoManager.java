@@ -99,6 +99,7 @@ public class ProvinceInfoManager extends HibernateUtil {
 			
 			log_.info("province name jp >> [" + provinceInfo.getProvinceNameJp() + "]");
 			log_.info("province name en >> [" + provinceInfo.getProvinceNameEn() + "]");
+			log_.info("country info id >> [" + provinceInfo.getCountryInfoId() + "]");
 			
 			StringBuffer sql = new StringBuffer();
 			sql.append("from ProvinceInfo where 1 = 1 ");
@@ -109,6 +110,10 @@ public class ProvinceInfoManager extends HibernateUtil {
 			if(!provinceInfo.getProvinceNameEn().isEmpty()) {
 				sql.append("and provinceNameEn like :provinceNameEn ");
 			}
+
+			if(!provinceInfo.getCountryInfoId().isEmpty()) {
+				sql.append("and countryInfoId = :countryInfoId ");
+			}
 			
 			Query query = session.createQuery(sql.toString());
 			if(!provinceInfo.getProvinceNameJp().isEmpty()) {
@@ -116,6 +121,9 @@ public class ProvinceInfoManager extends HibernateUtil {
 			}
 			if(!provinceInfo.getProvinceNameEn().isEmpty()) {
 				query.setParameter("provinceNameEn", '%'+provinceInfo.getProvinceNameEn()+'%');
+			}
+			if(!provinceInfo.getCountryInfoId().isEmpty()) {
+				query.setParameter("countryInfoId", provinceInfo.getCountryInfoId());
 			}
 			
 			provinceInfos = (List<ProvinceInfo>)query.list();
