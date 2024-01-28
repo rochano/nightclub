@@ -469,7 +469,7 @@ function getAvailableList(lookupDate, reserveInfoId) {
 											<div class="ui left corner label girl-tag">
 												<s:iterator value="girlInfo.girlTags" >
 													<div class="ui <s:property value="primaryKey.girlTagInfo.color" /> circular label">
-														<s:property value="primaryKey.girlTagInfo.girlTagNameJp" />
+														<s:property value="primaryKey.girlTagInfo.girlTagNameEn" />
 														<br />
 													</div>
 												</s:iterator>
@@ -537,7 +537,7 @@ function getAvailableList(lookupDate, reserveInfoId) {
 														<td class="center aligned one wide"><p>:</p></td>
 														<td>
 															<p>
-																<s:property value="girlInfo.genderInfo.genderNameJp" />
+																<s:property value="girlInfo.genderInfo.genderNameEn" />
 															</p>
 														</td>
 													</tr>
@@ -551,7 +551,7 @@ function getAvailableList(lookupDate, reserveInfoId) {
 																		<s:property value="girlInfo.skinInfo.skinNameEn" />
 																	</s:if>
 																	<s:else>--%>
-																		<s:property value="girlInfo.skinInfo.skinNameJp" />
+																		<s:property value="girlInfo.skinInfo.skinNameEn" />
 																	<%--</s:else>--%>
 																</p>
 															</td>
@@ -624,7 +624,7 @@ function getAvailableList(lookupDate, reserveInfoId) {
 																	<div class="content">
 																		<div class="header">
 																			<h5 class="ui header left aligned inverted">
-																				<s:property value="girlInfo.countryInfo.countryNameJp" />
+																				<s:property value="girlInfo.countryInfo.countryNameEn" />
 																			</h5>
 																		</div>
 																		<s:if test="girlProvinces.size() > 0" >
@@ -633,7 +633,7 @@ function getAvailableList(lookupDate, reserveInfoId) {
 																					<div class="item">
 																						<div class="content">
 																							<div class="description">
-																								<s:property value="primaryKey.provinceInfo.provinceNameJp" />
+																								<s:property value="primaryKey.provinceInfo.provinceNameEn" />
 																							</div>
 																							<s:if test="primaryKey.provinceInfo.zoneInfos.size() > 0" >
 																								<div class="list">
@@ -641,7 +641,7 @@ function getAvailableList(lookupDate, reserveInfoId) {
 																										<div class="item">
 																											<div class="content">
 																												<div class="ui medium label">
-																													<s:property value="primaryKey.zoneInfo.zoneNameJp" />
+																													<s:property value="primaryKey.zoneInfo.zoneNameEn" />
 																												</div>
 																											</div>
 																										</div>
@@ -1026,7 +1026,7 @@ function getAvailableList(lookupDate, reserveInfoId) {
 													<s:iterator value="girlServices" status="rowstatus">
 														<tr>
 															<td>
-																<s:property value="primaryKey.girlServiceInfo.girlServiceNameJp" />
+																<s:property value="primaryKey.girlServiceInfo.girlServiceName" />
 															</td>
 															<td class="center aligned">
 																<s:if test="chkInclude == 'true'">

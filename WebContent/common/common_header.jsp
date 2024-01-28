@@ -228,7 +228,7 @@
 							infoHtml += '	data-variation="tiny">';
 							$.each(obj.girlTags, function(j, objGirlTag) {
 								infoHtml += '		<div class="ui ' + objGirlTag.primaryKey.girlTagInfo.color + ' circular label">';
-								infoHtml += '			' + objGirlTag.primaryKey.girlTagInfo.girlTagNameJp;
+								infoHtml += '			' + objGirlTag.primaryKey.girlTagInfo.girlTagNameEn;
 								infoHtml += '			<br />';
 								infoHtml += '		</div>';
 							});
@@ -254,11 +254,11 @@
 							infoHtml += getCustomDescription(obj);
 							infoHtml += '			<i class="marker icon"></i>';
 							if (obj.countryInfo) {
-								infoHtml += '		' + obj.countryInfo.countryNameJp;
+								infoHtml += '		' + obj.countryInfo.countryNameEn;
 							}
 							$.each(obj.girlProvinces, function(j, objProvince) {
 								infoHtml += '					<div class="ui medium label">';
-								infoHtml += objProvince.primaryKey.provinceInfo.provinceNameJp;
+								infoHtml += objProvince.primaryKey.provinceInfo.provinceNameEn;
 								infoHtml += '					</div>';
 							});
 							infoHtml += '		</div>';

@@ -42,7 +42,7 @@
               rules: [
                 {
                   type   : 'empty',
-                  prompt : '<s:text name="global.username_or_phone" /><s:text name="global.message_please_input_jp" />'
+                  prompt : '<s:text name="global.message_please_input_jp" /><s:text name="global.username" />'
                 }/* ,
                 {
                   type   : 'email',
@@ -55,7 +55,7 @@
               rules: [
                 {
                   type   : 'empty',
-                  prompt : '<s:text name="global.password" /><s:text name="global.message_please_input_jp" />'
+                  prompt : '<s:text name="global.message_please_input_jp" /><s:text name="global.password" />'
                 }/* ,
                 {
                   type   : 'length[6]',

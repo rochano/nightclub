@@ -138,10 +138,10 @@
 							<s:iterator value="girlTagInfos" >
 								<div class="item">
 								<div class="ui <s:property value="color" /> circular label">
-								<s:property value="girlTagNameJp" />
+								<s:property value="girlTagNameEn" />
 								</div>
 								<div class="content">
-								<s:property value="girlTagNameJp" />
+								<s:property value="girlTagNameEn" />
 								</div>
 								</div>
 							</s:iterator>
@@ -154,7 +154,7 @@
 											data-variation="tiny">
 											<s:iterator value="girlTags" >
 												<div class="ui <s:property value="primaryKey.girlTagInfo.color" /> circular label">
-													<s:property value="primaryKey.girlTagInfo.girlTagNameJp" />
+													<s:property value="primaryKey.girlTagInfo.girlTagNameEn" />
 													<br />
 												</div>
 											</s:iterator>
@@ -248,10 +248,10 @@
 												<s:property value="agentInfo.agentName" />
 												<br/>
 												<i class="marker icon"></i>
-												<s:property value="countryInfo.countryNameJp" />
+												<s:property value="countryInfo.countryNameEn" />
 												<s:iterator value="girlProvinces" >
 													<div class="ui medium label">
-														<s:property value="primaryKey.provinceInfo.provinceNameJp" />
+														<s:property value="primaryKey.provinceInfo.provinceNameEn" />
 													</div>
 												</s:iterator>
 											</div>

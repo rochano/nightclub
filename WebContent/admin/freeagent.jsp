@@ -376,7 +376,12 @@
 			"<s:property value="freeAgentGirlInfo.nickName" /><br/><s:property value="phone" />",
 			'<s:date name="validDateFrom" format="dd/MM/yyyy" />',
 			'<s:date name="validDateTo" format="dd/MM/yyyy" />',
-			"<s:property value="freeAgentGirlInfo.lineId" />",
+			<s:if test="freeAgentGirlInfo.lineId != ''">
+				'<a href="https://line.me/ti/p/~<s:property value="freeAgentGirlInfo.lineId" />" target="_blank"><s:property value="freeAgentGirlInfo.lineId" /></a>',
+			</s:if>
+			<s:else>
+			'',
+			</s:else>
 			'<div class="ui toggle fitted checkbox">' +
 				'<input type="checkbox" name="active" ' +
 				<s:if test="active == 'true'">'checked="checked" ' + </s:if>

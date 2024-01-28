@@ -102,7 +102,7 @@
 				$(html).appendTo(countryInfos);
 				$.each(jsonResponse.countryInfos, function(i, obj) {
 					html = '';
-					html += '<option value="' + obj.countryInfoId + '">' + obj.countryNameJp + '</option>';
+					html += '<option value="' + obj.countryInfoId + '">' + obj.countryNameEn + '</option>';
 					$(html).appendTo(countryInfos);
 				});
 				if (countryClassification == '1') {
@@ -129,7 +129,7 @@
 					html += '			<div class="title ui">';
 					html += '				<input type="checkbox" name="provinceInfos" id="provinceInfos_' + i + '"';
 					html += '				value="' + obj.provinceInfoId + '">';
-					html += '				<label>' + obj.provinceNameJp + '</label>';
+					html += '				<label>' + obj.provinceNameEn + '</label>';
 					html += '				<i class="dropdown icon"></i>';
 					html += '			</div>';
 					html += '			<div class="content">';
@@ -140,7 +140,7 @@
 							html += '					<div class="field ui checkbox">';
 							html += '						<input type="checkbox" name="frontSearch.' + girlLocationsId + '" id="' + obj.provinceInfoId + '_' + girlLocationsId + '_' + j + '"';
 							html += '						value="' + objZoneInfo.zoneInfoId + '">';
-							html += '						<label for="' + obj.provinceInfoId + '_' + girlLocationsId + '_' + j + '">' + objZoneInfo.zoneNameJp + '</label>';
+							html += '						<label for="' + obj.provinceInfoId + '_' + girlLocationsId + '_' + j + '">' + objZoneInfo.zoneNameEn + '</label>';
 							html += '					</div>';
 							html += '				</div>';
 						});
@@ -189,7 +189,7 @@
 												<s:iterator value="categoryInfos">
 													<option value="<s:property value="categoryInfoId" />"
 													<s:if test="frontSearch.categoryInfoId == categoryInfoId">selected="selected"</s:if>
-													><s:property value="categoryNameJp" /></option>
+													><s:property value="categoryNameEn" /></option>
 												</s:iterator>
 											</select>
 										<%--</s:else>--%>
@@ -265,7 +265,7 @@
 								</div>
 								<div class="field">
 									<s:select list="countryInfos"
-										listKey="countryInfoId" listValue="countryNameJp"
+										listKey="countryInfoId" listValue="countryNameEn"
 										key="global.country" 
 										headerKey="" headerValue=""
 										name="frontSearch.countryInfoId">
@@ -289,7 +289,7 @@
 																	<s:if test="top == provinceInfoId">checked="checked"</s:if>
 																</s:iterator>
 																value="<s:property value="provinceInfoId" />">
-																<label><s:property value="provinceNameJp" /></label>
+																<label><s:property value="provinceNameEn" /></label>
 																<i class="dropdown icon"></i>
 															</div>
 															<div class="content">
@@ -303,7 +303,7 @@
 																					<s:if test="top == zoneInfoId">checked="checked"</s:if>
 																				</s:iterator>
 																				value="<s:property value="zoneInfoId" />">
-																				<label for="<s:property value="provinceInfoId" />_zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameJp" /></label>
+																				<label for="<s:property value="provinceInfoId" />_zoneInfos_<s:property value="#rowstatus.count" />"><s:property value="zoneNameEn" /></label>
 																			</div>
 																		</div>
 																	</s:iterator>
@@ -357,7 +357,7 @@
 																	<s:if test="top == nationalityInfoId">checked="checked"</s:if>
 																</s:iterator>
 																value="<s:property value="nationalityInfoId" />">
-															<label for="nationalityInfoInfos_<s:property value="#rowstatus.count" />"><s:property value="nationalityNameJp" /></label>
+															<label for="nationalityInfoInfos_<s:property value="#rowstatus.count" />"><s:property value="nationalityNameEn" /></label>
 														</div>
 													</div>
 												</s:iterator>
@@ -368,7 +368,7 @@
 								<br/>
 								<div class="field">
 									<s:select list="genderInfos"
-										listKey="genderInfoId" listValue="genderNameJp"
+										listKey="genderInfoId" listValue="genderNameEn"
 										key="global.gender_specify" 
 										headerKey="" headerValue=""
 										name="frontSearch.genderInfoId">

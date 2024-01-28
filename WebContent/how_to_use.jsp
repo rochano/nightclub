@@ -67,7 +67,7 @@
 									<s:text name="homeInfo.descriptionEn"></s:text>
 								</s:if>
 								<s:else>--%>
-									<s:text name="homeInfo.description"></s:text>
+									<s:text name="homeInfo.descriptionEn"></s:text>
 								<%--</s:else>--%>
 					 		</div>
 						</div>
@@ -86,7 +86,7 @@
 									<s:text name="homeInfo.descriptionEn2"></s:text>
 								</s:if>
 								<s:else>--%>
-									<s:text name="homeInfo.description2"></s:text>
+									<s:text name="homeInfo.descriptionEn2"></s:text>
 								<%--</s:else>--%>
 					 		</div>
 						</div>
