@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.cloudinary.json.JSONObject;
 
 import com.nightclub.common.IConstants;
+import com.nightclub.controller.AgentGirlInfoManager;
 import com.nightclub.controller.AgentInfoManager;
 import com.nightclub.controller.BasicInfoManager;
 import com.nightclub.controller.CategoryInfoManager;
@@ -90,6 +92,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private GirlInfo girlInfo;
 	private List<GirlTagInfo> girlTagInfos;
 	private List<String> girlTagList;
+	private AgentInfo agentInfo;
 
 	private HomeInfoManager homeInfoManager;
 	private HomeSlideImageManager homeSlideImageManager;
@@ -106,6 +109,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private NationalityInfoManager nationalityInfoManager;
 	private GirlCommentManager girlCommentManager;
 	private GirlTagInfoManager girlTagInfoManager;
+	private AgentGirlInfoManager agentGirlInfoManager;
 
 	public AdminInfoAction() {
 		homeInfoManager = new HomeInfoManager();
@@ -123,6 +127,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		nationalityInfoManager = new NationalityInfoManager();
 		girlCommentManager = new GirlCommentManager();
 		girlTagInfoManager = new GirlTagInfoManager();
+		agentGirlInfoManager = new AgentGirlInfoManager();
 	}
 	
 	public String execute() {
@@ -296,10 +301,20 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		} else if(IConstants.USER_TYPE_FREE_AGENT.equals(userType)) {
 			GirlInfo girlInfo = girlInfoManager.getGirlInfo(userInfo_.getGirlInfoId());
 			girlInfo.setLineId(userInfo.getFreeAgentGirlInfo().getLineId());
+			girlInfo.setUpdatedDate(new Date());
+			girlInfo.setUpdatedBy(userInfo.getUserInfoId());
 			girlInfoManager.update(girlInfo);
 		} else if(IConstants.USER_TYPE_EN_GIRL.equals(userType)) {
 			GirlInfo girlInfo = girlInfoManager.getGirlInfo(userInfo_.getGirlInfoId());
 			girlInfo.setLineId(userInfo.getEnGirlInfo().getLineId());
+			girlInfo.setUpdatedDate(new Date());
+			girlInfo.setUpdatedBy(userInfo.getUserInfoId());
+			girlInfoManager.update(girlInfo);
+		} else if(IConstants.USER_TYPE_INDEPENDENT.equals(userType)) {
+			GirlInfo girlInfo = girlInfoManager.getGirlInfo(userInfo_.getGirlInfoId());
+			girlInfo.setLineId(userInfo.getFreeAgentGirlInfo().getLineId());
+			girlInfo.setUpdatedDate(new Date());
+			girlInfo.setUpdatedBy(userInfo.getUserInfoId());
 			girlInfoManager.update(girlInfo);
 		}
 		this.userInfos = userInfoManager.list(getUserType());
@@ -367,6 +382,12 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		// entertain girl
 		} else if(IConstants.USER_TYPE_EN_GIRL.equals(userType)) {
 			this.userInfos = userInfoManager.searchEnGirl(getUserType(), getSearch());
+		// independent
+		} else if(IConstants.USER_TYPE_INDEPENDENT.equals(userType)) {
+			List<String> listUserType = new ArrayList<String>();
+			listUserType.add(IConstants.USER_TYPE_FREE_AGENT);
+			listUserType.add(IConstants.USER_TYPE_INDEPENDENT);
+			this.userInfos = userInfoManager.searchIndependent(listUserType, getSearch());
 		}
 		
 		return SUCCESS;
@@ -714,6 +735,14 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			return INPUT;
 		}
 	}
+
+	public String agentgirllist() {
+		UserInfo userInfo = userInfoManager.getUserByUserInfoId(getUserInfoId());
+		this.girlInfos = agentGirlInfoManager.list(userInfo.getAgentInfoId());
+		this.agentInfo = agentInfoManager.getAgentInfo(userInfo.getAgentInfoId());
+
+		return SUCCESS;
+	}
 	
 	public String getMenu() {
 		return menu;
@@ -974,6 +1003,14 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 
 	public void setGirlTagList(List<String> girlTagList) {
 		this.girlTagList = girlTagList;
+	}
+
+	public AgentInfo getAgentInfo() {
+		return agentInfo;
+	}
+
+	public void setAgentInfo(AgentInfo agentInfo) {
+		this.agentInfo = agentInfo;
 	}
 
 

@@ -844,10 +844,20 @@
 			<result name="success">/admin/agent.jsp</result>
 		</action>
 		
+		<action name="agent/view/*"
+			class="com.nightclub.view.AdminInfoAction" method="agentgirllist">
+			<param name="menu">agent</param>
+			<param name="userInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+		    <result name="input">/admin/agentgirls.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/agentgirls.jsp</result>
+		</action>
+		
 		<action name="freeagent"
 			class="com.nightclub.view.AdminInfoAction" method="userlist">
 			<param name="menu">freeagent</param>
-			<param name="userType">3</param>
+			<param name="userType">6</param>
 			<interceptor-ref name="adminStack" />
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">freeagent.jsp</result>
@@ -856,7 +866,7 @@
 		<action name="freeagent/*"
 			class="com.nightclub.view.AdminInfoAction" method="user{1}">
 			<param name="menu">freeagent</param>
-			<param name="userType">3</param>
+			<param name="userType">6</param>
 			<interceptor-ref name="adminStack" />
 		    <result name="input">/admin/freeagent.jsp</result>
 			<result name="login" type="redirect">/admin/login</result>
@@ -867,7 +877,7 @@
 			class="com.nightclub.view.AdminInfoAction" method="useredit">
 			<param name="menu">freeagent</param>
 			<param name="userInfoId">{1}</param>
-			<param name="userType">3</param>
+			<param name="userType">6</param>
 			<interceptor-ref name="adminStack" />
 		    <result name="input">/admin/freeagent.jsp</result>
 			<result name="login" type="redirect">/admin/login</result>
@@ -878,7 +888,7 @@
 			class="com.nightclub.view.AdminInfoAction" method="userdelete">
 			<param name="menu">freeagent</param>
 			<param name="userInfoId">{1}</param>
-			<param name="userType">3</param>
+			<param name="userType">6</param>
 			<interceptor-ref name="adminStack" />
 		    <result name="input">/admin/freeagent.jsp</result>
 			<result name="login" type="redirect">/admin/login</result>

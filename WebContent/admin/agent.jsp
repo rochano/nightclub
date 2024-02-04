@@ -385,6 +385,7 @@
 			'</div>',
 			'<div class="ui buttons">' +
 				'<a href="<s:url value="/admin/agent/edit/%{userInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
+				'<a href="<s:url value="/admin/agent/view/%{userInfoId}"/>" class="ui icon button small green" ><i class="ui icon info"></i></a>' +
 				'<a href="<s:url value="/admin/agent/delete/%{userInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>' +
 			'</div>'
     	]);

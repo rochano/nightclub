@@ -459,12 +459,12 @@ public class GirlInfoManager extends HibernateUtil {
 					"or (DTYPE = 'AgentGirlInfo' and girlInfo.agentInfoId = userInfo.agentInfoId and girlInfo.available = :availableAgentGirlInfo) " +
 					"or (DTYPE = 'FreeAgentGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId) " +
 					"or (DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId)) " + 
-					"and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg")
-//					"and userInfo.active = :active " +
-//					"and current_date between userInfo.validDateFrom and userInfo.validDateTo"
+					"and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg" +
+					"and userInfo.active = :active " +
+					"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
 					.setParameter("availableShopGirlInfo", Boolean.TRUE.toString().toLowerCase())
 					.setParameter("availableAgentGirlInfo", Boolean.TRUE.toString().toLowerCase())
-//					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
 					.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase())
 					.list();
 			
@@ -490,13 +490,13 @@ public class GirlInfoManager extends HibernateUtil {
 					"or (DTYPE = 'AgentGirlInfo' and girlInfo.agentInfoId = userInfo.agentInfoId and girlInfo.available = :availableAgentGirlInfo) " +
 					"or (DTYPE = 'FreeAgentGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId) " +
 					"or (DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId)) " + 
-					"and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg")
-//					"and userInfo.active = :active " +
-//					"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
+					"and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg" +
+					"and userInfo.active = :active " +
+					"and current_date between userInfo.validDateFrom and userInfo.validDateTo")
 					.setParameter("zoneInfoId", zoneInfoId)
 					.setParameter("availableShopGirlInfo", Boolean.TRUE.toString().toLowerCase())
 					.setParameter("availableAgentGirlInfo", Boolean.TRUE.toString().toLowerCase())
-//					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+					.setParameter("active", Boolean.TRUE.toString().toLowerCase())
 					.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase())
 					.list();
 			
@@ -747,6 +747,8 @@ public class GirlInfoManager extends HibernateUtil {
 			}
 		}
 		sql += "and COALESCE(userInfo.deleteFlg, :deleteFlg) = :deleteFlg ";
+		sql += "and userInfo.active = :active ";
+		sql += "and current_date between userInfo.validDateFrom and userInfo.validDateTo ";
 		if (frontSearch.getSearchRandom() >= 1 && frontSearch.getSearchRandom() <= 36) {
 			sql += "order by substring(girlInfo.girlInfoId,:searchrandom,1) ";
 		}
@@ -778,6 +780,7 @@ public class GirlInfoManager extends HibernateUtil {
 		if (frontSearch.getCountryClassification() != null && !frontSearch.getCountryClassification().isEmpty()) {
 			query = query.setParameter("countryInfoIdThai", frontSearch.getCountryInfoIdThai());
 		}
+		query = query.setParameter("active", Boolean.TRUE.toString().toLowerCase());
 		query = query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
 		if (feedLimit != -1) {
 			query = query.setFirstResult(feedOffset);

@@ -278,7 +278,7 @@
 									</th>
 									<th><s:i18n name="global_th"><s:text name="global.girl_photo" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.username" /></s:i18n></th>
-									<th><s:i18n name="global_th"><s:text name="global.nick_name" /></s:i18n></th>
+									<th><s:i18n name="global_th"><s:text name="global.update_dt" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.valid_date_from" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.valid_date_to" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.line_id" /></s:i18n></th>
@@ -373,7 +373,7 @@
 			'</div>',
 			'<img class="image ui tiny centered" src="<s:property value="freeAgentGirlInfo.pic1" />">',
 			"<s:property value="username" />",
-			"<s:property value="freeAgentGirlInfo.nickName" /><br/><s:property value="phone" />",
+			"<s:date name="freeAgentGirlInfo.updatedDate" format="dd/MM/yyyy hh:mm:ss" />",
 			'<s:date name="validDateFrom" format="dd/MM/yyyy" />',
 			'<s:date name="validDateTo" format="dd/MM/yyyy" />',
 			<s:if test="freeAgentGirlInfo.lineId != ''">
@@ -395,7 +395,26 @@
     	]);
 	</s:iterator>
 	columnDefs = [
-	  {  className: "center aligned", targets: [ 0, 5, 6, 8, 9 ] }
+	  {  className: "center aligned", targets: [ 0, 5, 6, 8, 9 ] },
+	  {  "targets":[4],
+		"createdCell": function(td){
+			if (td.innerText.trim() != "") {
+				value = td.innerText.split(" ");
+				date = value[0].split("/");
+				time = value[1].replaceAll(":", "");
+				td.setAttribute('data-sort-value',date[2] + date[1] + date[0] + time);
+			}
+		  }
+		},
+	  {  "targets":[5, 6],
+		"createdCell": function(td){
+			if (td.innerText.trim() != "") {
+				value = td.innerText.split(" ");
+				date = value[0].split("/");
+				td.setAttribute('data-sort-value',date[2] + date[1] + date[0]);
+			}
+		  }
+		},
 	];
 	if (dataSet.length > 100) {
 		pageLength = 150;

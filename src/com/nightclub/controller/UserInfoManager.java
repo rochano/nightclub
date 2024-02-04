@@ -1,5 +1,6 @@
 package com.nightclub.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.classic.Session;
 
+import com.nightclub.common.IConstants;
 import com.nightclub.model.AdminSearch;
 import com.nightclub.model.UserInfo;
 
@@ -126,10 +128,21 @@ public class UserInfoManager extends HibernateUtil {
 		List<UserInfo> userInfos = null;
 		try {
 			
-			userInfos = (List<UserInfo>)session.createQuery("from UserInfo where userType = :userType and COALESCE(deleteFlg, :deleteFlg) = :deleteFlg ")
-					.setParameter("userType", userType)
-					.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase())
-					.list();
+			if(IConstants.USER_TYPE_INDEPENDENT.equals(userType)) {
+				List<String> listUserType = new ArrayList<String>();
+				listUserType.add(IConstants.USER_TYPE_FREE_AGENT);
+				listUserType.add(IConstants.USER_TYPE_INDEPENDENT);
+				userInfos = (List<UserInfo>)session.createQuery("from UserInfo where userType in (:userType) and COALESCE(deleteFlg, :deleteFlg) = :deleteFlg ")
+						.setParameterList("userType", listUserType.toArray())
+						.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase())
+						.list();
+			} else {
+				userInfos = (List<UserInfo>)session.createQuery("from UserInfo where userType = :userType and COALESCE(deleteFlg, :deleteFlg) = :deleteFlg ")
+						.setParameter("userType", userType)
+						.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase())
+						.list();
+			}
+			
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -145,18 +158,37 @@ public class UserInfoManager extends HibernateUtil {
 		try {
 			
 			if(allUserInfoIdList.size()> 0) {
-				session.createQuery("update UserInfo set active = :active where userType = :userType and userInfoId in (:userInfoIdList) ")
-						.setParameter("active", Boolean.FALSE.toString().toLowerCase())
-						.setParameter("userType", userType)
-						.setParameterList("userInfoIdList", allUserInfoIdList.toArray())
-						.executeUpdate();
-				
-				if(availableUserInfoIdList.size()> 0) {
+				if(IConstants.USER_TYPE_INDEPENDENT.equals(userType)) {
+					List<String> listUserType = new ArrayList<String>();
+					listUserType.add(IConstants.USER_TYPE_FREE_AGENT);
+					listUserType.add(IConstants.USER_TYPE_INDEPENDENT);
+					session.createQuery("update UserInfo set active = :active where userType in (:listUserType) and userInfoId in (:userInfoIdList) ")
+					.setParameter("active", Boolean.FALSE.toString().toLowerCase())
+					.setParameterList("userType", listUserType.toArray())
+					.setParameterList("userInfoIdList", allUserInfoIdList.toArray())
+					.executeUpdate();
+			
+					if(availableUserInfoIdList.size()> 0) {
+						session.createQuery("update UserInfo set active = :active where userType in (:listUserType) and userInfoId in (:userInfoIdList) ")
+								.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+								.setParameterList("userType", listUserType.toArray())
+								.setParameterList("userInfoIdList", availableUserInfoIdList.toArray())
+								.executeUpdate();
+					}
+				} else {
 					session.createQuery("update UserInfo set active = :active where userType = :userType and userInfoId in (:userInfoIdList) ")
-							.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+							.setParameter("active", Boolean.FALSE.toString().toLowerCase())
 							.setParameter("userType", userType)
-							.setParameterList("userInfoIdList", availableUserInfoIdList.toArray())
+							.setParameterList("userInfoIdList", allUserInfoIdList.toArray())
 							.executeUpdate();
+					
+					if(availableUserInfoIdList.size()> 0) {
+						session.createQuery("update UserInfo set active = :active where userType = :userType and userInfoId in (:userInfoIdList) ")
+								.setParameter("active", Boolean.TRUE.toString().toLowerCase())
+								.setParameter("userType", userType)
+								.setParameterList("userInfoIdList", availableUserInfoIdList.toArray())
+								.executeUpdate();
+					}
 				}
 			}
 			
@@ -366,18 +398,65 @@ public class UserInfoManager extends HibernateUtil {
 		return userInfos;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<UserInfo> searchIndependent(List listUserType, AdminSearch search) {
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<UserInfo> userInfos = null;
+		try {
+			
+			StringBuffer sql = new StringBuffer();
+			sql.append("from UserInfo where userType in (:userType) and COALESCE(deleteFlg, :deleteFlg) = :deleteFlg ");
+			if(!search.getUserName().isEmpty()) {
+				sql.append("and userName like :userName ");
+			}
+			if(!search.getNickName().isEmpty()) {
+				sql.append("and freeAgentGirlInfo.nickName like :nickName ");
+			}
+			Query query = session.createQuery(sql.toString());
+			query.setParameterList("userType", listUserType.toArray());
+			query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
+			if(!search.getUserName().isEmpty()) {
+				query.setParameter("userName", '%'+search.getUserName()+'%');
+			}
+			if(!search.getNickName().isEmpty()) {
+				query.setParameter("nickName", '%'+search.getNickName()+'%');
+			}
+			userInfos = (List<UserInfo>)query.list();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return userInfos;
+	}
+	
 	public void updateValidDateByUserInfoId(List<String> updateUserInfoIdList, Date validDateFrom, Date validDateTo, String userType) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		try {
 			
 			if(updateUserInfoIdList.size()> 0) {
-				session.createQuery("update UserInfo set validDateFrom = :validDateFrom, validDateTo = :validDateTo where userType = :userType and userInfoId in (:userInfoIdList) ")
+				if(IConstants.USER_TYPE_INDEPENDENT.equals(userType)) {
+					List<String> listUserType = new ArrayList<String>();
+					listUserType.add(IConstants.USER_TYPE_FREE_AGENT);
+					listUserType.add(IConstants.USER_TYPE_INDEPENDENT);
+					session.createQuery("update UserInfo set validDateFrom = :validDateFrom, validDateTo = :validDateTo where userType in (:listUserType) and userInfoId in (:userInfoIdList) ")
 						.setParameter("validDateFrom", validDateFrom)
 						.setParameter("validDateTo", validDateTo)
-						.setParameter("userType", userType)
+						.setParameterList("userType", listUserType.toArray())
 						.setParameterList("userInfoIdList", updateUserInfoIdList.toArray())
 						.executeUpdate();
+				} else {
+					session.createQuery("update UserInfo set validDateFrom = :validDateFrom, validDateTo = :validDateTo where userType = :userType and userInfoId in (:userInfoIdList) ")
+							.setParameter("validDateFrom", validDateFrom)
+							.setParameter("validDateTo", validDateTo)
+							.setParameter("userType", userType)
+							.setParameterList("userInfoIdList", updateUserInfoIdList.toArray())
+							.executeUpdate();
+				}
 			}
 			
 		} catch (HibernateException e) {
