@@ -9,7 +9,7 @@
 			<a href="<s:url value="/admin/agent"/>"><span><s:i18n name="global_th"><s:text name="global.menu_agent" /></s:i18n></span></a> | 
 			<a href="<s:url value="/admin/freeagent"/>"><span><s:i18n name="global_th"><s:text name="global.menu_free_agent" /></s:i18n></span></a> | 
 			<%-- <a href="<s:url value="/admin/client"/>"><span><s:i18n name="global_th"><s:text name="global.menu_client" /></s:i18n></span></a> |  --%>
-			<a href="<s:url value="/admin/engirl"/>"><span><s:i18n name="global_th"><s:text name="global.menu_en_girl" /></s:i18n></span></a> |
+			<%-- <a href="<s:url value="/admin/engirl"/>"><span><s:i18n name="global_th"><s:text name="global.menu_en_girl" /></s:i18n></span></a> | --%>
 			<a href="<s:url value="/admin/girls"/>"><span><s:i18n name="global_th"><s:text name="global.menu_girls" /></s:i18n></span></a> | 
 			<%-- <a href="<s:url value="/admin/zone"/>"><span><s:i18n name="global_th"><s:text name="global.location" /></s:i18n></span></a> |  --%>
 			<a href="<s:url value="/admin/category"/>"><span><s:i18n name="global_th"><s:text name="global.shop_category" /></s:i18n></span></a> | 

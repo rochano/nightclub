@@ -173,6 +173,7 @@
 		  $('#infoForm').find("input[type=text], textarea").val("");
 		  $('#infoForm').find("input[type=radio], input[type=checkbox]").prop('checked', false);
 		  $('#userInfo_agentInfo_agentName').parents(".fields:first").empty();
+		  $('#userInfo_agentInfo_lineId').parents(".field:first").hide();
 		  $('#infoForm')[0].action = "<s:url value="/admin/agent/multipleupdate"/>";
 		   $('.ui.modal.edit')
 		    .modal('show')

@@ -173,6 +173,7 @@
 		  $('#infoForm').find("input[type=text], textarea").val("");
 		  $('#infoForm').find("input[type=radio], input[type=checkbox]").prop('checked', false);
 		  $('#userInfo_freeAgentGirlInfo_nickName').parents(".fields:first").empty();
+		  $('#userInfo_freeAgentGirlInfo_lineId').parents(".field:first").hide();
 		  $('#infoForm')[0].action = "<s:url value="/admin/freeagent/multipleupdate"/>";
 		  $('.ui.modal.edit')
 		    .modal('show')
@@ -373,7 +374,7 @@
 			'</div>',
 			'<img class="image ui tiny centered" src="<s:property value="freeAgentGirlInfo.pic1" />">',
 			"<s:property value="username" />",
-			"<s:date name="freeAgentGirlInfo.updatedDate" format="dd/MM/yyyy hh:mm:ss" />",
+			"<s:date name="freeAgentGirlInfo.updatedDate" format="dd/MM/yyyy HH:mm:ss" />",
 			'<s:date name="validDateFrom" format="dd/MM/yyyy" />',
 			'<s:date name="validDateTo" format="dd/MM/yyyy" />',
 			<s:if test="freeAgentGirlInfo.lineId != ''">

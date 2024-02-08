@@ -1114,4 +1114,39 @@ public class GirlInfoManager extends HibernateUtil {
 		session.getTransaction().commit();
 		return girlInfos;
 	}
+
+	public void updateMultipleTimeStamp(List<String> updateUserInfoIdList, String updatedBy, Date updatedDate) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		try {
+			String sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo ";
+			sql += "where ((DTYPE = 'AgentGirlInfo' and girlInfo.agentInfoId = userInfo.agentInfoId) ";
+			sql += "or (DTYPE = 'FreeAgentGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId) ";
+			sql += "or (DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId)) ";
+			sql += "and userInfo.userInfoId in (:userInfoIdList))";
+			Query query = session.createQuery(sql.toString());
+			query.setParameterList("userInfoIdList", updateUserInfoIdList.toArray());
+			List<GirlInfo> girlInfoList = (List<GirlInfo>)query.list();
+			List<String> updateGirlInfoIdList = new ArrayList();
+			Iterator it = girlInfoList.iterator();
+			GirlInfo girlInfo;
+			while(it.hasNext()) {
+				girlInfo = (GirlInfo) it.next();
+				updateGirlInfoIdList.add(girlInfo.getGirlInfoId());
+			}
+			sql = "update GirlInfo girlInfo ";
+			sql += "set girlInfo.updatedBy = :updatedBy, girlInfo.updatedDate = :updatedDate ";
+			sql += "where girlInfoId in (:updateGirlInfoIdList))";
+			session.createQuery(sql)
+			.setParameter("updatedBy", updatedBy)
+			.setParameter("updatedDate", updatedDate)
+			.setParameterList("updateGirlInfoIdList", updateGirlInfoIdList.toArray())
+			.executeUpdate();
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+	}
 }

@@ -174,6 +174,7 @@
 		  $('#infoForm').find("input[type=radio], input[type=checkbox]").prop('checked', false);
 		  $('#userInfo_enGirlInfo_nickName').parents(".fields:first").empty();
 		  $('#userInfo_enGirlInfo_type').parents(".fields:first").empty();
+		  $('#userInfo_enGirlInfo_lineId').parents(".field:first").hide();
 		  $('#infoForm')[0].action = "<s:url value="/admin/engirl/multipleupdate"/>";
 		  $('.ui.modal.edit')
 		    .modal('show')

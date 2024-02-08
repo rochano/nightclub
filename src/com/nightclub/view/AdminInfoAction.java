@@ -255,6 +255,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 			}
 		}
 		userInfoManager.updateValidDateByUserInfoId(updateUserInfoIdList, userInfo.getValidDateFrom(), userInfo.getValidDateTo(), getUserType());
+		girlInfoManager.updateMultipleTimeStamp(updateUserInfoIdList, getUserInfoId(), new Date());
 		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
 		this.userInfos = userInfoManager.list(getUserType());
 		if(IConstants.USER_TYPE_SHOP.equals(userType)) {

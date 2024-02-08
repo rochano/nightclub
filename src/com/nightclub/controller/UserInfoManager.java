@@ -162,14 +162,14 @@ public class UserInfoManager extends HibernateUtil {
 					List<String> listUserType = new ArrayList<String>();
 					listUserType.add(IConstants.USER_TYPE_FREE_AGENT);
 					listUserType.add(IConstants.USER_TYPE_INDEPENDENT);
-					session.createQuery("update UserInfo set active = :active where userType in (:listUserType) and userInfoId in (:userInfoIdList) ")
+					session.createQuery("update UserInfo set active = :active where userType in (:userType) and userInfoId in (:userInfoIdList) ")
 					.setParameter("active", Boolean.FALSE.toString().toLowerCase())
 					.setParameterList("userType", listUserType.toArray())
 					.setParameterList("userInfoIdList", allUserInfoIdList.toArray())
 					.executeUpdate();
 			
 					if(availableUserInfoIdList.size()> 0) {
-						session.createQuery("update UserInfo set active = :active where userType in (:listUserType) and userInfoId in (:userInfoIdList) ")
+						session.createQuery("update UserInfo set active = :active where userType in (:userType) and userInfoId in (:userInfoIdList) ")
 								.setParameter("active", Boolean.TRUE.toString().toLowerCase())
 								.setParameterList("userType", listUserType.toArray())
 								.setParameterList("userInfoIdList", availableUserInfoIdList.toArray())
@@ -443,7 +443,7 @@ public class UserInfoManager extends HibernateUtil {
 					List<String> listUserType = new ArrayList<String>();
 					listUserType.add(IConstants.USER_TYPE_FREE_AGENT);
 					listUserType.add(IConstants.USER_TYPE_INDEPENDENT);
-					session.createQuery("update UserInfo set validDateFrom = :validDateFrom, validDateTo = :validDateTo where userType in (:listUserType) and userInfoId in (:userInfoIdList) ")
+					session.createQuery("update UserInfo set validDateFrom = :validDateFrom, validDateTo = :validDateTo where userType in (:userType) and userInfoId in (:userInfoIdList) ")
 						.setParameter("validDateFrom", validDateFrom)
 						.setParameter("validDateTo", validDateTo)
 						.setParameterList("userType", listUserType.toArray())
