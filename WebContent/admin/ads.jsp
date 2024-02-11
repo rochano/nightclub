@@ -120,14 +120,16 @@
 	  $("body > .ui.dimmer.modals").addClass("scrolling");
 	  $("body > .ui.dimmer.modals > .ui.modal").addClass("scrolling");
 	  </s:if>
-	  $("#adsSearch_adsDateFrom, #adsSearch_adsDateTo").dateEntry({dateFormat: 'dmy/', spinnerImage: ''});
+	  /* $("#adsSearch_adsDateFrom, #adsSearch_adsDateTo").dateEntry({dateFormat: 'dmy/', spinnerImage: ''}); */
+	  addEventDateFormat($("#adsSearch_adsDateFrom, #adsSearch_adsDateTo"), '#searchForm.ui.form');
 	  <s:if test="adsSearch.adsDateFrom != null">
 	  $("#adsSearch_adsDateFrom").val("<s:date name="adsSearch.adsDateFrom" format="dd/MM/yyyy" />");
 	  </s:if>
 	  <s:if test="adsSearch.adsDateTo != null">
 	  $("#adsSearch_adsDateTo").val("<s:date name="adsSearch.adsDateTo" format="dd/MM/yyyy" />");
 	  </s:if>
-	  $("#adsInfo_adsDateFrom, #adsInfo_adsDateTo").dateEntry({dateFormat: 'dmy/', spinnerImage: ''});
+	  /* $("#adsInfo_adsDateFrom, #adsInfo_adsDateTo").dateEntry({dateFormat: 'dmy/', spinnerImage: ''}); */
+	  addEventDateFormat($("#adsInfo_adsDateFrom, #adsInfo_adsDateTo"), '#infoForm.ui.form');
 	  <s:if test="adsInfo.adsDateFrom != null">
 	  $("#adsInfo_adsDateFrom").val("<s:date name="adsInfo.adsDateFrom" format="dd/MM/yyyy" />");
 	  </s:if>

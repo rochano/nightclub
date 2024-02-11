@@ -108,16 +108,16 @@ public class AdsInfoManager extends HibernateUtil {
 			while(it.hasNext()) {
 				AdsInfo adsInfo = (AdsInfo)it.next();
 				if (adsSearch.getAdsDateFrom() != null && adsSearch.getAdsDateTo() != null) {
-					if (adsSearch.getAdsDateFrom().compareTo(adsInfo.getAdsDateFrom()) <= 0
-							&& adsSearch.getAdsDateTo().compareTo(adsInfo.getAdsDateTo()) >= 0) {
+					if (adsInfo.getAdsDateFrom() != null && adsSearch.getAdsDateFrom().compareTo(adsInfo.getAdsDateFrom()) <= 0
+							&& adsInfo.getAdsDateTo() != null && adsSearch.getAdsDateTo().compareTo(adsInfo.getAdsDateTo()) >= 0) {
 						adsInfos.add(adsInfo);
 					}
 				} else if (adsSearch.getAdsDateFrom() != null) {
-					if (adsSearch.getAdsDateFrom().compareTo(adsInfo.getAdsDateFrom()) <= 0) {
+					if (adsInfo.getAdsDateFrom() != null && adsSearch.getAdsDateFrom().compareTo(adsInfo.getAdsDateFrom()) <= 0) {
 						adsInfos.add(adsInfo);
 					}
 				} else if (adsSearch.getAdsDateTo() != null) {
-					if (adsSearch.getAdsDateTo().compareTo(adsInfo.getAdsDateTo()) >= 0) {
+					if (adsInfo.getAdsDateTo() != null && adsSearch.getAdsDateTo().compareTo(adsInfo.getAdsDateTo()) >= 0) {
 						adsInfos.add(adsInfo);
 					}
 				} else {

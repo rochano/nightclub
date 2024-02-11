@@ -114,10 +114,11 @@
 				}
 			},
 		});
-		$("#reserveInfo_reserveDate").dateEntry({
+/* 		$("#reserveInfo_reserveDate").dateEntry({
 			dateFormat : 'dmy/',
 			spinnerImage : ''
-		});
+		}); */
+		 addEventDateFormat($("#reserveInfo_reserveDate"), '#infoForm');
 	});
 </script>
 </head>
@@ -338,7 +339,7 @@
 													</div>
 												</div>
 												<div class="field">
-													<s:textfield name="reserveInfo.reserveDate"
+													<s:textfield name="reserveInfo.reserveDate" placeholder="DD/MM/YYYY"
 														key="global.booking_date" />
 												</div>
 												<div class="field">

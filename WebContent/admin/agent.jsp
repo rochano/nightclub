@@ -89,7 +89,8 @@
 	  $("body > .ui.dimmer.modals").addClass("scrolling");
 	  $("body > .ui.dimmer.modals > .ui.modal").addClass("scrolling");
 	  </s:if>
-	  $("#userInfo_validDateFrom, #userInfo_validDateTo").dateEntry({dateFormat: 'dmy/', spinnerImage: ''});
+/* 	  $("#userInfo_validDateFrom, #userInfo_validDateTo").dateEntry({dateFormat: 'dmy/', spinnerImage: ''}); */
+	  addEventDateFormat($("#userInfo_validDateFrom, #userInfo_validDateTo"), '#infoForm.ui.form');
 	  <s:if test="userInfo.validDateFrom != null">
 	  $("#userInfo_validDateFrom").val("<s:date name="userInfo.validDateFrom" format="dd/MM/yyyy" />");
 	  </s:if>

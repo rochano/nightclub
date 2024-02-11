@@ -337,4 +337,44 @@
 		var infoHtml = "";
 		return infoHtml;
 	}
+	  function addEventDateFormat(selector, form) {
+		selector.blur(function(){
+	  		  var input = $(this);
+	  		  var value = $(this).val();
+	  		  if (value.length == 8) {
+	  				try {
+	  					dd = value.substring(0,2);
+	  					mm = value.substring(2,4);
+	  					yyyy = value.substring(4);
+	  					compare = new Date(yyyy + "-" + mm + "-" + dd);
+	  					if (isNaN(compare)) {
+							throw new Exception();
+	  					}
+	  					input.val(dd + "/" + mm + "/" + yyyy);
+	  				} catch(e) {
+	  					input.val("");
+	  				}
+	            } else if (value.length == 10) {
+	          	  try {
+	          		  	a = value.split("/");
+	  					dd = a[0];
+	  					mm = a[1];
+	  					yyyy = a[2];
+	  					compare = new Date(yyyy + "-" + mm + "-" + dd);
+	  					if (isNaN(compare)) {
+							throw new Exception();
+	  					}
+	  					input.val(dd + "/" + mm + "/" + yyyy);
+	  				} catch(e) {
+	  					input.val("");
+	  				}
+	            } else {
+	          	  input.val("");
+	            }
+	  	  }).focus(function() {
+	  		  var input = $(this);
+	  		  var newValue = input.val().replaceAll("/", "");
+	  		  input.val(newValue);
+	  	  });
+	  }
   </script>
