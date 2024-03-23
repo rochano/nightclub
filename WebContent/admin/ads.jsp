@@ -39,9 +39,6 @@
   	width: 200px;
   	vertical-align: top;
   }
-  .ui.leaderboard.ad {
-  	height: 100%;
-  }
   .ui.leaderboard.ad img {
   	width: 100%;
   	max-height: 90px;
@@ -52,6 +49,51 @@
   	max-height: 600px;
   	max-width: 160px;
   }
+  .preview .ui.leaderboard.ad {
+  	padding: 0;
+  	width: 100%;
+  	background: url('<s:url value="/assets/images/black_mamba.png" />');
+  }
+  .preview .ui.leaderboard.ad img {
+  	width: 100%;
+  	max-height: 90px;
+  	max-width: 660px;
+  }
+  .preview .ui.leaderboard.ad.active {
+  	background: inherit;
+  }
+  .preview .ui.skyscraper.ad {
+  	background: url('<s:url value="/assets/images/black_mamba.png" />')
+  }
+  .preview .ui.skyscraper.ad img {
+  	height: 100%;
+  	max-height: 600px;
+  	max-width: 160px;
+  }
+  .preview .ui.skyscraper.ad.active {
+  	background: inherit;
+  }
+  .preview .ui.leaderboard.ad {
+	width: auto;
+	margin: 1em 0;
+  }
+  @media only screen and (max-width: 767px) {
+	.preview .ui[class*="wide skyscraper"].ad {
+		display: none;
+	}
+	#wrapper > .ui.centered.grid > .row > .three.wide.column,
+	#wrapper > .ui.centered.grid > .three.wide.column {
+		display: none;
+	}
+  }
+  @media only screen and (max-width: 1120px) {
+  	.preview .ui[class*="wide skyscraper"].ad {
+		width: 100% !important;
+	}
+  }
+  .preview .centered {
+	 text-align: center;
+   }
   </style>
 
   <!--- Example Javascript -->
@@ -266,7 +308,7 @@
 				</div>
 			</s:if>
 			<div class="ui accordion">
-				<h4 class="ui top attached header inverted active title">
+				<%-- <h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
 					<s:i18n name="global_th">
 						<s:text name="global.search_condition" />
@@ -295,7 +337,7 @@
 							</div>
 						</div>
 					</form>
-				</div>
+				</div> --%>
 				<h4 class="ui top attached header inverted active title">
 					<i class="dropdown icon"></i>
 					<s:i18n name="global_th"><s:text name="global.menu_ads" /></s:i18n>
@@ -311,6 +353,7 @@
 							<thead class="center aligned">
 								<tr>
 									<th>#</th>
+									<th><s:i18n name="global_th"><s:text name="global.position" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.title" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.date_from" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.date_to" /></s:i18n></th>
@@ -319,6 +362,36 @@
 								</tr>
 							</thead>
 						</table>
+					</div>
+				</div>
+
+				<div class="ui left aligned attached segment active content preview">
+					<div class="ui centered grid">
+						<div class="row">
+							<%@include file="/common/common_ads.jsp" %>
+							<div class="ten wide column container">
+								<div class="center aligned column">
+									<div class="ui centered attached segment soft">
+										<div class="ui placeholder">
+											<div class="paragraph">
+												<div class="line"></div>
+												<div class="line"></div>
+												<div class="line"></div>
+												<div class="line"></div>
+												<div class="line"></div>
+											</div>
+											<div class="paragraph">
+												<div class="line"></div>
+												<div class="line"></div>
+												<div class="line"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<%@include file="/common/common_ads_2.jsp" %>
+							</div>
+							<%@include file="/common/common_ads_3.jsp" %>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -425,6 +498,7 @@
   <s:iterator value="adsInfos" status="status">
 		dataSet.push(
 			['<s:property value="#status.count" />', 
+			'A<s:property value="#status.count" />', 
 			"<s:property value="title" />",
 			'<s:date name="adsDateFrom" format="dd/MM/yyyy" />',
 			'<s:date name="adsDateTo" format="dd/MM/yyyy" />',
@@ -438,7 +512,7 @@
     	]);
 	</s:iterator>
 	columnDefs = [
-	  {  className: "center aligned", targets: [ 0, 2, 3, 4, 5 ] }
+	  {  className: "center aligned", targets: [ 0, 1, 3, 4, 5, 6 ] }
 	];
 	if (dataSet.length > 100) {
 		pageLength = 150;

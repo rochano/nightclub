@@ -762,6 +762,48 @@ function getAvailableList(lookupDate, reserveInfoId) {
 																	</div>
 																</td>
 															</tr>
+															<tr>
+																<td colspan="3">
+																	<div class="ui centered grid">
+																		<div class="column row">
+																			<div class="ui list inverted mini horizontal very relaxed divided centered">
+																				<div class="item">
+																					<div class="content top aligned">
+																						<div class="header">Visited</div>
+																						&nbsp;<s:text name="format.integer">
+																							<s:param name="value" value="girltotalHitsViews"/>
+																						</s:text>
+																					</div>
+																				</div>
+																				<div class="item">
+																					<div class="content top aligned">
+																						<div class="header">Created Date</div>
+																						&nbsp;
+																						<s:if test="girlCreatedDate != ''" >
+																							<s:property value="girlCreatedDate"/>
+																						</s:if>
+																						<s:else>
+																							<s:date name="girlInfo.createdDate" format="dd MMM yyyy" />
+																						</s:else>
+																					</div>
+																				</div>
+																				<div class="item">
+																					<div class="content top aligned">
+																						<div class="header">Updated Date</div>
+																						&nbsp;
+																						<s:if test="girlUpdatedDate != ''" >
+																							<s:property value="girlUpdatedDate"/>
+																						</s:if>
+																						<s:else>
+																							<s:date name="girlInfo.updatedDate" format="dd MMM yyyy" />
+																						</s:else>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</td>
+															</tr>
 														</s:if>
 													</s:if>
 													<s:elseif test="%{girlInfo.shopInfoId != null}">
@@ -831,6 +873,48 @@ function getAvailableList(lookupDate, reserveInfoId) {
 																					</a>
 																				</div>
 																			</s:if>
+																		</div>
+																	</div>
+																</td>
+															</tr>
+															<tr>
+																<td colspan="3">
+																	<div class="ui centered grid">
+																		<div class="column row">
+																			<div class="ui list inverted mini horizontal very relaxed divided centered">
+																				<div class="item">
+																					<div class="content top aligned">
+																						<div class="header">Visited</div>
+																						&nbsp;<s:text name="format.integer">
+																							<s:param name="value" value="girltotalHitsViews"/>
+																						</s:text>
+																					</div>
+																				</div>
+																				<div class="item">
+																					<div class="content top aligned">
+																						<div class="header">Created Date</div>
+																						&nbsp;
+																						<s:if test="girlCreatedDate != ''" >
+																							<s:property value="girlCreatedDate"/>
+																						</s:if>
+																						<s:else>
+																							<s:date name="girlInfo.createdDate" format="dd MMM yyyy" />
+																						</s:else>
+																					</div>
+																				</div>
+																				<div class="item">
+																					<div class="content top aligned">
+																						<div class="header">Updated Date</div>
+																						&nbsp;
+																						<s:if test="girlUpdatedDate != ''" >
+																							<s:property value="girlUpdatedDate"/>
+																						</s:if>
+																						<s:else>
+																							<s:date name="girlInfo.updatedDate" format="dd MMM yyyy" />
+																						</s:else>
+																					</div>
+																				</div>
+																			</div>
 																		</div>
 																	</div>
 																</td>
@@ -915,6 +999,48 @@ function getAvailableList(lookupDate, reserveInfoId) {
 																					</a>
 																				</div>
 																			</s:if>
+																		</div>
+																	</div>
+																</td>
+															</tr>
+															<tr>
+																<td colspan="3">
+																	<div class="ui centered grid">
+																		<div class="column row">
+																			<div class="ui list inverted mini horizontal very relaxed divided centered">
+																				<div class="item">
+																					<div class="content top aligned">
+																						<div class="header">Visited</div>
+																						&nbsp;<s:text name="format.integer">
+																							<s:param name="value" value="girltotalHitsViews"/>
+																						</s:text>
+																					</div>
+																				</div>
+																				<div class="item">
+																					<div class="content top aligned">
+																						<div class="header">Created Date</div>
+																						&nbsp;
+																						<s:if test="girlCreatedDate != ''" >
+																							<s:property value="girlCreatedDate"/>
+																						</s:if>
+																						<s:else>
+																							<s:date name="girlInfo.createdDate" format="dd MMM yyyy" />
+																						</s:else>
+																					</div>
+																				</div>
+																				<div class="item">
+																					<div class="content top aligned">
+																						<div class="header">Updated Date</div>
+																						&nbsp;
+																						<s:if test="girlUpdatedDate != ''" >
+																							<s:property value="girlUpdatedDate"/>
+																						</s:if>
+																						<s:else>
+																							<s:date name="girlInfo.updatedDate" format="dd MMM yyyy" />
+																						</s:else>
+																					</div>
+																				</div>
+																			</div>
 																		</div>
 																	</div>
 																</td>

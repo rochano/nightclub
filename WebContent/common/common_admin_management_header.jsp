@@ -139,6 +139,7 @@
   		        	$(v).addClass("disabled");
   		        }
   		    });
+  		    postDrawCallback();
   		},
   		"initComplete": function(settings, json) {
   	        // Tidy up length select
@@ -196,4 +197,5 @@
 	  		  input.val(newValue);
 	  	  });
 	  }
+	  function postDrawCallback() {}
   </script>

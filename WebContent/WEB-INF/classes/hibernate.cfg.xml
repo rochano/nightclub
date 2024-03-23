@@ -89,6 +89,8 @@
 		<mapping class="com.nightclub.model.GirlTag" />
 		<mapping class="com.nightclub.model.GirlTagId" />
 		<mapping class="com.nightclub.model.GirlTagInfo" />
+		<mapping class="com.nightclub.model.StatisticGirlInfo" />
+		<mapping class="com.nightclub.model.StatisticGirlInfoPK" />
 
 	</session-factory>
 

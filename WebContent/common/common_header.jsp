@@ -330,7 +330,7 @@
 				return cond.price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " " + cond.crcy;
 			}
 		}
-		return "";
+		return "Nego";
 	}
 
 	function getCustomDescription() {

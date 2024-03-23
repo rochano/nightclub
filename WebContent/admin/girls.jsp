@@ -219,6 +219,12 @@
 			     });
 			});
    }
+   function postDrawCallback() {
+	  console.log("postDrawCallback");
+	  $('.ui.dropdown.tag_info')
+      .dropdown()
+    ;
+   }
   </script>
 </head>
 <body class="menu pushable">
@@ -265,7 +271,7 @@
 							<s:i18n name="global_th"><s:textfield name="girlSearch.nickName" key="global.nick_name"/></s:i18n>
 						</div>
 						<s:i18n name="global_th">
-							<div class="inline field">
+							<%-- <div class="inline field">
 								<label><s:text name="global.type" />:</label>
 								<div class="ui checkbox">
 									<input type="checkbox" name="girlSearch.chkCategory" id="girlSearch_chkCategory"
@@ -284,7 +290,7 @@
 										</s:iterator>
 									</select>
 								</div>
-							</div>
+							</div> --%>
 							<div class="inline field">
 								<label class="screen">&nbsp;</label>
 								<div class="ui checkbox">
@@ -314,7 +320,7 @@
 									<label for="girlSearch_chkFreeAgents"><s:text name="global.main_menu_free_agents" /></label>
 								</div>
 							</div>
-							<div class="inline field">
+							<%-- <div class="inline field">
 								<label class="screen">&nbsp;</label>
 								<div class="ui checkbox">
 									<input type="checkbox" name="girlSearch.chkEnGirls" id="girlSearch_chkEnGirls"
@@ -322,7 +328,7 @@
 										value="true" />
 									<label for="girlSearch_chkEnGirls"><s:text name="global.main_menu_en_girls" /></label>
 								</div>
-							</div>
+							</div> --%>
 						</s:i18n>
 						<div class="inline field">
 							<s:i18n name="global_th">
@@ -505,7 +511,7 @@
   <script type="text/javascript">
   var girlProvinces = '';
   var girlTagInfos = '';
-	girlTagInfos += '<div class="ui multiple two column dropdown">';
+	girlTagInfos += '<div class="ui multiple two column dropdown tag_info">';
 	girlTagInfos += '<input type="hidden" name="girlTag" data-girl_id="[girlInfoId]" value="[girlTagInfoId]">';
 	girlTagInfos += '<i class="tag icon"></i>';
 	girlTagInfos += '<span class="text"><s:i18n name="global_th"><s:text name="global.girl_tag" /></s:i18n></span>';

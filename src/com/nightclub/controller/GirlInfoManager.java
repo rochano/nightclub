@@ -1034,26 +1034,27 @@ public class GirlInfoManager extends HibernateUtil {
 		girlTags = (List<GirlTag>)session.createQuery("from GirlTag gt where gt.primaryKey.girlInfo.girlInfoId = :girlInfoId")
 					.setParameter("girlInfoId", girlInfo.getGirlInfoId())
 					.list();
+		// NEW Tag
 		// check created within 1 month
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.MONTH, -1);
 		Date previousMonth = c.getTime();
+		boolean isFoundNew = false;
+		Iterator it = girlTags.iterator();
+		while(it.hasNext()) {
+			GirlTag girlTag = (GirlTag) it.next();
+			if (girlTag.getGirlTagInfo().getGirlTagNameEn().equals("NEW")) {
+				isFoundNew = true;
+				break;
+			}
+		}
 		if (girlInfo.getCreatedDate() != null) {
+			List<GirlTagInfo> girlTagInfos = (List<GirlTagInfo>)session.createQuery("from GirlTagInfo where girlTagNameEn = :NEW")
+					.setParameter("NEW", "NEW")
+					.list();
+			Iterator itGirlTagInfos = girlTagInfos.iterator();
 			if (girlInfo.getCreatedDate().after(previousMonth)) {
-				boolean isFoundNew = false;
-				Iterator it = girlTags.iterator();
-				while(it.hasNext()) {
-					GirlTag girlTag = (GirlTag) it.next();
-					if (girlTag.getGirlTagInfo().getGirlTagNameEn().equals("NEW")) {
-						isFoundNew = true;
-						break;
-					}
-				}
 				if (!isFoundNew) {
-					List<GirlTagInfo> girlTagInfos = (List<GirlTagInfo>)session.createQuery("from GirlTagInfo where girlTagNameEn = :NEW")
-							.setParameter("NEW", "NEW")
-							.list();
-					Iterator itGirlTagInfos = girlTagInfos.iterator();
 					while (itGirlTagInfos.hasNext()) {
 						GirlTagInfo girlTagInfo = (GirlTagInfo) itGirlTagInfos.next();
 						GirlTagId girlTagId = new GirlTagId();
@@ -1064,9 +1065,70 @@ public class GirlInfoManager extends HibernateUtil {
 						girlTags.add(girlTag);
 					}
 				}
+			} else if (isFoundNew) {
+				for (int i = girlTags.size()-1; i >= 0 ; i--) {
+					GirlTag girlTag = (GirlTag) girlTags.get(i);
+					if (girlTag.getGirlTagInfo().getGirlTagNameEn().equals("NEW")) {
+						girlTags.remove(girlTag);
+					}
+				}
 			}
 		}
-		
+		// INDEPENDENT Tag
+		if (girlInfo instanceof FreeAgentGirlInfo && !(girlInfo instanceof AgentGirlInfo)) {
+			boolean isFoundIndependent = false;
+			it = girlTags.iterator();
+			while(it.hasNext()) {
+				GirlTag girlTag = (GirlTag) it.next();
+				if (girlTag.getGirlTagInfo().getGirlTagNameEn().equals("INDEPENDENT")) {
+					isFoundIndependent = true;
+					break;
+				}
+			}
+			if (!isFoundIndependent) {
+				List<GirlTagInfo> girlTagInfos = (List<GirlTagInfo>)session.createQuery("from GirlTagInfo where girlTagNameEn = :INDEPENDENT")
+						.setParameter("INDEPENDENT", "INDEPENDENT")
+						.list();
+				Iterator itGirlTagInfos = girlTagInfos.iterator();
+				while (itGirlTagInfos.hasNext()) {
+					GirlTagInfo girlTagInfo = (GirlTagInfo) itGirlTagInfos.next();
+					GirlTagId girlTagId = new GirlTagId();
+					girlTagId.setGirlInfo(girlInfo);
+					girlTagId.setGirlTagInfo(girlTagInfo);
+					GirlTag girlTag = new GirlTag();
+					girlTag.setPrimaryKey(girlTagId);
+					girlTags.add(girlTag);
+				}
+			}
+		}
+		// VIDEO Tag
+		if (girlInfo.getMov1() != null && !girlInfo.getMov1().isEmpty()) {
+			boolean isFoundVideo = false;
+			it = girlTags.iterator();
+			while(it.hasNext()) {
+				GirlTag girlTag = (GirlTag) it.next();
+				if (girlTag.getGirlTagInfo().getGirlTagNameEn().equals("VIDEO")) {
+					isFoundVideo = true;
+					break;
+				}
+			}
+			if (!isFoundVideo) {
+				List<GirlTagInfo> girlTagInfos = (List<GirlTagInfo>)session.createQuery("from GirlTagInfo where girlTagNameEn = :VIDEO")
+						.setParameter("VIDEO", "VIDEO")
+						.list();
+				Iterator itGirlTagInfos = girlTagInfos.iterator();
+				while (itGirlTagInfos.hasNext()) {
+					GirlTagInfo girlTagInfo = (GirlTagInfo) itGirlTagInfos.next();
+					GirlTagId girlTagId = new GirlTagId();
+					girlTagId.setGirlInfo(girlInfo);
+					girlTagId.setGirlTagInfo(girlTagInfo);
+					GirlTag girlTag = new GirlTag();
+					girlTag.setPrimaryKey(girlTagId);
+					girlTags.add(girlTag);
+				}
+			}
+		}
+
 		return girlTags;
 	}
 

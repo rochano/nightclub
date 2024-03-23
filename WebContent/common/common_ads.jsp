@@ -6,6 +6,11 @@
 		<s:if test="%{adsInfos.size > 0 && adsInfos[0].active == 'true'}">
 			<s:if test="%{adsInfos[0].AdsImg2 != ''}">
 				<div class="ui wide skyscraper centered test ad active" data-text="">
+					<s:if test="adminMode == 'true'">
+						<div class="ui green attached label" data-variation="tiny">
+							<i class="icon">A1 (160 x 600)</i>
+						</div>
+					</s:if>
 					<s:if test="%{adsInfos[0].customUrl != ''}">
 						<a href="<s:property value="adsInfos[0].customUrl" />" target="_blank">
 							<img src="<s:property value="adsInfos[0].AdsImg2" />">
@@ -18,7 +23,13 @@
 			</s:if>
 		</s:if>
 		<s:else>
-			<div class="ui wide skyscraper centered test ad" data-text="ADVERTISEMENT #1"></div>
+			<div class="ui wide skyscraper centered test ad" data-text="ADVERTISEMENT #1">
+				<s:if test="adminMode == 'true'">
+					<div class="ui green attached label" data-variation="tiny">
+						<i class="icon">A1 (160 x 600)</i>
+					</div>
+				</s:if>
+			</div>
 		</s:else>
 	</div>
 </div>

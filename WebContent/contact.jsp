@@ -30,14 +30,6 @@
 	}
   .ui.green.button {width: 50%;}
   .ui.red.button {width: 45%;}
-  .ui.leaderboard.ad {
-  	height: 100%;
-  	padding: 0;
-  	width: 100%;
-  }
-  .ui.leaderboard.ad img {
-  	height: auto;
-  }
   .ui.grid.segment.banner {
   	padding: 1em 0;
   }
@@ -50,35 +42,45 @@
 <s:set name="base_url" value="%{''}" />
 <%@include file="/common/common_new_menu_sidebar.jsp" %>
 <div class="pusher">
-	<div class="ui segment very basic">
+	<div class="ui segment very basic" id="wrapper">
 		<div class="ui centered grid">
-			<div class="eleven wide column container" id="container">
-				<%@include file="/common/common_statistic_info.jsp" %>
-				<%@include file="/common/common_new_menu.jsp" %>
-				<br/>
-  				<div class="ui breadcrumb segment attached inverted">
-					<a class="section" href="<s:url value="/" />" >
-						<s:text name="global.shop_menu_home" />
-					</a>
-					<i class="right chevron icon divider"></i>
-					<div class="active section"><s:text name="global.main_menu_contact" /></div>
-				</div>
-
-	  			<div class="center aligned column">
-		  			<div class="ui segment header">
-						<h2 class="ui top header">
-							<i class="bookmark icon yellow"></i>
-							<div class="content"><s:text name="global.main_menu_contact" /></div>
-						</h2>
+			<div class="row">
+				<%@include file="/common/common_ads.jsp" %>
+				<div class="ten wide column container" id="container">
+					<%@include file="/common/common_statistic_info.jsp" %>
+					<br/>
+	  				<div class="ui breadcrumb segment attached inverted">
+						<a class="section" href="<s:url value="/" />" >
+							<s:text name="global.shop_menu_home" />
+						</a>
+						<i class="right chevron icon divider"></i>
+						<div class="active section"><s:text name="global.main_menu_contact" /></div>
 					</div>
-					<div class="ui grid attached segment">
-						<div class="column one center aligned">
-							<a href="<s:property value="homeInfo.lineContactUrl" />">
-								<img height="36" border="0" src="https://scdn.line-apps.com/n/line_add_friends/btn/th.png">
-							</a>
-				 		</div>
+	
+		  			<div class="center aligned column">
+			  			<div class="ui segment header">
+							<h2 class="ui top header">
+								<i class="bookmark icon yellow"></i>
+								<div class="content"><s:text name="global.main_menu_contact" /></div>
+							</h2>
+						</div>
+						<div class="ui grid attached segment">
+							<div class="column one center aligned">
+								<a href="<s:property value="homeInfo.lineContactUrl" />">
+									<img height="36" border="0" src="https://scdn.line-apps.com/n/line_add_friends/btn/th.png">
+								</a>
+								<s:if test="homeInfo.contact != ''">
+									<div class="centered">
+										<br />
+										<s:text name="homeInfo.contact" />
+									</div>
+								</s:if>
+					 		</div>
+						</div>
 					</div>
+					<%@include file="/common/common_ads_2.jsp" %>
 				</div>
+				<%@include file="/common/common_ads_3.jsp" %>
 			</div>
 		</div>
 	</div><br />

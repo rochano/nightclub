@@ -16,7 +16,7 @@ public class StatisticInfo implements Serializable{
 	private StatisticInfoPK statisticInfoPK;
 	private Integer hit;
 	private Timestamp online;
-	
+
 	@EmbeddedId
 	public StatisticInfoPK getStatisticInfoPK() {
 		return statisticInfoPK;

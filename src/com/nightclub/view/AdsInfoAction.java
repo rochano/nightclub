@@ -27,6 +27,7 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
 	private String menu;
 	private String action;
 	private boolean showInfo = false;
+	private String adminMode = "true";
 	
 	private AdsInfoManager adsInfoManager;
 	
@@ -242,5 +243,13 @@ public class AdsInfoAction extends ActionSupport implements SessionAware {
 
 	public void setActive(String active) {
 		this.active = active;
+	}
+
+	public String getAdminMode() {
+		return adminMode;
+	}
+	
+	public void setAdminMode(String adminMode) {
+		this.adminMode = adminMode;
 	}
 }

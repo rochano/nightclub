@@ -33,6 +33,8 @@ public class CommonAction extends ActionSupport implements ServletRequestAware, 
 	private HttpServletRequest servletRequest;
 	private ClientInfo clientInfo;
 	private Map<String, Object> sessionMap;
+	private String ipAddress;
+	private String accessDt;
 	
 	private StatisticInfoManager statisticInfoManager;
 	protected ClientInfoManager clientInfoManager;
@@ -52,11 +54,13 @@ public class CommonAction extends ActionSupport implements ServletRequestAware, 
 		String[] tokens = ipaddress.split(",");
 		ipaddress = tokens[tokens.length - 1].trim();
 		log_.info("ipaddress>> " + ipaddress);
+		setIpAddress(ipaddress);
 		Date systemDate = new Date();
 		String accessDt = new SimpleDateFormat("yyyyMMdd").format(systemDate);
+		setAccessDt(accessDt);
 		String accessDtYmd = new SimpleDateFormat("yyyy-MM-dd").format(systemDate);
 		Timestamp online = new Timestamp(systemDate.getTime());
-		
+
 		StatisticInfoPK statisticInfoPK = new StatisticInfoPK(ipaddress, accessDt);
 		StatisticInfo statisticInfo = statisticInfoManager.getStatisticInfo(statisticInfoPK);
 		
@@ -167,5 +171,21 @@ public class CommonAction extends ActionSupport implements ServletRequestAware, 
 	
 	public Map<String, Object> getSession() {
 		return this.sessionMap;
+	}
+
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
+
+	public String getAccessDt() {
+		return accessDt;
+	}
+
+	public void setAccessDt(String accessDt) {
+		this.accessDt = accessDt;
 	}
 }

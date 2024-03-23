@@ -508,21 +508,26 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	}
 
 	public String contactupdate() {
-		HomeInfo homeInfo_ = homeInfoManager.getHomeInfo("0");
-		homeInfo_.setHomeInfoId("0");
-		homeInfo_.setLineContactUrl(homeInfo.getLineContactUrl());
 		
-		if(homeInfoManager.getHomeInfo("0") != null) {
-			homeInfoManager.update(homeInfo_);
-		} else {
-			homeInfoManager.add(homeInfo_);
+		try {
+			HomeInfo homeInfo_ = homeInfoManager.getHomeInfo("0");
+			homeInfo_.setHomeInfoId("0");
+			homeInfo_.setLineContactUrl(homeInfo.getLineContactUrl());
+			homeInfo_.setContact(UploadFileUtils.uploadImageinDescription(homeInfo.getContact(), sessionMap, userInfo));
+			if(homeInfoManager.getHomeInfo("0") != null) {
+				homeInfoManager.update(homeInfo_);
+			} else {
+				homeInfoManager.add(homeInfo_);
+			}
+			
+			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
+			
+			this.execute();
+			
+			return SUCCESS;
+		} catch (IOException e) {
+			return INPUT;
 		}
-		
-		addActionMessage(getTexts("global_th").getString("global.message_success_update"));
-		
-		this.execute();
-		
-		return SUCCESS;
 	}
 	
 	public String howToInput() {

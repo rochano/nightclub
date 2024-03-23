@@ -12,7 +12,9 @@
 				</div>
 			</s:if>
 	  		<s:if test="homeInfo.inform != ''">
-	  			<s:text name="homeInfo.inform" />
+	  			<div class="centered">
+	  				<s:text name="homeInfo.inform" />
+	  			</div>
 	  		</s:if>
 	  	</div>
 	  	<div class="ui menu inverted stackable toc left aligned">
@@ -56,13 +58,13 @@
 				</div>
 			</div>
 		</div>
-		<%-- <div class="ui menu inverted stackable">
-			<a href="<s:url value="/search"/>" class="ui item"><s:text name="global.main_menu_search" /></a>
+		<div class="ui menu inverted stackable">
+			<%-- <a href="<s:url value="/search"/>" class="ui item"><s:text name="global.main_menu_search" /></a> --%>
 			<a href="<s:url value="/contact"/>" class="ui item"><s:text name="global.main_menu_contact" /></a>
-			<a href="<s:url value="/howtouse"/>" class="ui item"><s:text name="global.main_menu_how_to_use" /></a>
+			<%-- <a href="<s:url value="/howtouse"/>" class="ui item"><s:text name="global.main_menu_how_to_use" /></a>
 			<a href="<s:url value="/signup"/>" class="ui item"><s:text name="global.main_menu_register" /></a>
-			<a href="<s:url value="/login"/>" class="ui item"><s:text name="global.main_menu_login" /></a>
-		</div> --%>
+			<a href="<s:url value="/login"/>" class="ui item"><s:text name="global.main_menu_login" /></a> --%>
+		</div>
 		<br />
 	  </div>
   </div>

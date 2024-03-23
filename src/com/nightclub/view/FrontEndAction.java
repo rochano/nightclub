@@ -31,6 +31,7 @@ import com.nightclub.controller.HomeSlideImageManager;
 import com.nightclub.controller.NationalityInfoManager;
 import com.nightclub.controller.NewsInfoManager;
 import com.nightclub.controller.ProvinceInfoManager;
+import com.nightclub.controller.StatisticGirlInfoManager;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.AdsInfo;
@@ -58,6 +59,8 @@ import com.nightclub.model.ProvinceInfo;
 import com.nightclub.model.ReserveGirlService;
 import com.nightclub.model.ReserveInfo;
 import com.nightclub.model.ShopGirlInfo;
+import com.nightclub.model.StatisticGirlInfo;
+import com.nightclub.model.StatisticGirlInfoPK;
 import com.nightclub.model.UserInfo;
 import com.nightclub.model.ZoneInfo;
 import com.nightclub.util.LineApiUtils;
@@ -112,6 +115,9 @@ public class FrontEndAction extends CommonAction {
 	private List<String> girlServicesInfoId;
 	private List<GirlTagInfo> girlTagInfos;
 	private String countryInfoIdThai;
+	private int girltotalHitsViews;
+	private String girlCreatedDate;
+	private String girlUpdatedDate;
 
 	private CategoryInfoManager categoryInfoManager;
 	private BasicInfoManager basicInfoManager;
@@ -131,6 +137,7 @@ public class FrontEndAction extends CommonAction {
 	private GirlCommentManager girlCommentManager;
 	private GirlReserveInfoManager girlReserveInfoManager;
 	private GirlTagInfoManager girlTagInfoManager;
+	private StatisticGirlInfoManager statisticGirlInfoManager;
 
 	public FrontEndAction() {
 		super();
@@ -152,6 +159,7 @@ public class FrontEndAction extends CommonAction {
 		girlCommentManager = new GirlCommentManager();
 		girlReserveInfoManager = new GirlReserveInfoManager();
 		girlTagInfoManager = new GirlTagInfoManager();
+		statisticGirlInfoManager = new StatisticGirlInfoManager();
 	}
 	
 	public String execute() {
@@ -336,11 +344,57 @@ public class FrontEndAction extends CommonAction {
 			addGirlComment();
 		}
 		getStatisticInfo();
+		StatisticGirlInfoPK statisticGirlInfoPK = new StatisticGirlInfoPK(getIpAddress(), getAccessDt(), girlInfoId);
+		StatisticGirlInfo statisticGirlInfo = statisticGirlInfoManager.getStatisticGirlInfo(statisticGirlInfoPK);
+		
+		if(statisticGirlInfo != null) {
+			statisticGirlInfo.setHit(statisticGirlInfo.getHit() + 1);
+			statisticGirlInfoManager.update(statisticGirlInfo);
+		} else {
+			statisticGirlInfo = new StatisticGirlInfo();
+			statisticGirlInfo.setStatisticGirlInfoPK(statisticGirlInfoPK);
+			statisticGirlInfo.setHit(1);
+			statisticGirlInfoManager.add(statisticGirlInfo);
+		}
+		
+		List<StatisticGirlInfo> statisticGirlInfos = statisticGirlInfoManager.getStatisticGirlInfosByGirlInfoId(girlInfoId);
+
+		// total hits view
+		girltotalHitsViews = 0;
+		for(int i = 0; i < statisticGirlInfos.size(); i++) {
+			girltotalHitsViews += statisticGirlInfos.get(i).getHit();
+		}
+		this.girlInfo = girlInfoManager.getGirlInfo(girlInfoId);
+		
+		girlCreatedDate = "";
+		girlUpdatedDate = "";
+		Date now = new Date();
+		if (girlInfo.getCreatedDate() != null) {
+			long diff = now.getTime() - girlInfo.getCreatedDate().getTime();
+			long diffMinutes = diff / (60 * 1000);
+			long diffHours = diff / (60 * 60 * 1000);
+			if (diffHours < 1) {
+				girlCreatedDate = diffMinutes + " Minutes ago";
+			} else if (diffHours < 24) {
+				girlCreatedDate = diffHours + " Hours ago";
+			}
+		}
+		if (girlInfo.getUpdatedDate() != null) {
+			long diff = now.getTime() - girlInfo.getUpdatedDate().getTime();
+			long diffMinutes = diff / (60 * 1000);
+			long diffHours = diff / (60 * 60 * 1000);
+			if (diffHours < 1) {
+				girlUpdatedDate = diffMinutes + " Minutes ago";
+			} else if (diffHours < 24) {
+				girlUpdatedDate = diffHours + " Hours ago";
+			}
+		}
 		
 		this.categoryInfos = categoryInfoManager.list();
 		this.homeSlideImages = homeSlideImageManager.list();
-		this.girlInfo = girlInfoManager.getGirlInfo(girlInfoId);
+		
 		this.homeInfo = homeInfoManager.getHomeInfo("0");
+		this.adsInfos = adsInfoManager.list();
 		if(this.girlInfo != null) {
 			if (this.girlInfo instanceof AgentGirlInfo) {
 				UserInfo userInfo = userInfoManager.getUserByColumnName("agentInfoId", ((AgentGirlInfo) this.girlInfo).getAgentInfoId());
@@ -448,6 +502,7 @@ public class FrontEndAction extends CommonAction {
 		this.categoryInfos = categoryInfoManager.list();
 		this.homeSlideImages = homeSlideImageManager.list();
 		this.homeInfo = homeInfoManager.getHomeInfo("0");
+		this.adsInfos = adsInfoManager.list();
 		return SUCCESS;
 	}
 	
@@ -760,6 +815,7 @@ public class FrontEndAction extends CommonAction {
 		this.homeSlideImages = homeSlideImageManager.list();
 		this.girlInfo = girlInfoManager.getGirlInfo(girlInfoId);
 		this.homeInfo = homeInfoManager.getHomeInfo("0");
+		this.adsInfos = adsInfoManager.list();
 		if(this.girlInfo != null) {
 			if (this.girlInfo instanceof AgentGirlInfo) {
 				UserInfo userInfo = userInfoManager.getUserByColumnName("agentInfoId", ((AgentGirlInfo) this.girlInfo).getAgentInfoId());
@@ -1169,5 +1225,29 @@ public class FrontEndAction extends CommonAction {
 
 	public void setCountryInfoIdThai(String countryInfoIdThai) {
 		this.countryInfoIdThai = countryInfoIdThai;
+	}
+
+	public int getGirltotalHitsViews() {
+		return girltotalHitsViews;
+	}
+
+	public void setGirltotalHitsViews(int girltotalHitsViews) {
+		this.girltotalHitsViews = girltotalHitsViews;
+	}
+
+	public String getGirlCreatedDate() {
+		return girlCreatedDate;
+	}
+
+	public void setGirlCreatedDate(String girlCreatedDate) {
+		this.girlCreatedDate = girlCreatedDate;
+	}
+
+	public String getGirlUpdatedDate() {
+		return girlUpdatedDate;
+	}
+
+	public void setGirlUpdatedDate(String girlUpdatedDate) {
+		this.girlUpdatedDate = girlUpdatedDate;
 	}
 }

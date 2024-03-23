@@ -1336,7 +1336,7 @@
 		dataSet.push(
 			['<s:property value="#status.count" />', 
 			'<img class="image ui tiny centered" src="<s:property value="pic1" />">',
-			"<s:property value="nickName" />",
+			"<s:property value="nickName" /><br/><s:property value="phone" />",
 			"<s:property value="age" />",
 			'<s:property value="countryInfo.countryNameEn" />',
 			'<s:iterator value="girlProvinces" >' +

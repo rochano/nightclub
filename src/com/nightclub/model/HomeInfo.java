@@ -35,6 +35,7 @@ public class HomeInfo implements Serializable {
 	private String descriptionAgent;
 	private String descriptionFreeAgent;
 	private String descriptionEnGirl;
+	private String contact;
 	
 	@Id
 	@Column(name="home_info_id")
@@ -95,6 +96,9 @@ public class HomeInfo implements Serializable {
 	@Column(name="inform")
 	@Length(max=1000)
 	public String getInform() {
+		if (inform == null) {
+			return "";
+		}
 		return inform;
 	}
 	@Column(name="description_shop_service")
@@ -121,6 +125,14 @@ public class HomeInfo implements Serializable {
 	@Length(max=1000)
 	public String getLineChannelAccessToken() {
 		return lineChannelAccessToken;
+	}
+	@Column(name="contact")
+	@Length(max=1000)
+	public String getContact() {
+		if (contact == null) {
+			return "";
+		}
+		return contact;
 	}
 	public void setHomeInfoId(String homeInfoId) {
 		this.homeInfoId = homeInfoId;
@@ -196,6 +208,9 @@ public class HomeInfo implements Serializable {
 	}
 	public void setLineChannelAccessToken(String lineChannelAccessToken) {
 		this.lineChannelAccessToken = lineChannelAccessToken;
+	}
+	public void setContact(String contact) {
+		this.contact = contact;
 	}
 	
 }
