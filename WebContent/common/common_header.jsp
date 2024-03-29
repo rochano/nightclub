@@ -252,7 +252,7 @@
 							infoHtml += '		<a class="ui header " href="' + getUrl('girl/' + obj.girlInfoId) + '">' + obj.nickName + '</a>';
 							infoHtml += '		<div class="description">';
 							infoHtml += getCustomDescription(obj);
-							infoHtml += '			<i class="marker icon"></i>';
+							/* infoHtml += '			<i class="marker icon"></i>';
 							if (obj.countryInfo) {
 								infoHtml += '		' + obj.countryInfo.countryNameEn;
 							}
@@ -260,7 +260,11 @@
 								infoHtml += '					<div class="ui medium label">';
 								infoHtml += objProvince.primaryKey.provinceInfo.provinceNameEn;
 								infoHtml += '					</div>';
-							});
+							}); */
+							infoHtml += '			<i class="flag awesome font icon"></i>';
+							if (obj.countryInfo) {
+								infoHtml += '		' + obj.nationalityInfo.nationalityNameEn;
+							}
 							infoHtml += '		</div>';
 							infoHtml += '	</div>';
 							infoHtml += '</div>';

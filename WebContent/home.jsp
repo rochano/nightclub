@@ -265,13 +265,15 @@
 											<div class="description">
 												<s:property value="agentInfo.agentName" />
 												<br/>
-												<i class="marker icon"></i>
+												<%-- <i class="marker icon"></i>
 												<s:property value="countryInfo.countryNameEn" />
 												<s:iterator value="girlProvinces" >
 													<div class="ui medium label">
 														<s:property value="primaryKey.provinceInfo.provinceNameEn" />
 													</div>
-												</s:iterator>
+												</s:iterator> --%>
+												<i class="flag awesome font icon"></i>
+												<s:property value="nationalityInfo.nationalityNameEn" />
 											</div>
 										</div>
 									</div>
