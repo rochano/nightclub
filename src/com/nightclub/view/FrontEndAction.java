@@ -493,6 +493,7 @@ public class FrontEndAction extends CommonAction {
 		this.categoryInfos = categoryInfoManager.list();
 		this.homeSlideImages = homeSlideImageManager.list();
 		this.homeInfo = homeInfoManager.getHomeInfo("0");
+		this.adsInfos = adsInfoManager.list();
 		return SUCCESS;
 	}
 	

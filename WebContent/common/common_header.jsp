@@ -56,6 +56,9 @@
 	display: block;
 	text-align: left;
   }
+  .inform p {
+    line-height: 1;
+  }
   .ui.table tr td:first-child > p,
   .ui.table tr td:nth-child(2) > p {
   	color: #686868;
