@@ -265,8 +265,10 @@
 								infoHtml += '					</div>';
 							}); */
 							infoHtml += '			<i class="flag awesome font icon"></i>';
-							if (obj.countryInfo) {
+							if (obj.nationalityInfo) {
 								infoHtml += '		' + obj.nationalityInfo.nationalityNameEn;
+							} else {
+								infoHtml += '		-';
 							}
 							infoHtml += '		</div>';
 							infoHtml += '	</div>';

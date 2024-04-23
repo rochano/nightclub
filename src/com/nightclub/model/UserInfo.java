@@ -92,12 +92,12 @@ public class UserInfo implements Serializable{
 		return active;
 	}
 	@Column(name="valid_date_from")
-	public Date getValidDateTo() {
-		return validDateTo;
-	}
-	@Column(name="valid_date_to")
 	public Date getValidDateFrom() {
 		return validDateFrom;
+	}
+	@Column(name="valid_date_to")
+	public Date getValidDateTo() {
+		return validDateTo;
 	}
 	@OneToOne
 	@NotFound(action = NotFoundAction.IGNORE)

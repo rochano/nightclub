@@ -323,6 +323,7 @@
 										<option value=""></option>
 										<option value="incall" <s:if test="frontSearch.incallOutcall == 'incall'">selected="selected"</s:if>><s:text name="global.incall" /></option>
 										<option value="outcall" <s:if test="frontSearch.incallOutcall == 'outcall'">selected="selected"</s:if>><s:text name="global.outcall" /></option>
+										<option value="both" <s:if test="frontSearch.incallOutcall == 'both'">selected="selected"</s:if>><s:text name="global.incall_outcall" /></option>
 									</select>
 								</div>
 								<div class="ui inverted accordion">

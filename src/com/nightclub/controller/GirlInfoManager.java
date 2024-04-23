@@ -723,7 +723,13 @@ public class GirlInfoManager extends HibernateUtil {
 			sql += "and gl.primaryKey.zoneInfo.zoneInfoId in (:zoneInfoIdList)) ";
 		}
 		if (frontSearch.getIncallOutcall() != null && !frontSearch.getIncallOutcall().isEmpty()) {
-			sql += " and girlInfo." + frontSearch.getIncallOutcall() + " = :incallOutcall ";
+			if ("incall".equals(frontSearch.getIncallOutcall())) {
+				sql += " and girlInfo.incall = :incallOutcall ";
+			} else if ("outcall".equals(frontSearch.getIncallOutcall())) {
+				sql += " and girlInfo.outcall = :incallOutcall ";
+			} else if ("both".equals(frontSearch.getIncallOutcall())) {
+				sql += " and (girlInfo.incall = :incallOutcall and girlInfo.outcall = :incallOutcall) ";
+			}
 		}
 		if (frontSearch.getNickName() != null && !frontSearch.getNickName().isEmpty()) {
 			sql += " and girlInfo.nickName like :nickName ";

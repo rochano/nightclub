@@ -273,7 +273,12 @@
 													</div>
 												</s:iterator> --%>
 												<i class="flag awesome font icon"></i>
-												<s:property value="nationalityInfo.nationalityNameEn" />
+												<s:if test="nationalityInfo.nationalityNameEn != null && nationalityInfo.nationalityNameEn != ''">
+													<s:property value="nationalityInfo.nationalityNameEn" />
+												</s:if>
+												<s:else>
+													-
+												</s:else>
 											</div>
 										</div>
 									</div>
