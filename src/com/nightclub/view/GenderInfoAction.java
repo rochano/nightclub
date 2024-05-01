@@ -20,6 +20,7 @@ public class GenderInfoAction extends ActionSupport {
 	private String menu;
 	private String action;
 	private boolean showInfo = false;
+	private String chkDefault;
 	
 	private GenderInfoManager genderInfoManager;
 
@@ -45,6 +46,11 @@ public class GenderInfoAction extends ActionSupport {
 	public String add() {
 		try {
 			genderInfo.setGenderInfoId(UUID.randomUUID().toString().toUpperCase());
+			if(getChkDefault() != null) {
+				this.genderInfo.setChkDefault(Boolean.TRUE.toString().toLowerCase());
+			} else {
+				this.genderInfo.setChkDefault(Boolean.FALSE.toString().toLowerCase());
+			}
 			genderInfoManager.add(this.genderInfo);
 			
 			addActionMessage(getTexts("global_th").getString("global.message_success_add"));
@@ -58,6 +64,11 @@ public class GenderInfoAction extends ActionSupport {
 	
 	public String update() {
 		try {
+			if(getChkDefault() != null) {
+				this.genderInfo.setChkDefault(Boolean.TRUE.toString().toLowerCase());
+			} else {
+				this.genderInfo.setChkDefault(Boolean.FALSE.toString().toLowerCase());
+			}
 			genderInfoManager.update(this.genderInfo);
 			
 			addActionMessage(getTexts("global_th").getString("global.message_success_update"));
@@ -149,6 +160,14 @@ public class GenderInfoAction extends ActionSupport {
 
 	public void setGenderSearch(GenderInfo genderSearch) {
 		this.genderSearch = genderSearch;
+	}
+
+	public String getChkDefault() {
+		return chkDefault;
+	}
+
+	public void setChkDefault(String chkDefault) {
+		this.chkDefault = chkDefault;
 	}
 
 

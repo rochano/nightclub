@@ -1,5 +1,6 @@
 package com.nightclub.controller;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -11,7 +12,6 @@ import org.hibernate.classic.Session;
 
 import com.nightclub.model.GenderInfo;
 import com.nightclub.model.GirlInfo;
-import com.nightclub.model.ProvinceInfo;
 
 public class GenderInfoManager extends HibernateUtil {
 
@@ -20,6 +20,9 @@ public class GenderInfoManager extends HibernateUtil {
 	public GenderInfo add(GenderInfo genderInfo) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
+		if (Boolean.TRUE.toString().toLowerCase().equals(genderInfo.getChkDefault())) {
+			deleteDefaultGender();
+		}
 		session.save(genderInfo);
 		session.getTransaction().commit();
 		return genderInfo;
@@ -28,6 +31,9 @@ public class GenderInfoManager extends HibernateUtil {
 	public GenderInfo update(GenderInfo genderInfo) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
+		if (Boolean.TRUE.toString().toLowerCase().equals(genderInfo.getChkDefault())) {
+			deleteDefaultGender();
+		}
 		session.update(genderInfo);
 		session.getTransaction().commit();
 		return genderInfo;
@@ -73,7 +79,7 @@ public class GenderInfoManager extends HibernateUtil {
 		List<GenderInfo> genderInfos = null;
 		try {
 			
-			genderInfos = (List<GenderInfo>)session.createQuery("from GenderInfo").list();
+			genderInfos = (List<GenderInfo>)session.createQuery("from GenderInfo order by chkDefault desc").list();
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -103,6 +109,7 @@ public class GenderInfoManager extends HibernateUtil {
 			if(!genderInfo.getGenderNameEn().isEmpty()) {
 				sql.append("and genderNameEn like :genderNameEn ");
 			}
+			sql.append("order by chkDefault desc ");
 			
 			Query query = session.createQuery(sql.toString());
 			if(!genderInfo.getGenderNameJp().isEmpty()) {
@@ -137,5 +144,31 @@ public class GenderInfoManager extends HibernateUtil {
 		}
 		session.getTransaction().commit();
 		return genderInfo;
+	}
+
+	public String getDefaultGenderInfoId(List<GenderInfo> genderInfos) {
+		String defaultGenderInfoId = "";
+		Iterator<GenderInfo> itGenderInfo = genderInfos.iterator();
+		while(itGenderInfo.hasNext()) {
+			GenderInfo genderInfo = itGenderInfo.next();
+			if (Boolean.TRUE.toString().toLowerCase().equals(genderInfo.getChkDefault().toString().toLowerCase())) {
+				defaultGenderInfoId = genderInfo.getGenderInfoId();
+				break;
+			}
+		}
+		return defaultGenderInfoId;
+	}
+	
+	public void deleteDefaultGender() {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			session.createQuery("update GenderInfo g set chkDefault = :false where g.chkDefault = :true")
+			.setParameter("false", Boolean.FALSE.toString().toLowerCase())
+			.setParameter("true", Boolean.TRUE.toString().toLowerCase())
+			.executeUpdate();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
 	}
 }

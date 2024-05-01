@@ -18,6 +18,7 @@ public class GenderInfo implements Serializable {
 	private String genderInfoId;
 	private String genderNameEn;
 	private String genderNameJp;
+	private String chkDefault;
 
 	@Id
 	@Column(name="gender_info_id")
@@ -33,6 +34,10 @@ public class GenderInfo implements Serializable {
 	public String getGenderNameJp() {
 		return genderNameJp;
 	}
+	@Column(name="chk_default")
+	public String getChkDefault() {
+		return chkDefault;
+	}
 	public void setGenderInfoId(String genderInfoId) {
 		this.genderInfoId = genderInfoId;
 	}
@@ -41,5 +46,8 @@ public class GenderInfo implements Serializable {
 	}
 	public void setGenderNameJp(String genderNameJp) {
 		this.genderNameJp = genderNameJp;
+	}
+	public void setChkDefault(String chkDefault) {
+		this.chkDefault = chkDefault;
 	}
 }

@@ -569,6 +569,10 @@ public class FreeAgentGirlInfoAction extends ActionSupport implements SessionAwa
 		if (this.girlInfo == null) {
 			this.girlInfo = new FreeAgentGirlInfo();
 		}
+		if (this.girlInfo.getGenderInfoId() == null || "".equals(this.girlInfo.getGenderInfoId())) {
+			String defaultGenderInfoId = genderInfoManager.getDefaultGenderInfoId(getGenderInfos());
+			this.girlInfo.setGenderInfoId(defaultGenderInfoId);
+		}
 	}
 
 	public List<String> getGirlLocations() {

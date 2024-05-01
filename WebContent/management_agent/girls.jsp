@@ -131,6 +131,7 @@
 		  $("#pic5FileName").val("");
 		  $("#mov1FileName").val("");
 		  $('#infoForm').find("select").val($("#infoForm select option:first").val());
+		  $('#infoForm').find("input[type='radio'][name='girlInfo.genderInfoId']:first").attr('checked', true);
 		  loadProvince($("#girlInfo_countryInfoId").val(), '#provinceInfos', 'girlLocations');
           $('.ui.modal')
 		    .modal('show')

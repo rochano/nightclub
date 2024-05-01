@@ -182,12 +182,13 @@
 									<th>#</th>
 									<th><s:i18n name="global_th"><s:text name="global.japanese_name" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.english_name" /></s:i18n></th>
+									<th width="20%"><s:i18n name="global_th"><s:text name="global.set_as_default" /></s:i18n></th>
 									<th><s:i18n name="global_th"><s:text name="global.operation" /></s:i18n></th>
 								</tr>
 							</thead>
 							<tfoot class="full-width">
 								<tr>
-									<th colspan="4">
+									<th colspan="5">
 										<div class="ui right aligned one column grid">
 											<div class="column">
 												<div class="addbtn ui small button blue"><s:i18n name="global_th"><s:text name="global.add" /></s:i18n></div>
@@ -219,6 +220,15 @@
 		<div class="inline field">
 			<s:i18n name="global_th"><s:textfield name="genderInfo.genderNameEn" key="global.english_name" /></s:i18n>
 		</div>
+		<div class="inline field">
+			<label><s:i18n name="global_th"><s:text name="global.set_as_default" /></s:i18n>:</label>
+			<div class="ui toggle fitted checkbox">
+				<input type="checkbox" name="chkDefault" 
+				<s:if test="genderInfo.chkDefault == 'true'">checked="checked"</s:if>
+				 value="<s:property value="genderInfoId" />">
+				<label></label>
+			</div>
+		</div>
 		<s:hidden name="action" value="update"></s:hidden>
 		<s:hidden name="genderInfo.genderInfoId"></s:hidden>
 		<div class="ui error message"></div>
@@ -235,6 +245,12 @@
 		['<s:property value="#status.count" />', 
 		"<s:property value="genderNameJp" />",
 		"<s:property value="genderNameEn" />",
+		<s:if test="chkDefault == 'true'">
+		'<i class="other check large icon"></i>',
+		</s:if>
+		<s:else>
+		'',
+		</s:else>
 		'<div class="ui buttons">' +
 			'<a href="<s:url value="/admin/gender/edit/%{genderInfoId}"/>" class="ui icon button small blue" ><i class="ui icon edit"></i></a>' +
 			'<a href="<s:url value="/admin/gender/delete/%{genderInfoId}"/>" class="ui icon button small red" ><i class="ui icon delete"></i></a>' +
@@ -242,7 +258,7 @@
 	]);
   </s:iterator>
 	columnDefs = [
-	  {  className: "center aligned", targets: [ 0, 3 ] }
+	  {  className: "center aligned", targets: [ 0, 3, 4 ] }
 	];
   </script>
 </body>

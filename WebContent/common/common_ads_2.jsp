@@ -19,6 +19,15 @@
 			</s:else>
 		</div>
 	</s:if>
+	<s:else>
+		<div class="ui centered leaderboard test ad active" data-text="" id="adv1">
+			<s:if test="adminMode == 'true'">
+				<div class="ui green label" data-variation="tiny">
+					<i class="icon">A1 - Small screen only (960 x 90)</i>
+				</div>
+			</s:if>
+		</div>
+	</s:else>
 </s:if>
 <s:else>
 	<div class="ui centered leaderboard test ad" data-text="ADVERTISEMENT #1" id="adv1">
@@ -48,6 +57,15 @@
 			</s:else>
 		</div>
 	</s:if>
+	<s:else>
+		<div class="ui centered leaderboard test ad active" data-text="" id="adv2">
+			<s:if test="adminMode == 'true'">
+				<div class="ui green label" data-variation="tiny">
+					<i class="icon">A2 - Small screen only (960 x 90)</i>
+				</div>
+			</s:if>
+		</div>
+	</s:else>
 </s:if>
 <s:else>
 	<div class="ui centered leaderboard test ad" data-text="ADVERTISEMENT #2" id="adv2">
@@ -77,6 +95,15 @@
 			</s:else>
 		</div>
 	</s:if>
+	<s:else>
+		<div class="ui centered leaderboard test ad active" data-text="">
+			<s:if test="adminMode == 'true'">
+				<div class="ui green label" data-variation="tiny">
+					<i class="icon">A3 (960 x 90)</i>
+				</div>
+			</s:if>
+		</div>
+	</s:else>
 </s:if>
 <s:else>
 	<div class="ui centered leaderboard test ad" data-text="ADVERTISEMENT #3">
@@ -106,6 +133,15 @@
 			</s:else>
 		</div>
 	</s:if>
+	<s:else>
+		<div class="ui centered leaderboard test ad active" data-text="">
+			<s:if test="adminMode == 'true'">
+				<div class="ui green label" data-variation="tiny">
+					<i class="icon">A4 (960 x 90)</i>
+				</div>
+			</s:if>
+		</div>
+	</s:else>
 </s:if>
 <s:else>
 	<div class="ui centered leaderboard test ad" data-text="ADVERTISEMENT #4">
@@ -135,6 +171,15 @@
 			</s:else>
 		</div>
 	</s:if>
+	<s:else>
+		<div class="ui centered leaderboard test ad active" data-text="">
+			<s:if test="adminMode == 'true'">
+				<div class="ui green label" data-variation="tiny">
+					<i class="icon">A5 (960 x 90)</i>
+				</div>
+			</s:if>
+		</div>
+	</s:else>
 </s:if>
 <s:else>
 	<div class="ui centered leaderboard test ad" data-text="ADVERTISEMENT #5">

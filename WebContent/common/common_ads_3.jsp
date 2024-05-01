@@ -21,6 +21,15 @@
 					</s:else>
 				</div>
 			</s:if>
+			<s:else>
+				<div class="ui wide skyscraper centered test ad active" data-text="">
+					<s:if test="adminMode == 'true'">
+						<div class="ui green attached label" data-variation="tiny">
+							<i class="icon">A2 (160 x 600)</i>
+						</div>
+					</s:if>
+				</div>
+			</s:else>
 		</s:if>
 		<s:else>
 			<div class="ui wide skyscraper centered test ad" data-text="ADVERTISEMENT #2">
