@@ -43,7 +43,11 @@
 				</h4>
 				<div class="ui centered grid attached segment active content">
 					<div class="column one center aligned">
-						<h2 class="ui header"><s:i18n name="global_th"><s:text name="global.welcome_to" /> <s:text name="global.management" /></s:i18n><h2>
+						<h2 class="ui header"><s:i18n name="global_th"><s:text name="global.welcome_to" /> <s:text name="global.management" /></s:i18n></h2>
+						<div class="welcome_text_small_size_screen">
+							<h2 class="ui header "><s:i18n name="global_th"><s:text name="global.welcome_text" /></s:i18n></h2>
+							<h3 class="ui header">(<i class="sidebar icon"></i>)</h3>
+						</div>
 					</div>
 			</div>
 			</div>

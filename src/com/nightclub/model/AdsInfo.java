@@ -56,10 +56,16 @@ public class AdsInfo implements Serializable {
 	}
 	@Column(name="ads_img_1")
 	public String getAdsImg1() {
+		if (adsImg1 == null) {
+			return "";
+		}
 		return adsImg1;
 	}
 	@Column(name="ads_img_2")
 	public String getAdsImg2() {
+		if (adsImg2 == null) {
+			return "";
+		}
 		return adsImg2;
 	}
 	public void setAdsInfoId(String adsInfoId) {

@@ -28,6 +28,13 @@
   .ui.menu.toc {
 	display: none;
   }
+  .welcome_text_small_size_screen {
+    display: none;
+  }
+  .welcome_text_small_size_screen .ui.header,
+  .welcome_text_small_size_screen .ui.header:not(.icon)>i.icon:only-child {
+  	margin: 0;
+  }
   @media only screen and (max-width: 767px) {
   	.toc .ui.menu:not(.dataTables_paginate) {
   		display: none;
@@ -35,6 +42,9 @@
   	.ui.menu.toc:not(.dataTables_paginate) { 
   		display: block;
   	}
+  	.welcome_text_small_size_screen {
+    	display: block;
+  }
   }
   .ui.items>.item {
   	margin: 0;
