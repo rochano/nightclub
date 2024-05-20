@@ -43,16 +43,19 @@ public class UserInfoManager extends HibernateUtil {
 		return userInfo;
 	}
 	
-	public UserInfo getUserInfo(String username, String phone) {
+	public UserInfo getUserInfo(String username, String email) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		UserInfo userInfo = null;
 		try {
 			
-			userInfo = (UserInfo)session.createQuery("from UserInfo where username = :username or phone = :phone ")
+			List<UserInfo> userInfos = (List<UserInfo>)session.createQuery("from UserInfo where username = :username or email = :email ")
 					.setParameter("username", username)
-					.setParameter("phone", phone)
-					.uniqueResult();
+					.setParameter("email", email)
+					.list();
+			if (userInfos.size() > 0) {
+				userInfo = userInfos.get(0);
+			}
 			
 		} catch (HibernateException e) {
 			e.printStackTrace();
