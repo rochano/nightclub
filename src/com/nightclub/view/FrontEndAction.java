@@ -373,8 +373,14 @@ public class FrontEndAction extends CommonAction {
 			long diff = now.getTime() - girlInfo.getCreatedDate().getTime();
 			long diffMinutes = diff / (60 * 1000);
 			long diffHours = diff / (60 * 60 * 1000);
-			if (diffHours < 1) {
+			if (diffMinutes < 1) {
+				girlCreatedDate = "Just now";
+			} else if (diffMinutes < 2) {
+				girlCreatedDate = diffMinutes + " Minute ago";
+			} else if (diffHours < 1) {
 				girlCreatedDate = diffMinutes + " Minutes ago";
+			} else if (diffHours < 2) {
+				girlCreatedDate = diffHours + " Hour ago";
 			} else if (diffHours < 24) {
 				girlCreatedDate = diffHours + " Hours ago";
 			}
@@ -383,8 +389,14 @@ public class FrontEndAction extends CommonAction {
 			long diff = now.getTime() - girlInfo.getUpdatedDate().getTime();
 			long diffMinutes = diff / (60 * 1000);
 			long diffHours = diff / (60 * 60 * 1000);
-			if (diffHours < 1) {
+			if (diffMinutes < 1) {
+				girlUpdatedDate = "Just now";
+			} else if (diffMinutes < 2) {
+				girlUpdatedDate = diffMinutes + " Minute ago";
+			} else if (diffHours < 1) {
 				girlUpdatedDate = diffMinutes + " Minutes ago";
+			} else if (diffHours < 2) {
+				girlUpdatedDate = diffHours + " Hour ago";
 			} else if (diffHours < 24) {
 				girlUpdatedDate = diffHours + " Hours ago";
 			}

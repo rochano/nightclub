@@ -238,6 +238,7 @@ public class AgentGirlInfoAction extends ActionSupport implements SessionAware {
 			this.girlInfo.setCreatedBy(userInfo.getUserInfoId());
 			this.girlInfo.setUpdatedDate(new Date());
 			this.girlInfo.setUpdatedBy(userInfo.getUserInfoId());
+			this.girlInfo.setAvailable(Boolean.TRUE.toString());
 			if(userInfo.getAgentInfoId() == null) {
 				AgentInfo agentInfo = new AgentInfo();
 				agentInfo.setAgentInfoId(UUID.randomUUID().toString().toUpperCase());

@@ -1,5 +1,6 @@
 package com.nightclub.view;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
@@ -201,7 +202,27 @@ public class UserInfoAction extends ActionSupport implements SessionAware {
 	    			userType = IConstants.USER_TYPE_CLIENT;
 	    		}
 	    		this.userInfo.setUserType(userType);
-	    		this.userInfo.setActive(Boolean.FALSE.toString());
+	    		this.userInfo.setActive(Boolean.TRUE.toString());
+	    		
+	    		Date currentDate = new Date();
+	    		// convert date to calendar
+	            Calendar c = Calendar.getInstance();
+	            c.setTime(currentDate);
+	            // manipulate date
+	            c.add(Calendar.DATE, -1);
+	            // convert calendar to date
+	            Date currentDateMinusOne = c.getTime();
+	            this.userInfo.setValidDateFrom(currentDateMinusOne);
+	            
+	            currentDate = new Date();
+	    		// convert date to calendar
+	            c = Calendar.getInstance();
+	            c.setTime(currentDate);
+	            // manipulate date
+	            c.add(Calendar.MONTH, 6);
+	            // convert calendar to date
+	            Date currentDatePlus6Months = c.getTime();
+	    		this.userInfo.setValidDateTo(currentDatePlus6Months);
 	    		this.userInfo = linkController.add(userInfo);
 	    		
 	    		addActionMessage("You have been successfully registered");

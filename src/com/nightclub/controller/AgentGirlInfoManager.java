@@ -39,6 +39,7 @@ public class AgentGirlInfoManager extends GirlInfoManager {
 			if(checkAvailable) {
 				sql += "and available = :available ";
 			}
+			sql += "order by createdDate ";
 			Query query = session.createQuery(sql);
 			query = query.setParameter("agentInfoId", agentInfoId);
 			if(checkAvailable) {
