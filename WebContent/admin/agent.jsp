@@ -373,7 +373,8 @@
 				'<input type="checkbox" name="check" value="<s:property value="userInfoId" />" />' +
 				'<label></label>' +
 			'</div>',
-			'<img class="image ui tiny centered" src="<s:property value="agentInfo.logoImg" />">',
+			<s:set name="logoImgW160" value="%{agentInfo.logoImg.replace('upload/', 'upload/w_160,c_scale/')}" />
+			'<img class="image ui tiny centered" src="<s:property value="logoImgW160" />">',
 			"<s:property value="username" />",
 			"<s:property value="agentInfo.agentName" />",
 			'<s:date name="validDateFrom" format="dd/MM/yyyy" />',

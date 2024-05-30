@@ -373,7 +373,8 @@
 				'<input type="checkbox" name="check" value="<s:property value="userInfoId" />" />' +
 				'<label></label>' +
 			'</div>',
-			'<img class="image ui tiny centered" src="<s:property value="freeAgentGirlInfo.pic1" />">',
+			<s:set name="pic1W160" value="%{freeAgentGirlInfo.pic1.replace('upload/', 'upload/w_160,c_scale/')}" />
+			'<img class="image ui tiny centered" src="<s:property value="pic1W160" />">',
 			"<s:property value="username" />",
 			"<s:date name="freeAgentGirlInfo.updatedDate" format="dd/MM/yyyy HH:mm:ss" />",
 			'<s:date name="validDateFrom" format="dd/MM/yyyy" />',

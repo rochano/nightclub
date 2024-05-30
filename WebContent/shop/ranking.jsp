@@ -12,7 +12,7 @@
   <%@include file="/common/common_shop_header.jsp" %>
   
   <!--- Example CSS -->
-  <!-- <link rel="stylesheet" type="text/css" href="../Semantic-UI-master/dist/semantic.min.css"> -->
+  <!-- <link rel="stylesheet" type="text/css" href="../Semantic-UI-master/dist/semantic.css"> -->
   <style>
   .ui.menu:last-child {
     margin-bottom: 110px;

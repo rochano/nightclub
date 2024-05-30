@@ -184,7 +184,7 @@
 											</select>
 										</s:if>
 										<s:else> --%>
-											<select name="frontSearch.categoryInfoId" id="frontSearch_categoryInfoId">
+											<select name="frontSearch.categoryInfoId" id="frontSearch_categoryInfoId" title="<s:text name="global.main_menu_service_shop" />">
 												<option value=""></option>
 												<s:iterator value="categoryInfos">
 													<option value="<s:property value="categoryInfoId" />"
@@ -318,8 +318,8 @@
 								</div>
 								<br />
 								<div class="field">
-									<label><s:text name="global.incall_outcall_specify" /></label>
-									<select name="frontSearch.incallOutcall" id="frontSearch_incallOutcall">
+									<label for="frontSearch_incallOutcall"><s:text name="global.incall_outcall_specify" /></label>
+									<select name="frontSearch.incallOutcall" id="frontSearch_incallOutcall" title="<s:text name="global.incall_outcall_specify" />">
 										<option value=""></option>
 										<option value="incall" <s:if test="frontSearch.incallOutcall == 'incall'">selected="selected"</s:if>><s:text name="global.incall" /></option>
 										<option value="outcall" <s:if test="frontSearch.incallOutcall == 'outcall'">selected="selected"</s:if>><s:text name="global.outcall" /></option>
@@ -358,7 +358,7 @@
 																	<s:if test="top == nationalityInfoId">checked="checked"</s:if>
 																</s:iterator>
 																value="<s:property value="nationalityInfoId" />">
-															<label for="nationalityInfoInfos_<s:property value="#rowstatus.count" />"><s:property value="nationalityNameEn" /></label>
+															<label for="nationalityInfos_<s:property value="#rowstatus.count" />"><s:property value="nationalityNameEn" /></label>
 														</div>
 													</div>
 												</s:iterator>

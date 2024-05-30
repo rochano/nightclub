@@ -211,7 +211,8 @@
 			"<s:date name="reserveDate" format="dd/MM/yyyy" />",
 			"<s:property value="reserveTime" />",
 			"<s:property value="clientName" />",
-			'<img class="image ui tiny centered" src="<s:property value="girlInfo.pic1" />">',
+			<s:set name="pic1W160" value="%{girlInfo.pic1.replace('upload/', 'upload/w_160,c_scale/')}" />
+			'<img class="image ui tiny centered" src="<s:property value="pic1W160" />">',
 			"<s:property value="girlInfo.nickName" />",
 			'<a href="<s:url value="/management_agent/reserve/info/%{reserveInfoId}"/>" class="ui icon button small green" ><i class="ui icon info"></i></a>'
     	]);

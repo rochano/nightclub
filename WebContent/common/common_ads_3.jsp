@@ -13,11 +13,11 @@
 					</s:if>
 					<s:if test="%{adsInfos[1].customUrl != ''}">
 						<a href="<s:property value="adsInfos[1].customUrl" />" target="_blank">
-							<img src="<s:property value="adsInfos[1].AdsImg2" />">
+							<img src="<s:property value="adsInfos[1].AdsImg2" />" alt="">
 						</a>
 					</s:if>
 					<s:else>
-						<img src="<s:property value="adsInfos[1].AdsImg2" />">
+						<img src="<s:property value="adsInfos[1].AdsImg2" />" alt="">
 					</s:else>
 				</div>
 			</s:if>

@@ -11,7 +11,7 @@
 					</div>
 				</div>
 			</s:if>
-	  		<s:if test="homeInfo.inform != ''">
+	  		<s:if test="homeInfo.inform.trim() != ''">
 	  			<div class="centered">
 	  				<s:text name="homeInfo.inform" />
 	  			</div>
@@ -52,9 +52,10 @@
 		<div class="ui centered grid menu-slide-image">
 	  		<div class="center aligned sixteen wide column slide-image">
 			  	<div class="single-item">
-			  		<s:iterator value="homeSlideImages" status="status">
-			  			<div><img class="ui image fluid centered" src="<s:property value="slideImg" />" /></div>
-			  		</s:iterator>
+			  		<%-- <s:iterator value="homeSlideImages" status="status">
+			  			<s:set name="slideImgH500" value="%{slideImg.replace('upload/', 'upload/h_500,c_scale/')}" />
+			  			<div><img class="ui image fluid centered" src="<s:property value="slideImgH500" />" alt="" /></div>
+			  		</s:iterator> --%>
 				</div>
 			</div>
 		</div>

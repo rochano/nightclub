@@ -1,6 +1,16 @@
   <%@taglib uri="/struts-tags" prefix="s" %>
   
-  <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/semantic.min.css"/>">
+  <%
+		String ua = request.getHeader( "User-Agent" );
+		boolean isFirefox = ( ua != null && ua.indexOf( "Firefox/" ) != -1 );
+		boolean isMSIE = ( ua != null && ua.indexOf( "MSIE" ) != -1 );
+		boolean isChrome = ( ua != null && ua.indexOf( "Chrome/" ) != -1 && ua.indexOf( "Safari/" ) != -1);
+		boolean isSafari = ( ua != null && ua.indexOf( "Chrome/" ) == -1 && ua.indexOf( "Safari/" ) != -1);
+		boolean isEdge = ( ua != null && ua.indexOf( "Edge/" ) == -1 && ua.indexOf( "Safari/" ) != -1);
+		boolean isMobile = ( ua != null && ua.indexOf( "Mobile/" ) != -1);
+	%>
+  
+  <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/semantic.css"/>">
   <%@include file="/common/common_include_header.jsp" %>
 
   
@@ -216,74 +226,88 @@
 
 			$(".loadMore").click(function() {
 				var this_ = $(this);
-				var userType = '<s:property value="userType" />';
-				var feedOffset = $('.ui.card', '.ui.cards').length;
-				this_.empty()
-				this_.text('...');
-				this_.attr("disabled","disabled");
-				$.getJSON("<s:url value="/ajax/loadMoreGirlInfos/" />" + feedOffset,
-					$("#searchForm").serialize(),
-					function(jsonResponse) {
-						$.each(jsonResponse.girlInfos, function(i, obj) {
-							var infoHtml = '';
-							infoHtml += '<div class="ui red card">';
-							infoHtml += '<div class="ui left red corner label girl-tag toggleGirlTag"';
-							infoHtml += '	data-variation="tiny">';
-							$.each(obj.girlTags, function(j, objGirlTag) {
-								infoHtml += '		<div class="ui ' + objGirlTag.primaryKey.girlTagInfo.color + ' circular label">';
-								infoHtml += '			' + objGirlTag.primaryKey.girlTagInfo.girlTagNameEn;
-								infoHtml += '			<br />';
-								infoHtml += '		</div>';
-							});
-							infoHtml += '</div>';
-							infoHtml += '<div class="image ui centered corner labeled pic" >';
-							infoHtml += '		<a href="' + getUrl('girl/' + obj.girlInfoId) + '">';
-							infoHtml += getPic(obj);
-							infoHtml += '		</a>';
-							if (obj.allSame == 'true') {
-								infoHtml += '<div class="ui right corner label green verified">';
-								infoHtml += '<i class="icon"><s:text name="global.all_same" /></i>';
-								infoHtml += '</div>';
-							}
-							infoHtml += '	</div>';
-							infoHtml += '	<div class="content left aligned label pink circular ui">';
-							infoHtml += '		<span class="right floated">';
-							infoHtml += getPrice(obj);
-							infoHtml += '		</span>';
-							infoHtml += '	</div>';
-							infoHtml += '	<div class="content left aligned">';
-							infoHtml += '		<a class="ui header " href="' + getUrl('girl/' + obj.girlInfoId) + '">' + obj.nickName + '</a>';
-							infoHtml += '		<div class="description">';
-							infoHtml += getCustomDescription(obj);
-							/* infoHtml += '			<i class="marker icon"></i>';
-							if (obj.countryInfo) {
-								infoHtml += '		' + obj.countryInfo.countryNameEn;
-							}
-							$.each(obj.girlProvinces, function(j, objProvince) {
-								infoHtml += '					<div class="ui medium label">';
-								infoHtml += objProvince.primaryKey.provinceInfo.provinceNameEn;
-								infoHtml += '					</div>';
-							}); */
-							infoHtml += '			<i class="flag awesome font icon"></i>';
-							if (obj.nationalityInfo) {
-								infoHtml += '		' + obj.nationalityInfo.nationalityNameEn;
-							} else {
-								infoHtml += '		-';
-							}
-							infoHtml += '		</div>';
-							infoHtml += '	</div>';
-							infoHtml += '</div>';
-							$('.ui.cards').append(infoHtml);
-						});
-						this_.empty()
-						this_.text('LOAD MORE');
-						this_.removeAttr("disabled");
-						$('.ui.sticky')
-						  .sticky('refresh')
-						;
-				});
-	    })
+				loadMore(this_);
+	    	})
+	    if ($(".inform").length > 0) {
+			if ($(".inform").text().trim() == "") {
+				$(".inform").empty();
+			}
+		}
+
+		extendsOnReady();
 	});
+
+	function loadMore(btn) {
+		btn.empty()
+		btn.text('...');
+  		btn.attr("disabled","disabled");
+	  	var userType = '<s:property value="userType" />';
+		var feedOffset = $('.ui.card', '.ui.cards').length;
+		$.getJSON("<s:url value="/ajax/loadMoreGirlInfos/" />" + feedOffset,
+			$("#searchForm").serialize(),
+			function(jsonResponse) {
+				$.each(jsonResponse.girlInfos, function(i, obj) {
+					var infoHtml = '';
+					infoHtml += '<div class="ui red card">';
+					infoHtml += '<div class="ui left red corner label girl-tag toggleGirlTag"';
+					infoHtml += '	data-variation="tiny">';
+					$.each(obj.girlTags, function(j, objGirlTag) {
+						infoHtml += '		<div class="ui ' + objGirlTag.primaryKey.girlTagInfo.color + ' circular label">';
+						infoHtml += '			' + objGirlTag.primaryKey.girlTagInfo.girlTagNameEn;
+						infoHtml += '			<br />';
+						infoHtml += '		</div>';
+					});
+					infoHtml += '</div>';
+					infoHtml += '<div class="image ui centered corner labeled pic" >';
+					infoHtml += '		<a href="' + getUrl('girl/' + obj.girlInfoId) + '">';
+					infoHtml += getPic(obj);
+					infoHtml += '		</a>';
+					if (obj.allSame == 'true') {
+						infoHtml += '<div class="ui right corner label green verified">';
+						infoHtml += '<i class="icon"><s:text name="global.all_same" /></i>';
+						infoHtml += '</div>';
+					}
+					infoHtml += '	</div>';
+					infoHtml += '	<div class="content left aligned label pink circular ui">';
+					infoHtml += '		<span class="right floated">';
+					infoHtml += getPrice(obj);
+					infoHtml += '		</span>';
+					infoHtml += '	</div>';
+					infoHtml += '	<div class="content left aligned">';
+					infoHtml += '		<a class="ui header " href="' + getUrl('girl/' + obj.girlInfoId) + '">' + obj.nickName + '</a>';
+					infoHtml += '		<div class="description">';
+					infoHtml += getCustomDescription(obj);
+					/* infoHtml += '			<i class="marker icon"></i>';
+					if (obj.countryInfo) {
+						infoHtml += '		' + obj.countryInfo.countryNameEn;
+					}
+					$.each(obj.girlProvinces, function(j, objProvince) {
+						infoHtml += '					<div class="ui medium label">';
+						infoHtml += objProvince.primaryKey.provinceInfo.provinceNameEn;
+						infoHtml += '					</div>';
+					}); */
+					infoHtml += '			<i class="flag awesome font icon"></i>';
+					if (obj.nationalityInfo) {
+						infoHtml += '		' + obj.nationalityInfo.nationalityNameEn;
+					} else {
+						infoHtml += '		-';
+					}
+					infoHtml += '		</div>';
+					infoHtml += '	</div>';
+					infoHtml += '</div>';
+					$('.ui.cards').append(infoHtml);
+				});
+				btn.empty()
+				btn.text('LOAD MORE');
+				btn.removeAttr("disabled");
+				$('.ui.sticky')
+				  .sticky('refresh')
+				;
+		});
+	}
+
+	function extendsOnReady() {}
+
   	function getUrl(uri) {
   	  	var host = '<s:url value="//"/>';
 		return host.substring(0, host.length-1) + uri;
@@ -297,7 +321,8 @@
 	}
 
 	function getImg(pic) {
-		return '<img class="image ui centered" src="' + pic + '">'
+		var picW160 = pic.replace('upload/', 'upload/w_160,c_scale/');
+		return '<img class="image ui centered" src="' + picW160 + '">'
 	}
 
 	function getPic(obj) {

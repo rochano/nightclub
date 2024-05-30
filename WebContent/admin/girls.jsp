@@ -553,7 +553,8 @@
 	</s:iterator>
 		dataSet.push(
 			['<s:property value="#status.count" />',
-			'<img class="image ui tiny centered" src="<s:property value="pic1" />">',
+			<s:set name="pic1W160" value="%{pic1.replace('upload/', 'upload/w_160,c_scale/')}" />
+			'<img class="image ui tiny centered" src="<s:property value="pic1W160" />">',
 			<s:if test="%{top instanceof com.nightclub.model.AgentGirlInfo}" >
 				"<s:property value="nickName" /><br/><s:property value="phone" />",
 			</s:if>

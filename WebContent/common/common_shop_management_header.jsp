@@ -1,7 +1,7 @@
   <%@taglib uri="/struts-tags" prefix="s" %>
 
   <%@include file="/common/common_include_header.jsp" %>
-  <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/semantic.min.css"/>">
+  <link rel="stylesheet" type="text/css" href="<s:url value="/Semantic-UI-master/dist/semantic.css"/>">
   
   
   <style>

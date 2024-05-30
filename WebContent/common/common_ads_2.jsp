@@ -11,11 +11,11 @@
 			</s:if>
 			<s:if test="%{adsInfos[0].customUrl != ''}">
 				<a href="<s:property value="adsInfos[0].customUrl" />" target="_blank">
-					<img src="<s:property value="adsInfos[0].AdsImg1" />">
+					<img src="<s:property value="adsInfos[0].AdsImg1" />" alt="">
 				</a>
 			</s:if>
 			<s:else>
-				<img src="<s:property value="adsInfos[0].AdsImg1" />">
+				<img src="<s:property value="adsInfos[0].AdsImg1" />" alt="">
 			</s:else>
 		</div>
 	</s:if>
@@ -47,11 +47,11 @@
 			</s:if>
 			<s:if test="%{adsInfos[1].customUrl != ''}">
 				<a href="<s:property value="adsInfos[1].customUrl" />" target="_blank">
-					<img src="<s:property value="adsInfos[1].AdsImg1" />">
+					<img src="<s:property value="adsInfos[1].AdsImg1" />" alt="">
 				</a>
 			</s:if>
 			<s:else>
-				<img src="<s:property value="adsInfos[1].AdsImg1" />">
+				<img src="<s:property value="adsInfos[1].AdsImg1" />" alt="">
 			</s:else>
 		</div>
 	</s:if>
@@ -83,11 +83,11 @@
 			</s:if>
 			<s:if test="%{adsInfos[2].customUrl != ''}">
 				<a href="<s:property value="adsInfos[2].customUrl" />" target="_blank">
-					<img src="<s:property value="adsInfos[2].AdsImg1" />">
+					<img src="<s:property value="adsInfos[2].AdsImg1" />" alt="">
 				</a>
 			</s:if>
 			<s:else>
-				<img src="<s:property value="adsInfos[2].AdsImg1" />">
+				<img src="<s:property value="adsInfos[2].AdsImg1" />" alt="">
 			</s:else>
 		</div>
 	</s:if>
@@ -119,11 +119,11 @@
 			</s:if>
 			<s:if test="%{adsInfos[1].customUrl != ''}">
 				<a href="<s:property value="adsInfos[3].customUrl" />" target="_blank">
-					<img src="<s:property value="adsInfos[3].AdsImg1" />">
+					<img src="<s:property value="adsInfos[3].AdsImg1" />" alt="">
 				</a>
 			</s:if>
 			<s:else>
-				<img src="<s:property value="adsInfos[3].AdsImg1" />">
+				<img src="<s:property value="adsInfos[3].AdsImg1" />" alt="">
 			</s:else>
 		</div>
 	</s:if>
@@ -155,11 +155,11 @@
 			</s:if>
 			<s:if test="%{adsInfos[4].customUrl != ''}">
 				<a href="<s:property value="adsInfos[4].customUrl" />" target="_blank">
-					<img src="<s:property value="adsInfos[4].AdsImg1" />">
+					<img src="<s:property value="adsInfos[4].AdsImg1" />" alt="">
 				</a>
 			</s:if>
 			<s:else>
-				<img src="<s:property value="adsInfos[4].AdsImg1" />">
+				<img src="<s:property value="adsInfos[4].AdsImg1" />" alt="">
 			</s:else>
 		</div>
 	</s:if>

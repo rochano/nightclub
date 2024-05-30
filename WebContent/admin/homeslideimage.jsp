@@ -250,7 +250,8 @@
 						  		<div class="center aligned column ">
 								  	<div class="single-item">
 								  		<s:iterator value="homeSlideImages" status="status">
-								  		<div><img class="ui image fluid centered" src="<s:property value="slideImg" />" /></div>
+								  		<s:set name="slideImgH500" value="%{slideImg.replace('upload/', 'upload/h_500,c_scale/')}" />
+								  		<div><img class="ui image fluid centered" src="<s:property value="slideImgH500" />" /></div>
 								  		</s:iterator>
 									</div>
 								</div>

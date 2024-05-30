@@ -114,6 +114,49 @@
 		infoHtml += '		<br/>';
 		return infoHtml;
 	}
+  	slideImages = []
+  	slideImagesLoadCompleted = []
+  	slideImagesLoadCompletedCount = 0
+  	function extendsOnReady() {
+  		var btn = $(".loadMore");
+  		loadMore(btn);
+
+  		slideImages = []
+  		<s:iterator value="homeSlideImages" status="status">
+			<s:set name="slideImgH500" value="%{slideImg.replace('upload/', 'upload/h_500,c_scale/')}" />
+			slideImages.push("<s:property value="slideImgH500" />")
+		</s:iterator>
+
+		slideImagesLoadCompleted = []
+		for(i = 0; i<slideImages.length; i++) {
+			slideImageUrl = slideImages[i]
+			slideImg = new Image();
+			slideImg.crossOrigin = "anonymous";
+			slideImg.addEventListener("load", imageReceived, false);
+			slideImg.alt = "";
+			slideImg.src = slideImageUrl;
+			slideImg.setAttribute("class", "ui image fluid centered")
+			slideImagesLoadCompleted.push(slideImg)
+		}
+	}
+
+	function imageReceived() {
+		slideImagesLoadCompletedCount += 1
+		if (slideImagesLoadCompletedCount == slideImages.length) {
+			$('.single-item').html("");
+		    $(slideImagesLoadCompleted).each(function(i, item) {
+			    var div = document.createElement("div");
+		    	$('.single-item').append(div)
+		   		$('.single-item > div:last').append(item);
+		     });
+			$('.single-item').slick('destroy');
+			$('.single-item').slick({
+		    	  autoplay: true,
+		    	  autoplaySpeed: 3000,
+		    	  arrows: true
+	    	});
+		}
+	}
   </script>
   <!--- Example Javascript -->
 </head>
@@ -147,7 +190,7 @@
 							</s:iterator>
 							</div>
 							<div class="ui centered four doubling cards ">
-							<s:if test="%{girlInfos.size gte 0}">
+							<%-- <s:if test="%{girlInfos.size gte 0}">
 								<s:iterator value="girlInfos" status="status">
 									<div class="ui red card">
 										<div class="ui left red corner label girl-tag"
@@ -167,22 +210,27 @@
 											</s:if>
 											<a href="<s:url value="/girl/%{girlInfoId}"/>" >
 												<s:if test="pic1 != null && pic1 != ''">
-													<img class="image ui centered" src="<s:property value="pic1" />">
+													<s:set name="pic1W160" value="%{pic1.replace('upload/', 'upload/w_160,c_scale/')}" />
+													<img class="image ui centered" src="<s:property value="pic1W160" />" alt="">
 												</s:if>
 												<s:elseif test="pic2 != null && pic2 != ''">
-													<img class="image ui centered" src="<s:property value="pic2" />">
+													<s:set name="pic2W160" value="%{pic2.replace('upload/', 'upload/w_160,c_scale/')}" />
+													<img class="image ui centered" src="<s:property value="pic2W160" />" alt="">
 												</s:elseif>
 												<s:elseif test="pic3 != null && pic3 != ''">
-													<img class="image ui centered" src="<s:property value="pic3" />">
+													<s:set name="pic3W160" value="%{pic3.replace('upload/', 'upload/w_160,c_scale/')}" />
+													<img class="image ui centered" src="<s:property value="pic3W160" />" alt="">
 												</s:elseif>
 												<s:elseif test="pic4 != null && pic4 != ''">
-													<img class="image ui centered" src="<s:property value="pic4" />">
+													<s:set name="pic4W160" value="%{pic4.replace('upload/', 'upload/w_160,c_scale/')}" />
+													<img class="image ui centered" src="<s:property value="pic4W160" />" alt="">
 												</s:elseif>
 												<s:elseif test="pic5 != null && pic5 != ''">
-													<img class="image ui centered" src="<s:property value="pic5" />">
+													<s:set name="pic5W160" value="%{pic5.replace('upload/', 'upload/w_160,c_scale/')}" />
+													<img class="image ui centered" src="<s:property value="pic5W160" />" alt="">
 												</s:elseif>
 												<s:else>
-													<img class="image ui centered" src="<s:url value="/assets/images/wireframe/square-image.png" />">
+													<img class="image ui centered" src="<s:url value="/assets/images/wireframe/square-image.png" />" alt="">
 												</s:else>
 											</a>
 										</div>
@@ -265,13 +313,13 @@
 											<div class="description">
 												<s:property value="agentInfo.agentName" />
 												<br/>
-												<%-- <i class="marker icon"></i>
+												<i class="marker icon"></i>
 												<s:property value="countryInfo.countryNameEn" />
 												<s:iterator value="girlProvinces" >
 													<div class="ui medium label">
 														<s:property value="primaryKey.provinceInfo.provinceNameEn" />
 													</div>
-												</s:iterator> --%>
+												</s:iterator>
 												<i class="flag awesome font icon"></i>
 												<s:if test="nationalityInfo.nationalityNameEn != null && nationalityInfo.nationalityNameEn != ''">
 													<s:property value="nationalityInfo.nationalityNameEn" />
@@ -283,7 +331,7 @@
 										</div>
 									</div>
 								</s:iterator>
-							</s:if>
+							</s:if> --%>
 							<s:if test="%{girlInfos.size eq 0}">
 								<s:text name="global.no_data" />
 							</s:if>
