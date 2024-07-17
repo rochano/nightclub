@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
+import com.nightclub.common.IConstants;
 import com.nightclub.controller.AdsInfoManager;
 import com.nightclub.controller.AgentGirlInfoManager;
 import com.nightclub.controller.AgentInfoManager;
@@ -34,6 +35,8 @@ import com.nightclub.controller.ProvinceInfoManager;
 import com.nightclub.controller.StatisticGirlInfoManager;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
+import com.nightclub.exception.CustomException;
+import com.nightclub.exception.IExceptionConstants;
 import com.nightclub.model.AdsInfo;
 import com.nightclub.model.AgentGirlInfo;
 import com.nightclub.model.AgentInfo;
@@ -163,7 +166,13 @@ public class FrontEndAction extends CommonAction {
 	}
 	
 	public String execute() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 
 		this.categoryInfos = categoryInfoManager.list();
 		this.homeSlideImages = homeSlideImageManager.list();
@@ -203,7 +212,13 @@ public class FrontEndAction extends CommonAction {
 	}
 	
 	public String newsInfo() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		
 		this.categoryInfos = categoryInfoManager.list();
 		this.homeSlideImages = homeSlideImageManager.list();
@@ -213,7 +228,13 @@ public class FrontEndAction extends CommonAction {
 	}
 	
 	public String shoplistfilter() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		
 		this.categoryInfos = categoryInfoManager.list();
 		this.homeSlideImages = homeSlideImageManager.list();
@@ -227,7 +248,13 @@ public class FrontEndAction extends CommonAction {
 	}
 	
 	public String agentInfo() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		
 		this.categoryInfos = categoryInfoManager.list();
 		this.homeSlideImages = homeSlideImageManager.list();
@@ -252,7 +279,13 @@ public class FrontEndAction extends CommonAction {
 	}
 	
 	public String freeagentInfo() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		
 		this.categoryInfos = categoryInfoManager.list();
 		this.homeSlideImages = homeSlideImageManager.list();
@@ -304,7 +337,13 @@ public class FrontEndAction extends CommonAction {
 	}
 	
 	public String engirlInfo() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		
 		this.categoryInfos = categoryInfoManager.list();
 		this.homeSlideImages = homeSlideImageManager.list();
@@ -328,7 +367,13 @@ public class FrontEndAction extends CommonAction {
 	}
 	
 	public String favourite() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		
 		this.categoryInfos = categoryInfoManager.list();
 		this.homeSlideImages = homeSlideImageManager.list();
@@ -343,7 +388,13 @@ public class FrontEndAction extends CommonAction {
 		if ("addGirlComment".equals(getAction())) {
 			addGirlComment();
 		}
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		StatisticGirlInfoPK statisticGirlInfoPK = new StatisticGirlInfoPK(getIpAddress(), getAccessDt(), girlInfoId);
 		StatisticGirlInfo statisticGirlInfo = statisticGirlInfoManager.getStatisticGirlInfo(statisticGirlInfoPK);
 		
@@ -464,7 +515,13 @@ public class FrontEndAction extends CommonAction {
 	}
 	
 	public String search() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		
 		this.categoryInfos = categoryInfoManager.list();
 		this.homeSlideImages = homeSlideImageManager.list();
@@ -490,7 +547,13 @@ public class FrontEndAction extends CommonAction {
 	}
 	
 	public String location() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		
 		this.categoryInfos = categoryInfoManager.list();
 		this.homeSlideImages = homeSlideImageManager.list();
@@ -500,7 +563,13 @@ public class FrontEndAction extends CommonAction {
 	}
 	
 	public String howtouse() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		
 		this.categoryInfos = categoryInfoManager.list();
 		this.homeSlideImages = homeSlideImageManager.list();
@@ -510,7 +579,13 @@ public class FrontEndAction extends CommonAction {
 	}
 	
 	public String contact() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		
 		this.categoryInfos = categoryInfoManager.list();
 		this.homeSlideImages = homeSlideImageManager.list();
@@ -822,7 +897,13 @@ public class FrontEndAction extends CommonAction {
 //	}
 
 	public String booking() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 
 		this.categoryInfos = categoryInfoManager.list();
 		this.homeSlideImages = homeSlideImageManager.list();
@@ -894,6 +975,10 @@ public class FrontEndAction extends CommonAction {
 			e.printStackTrace();
 		}
 		return INPUT;
+	}
+	
+	public String accessdenied() {
+		return SUCCESS;
 	}
 
 	public List<CategoryInfo> getCategoryInfos() {

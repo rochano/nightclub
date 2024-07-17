@@ -53,24 +53,28 @@
 			class="com.nightclub.view.FrontEndAction" method="execute">
 			<param name="countryInfoIdThai">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
 			<result name="success">/home.jsp</result>
+			<result name="accessdenied" type="redirect">/accessdenied</result>
 		</action>
 		
 		<action name="news/*"
 			class="com.nightclub.view.FrontEndAction" method="newsInfo">
 			<param name="newsInfoId">{1}</param>
 			<result name="success">/news.jsp</result>
+			<result name="accessdenied" type="redirect">/accessdenied</result>
 		</action>
 		
 		<action name="shoplist"
 			class="com.nightclub.view.FrontEndAction" method="shoplistfilter">
 			<param name="categoryInfoId">1</param>
 			<result name="success">/shoplist.jsp</result>
+			<result name="accessdenied" type="redirect">/accessdenied</result>
 		</action>
 		
 		<action name="shoplist/*/*"
 			class="com.nightclub.view.FrontEndAction" method="shoplistfilter">
 			<param name="categoryInfoId">{1}</param>
 			<result name="success">/shoplist.jsp</result>
+			<result name="accessdenied" type="redirect">/accessdenied</result>
 		</action>
 		
 		<action name="upload/*/images/*"
@@ -121,68 +125,86 @@
 		<action name="agents"
 			class="com.nightclub.view.FrontEndAction" method="agentInfo">
 			<result name="success">/agents.jsp</result>
+			<result name="accessdenied" type="redirect">/accessdenied</result>
 		</action>
 		
 		<action name="agents/*"
 			class="com.nightclub.view.FrontEndAction" method="agentInfo">
 			<param name="agentInfoId">{1}</param>
 			<result name="success">/agents.jsp</result>
+			<result name="accessdenied" type="redirect">/accessdenied</result>
 		</action>
 		
 		<action name="freeagents"
 			class="com.nightclub.view.FrontEndAction" method="freeagentInfo">
 			<result name="success">/freeagents.jsp</result>
+			<result name="accessdenied" type="redirect">/accessdenied</result>
 		</action>
 		
 		<action name="engirls"
 			class="com.nightclub.view.FrontEndAction" method="engirlInfo">
 			<result name="success">/engirl.jsp</result>
+			<result name="accessdenied" type="redirect">/accessdenied</result>
 		</action>
 		
 		<action name="girl/*"
 			class="com.nightclub.view.FrontEndAction" method="girlInfo">
 			<param name="girlInfoId">{1}</param>
 			<result name="success">/girl.jsp</result>
+			<result name="accessdenied" type="redirect">/accessdenied</result>
 		</action>
 		
 		<action name="girl/*/booking"
 			class="com.nightclub.view.FrontEndAction" method="booking">
 			<param name="girlInfoId">{1}</param>
 			<result name="success">/booking.jsp</result>
+			<result name="accessdenied" type="redirect">/accessdenied</result>
 		</action>
 		
 		<action name="girl/*/bookingadd"
 			class="com.nightclub.view.FrontEndAction" method="bookingadd">
 			<result name="success" type="redirect">/girl/{1}</result>
 			<result name="input">/girl/{1}/booking</result>
+			<result name="accessdenied" type="redirect">/accessdenied</result>
 		</action>
 		
 		<action name="search"
 			class="com.nightclub.view.FrontEndAction" method="search">
 			<param name="countryInfoIdThai">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
 			<result name="success">/search.jsp</result>
+			<result name="accessdenied" type="redirect">/accessdenied</result>
 		</action>
 		
 		<action name="search/*"
 			class="com.nightclub.view.FrontEndAction" method="location">
 			<param name="zoneInfoId">{1}</param>
 			<result name="success">/locations.jsp</result>
+			<result name="accessdenied" type="redirect">/accessdenied</result>
 		</action>
 		
 		<action name="howtouse/*"
 			class="com.nightclub.view.FrontEndAction" method="howtouse">
 			<result name="success">/how_to_use.jsp</result>
+			<result name="accessdenied" type="redirect">/accessdenied</result>
 		</action>
 		
 		<action name="contact/*"
 			class="com.nightclub.view.FrontEndAction" method="contact">
 			<result name="success">/contact.jsp</result>
+			<result name="accessdenied" type="redirect">/accessdenied</result>
 		</action>
 		
 		<action name="favourite"
 			class="com.nightclub.view.FrontEndAction" method="favourite">
 			<result name="success">/favourite.jsp</result>
+			<result name="accessdenied" type="redirect">/accessdenied</result>
 		</action>
+		
+		<action name="accessdenied"
+			class="com.nightclub.view.FrontEndAction" method="accessdenied">
+			<result name="success">/access_denied.jsp</result>
+		</action>
+		
 	</package>
 	
 	<package name="ajax" extends="json-default" namespace="/ajax" >

@@ -18,4 +18,7 @@ public class IConstants {
 	public static String USER_TYPE_EN_GIRL = "5";
 	/** user type : 6 FREE AGENT + EN */
 	public static String USER_TYPE_INDEPENDENT = "6";
+	
+	/** action type : ACCESS DENIED */
+	public static String ACTION_ACCESS_DENIED = "accessdenied";
 }

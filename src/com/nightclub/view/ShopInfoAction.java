@@ -7,12 +7,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.nightclub.common.IConstants;
 import com.nightclub.controller.BasicInfoManager;
 import com.nightclub.controller.EventInfoManager;
 import com.nightclub.controller.MapInfoManager;
 import com.nightclub.controller.ScheduleInfoManager;
 import com.nightclub.controller.ShopGirlInfoManager;
 import com.nightclub.controller.SystemInfoManager;
+import com.nightclub.exception.CustomException;
+import com.nightclub.exception.IExceptionConstants;
 import com.nightclub.model.BasicInfo;
 import com.nightclub.model.EventInfo;
 import com.nightclub.model.GirlInfo;
@@ -74,7 +77,13 @@ public class ShopInfoAction extends CommonAction {
 	}
 	
 	public String execute() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
 		this.eventInfos = eventInfoManager.list(shop.getShopInfoId());
 		
@@ -82,7 +91,13 @@ public class ShopInfoAction extends CommonAction {
 	}
 	
 	public String girls() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
 		this.girlInfos = girlInfoManager.list(shop.getShopInfoId());
 		
@@ -90,7 +105,13 @@ public class ShopInfoAction extends CommonAction {
 	}
 	
 	public String girlInfo() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
 		this.girlInfo = (ShopGirlInfo) girlInfoManager.getGirlInfo(getGirlInfoId());
 //		this.scheduleInfo = scheduleInfoManager.getSchduleInfoByGirlInfoId(girlInfo.getGirlInfoId());
@@ -127,7 +148,13 @@ public class ShopInfoAction extends CommonAction {
 	}
 	
 	public String newface() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
 		
 		// previous month
@@ -142,7 +169,13 @@ public class ShopInfoAction extends CommonAction {
 	}
 	
 	public String ranking() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
 		this.hmRanking = new HashMap<String, List<GirlInfo>>();
 		this.hmRanking.put("ranking", girlInfoManager.rankingList(shop.getShopInfoId()));
@@ -154,7 +187,13 @@ public class ShopInfoAction extends CommonAction {
 	}
 	
 	public String todayworking() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
 		
 		// day of week
@@ -170,7 +209,13 @@ public class ShopInfoAction extends CommonAction {
 	}
 	
 	public String system() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
 		this.systemInfo = systemInfoManager.getSystemInfo(shop.getShopInfoId());
 		if(this.systemInfo == null) {
@@ -181,7 +226,13 @@ public class ShopInfoAction extends CommonAction {
 	}
 	
 	public String map() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
 		this.mapInfo = mapInfoManager.getMapInfo(shop.getShopInfoId());
 		
@@ -189,7 +240,13 @@ public class ShopInfoAction extends CommonAction {
 	}
 	
 	public String eventInfo() {
-		getStatisticInfo();
+		try {
+			getStatisticInfo();
+		} catch (CustomException ex) {
+			if (IExceptionConstants.ACCESS_DENIED.equals(ex.getCode())) {
+				return IConstants.ACTION_ACCESS_DENIED;
+			}
+		}
 		this.shop = basicInfoManager.getBasicInfoById(getShopInfoId());
 		this.eventInfo = eventInfoManager.getEventInfo(getEventInfoId());
 		

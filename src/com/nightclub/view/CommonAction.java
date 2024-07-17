@@ -2,7 +2,6 @@ package com.nightclub.view;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,8 +15,9 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.nightclub.controller.ClientInfoManager;
-import com.nightclub.controller.GirlFavouriteManager;
 import com.nightclub.controller.StatisticInfoManager;
+import com.nightclub.exception.CustomException;
+import com.nightclub.exception.IExceptionConstants;
 import com.nightclub.model.ClientInfo;
 import com.nightclub.model.StatisticInfo;
 import com.nightclub.model.StatisticInfoPK;
@@ -44,7 +44,7 @@ public class CommonAction extends ActionSupport implements ServletRequestAware, 
 		clientInfoManager = new ClientInfoManager();
 	}
 
-	protected void getStatisticInfo() {
+	protected void getStatisticInfo() throws CustomException {
 		String ipaddress = getServletRequest().getHeader("X-FORWARDED-FOR");
 		log_.info("ipaddress 1>> " + ipaddress);
 		if (ipaddress == null) {  
@@ -63,8 +63,12 @@ public class CommonAction extends ActionSupport implements ServletRequestAware, 
 
 		StatisticInfoPK statisticInfoPK = new StatisticInfoPK(ipaddress, accessDt);
 		StatisticInfo statisticInfo = statisticInfoManager.getStatisticInfo(statisticInfoPK);
-		
+
 		if(statisticInfo != null) {
+			if (statisticInfo.getHit() >= 500) {
+				throw new CustomException(IExceptionConstants.ACCESS_DENIED);
+			}
+
 			statisticInfo.setHit(statisticInfo.getHit() + 1);
 			statisticInfo.setOnline(online);
 			statisticInfoManager.update(statisticInfo);
@@ -75,7 +79,7 @@ public class CommonAction extends ActionSupport implements ServletRequestAware, 
 			statisticInfo.setOnline(online);
 			statisticInfoManager.add(statisticInfo);
 		}
-		
+
 		this.statisticModel = new StatisticModel();
 		
 		// yesterday view

@@ -68,10 +68,15 @@ public class FileSystemAction extends ActionSupport implements SessionAware, Ser
 	    
 	    this.log_.info("new MimetypesFileTypeMap().getContentType(file) >> " + fileModel.getContentType());
 	    this.log_.info("file.getName() >> " + getFileName());
-	    
+
 	    setImageInBytes(fileModel.getImageInBytes());
 	    setContentType(fileModel.getContentType());
 	    setContentDisposition(fileModel.getFileName());
+	    
+	    if (!fileModel.getContentType().contains("image") && !fileModel.getContentType().contains("video")) {
+	    	this.sessionMap.remove(getFileName());
+	    	setImageInBytes(new byte[0]);
+	    }
 	    
 	    return SUCCESS;
 	}
