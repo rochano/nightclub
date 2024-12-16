@@ -2,11 +2,15 @@ package com.nightclub.view;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -29,12 +33,15 @@ import com.nightclub.controller.HomeInfoManager;
 import com.nightclub.controller.HomeSlideImageManager;
 import com.nightclub.controller.NationalityInfoManager;
 import com.nightclub.controller.ProvinceInfoManager;
+import com.nightclub.controller.StatisticInfoManager;
 import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.model.AdminSearch;
+import com.nightclub.model.AgentGirlInfo;
 import com.nightclub.model.AgentInfo;
 import com.nightclub.model.CategoryInfo;
 import com.nightclub.model.CountryInfo;
+import com.nightclub.model.FreeAgentGirlInfo;
 import com.nightclub.model.FrontSearch;
 import com.nightclub.model.GenderInfo;
 import com.nightclub.model.GirlComment;
@@ -50,6 +57,7 @@ import com.nightclub.model.HomeInfo;
 import com.nightclub.model.HomeSlideImage;
 import com.nightclub.model.NationalityInfo;
 import com.nightclub.model.ProvinceInfo;
+import com.nightclub.model.StatisticInfo;
 import com.nightclub.model.UserInfo;
 import com.nightclub.model.ZoneInfo;
 import com.nightclub.util.UploadFileUtils;
@@ -93,6 +101,10 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private List<GirlTagInfo> girlTagInfos;
 	private List<String> girlTagList;
 	private AgentInfo agentInfo;
+	private String statisticsAccessDateList;
+	private String statisticsViewList;
+	private String statisticsCreatedCountAgentGirlList;
+	private String statisticsCreatedCountIndependentGirlList;
 
 	private HomeInfoManager homeInfoManager;
 	private HomeSlideImageManager homeSlideImageManager;
@@ -110,6 +122,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 	private GirlCommentManager girlCommentManager;
 	private GirlTagInfoManager girlTagInfoManager;
 	private AgentGirlInfoManager agentGirlInfoManager;
+	private StatisticInfoManager statisticInfoManager;
 
 	public AdminInfoAction() {
 		homeInfoManager = new HomeInfoManager();
@@ -128,6 +141,7 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		girlCommentManager = new GirlCommentManager();
 		girlTagInfoManager = new GirlTagInfoManager();
 		agentGirlInfoManager = new AgentGirlInfoManager();
+		statisticInfoManager = new StatisticInfoManager();
 	}
 	
 	public String execute() {
@@ -750,6 +764,98 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		return SUCCESS;
 	}
 	
+	public String statistics() {
+		Date endDate = new Date();
+		String sEndDate = new SimpleDateFormat("yyyyMMdd").format(endDate);
+		int iRangeDateCount = 365;
+		Calendar calStartDt = Calendar.getInstance();
+		calStartDt.add(Calendar.DATE, -iRangeDateCount);
+		String sStartDt = new SimpleDateFormat("yyyyMMdd", Locale.US).format(calStartDt.getTime());
+		List<StatisticInfo> statisticsList = statisticInfoManager.getStatisticInfosByRange(sStartDt, sEndDate);
+		Iterator it = statisticsList.iterator();
+		Map<String, Integer> accessViewMap = new LinkedHashMap();
+		while (it.hasNext()) {
+			StatisticInfo statisticInfo = (StatisticInfo) it.next();
+			if (!accessViewMap.containsKey(statisticInfo.getStatisticInfoPK().getAccessDt())) {
+				accessViewMap.put(statisticInfo.getStatisticInfoPK().getAccessDt(), 0);
+			}
+			int accessView = accessViewMap.get(statisticInfo.getStatisticInfoPK().getAccessDt());
+			accessView += 1;
+			accessViewMap.put(statisticInfo.getStatisticInfoPK().getAccessDt(), accessView);
+		}
+
+		List<GirlInfo> girlInfoList = girlInfoManager.getStatisticsCreatedGirlsByRange(calStartDt.getTime(), endDate);
+		Iterator itGirlInfo = girlInfoList.iterator();
+		Map<String, Integer> agentGirlInfoMap = new LinkedHashMap();
+		Map<String, Integer> independentGirlInfoMap = new LinkedHashMap();
+		while (itGirlInfo.hasNext()) {
+			GirlInfo girlInfo = (GirlInfo) itGirlInfo.next();
+			String sCreatedDate = new SimpleDateFormat("yyyyMMdd").format(girlInfo.getCreatedDate());
+			if (girlInfo instanceof AgentGirlInfo) {
+				if (!agentGirlInfoMap.containsKey(sCreatedDate)) {
+					agentGirlInfoMap.put(sCreatedDate, 0);
+				}
+				int createdCount = agentGirlInfoMap.get(sCreatedDate);
+				createdCount += 1;
+				agentGirlInfoMap.put(sCreatedDate, createdCount);
+
+			} else if (girlInfo instanceof FreeAgentGirlInfo) {
+				if (!independentGirlInfoMap.containsKey(sCreatedDate)) {
+					independentGirlInfoMap.put(sCreatedDate, 0);
+				}
+				int createdCount = independentGirlInfoMap.get(sCreatedDate);
+				createdCount += 1;
+				independentGirlInfoMap.put(sCreatedDate, createdCount);
+			}
+		}
+
+		Calendar calCurrentDt = Calendar.getInstance();
+		calCurrentDt.setTime(calStartDt.getTime());
+		String currentDt = new SimpleDateFormat("yyyyMMdd", Locale.US).format(calCurrentDt.getTime());
+		statisticsAccessDateList = "";
+		statisticsViewList = "";
+		statisticsCreatedCountAgentGirlList = "";
+		statisticsCreatedCountIndependentGirlList = "";
+		for(int i = 0; i < iRangeDateCount; i++) {
+			String totalView = "0";
+			String createdAgentGirlCount = "0";
+			String createdIndependentGirlCount = "0";
+			
+			if (statisticsAccessDateList != "")
+				statisticsAccessDateList += ", ";
+			statisticsAccessDateList += "'" + currentDt + "'";
+			
+			// Access View
+			if (accessViewMap.containsKey(currentDt)) {
+				totalView = accessViewMap.get(currentDt).toString();
+			}
+			if (statisticsViewList != "")
+				statisticsViewList += ", ";
+			statisticsViewList += totalView;
+			
+			// Created Agent Girl
+			if (agentGirlInfoMap.containsKey(currentDt)) {
+				createdAgentGirlCount = agentGirlInfoMap.get(currentDt).toString();
+			}
+			if (statisticsCreatedCountAgentGirlList != "")
+				statisticsCreatedCountAgentGirlList += ", ";
+			statisticsCreatedCountAgentGirlList += createdAgentGirlCount;
+			
+			// Created Indepentdent
+			if (independentGirlInfoMap.containsKey(currentDt)) {
+				createdIndependentGirlCount = independentGirlInfoMap.get(currentDt).toString();
+			}
+			if (statisticsCreatedCountIndependentGirlList != "")
+				statisticsCreatedCountIndependentGirlList += ", ";
+			statisticsCreatedCountIndependentGirlList += createdIndependentGirlCount;
+			
+			calCurrentDt.add(Calendar.DATE, 1);
+			currentDt = new SimpleDateFormat("yyyyMMdd", Locale.US).format(calCurrentDt.getTime());
+		}
+
+		return SUCCESS;
+	}
+	
 	public String getMenu() {
 		return menu;
 	}
@@ -1019,5 +1125,37 @@ public class AdminInfoAction extends ActionSupport implements SessionAware {
 		this.agentInfo = agentInfo;
 	}
 
+	public String getStatisticsAccessDateList() {
+		return statisticsAccessDateList;
+	}
 
+	public void setStatisticsAccessDateList(String statisticsAccessDateList) {
+		this.statisticsAccessDateList = statisticsAccessDateList;
+	}
+
+	public String getStatisticsViewList() {
+		return statisticsViewList;
+	}
+
+	public void setStatisticsViewList(String statisticsViewList) {
+		this.statisticsViewList = statisticsViewList;
+	}
+
+	public String getStatisticsCreatedCountAgentGirlList() {
+		return statisticsCreatedCountAgentGirlList;
+	}
+
+	public void setStatisticsCreatedCountAgentGirlList(
+			String statisticsCreatedCountAgentGirlList) {
+		this.statisticsCreatedCountAgentGirlList = statisticsCreatedCountAgentGirlList;
+	}
+
+	public String getStatisticsCreatedCountIndependentGirlList() {
+		return statisticsCreatedCountIndependentGirlList;
+	}
+
+	public void setStatisticsCreatedCountIndependentGirlList(
+			String statisticsCreatedCountIndependentGirlList) {
+		this.statisticsCreatedCountIndependentGirlList = statisticsCreatedCountIndependentGirlList;
+	}
 }

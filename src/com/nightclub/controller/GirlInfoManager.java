@@ -29,6 +29,7 @@ import com.nightclub.model.GirlServiceInfo;
 import com.nightclub.model.GirlTag;
 import com.nightclub.model.GirlTagId;
 import com.nightclub.model.GirlTagInfo;
+import com.nightclub.model.StatisticInfo;
 import com.nightclub.model.UserInfo;
 
 public class GirlInfoManager extends HibernateUtil {
@@ -1216,5 +1217,34 @@ public class GirlInfoManager extends HibernateUtil {
 			session.getTransaction().rollback();
 		}
 		session.getTransaction().commit();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<GirlInfo> getStatisticsCreatedGirlsByRange(Date startDt, Date endDt) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<GirlInfo> girlInfos = new ArrayList();
+		try {
+			String sql = "";
+			GirlInfo girlInfo;
+			Query query;
+			List<GirlInfo> girlInfoList;
+
+			sql = "select girlInfo from GirlInfo girlInfo, UserInfo userInfo ";
+			sql += "where ((DTYPE = 'AgentGirlInfo' and girlInfo.agentInfoId = userInfo.agentInfoId) ";
+			sql += "or (DTYPE = 'FreeAgentGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId) ";
+			sql += "or (DTYPE = 'EnGirlInfo' and girlInfo.girlInfoId = userInfo.girlInfoId)) ";
+			sql += "and girlInfo.createdDate >= :startDt and girlInfo.createdDate <= :endDt ";
+			query = session.createQuery(sql.toString());
+			query = query.setParameter("startDt", startDt);
+			query = query.setParameter("endDt", endDt);
+			girlInfoList = (List<GirlInfo>)query.list();
+			girlInfos.addAll(girlInfoList);
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		return girlInfos;
 	}
 }

@@ -102,5 +102,32 @@ public class StatisticInfoManager extends HibernateUtil  {
 		
 		return statisticInfos;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<StatisticInfo> getStatisticInfosByRange(String startDt, String endDt) {
+
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		List<StatisticInfo> statisticInfos = null;
+		try {
+			
+			statisticInfos = (List<StatisticInfo>)session
+					.createQuery("from StatisticInfo where statisticInfoPK.accessDt >= :startDt and statisticInfoPK.accessDt <= :endDt)")
+					.setParameter("startDt", startDt)
+					.setParameter("endDt", endDt)
+					.list();
+			
+			if(statisticInfos == null) {
+				statisticInfos = new ArrayList<StatisticInfo>();
+			}
+			
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		session.getTransaction().commit();
+		
+		return statisticInfos;
+	}
 
 }

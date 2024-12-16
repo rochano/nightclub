@@ -1816,6 +1816,14 @@
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/girl_tag.jsp</result>
 		</action>
+		
+		<action name="statistics"
+			class="com.nightclub.view.AdminInfoAction" method="statistics">
+			<param name="menu">statistics</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/statistics.jsp</result>
+		</action>
 	</package>
 
 	<package name="api" extends="rest-default" namespace="/api" >

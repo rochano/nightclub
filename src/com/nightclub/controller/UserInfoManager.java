@@ -312,6 +312,9 @@ public class UserInfoManager extends HibernateUtil {
 			if(!search.getNickName().isEmpty()) {
 				sql.append("and freeAgentGirlInfo.nickName like :nickName ");
 			}
+			if(!search.getNewButNotUpdateProfileFlg().isEmpty()) {
+				sql.append("and girlInfoId is NULL ");
+			}
 			Query query = session.createQuery(sql.toString());
 			query.setParameter("userType", userType);
 			query.setParameter("deleteFlg", Boolean.FALSE.toString().toLowerCase());
@@ -416,6 +419,9 @@ public class UserInfoManager extends HibernateUtil {
 			}
 			if(!search.getNickName().isEmpty()) {
 				sql.append("and freeAgentGirlInfo.nickName like :nickName ");
+			}
+			if(search.getNewButNotUpdateProfileFlg()!= null && !search.getNewButNotUpdateProfileFlg().isEmpty()) {
+				sql.append("and girlInfoId is NULL ");
 			}
 			Query query = session.createQuery(sql.toString());
 			query.setParameterList("userType", listUserType.toArray());

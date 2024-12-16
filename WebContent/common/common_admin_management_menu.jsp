@@ -1,5 +1,6 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('index')}">active</s:if>" href="<s:url value="/admin"/>"><i class="home icon"></i><s:i18n name="global_th"><s:text name="global.menu_home" /></s:i18n></a>
+	<a class="item <s:if test="%{menu.equalsIgnoreCase('statistics')}">active</s:if>" href="<s:url value="/admin/statistics"/>"><i class="chartline icon"></i><s:i18n name="global_th"><s:text name="global.menu_statistics" /></s:i18n></a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('inform')}">active</s:if>" href="<s:url value="/admin/inform"/>"><i class="announcement icon"></i><s:i18n name="global_th"><s:text name="global.menu_inform" /></s:i18n></a>
 	<a class="item <s:if test="%{menu.equalsIgnoreCase('homeslideimage')}">active</s:if>" href="<s:url value="/admin/homeslideimage"/>"><i class="picture icon"></i><s:i18n name="global_th"><s:text name="global.menu_home_slide_image" /></s:i18n></a>
 	<%-- <a class="item <s:if test="%{menu.equalsIgnoreCase('shop')}">active</s:if>" href="<s:url value="/admin/shop"/>"><i class="building icon"></i><s:i18n name="global_th"><s:text name="global.menu_shop" /></s:i18n></a> --%>

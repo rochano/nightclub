@@ -3,6 +3,7 @@
 	<div  class="one column center aligned ">
 		<div><p>
 			<a href="<s:url value="/admin"/>"><span><s:i18n name="global_th"><s:text name="global.menu_home" /></s:i18n></span></a> | 
+			<a href="<s:url value="/admin/statistics"/>"><span><s:i18n name="global_th"><s:text name="global.menu_statistics" /></s:i18n></span></a> | 
 			<a href="<s:url value="/admin/inform"/>"><span><s:i18n name="global_th"><s:text name="global.menu_inform" /></s:i18n></span></a> | 
 			<a href="<s:url value="/admin/homeslideimage"/>"><span><s:i18n name="global_th"><s:text name="global.menu_home_slide_image" /></s:i18n></span></a> | 
 			<%-- <a href="<s:url value="/admin/shop"/>"><span><s:i18n name="global_th"><s:text name="global.menu_shop" /></s:i18n></span></a> |  --%>

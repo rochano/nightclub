@@ -246,6 +246,13 @@
 						<div class="inline field">
 							<s:i18n name="global_th"><s:textfield name="search.nickName" key="global.nick_name"/></s:i18n>
 						</div>
+						<div class="inline field">
+							<label class="label"><s:i18n name="global_th"><s:text name="global.new_but_not_update_profile" /></s:i18n>:</label>
+							<div class="ui fitted checkbox">
+								<input type="checkbox" name="search.newButNotUpdateProfileFlg" value="1" <s:if test="1 == search.newButNotUpdateProfileFlg">checked="checked"</s:if> />
+								<label></label>
+							</div>
+						</div>
 						<div class="ui error message"></div>
 						<div class="ui right aligned one column grid">
 							<div class="column">

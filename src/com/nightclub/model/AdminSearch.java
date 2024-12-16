@@ -11,6 +11,7 @@ public class AdminSearch implements Serializable {
 	private String agentName;
 	private String nickName;
 	private String email;
+	private String newButNotUpdateProfileFlg;
 
 	public String getUserName() {
 		return userName;
@@ -30,6 +31,9 @@ public class AdminSearch implements Serializable {
 	public String getEmail() {
 		return email;
 	}
+	public String getNewButNotUpdateProfileFlg() {
+		return newButNotUpdateProfileFlg;
+	}
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
@@ -47,5 +51,8 @@ public class AdminSearch implements Serializable {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public void setNewButNotUpdateProfileFlg(String newButNotUpdateProfileFlg) {
+		this.newButNotUpdateProfileFlg = newButNotUpdateProfileFlg;
 	}
 }
