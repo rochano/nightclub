@@ -619,42 +619,28 @@ function getAvailableList(lookupDate, reserveInfoId) {
 																	<br />
 																</s:iterator> --%>
 															<%--</s:else>--%>
-															<div class="ui inverted list">
-																<div class="item">
-																	<div class="content">
+															<div>
 																		<div class="header">
 																			<h5 class="ui header left aligned inverted">
 																				<s:property value="girlInfo.countryInfo.countryNameEn" />
 																			</h5>
 																		</div>
 																		<s:if test="girlProvinces.size() > 0" >
-																			<div class="list">
+																			<div>
 																				<s:iterator value="girlProvinces" >
-																					<div class="item">
-																						<div class="content">
-																							<div class="description">
-																								<s:property value="primaryKey.provinceInfo.provinceNameEn" />
-																							</div>
-																							<s:if test="primaryKey.provinceInfo.zoneInfos.size() > 0" >
-																								<div class="list">
-																									<s:iterator value="primaryKey.provinceInfo.zoneInfos" >
-																										<div class="item">
-																											<div class="content">
-																												<div class="ui medium label">
-																													<s:property value="primaryKey.zoneInfo.zoneNameEn" />
-																												</div>
-																											</div>
-																										</div>
-																									</s:iterator>
-																								</div>
-																							</s:if>
-																						</div>
-																					</div>
+																					<s:property value="primaryKey.provinceInfo.provinceNameEn" />
 																				</s:iterator>
 																			</div>
 																		</s:if>
-																	</div>
-																</div>
+																		<s:if test="girlLocations.size() > 0" >
+																			<div>
+																				<s:iterator value="girlLocations" >
+																					<span class="ui tiny label">
+																						<s:property value="primaryKey.zoneInfo.zoneNameEn" />
+																					</span>
+																				</s:iterator>
+																			</div>
+																		</s:if>
 															</div>
 														</td>
 													</tr>

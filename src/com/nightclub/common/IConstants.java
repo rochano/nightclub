@@ -21,4 +21,11 @@ public class IConstants {
 	
 	/** action type : ACCESS DENIED */
 	public static String ACTION_ACCESS_DENIED = "accessdenied";
+	
+	/** social type : 1 FACEBOOK */
+	public static String SOCIAL_TYPE_FACEBOOK = "1";
+	/** social type : 2 GOOGLE */
+	public static String SOCIAL_TYPE_GOOGLE = "2";
+	/** social type : 3 LINE */
+	public static String SOCIAL_TYPE_LINE = "3";
 }

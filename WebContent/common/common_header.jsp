@@ -286,13 +286,46 @@
 						infoHtml += objProvince.primaryKey.provinceInfo.provinceNameEn;
 						infoHtml += '					</div>';
 					}); */
-					infoHtml += '			<i class="flag awesome font icon"></i>';
+					infoHtml += '			<i class="address card outline icon"></i>';
 					if (obj.nationalityInfo) {
 						infoHtml += '		' + obj.nationalityInfo.nationalityNameEn;
 					} else {
 						infoHtml += '		-';
 					}
+					infoHtml += '			<div>';
+					infoHtml += '			<i class="globe icon"></i>';
+					if (obj.countryInfo) {
+						infoHtml += '		' + obj.countryInfo.countryNameEn;
+					}
+					infoHtml += '			</div>';
+					infoHtml += '			<div>';
+					if (obj.girlProvinces) {
+						$.each(obj.girlProvinces, function(j, objGirlProvince) {
+							infoHtml += '						' + objGirlProvince.primaryKey.provinceInfo.provinceNameEn;
+							
+						});
+					}
+					infoHtml += '			</div>';
+					if (obj.girlLocations) {
+						infoHtml += '					<div>';
+						$.each(obj.girlLocations, function(k, objGirlLocations) {
+							
+							
+							infoHtml += '								<span class="ui tiny label">';
+							infoHtml += '									' + objGirlLocations.zoneInfo.zoneNameEn;
+							infoHtml += '								</span>';
+							if (obj.girlLocations.length > 3 && k == 2) {
+								infoHtml += '								<span class="ui tiny label">';
+								infoHtml += '									...';
+								infoHtml += '								</span>';
+								
+								return false;
+							}
+						});
+						infoHtml += '					</div>';
+					}
 					infoHtml += '		</div>';
+					
 					infoHtml += '	</div>';
 					infoHtml += '</div>';
 					$('.ui.cards').append(infoHtml);

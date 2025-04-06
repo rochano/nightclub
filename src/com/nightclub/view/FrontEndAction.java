@@ -50,6 +50,7 @@ import com.nightclub.model.FrontSearch;
 import com.nightclub.model.GenderInfo;
 import com.nightclub.model.GirlComment;
 import com.nightclub.model.GirlInfo;
+import com.nightclub.model.GirlLocation;
 import com.nightclub.model.GirlProvince;
 import com.nightclub.model.GirlService;
 import com.nightclub.model.GirlServiceInfo;
@@ -121,6 +122,7 @@ public class FrontEndAction extends CommonAction {
 	private int girltotalHitsViews;
 	private String girlCreatedDate;
 	private String girlUpdatedDate;
+	private List<GirlLocation> girlLocations;
 
 	private CategoryInfoManager categoryInfoManager;
 	private BasicInfoManager basicInfoManager;
@@ -496,6 +498,7 @@ public class FrontEndAction extends CommonAction {
 		}
 		this.girlServices = girlInfoManager.getGirlServiceListByGirlInfoId(this.girlInfo.getGirlInfoId());
 		this.girlProvinces = girlInfoManager.getGirlProvinceListByGirlInfoId(this.girlInfo.getGirlInfoId());
+		this.girlLocations = girlInfoManager.getGirlLocationListByGirlInfoId(this.girlInfo.getGirlInfoId());
 		Date today = new Date();
 		this.lookupDateHeader = sdfOutput.format(today);
 		this.girlTagInfos = girlTagInfoManager.list();
@@ -1347,5 +1350,13 @@ public class FrontEndAction extends CommonAction {
 
 	public void setGirlUpdatedDate(String girlUpdatedDate) {
 		this.girlUpdatedDate = girlUpdatedDate;
+	}
+
+	public List<GirlLocation> getGirlLocations() {
+		return girlLocations;
+	}
+
+	public void setGirlLocations(List<GirlLocation> girlLocations) {
+		this.girlLocations = girlLocations;
 	}
 }
