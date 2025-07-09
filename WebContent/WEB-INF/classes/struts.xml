@@ -278,6 +278,11 @@
 			<param name="countryInfoIdThai">F148DE66-86F5-48BC-BAD3-1CDB7A620500</param>
 			<result type="json" />
 		</action>
+		
+		<action name="getAdsFeed"
+			class="com.nightclub.view.FrontEndAction" method="getAdsFeed">
+			<result type="json" />
+		</action>
     </package>
 	
 	<package name="shop" extends="struts-default" namespace="/shop">
@@ -1823,6 +1828,50 @@
 			<interceptor-ref name="adminStack" />
 			<result name="login" type="redirect">/admin/login</result>
 			<result name="success">/admin/statistics.jsp</result>
+		</action>
+		
+		<action name="adsfeed"
+			class="com.nightclub.view.AdsFeedInfoAction" method="execute">
+			<param name="menu">adsfeed</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">ads_feed.jsp</result>
+		</action>
+
+		<action name="adsfeed/*"
+			class="com.nightclub.view.AdsFeedInfoAction" method="{1}">
+			<param name="menu">adsfeed</param>
+			<interceptor-ref name="adminStack" />
+			<result name="input">/admin/ads_feed.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" type="redirect">adsfeed</result>
+		</action>
+
+		<action name="adsfeed/edit/*"
+			class="com.nightclub.view.AdsFeedInfoAction" method="edit">
+			<param name="menu">adsfeed</param>
+			<param name="adsFeedInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="input">/admin/ads_feed.jsp</result>
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" >/admin/ads_feed.jsp</result>
+		</action>
+
+		<action name="adsfeed/delete/*"
+			class="com.nightclub.view.AdsFeedInfoAction" method="delete">
+			<param name="menu">adsfeed</param>
+			<param name="adsFeedInfoId">{1}</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success" type="redirect">adsfeed</result>
+		</action>
+
+		<action name="adsfeed/search"
+			class="com.nightclub.view.AdsFeedInfoAction" method="search">
+			<param name="menu">adsfeed</param>
+			<interceptor-ref name="adminStack" />
+			<result name="login" type="redirect">/admin/login</result>
+			<result name="success">/admin/ads_feed.jsp</result>
 		</action>
 	</package>
 

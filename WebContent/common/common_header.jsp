@@ -177,6 +177,15 @@
 	  .ui.fixed.menu {
 	  	z-index:999;
 	  }
+	  .ads-in-feed {
+	  	display: block;
+	  	width: 100%;
+	  }
+	  .ads-in-feed > .ui.card {
+	  	display: block;
+	  	width: fit-content;
+	  	margin: auto;
+	  }
   </style>
   <script>
   $(document)
@@ -242,13 +251,35 @@
 		btn.text('...');
   		btn.attr("disabled","disabled");
 	  	var userType = '<s:property value="userType" />';
-		var feedOffset = $('.ui.card', '.ui.cards').length;
+		var feedOffset = $('.ui.card.info', '.ui.cards').length;
+		
+		var adHtml = '';
+		$.getJSON("<s:url value="/ajax/getAdsFeed" />" ,
+			function(jsonResponse) {
+				if (jsonResponse != null) {
+					const adsFeedInfo = jsonResponse.adsFeedInfo;
+					if (adsFeedInfo != null) {
+						adHtml = '<div class="ui card yellow">' +
+								'<div class="content">' +
+									'<div class="header"><i class="bullhorn icon"></i>' + adsFeedInfo.title + '</div>' +
+									'<div class="meta">' + adsFeedInfo.meta + '</div>' +
+									'<div class="description">' + adsFeedInfo.description + '</div>' +
+									'<div class="image ui centered corner labeled pic">' + getAdsFeedInfoPic(adsFeedInfo) + '</div>' +
+								'</div>' +
+								'<div class="extra content center aligned">' +
+									'<a href="' + adsFeedInfo.link + '" class="ui primary button">' + adsFeedInfo.buttonLabel + '</a>' +
+								'</div>' +
+							'</div>';
+					}
+				}
+			});
+
 		$.getJSON("<s:url value="/ajax/loadMoreGirlInfos/" />" + feedOffset,
 			$("#searchForm").serialize(),
 			function(jsonResponse) {
 				$.each(jsonResponse.girlInfos, function(i, obj) {
 					var infoHtml = '';
-					infoHtml += '<div class="ui red card">';
+					infoHtml += '<div class="ui red card info">';
 					infoHtml += '<div class="ui left red corner label girl-tag toggleGirlTag"';
 					infoHtml += '	data-variation="tiny">';
 					$.each(obj.girlTags, function(j, objGirlTag) {
@@ -329,6 +360,17 @@
 					infoHtml += '	</div>';
 					infoHtml += '</div>';
 					$('.ui.cards').append(infoHtml);
+
+					if (adHtml != '') {
+						// insert ads every 8 cards (2 rows)
+						var currentFeedOffset = $('.ui.card.info', '.ui.cards').length;
+						if ((currentFeedOffset) % 20 === 0) {
+							const ad = document.createElement("div");
+							ad.setAttribute("class", "ads-in-feed");
+							ad.innerHTML = adHtml;
+							$('.ui.cards').append(ad);
+						}
+					}
 				});
 				btn.empty()
 				btn.text('LOAD MORE');
@@ -375,6 +417,13 @@
 			return getImg(obj.pic5)
 		}
 		return getImg('<s:url value="/assets/images/wireframe/square-image.png" />');
+	}
+
+	function getAdsFeedInfoPic(adsFeedInfo) {
+		if (checkIsNotNullAndEmpty(adsFeedInfo.adsImg1)) {
+			return getImg(adsFeedInfo.adsImg1)
+		}
+		return "";
 	}
 
 	function getPrice(obj) {

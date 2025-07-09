@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import com.nightclub.common.IConstants;
+import com.nightclub.controller.AdsFeedInfoManager;
 import com.nightclub.controller.AdsInfoManager;
 import com.nightclub.controller.AgentGirlInfoManager;
 import com.nightclub.controller.AgentInfoManager;
@@ -37,6 +38,8 @@ import com.nightclub.controller.UserInfoManager;
 import com.nightclub.controller.ZoneInfoManager;
 import com.nightclub.exception.CustomException;
 import com.nightclub.exception.IExceptionConstants;
+import com.nightclub.model.AdsFeedInfo;
+import com.nightclub.model.AdsFeedSearch;
 import com.nightclub.model.AdsInfo;
 import com.nightclub.model.AgentGirlInfo;
 import com.nightclub.model.AgentInfo;
@@ -123,6 +126,7 @@ public class FrontEndAction extends CommonAction {
 	private String girlCreatedDate;
 	private String girlUpdatedDate;
 	private List<GirlLocation> girlLocations;
+	private AdsFeedInfo adsFeedInfo;
 
 	private CategoryInfoManager categoryInfoManager;
 	private BasicInfoManager basicInfoManager;
@@ -143,6 +147,7 @@ public class FrontEndAction extends CommonAction {
 	private GirlReserveInfoManager girlReserveInfoManager;
 	private GirlTagInfoManager girlTagInfoManager;
 	private StatisticGirlInfoManager statisticGirlInfoManager;
+	private AdsFeedInfoManager adsFeedInfoManager;
 
 	public FrontEndAction() {
 		super();
@@ -165,6 +170,7 @@ public class FrontEndAction extends CommonAction {
 		girlReserveInfoManager = new GirlReserveInfoManager();
 		girlTagInfoManager = new GirlTagInfoManager();
 		statisticGirlInfoManager = new StatisticGirlInfoManager();
+		adsFeedInfoManager = new AdsFeedInfoManager();
 	}
 	
 	public String execute() {
@@ -941,6 +947,14 @@ public class FrontEndAction extends CommonAction {
 		return SUCCESS;
 	}
 
+	public AdsFeedInfo getAdsFeedInfo() {
+		return adsFeedInfo;
+	}
+
+	public void setAdsFeedInfo(AdsFeedInfo adsFeedInfo) {
+		this.adsFeedInfo = adsFeedInfo;
+	}
+
 	public String bookingadd() {
 		try {
 			reserveInfo.setReserveInfoId(UUID.randomUUID().toString().toUpperCase());
@@ -978,6 +992,17 @@ public class FrontEndAction extends CommonAction {
 			e.printStackTrace();
 		}
 		return INPUT;
+	}
+
+	public String getAdsFeed() {
+		AdsFeedSearch adsFeedSearch = new AdsFeedSearch();
+		adsFeedSearch.setSearchRandom(new BigDecimal((Math.random()*36+1)).intValue());
+		adsFeedSearch.setIsFilterActive(Boolean.TRUE);
+		List<AdsFeedInfo> adsFeedInfos = adsFeedInfoManager.search(adsFeedSearch);
+		if (adsFeedInfos.size() > 0) {
+			this.adsFeedInfo = adsFeedInfos.get(0);
+		}
+		return SUCCESS;
 	}
 	
 	public String accessdenied() {
